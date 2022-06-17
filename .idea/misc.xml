@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/AppineersApp_V4_Android_latest_21_02_2022/Appineers_v4_Android/app/src/main/res/drawable/bg_un_selected.xml" value="0.13385416666666666" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/color_cursor.xml" value="0.25076923076923074" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/divider_drawable.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/explore_selected.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic__activity.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic__my_home.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_activity.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_add_img.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_camera.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_chat.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_explore.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_home_tab.xml" value="0.14" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_my_chat.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_my_profile.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_my_trips.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_profile.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_profile_img.xml" value="0.135" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_session.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_settings.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_show_camera.xml" value="0.135" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_trips.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/ic_user_profile.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/my_profile.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/password_toggle_selector.xml" value="0.25076923076923074" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/profile_my.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/splash.xml" value="0.26296296296296295" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/tab_dot.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/drawable/tab_dot_background.xml" value="0.158" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_address.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_change_password.xml" value="0.1598731884057971" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_change_phone_number_otp.xml" value="0.20520833333333333" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_edit_profile.xml" value="0.1598731884057971" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_forgot_password_with_email.xml" value="0.136" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_home.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_login_with_email_social.xml" value="0.18432971014492755" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_on_boarding.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_owner_home.xml" value="0.2265625" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_reset_password.xml" value="0.1598731884057971" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_seeker_home.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_send_feedback.xml" value="0.1160081053698075" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_sign_up_with_email.xml" value="0.1598731884057971" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_splash.xml" value="0.16621376811594202" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_static_pages.xml" value="0.1598731884057971" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/activity_static_pages_multiple.xml" value="0.1598731884057971" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/cv_list_item_feedback_image.xml" value="0.2234375" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/dialog_loading.xml" value="0.17074275362318841" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_chat.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_friends.xml" value="0.1796875" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_home.xml" value="0.21822916666666667" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_my_activity.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_owner_explore.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_profile.xml" value="0.2269021739130435" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_seeker_explore.xml" value="0.1" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_settings.xml" value="0.1598731884057971" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/layout/fragment_trips.xml" value="0.21822916666666667" />
+        <entry key="..\:/MyStayProject/My Stay/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/development/res/drawable/ic_launcher_background.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/development/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/development/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/back.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bg_button_select.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bg_button_unselect.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bg_edit_black.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bg_edit_gray.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/color_cursor.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/divider_drawable.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_back.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_email.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_facebook.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_feedback_bag.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_gmail.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_my_chat.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_my_profile.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_my_trips.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_no_notifications.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_notification.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_notifications.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_password_not_visible.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_password_visible.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_power_settings.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_profile.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_profile_img.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_refresh.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_remove.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_right.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_session.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_setting.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_settings.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_show_camera.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_snackbar_alert.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_snackbar_error.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_snackbar_success.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_sunset.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_trips.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_user.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_user_profile.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_wind.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/image.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/notification_item_count.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/password.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/password_toggle_selector.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/selector_add_profile_pic.xml" value="0.1" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/selector_edit_profile_pic.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/side_nav_bar.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/splash.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/tab_dot.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/tab_dot_background.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/transparent_cylendrical.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/user_profile.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/user_profile_add_btn.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/user_profile_add_btn_h.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_address.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_change_password.xml" value="0.1" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_change_phone_number.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_change_phone_number_otp.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_edit_profile.xml" value="0.18854166666666666" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_forgot_password_with_email.xml" value="0.17552083333333332" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_home.xml" value="0.12318840579710146" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_login_with_email.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_login_with_email_social.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_navigation_side_menu.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_on_boarding.xml" value="0.22644927536231885" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_otp_forgot_password.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_otp_sign_up.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_reset_password.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_seeker_home.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_send_feedback.xml" value="0.1" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_settings.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_sign_up.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_sign_up_with_email.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_splash.xml" value="0.22644927536231885" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_static_pages.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_static_pages_multiple.xml" value="0.1" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/ad_unified.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_chat_messages_item.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_on_boarding_item.xml" value="0.22644927536231885" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_chat.xml" value="0.21875" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_home.xml" value="0.21875" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_matches.xml" value="0.21875" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_my_activity.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_owner_explore.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_profile.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_seeker_explore.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_slideshow.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_trips.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/layout_two_premium_user_view.xml" value="0.1" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/stage/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/stage/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1415" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable-v24/chat_item_count.xml" value="0.20092592592592592" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable-v24/ic_add_video.xml" value="0.2518518518518518" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable-v24/ic_refresh.xml" value="0.26481481481481484" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/bg_un_selected.xml" value="0.24814814814814815" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/color_cursor.xml" value="0.2601851851851852" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/ic_add_image.xml" value="0.2518518518518518" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/ic_check_green.xml" value="0.24814814814814815" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/ic_remove.xml" value="0.2518518518518518" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/ic_snackbar_error.xml" value="0.2755208333333333" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/ic_user_profile.xml" value="0.2518518518518518" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/notification_item_count.xml" value="0.20092592592592592" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/selector_edit_profile_pic.xml" value="0.2601851851851852" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/splash.xml" value="0.26851851851851855" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/tab_dot.xml" value="0.26481481481481484" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/drawable/tab_dot_background.xml" value="0.26481481481481484" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_address.xml" value="0.2" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_change_password.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_change_phone_number.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_edit_profile.xml" value="0.264" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_forgot_password_with_email.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_forgot_password_with_phone.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_login_with_email.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_login_with_email_social.xml" value="0.2" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_login_with_phone_number.xml" value="0.2" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_on_boarding.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_otp_forgot_password.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_otp_sign_up.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_reset_password.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_send_feedback.xml" value="0.19184430027803523" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_sign_up.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_sign_up_with_email.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_splash.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_static_pages.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_static_pages_multiple.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_subscribed_user.xml" value="0.2" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/activity_subscription_plans.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/ad_simple_custom_template.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/ad_unified.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/app_bar_main.xml" value="0.21693840579710144" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/content_main.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/custom_snackbar.xml" value="0.264" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_chat_messages_item.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_dialog_app_rating.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_dialog_select_image_provider.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_dialog_update.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_gallery_item.xml" value="0.21693840579710144" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_list_item_feedback_image.xml" value="0.23641304347826086" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_list_item_upload_image.xml" value="0.24365942028985507" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_notification_item.xml" value="0.536" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_on_boarding_item.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/cv_spinner_item.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/dialog_app_rating.xml" value="0.21693840579710144" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/dialog_app_update.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/dialog_custom.xml" value="0.2441123188405797" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/dialog_loading.xml" value="0.2554347826086957" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/fragment_chat.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/fragment_friends.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/fragment_gallery.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/fragment_home.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/fragment_settings.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/gallery_viewpager.xml" value="0.21693840579710144" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/item_gallery_pager.xml" value="0.21693840579710144" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/item_pager_image.xml" value="0.2441123188405797" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/item_user_check_in.xml" value="0.2441123188405797" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/item_user_image.xml" value="0.2513586956521739" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/layout_custom_snackbar.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/layout_four_premium_user_view.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/nav_header_main.xml" value="0.21693840579710144" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/snackbar.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/subscription_plan_discounted_grid_item.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/subscription_plan_grid_item.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhiteLabel_App/AppineersApp_V4_Android/app/src/main/res/layout/subscription_plan_vertical_item.xml" value="0.12613981762917933" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/drawable/ic_apple.xml" value="0.2712820512820513" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/drawable/ic_facebook.xml" value="0.2611111111111111" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/drawable/ic_no_notifications.xml" value="0.2712820512820513" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/drawable/ic_user_profile.xml" value="0.2755208333333333" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/drawable/test.xml" value="0.2712820512820513" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_address.xml" value="0.22735507246376813" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_change_password.xml" value="0.20380434782608695" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_edit_profile.xml" value="0.176" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_forgot_password_with_phone.xml" value="0.19972826086956522" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_login_with_email_social.xml" value="0.264" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_login_with_phone_number.xml" value="0.2151268115942029" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_notification.xml" value="0.19293478260869565" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_on_boarding.xml" value="0.2151268115942029" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_otp_forgot_password.xml" value="0.2418478260869565" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_otp_sign_up.xml" value="0.20471014492753623" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_send_feedback.xml" value="0.2" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_sign_up.xml" value="0.22735507246376813" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_sign_up_with_email.xml" value="0.23278985507246377" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/activity_subscription_plans.xml" value="0.19655797101449277" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/custom_snackbar.xml" value="0.20878623188405798" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/cv_dialog_select_image_provider.xml" value="0.23278985507246377" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/cv_list_item_feedback_image.xml" value="0.23777173913043478" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/cv_list_item_upload_image.xml" value="0.23777173913043478" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/dialog_loading.xml" value="0.20380434782608695" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/fragment_profile.xml" value="0.1933876811594203" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/fragment_settings.xml" value="0.2509057971014493" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/gallery_viewpager.xml" value="0.22735507246376813" />
+        <entry key="..\:/WhitelabelV4/AppineersApp_V4_Android/app/src/main/res/layout/item_pager_image.xml" value="0.2368659420289855" />
+      </map>
+    </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="androidx.annotation.RequiresApi" />
+    </list>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+</project>

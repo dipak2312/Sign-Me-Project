@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_explore"
+        android:title="@string/explore"
+        android:icon="@drawable/ic_explore"
+       />
+
+    <item android:id="@+id/action_matches"
+        android:title="@string/matches"
+        android:icon="@drawable/ic_matches" />
+
+    <item android:id="@+id/action_chat"
+        android:title="@string/message"
+        android:icon="@drawable/ic_my_chat" />
+
+
+    <item android:id="@+id/action_profile"
+        android:title="@string/profile"
+        android:icon="@drawable/ic_my_profile" />
+
+
+</menu>

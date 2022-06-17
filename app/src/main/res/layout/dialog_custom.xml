@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/mLayoutRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucent_black">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/_16sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_14sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textTitle"
+                        style="@style/BoldTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        tools:text="@string/app_name"
+                        android:text="@{dialog.title}"
+                        android:textColor="@color/quantum_black_100"
+                        android:textSize="@dimen/text_dimen_20sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textMessage"
+                        style="@style/NormalTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:textAlignment="center"
+                        android:text="@{dialog.message}"
+                        android:textColor="@color/colorPrimaryDark"
+                        tools:ignore="RtlCompat"
+                        tools:text="@string/message" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#707070" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btnNegative"
+                        style="@style/SemiBoldTextStyle"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="@{dialog.isSingleButton()?View.GONE:View.VISIBLE}"
+                        android:text="@{dialog.negativeButtonText}"
+                        tools:text="@string/label_no_button"
+                        android:textColor="@color/color_sky_blue"
+                        android:textSize="@dimen/text_dimen_16sp" />
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:visibility="@{dialog.isSingleButton()?View.GONE:View.VISIBLE}"
+                        android:background="#707070" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/btnPositive"
+                        style="@style/SemiBoldTextStyle"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="@dimen/_10sdp"
+                        tools:text="@string/label_yes_button"
+                        android:text="@{dialog.positiveButtonText}"
+                        android:textColor="@color/color_sky_blue"
+                        android:textSize="@dimen/text_dimen_16sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <data>
+        <variable
+            name="dialog"
+            type="com.app.signme.dataclasses.ImageCustomDialog" />
+        <import type="android.view.View" />
+    </data>
+</layout>

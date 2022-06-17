@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="viewModel"
+            type="com.app.signme.viewModel.SignUpWithEmailViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/screenbackground"
+        tools:context=".view.authentication.signup.SignUpWithPhoneNumberActivity">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSignUp"
+            style="@style/MediumTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="?actionBarSize"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/label_sign_up"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/dimen_8dp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/back"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSignUp"
+            app:layout_constraintStart_toStartOf="@+id/tvSignUp"
+            app:layout_constraintTop_toTopOf="@+id/tvSignUp" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSignUp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_first_name"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietFirstName"
+                    style="@style/SignupInputStyle"
+                    android:drawableStart="@drawable/ic_edit_profile"
+                    android:padding="@dimen/dimen_15dp"
+                    android:hint="@string/hint_FirstName"
+                    android:drawablePadding="@dimen/dimen_15dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"
+                    android:maxLength="80" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_last_name"/>
+
+                <!--Last Name-->
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietLastName"
+                    style="@style/SignupInputStyle"
+                    android:drawableStart="@drawable/ic_edit_profile"
+                    android:padding="@dimen/dimen_15dp"
+                    android:hint="@string/hint_LastName"
+                    android:drawablePadding="@dimen/dimen_15dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"
+                    android:maxLength="80" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_email_address"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietEmail"
+                    style="@style/SignupInputStyle"
+                    android:drawableStart="@drawable/ic_email"
+                    android:padding="@dimen/dimen_15dp"
+                    android:hint="@string/hint_email"
+                    android:drawablePadding="@dimen/dimen_15dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="50" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_password"/>
+
+                <!--Password-->
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietPassword"
+                    style="@style/SignupInputStyle"
+                    android:drawableStart="@drawable/ic_password"
+                    android:padding="@dimen/dimen_15dp"
+                    android:hint="@string/hint_password"
+                    android:imeOptions="actionDone"
+                    android:drawablePadding="@dimen/dimen_15dp"
+                    android:inputType="textPassword"
+                    android:maxLength="20" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_confirm_password"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietConfirmPassword"
+                    style="@style/SignupInputStyle"
+                    android:drawableStart="@drawable/ic_password"
+                    android:padding="@dimen/dimen_15dp"
+                    android:hint="@string/hint_confirm_password"
+                    android:drawablePadding="@dimen/dimen_15dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:maxLength="20" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_gender"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                      android:id="@+id/genderChipGroup"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      app:singleSelection="true">
+
+                  </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_bithday"/>
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="@dimen/dimen_50dp"
+                       android:orientation="horizontal"
+                       style="@style/SignupInputStyle">
+
+                       <androidx.appcompat.widget.AppCompatTextView
+                           android:layout_width="0dp"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                          android:layout_marginStart="@dimen/_20sdp"
+                           android:layout_marginEnd="@dimen/_10sdp"
+                           android:textColor="@color/hint_white"
+                           android:text="@string/label_date_of_birth">
+
+                       </androidx.appcompat.widget.AppCompatTextView>
+
+                       <androidx.appcompat.widget.AppCompatImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginEnd="@dimen/dimen_20dp"
+                           android:src="@drawable/ic_spinner">
+
+                       </androidx.appcompat.widget.AppCompatImageView>
+
+                   </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/cbTermsAndPolicy"
+                        android:layout_width="@dimen/_30sdp"
+                        android:buttonTint="@color/bg_selected_checkbox"
+                        android:layout_height="wrap_content" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTermsAndPolicy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/poppins_regular"
+                        android:textColor="@color/white"
+                        android:text="@string/sign_up_agree_terms_and_condition"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textSize="@dimen/text_dimen_14sp" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCreateAccount"
+                    style="@style/ButtonStyle"
+                    android:text="@string/label_sign_up"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

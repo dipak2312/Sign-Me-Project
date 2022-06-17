@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#212121</color>
+    <color name="colorAccent">#FF5F0D</color>
+
+
+   <!-- Customized Colors __________-->
+    <color name="Color_Gray">#F4F4F4</color>
+    <color name="colorGray">#F4F4F4</color>
+    <color name="ColorTextInputLayout">#F7F7F7</color>
+    <color name="colorLightGray">#808080</color>
+    <color name="hint_text_color">#563C3C43</color>
+    <color name="white">#ffffff</color>
+    <color name="tab_gray">#B6C2C8</color>
+    <color name="gray_view">#C6C6C8</color>
+    <color name="settingwhite">#80FFFFFF</color>
+    <color name="screenbackground">#212121</color>
+    <color name="tabBackground">#1B1B1B</color>
+    <color name="gray_skip">#949494</color>
+    <color name="app_view_gray">#D5D5D5</color>
+    <color name="placeholdercolor">#D5D5D5</color>
+    <color name="hint_white">#85FFFFFF</color>
+    <color name="black_tranperent">#57FFFFFF</color>
+    <color name="gray_tranperent">#3B3B3B</color>
+    <color name="app_gray">#ABFFFFFF</color>
+    <color name="signup_title_gray">#B4B4B4</color>
+
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="colorBlue">#5e89f7</color>
+    <color name="colorRed">#ff4141</color>
+    <color name="colorGreen">#0da300</color>
+    <color name="colorBlack">#000000</color>
+    <color name="bg_primary_btn">#007AFF</color>
+    <color name="status_red">#DC0000</color>
+    <color name="color_sky_blue">#007AFF</color>
+    <color name="color_icon">#cdcdcd</color>
+    <color name="color_icon_dark">#898b9b</color>
+    <color name="color_text_cursor">#707070</color>
+
+
+    <color name="app_color">#FF5F0D</color>
+    <color name="splashcolor">#0C000000</color>
+
+
+    <color name="colorTextBlack">#222222</color>
+    <color name="colorTxtButton">#29499e</color>
+    <color name="colorTextHint">#999999</color>
+    <color name="colorTextYellow">#ffdd00</color>
+
+    <color name="swipe_col_1">@color/colorPrimary</color>
+    <color name="swipe_col_2">@color/colorRed</color>
+    <color name="swipe_col_3">@color/colorPrimary</color>
+    <color name="swipe_col_4">@color/colorPrimary</color>
+
+    <color name="colorBlackTransparentOverLay">#73000000</color>
+
+    <color name="colorAppYellow">#FAE31D</color>
+    <color name="colorTextBlue">#002c4d</color>
+    <color name="colorGrey">#989898</color>
+    <color name="switch_color">#34C759</color>
+    <color name="colorTextGrey">#666666</color>
+    <color name="colorTextDarkGrey">#222222</color>
+
+    <color name="colorInputFocus">#f4f7fa</color>
+    <color name="colorInputNormal">#f9f9f9</color>
+
+    <color name="colorGreyLight">#cdcdcd</color>
+    <color name="colorLine">#e8e8e8</color>
+    <color name="colorBg">#EDEFEF</color>
+    <color name="colorBtn">#007AFF</color>
+
+    <color name="modal">#80272727</color>
+    <color name="shadow_color">#94444444</color>
+    <color name="slate_black">#FF333333</color>
+    <color name="warm_grey">#8e8e8e</color>
+    <color name="translucent_black">#99000000</color>
+
+
+    <!--SnackBar Color Codes-->
+    <color name="transparent_snackbar">#00FFFFFF</color>
+    <color name="colorSnackBarSuccess">#34C759</color>
+    <color name="colorSnackBarError">#FF3B30</color>
+    <color name="colorSnackBarAlert">#FF9500</color>
+    <color name="design_snackbar_background_color" xmlns:tools="http://schemas.android.com/tools"
+        tools:override="true">@color/transparent_snackbar</color>
+</resources>

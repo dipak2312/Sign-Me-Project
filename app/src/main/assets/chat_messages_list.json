@@ -1,0 +1,46 @@
+[
+
+  {
+    "message_id": "1",
+    "person_name": "Annie Hall",
+    "message": "Lets finalize the price at $4k.",
+    "message_time": "06:30 am",
+    "message_count": "2"
+  },
+  {
+    "message_id": "2",
+    "person_name": "Heather",
+    "message": "Yes!design can be customize.",
+    "message_time": "Yesterday",
+    "message_count": "1"
+  },
+  {
+    "message_id": "3",
+    "person_name": "Bill",
+    "message": "Hey,checkout this amazing design!",
+    "message_time": "12 July,2021",
+    "message_count": "3"
+  },
+  {
+    "message_id": "4",
+    "person_name": "Krishi",
+    "message": "Is it available in other colors?",
+    "message_time": "08 July,2021",
+    "message_count": "1"
+  },
+  {
+    "message_id": "5",
+    "person_name": "Annie Hall",
+    "message": "This one is good,I will require more.",
+    "message_time": "30 June,2021",
+    "message_count": "2"
+  },
+  {
+    "message_id": "6",
+    "person_name": "John",
+    "message": "Please share some updates on it!",
+    "message_time": "18 June,2021",
+    "message_count": "1"
+  }
+]
+

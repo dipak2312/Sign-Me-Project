@@ -1,0 +1,296 @@
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: 'logger.gradle'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
+
+android {
+    signingConfigs {
+        config {
+           // storeFile file('C:\\Users\\Lenovo\\AndroidStudioProjects\\AppineersApp_V3_Android\\app\\release_key_alias.jks')
+            storeFile file('D:\\WhitelabelV4\\AppineersApp_V4_Android\\app\\release_key_alias.jks')
+            storePassword 'Today123'
+            keyAlias 'key0'
+            keyPassword 'Today123'
+        }
+    }
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
+
+    flavorDimensions "versionCode"
+
+    defaultConfig {
+        applicationId "com.app.signme"
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 10
+        versionName "1.0.10"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
+    }
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    kapt {
+        generateStubs = true
+    }
+
+    kotlinOptions { jvmTarget = "1.8" }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    buildTypes {
+        debug {
+            //  buildConfigField("String", "Base_Url", "\"http://18.211.58.235/Appineers_V4_Web/WS/\"")
+            archivesBaseName = "Sign_Me_v$defaultConfig.versionName" + "($defaultConfig.versionCode)" + getDate()
+        }
+        release {
+            // buildConfigField("String", "Base_Url", "\"http://18.211.58.235/Appineers_V4_Web/WS/\"")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+            archivesBaseName = "Sign_Me_v$defaultConfig.versionName" + "($defaultConfig.versionCode)" + getDate()
+            debuggable true
+        }
+    }
+
+    productFlavors {
+        development {
+            applicationId "com.appineers.whitelabeldev"
+            versionName defaultConfig.versionName
+           /*  manifestPlaceholders["hostName"] = "www.example.com" */
+
+            buildConfigField("String", "Base_Url", "\"http://18.211.58.235/Appineers_V4_Web/Appineers_V4/WS/\"")
+            //buildConfigField("String", "Base_Url","\"http://100.24.42.250/Appineers_V4_Web/Appineers_V4/WS/\"")
+            buildConfigField("String", "facebook_app_id", "\"728211564501944\"")
+
+        }
+        stage {
+            applicationId "com.appineers.whitelabelstage"
+            versionName defaultConfig.versionName
+            buildConfigField("String", "Base_Url", "\"http://54.80.150.240/Appineers_V4_Web/Appineers_V4/WS/\"")
+            buildConfigField("String", "facebook_app_id", "\"728211564501944\"")
+        }
+        production {
+            applicationId "com.appineers.whitelabel"
+            versionName defaultConfig.versionName
+            buildConfigField("String", "Base_Url", "\"http://54.80.150.240/Appineers_V4_Web/Appineers_V4/WS/\"")
+            buildConfigField("String", "facebook_app_id", "\"728211564501944\"")
+        }
+    }
+}
+
+static def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy_MM_dd')
+    return formattedDate
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui:2.4.2'
+    implementation 'androidx.navigation:navigation-fragment:2.4.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    testImplementation 'junit:junit:4.12', 'android.arch.core:core-testing:1.1.1', 'io.mockk:mockk:1.9.3', 'org.mockito:mockito-core:2.24.5'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation 'org.mockito:mockito-inline:2.13.0'
+
+    def coroutines_version = "1.3.9"
+    def lifecycleVersion = "2.2.0"
+    def rxAndroidVersion = "2.1.0"
+    def rxJavaVersion = "2.2.4"
+    def daggerVersion = "2.28.3"
+    def daggerSupportVersion = "2.23.1"
+    def retrofitVersion = "2.4.0"
+    def retrofitAdapterRxjava = "2.4.0"
+    def okHttpVersion = "4.2.0"
+    def okHttpUrlVersion = "2.0.0"
+    def okHttpInterceptorVersion = "3.10.0"
+    def glideVersion = "4.11.0"
+    def gsonVersion = "2.8.9"
+    def gsonConverterVersion = "2.4.0"
+    def material_version = "1.3.0"
+    def firebase_auth = "21.0.5"
+    def firebase_core = "21.0.0"
+    def firebase_ktx = "17.3.0"
+    def billing_version = "3.0.0"
+    def room_version = "2.2.5"
+
+    //In app Billing
+    implementation "com.android.billingclient:billing-ktx:$billing_version"
+
+    // Google Login
+    implementation "com.google.firebase:firebase-auth:$firebase_auth"
+    implementation "com.google.firebase:firebase-core:$firebase_core"
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
+    implementation "com.google.firebase:firebase-analytics-ktx"
+
+    implementation "com.google.firebase:firebase-messaging:23.0.5"
+
+    //Admob
+    implementation 'com.google.android.gms:play-services-ads:19.7.0'
+    implementation 'com.google.android.gms:play-services-basement:17.6.0'
+
+    implementation 'androidx.work:work-runtime-ktx:2.7.0'
+
+    //ViewModel & LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion"
+
+    //noinspection GradleDependency
+    implementation "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion"
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+    implementation 'com.github.gcacace:signature-pad:1.2.1'
+
+    // multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //Dagger
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerSupportVersion"
+    androidTestImplementation 'androidx.test:rules:1.6.0'
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
+
+    //Rx java
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation 'io.reactivex:rxjava:1.3.4'
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitAdapterRxjava"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+
+    //OkHttp
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpInterceptorVersion"
+    implementation "com.squareup.okhttp:okhttp-urlconnection:$okHttpUrlVersion"
+
+    //Gson
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$gsonConverterVersion"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    //Timber for logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    //Scalable Size Unit SDP
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    //Image Cropper
+    implementation('com.theartofdev.edmodo:android-image-cropper:2.8.0') {
+        exclude group: 'com.android.support'
+    }
+
+    //For encryption
+    implementation "androidx.security:security-crypto:1.1.0-alpha03"
+
+    //Places SDK
+    implementation 'com.google.android.libraries.places:places:2.6.0'
+
+    /*Image pinch zoom*/
+    implementation 'com.bogdwellers:pinchtozoom:0.1'
+
+    //Testing
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.40'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestUtil 'androidx.test:orchestrator:1.4.1'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    implementation 'com.karumi:dexter:6.2.0'
+    implementation 'com.github.dhaval2404:imagepicker:1.8'
+
+    //Places SDK
+    implementation 'com.google.android.libraries.places:places:2.6.0'
+
+    //Facebook
+    implementation 'com.facebook.android:facebook-login:5.15.3'
+
+    //Google Signup
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
+    //Firebase Authentication for SignIn
+    implementation 'com.google.firebase:firebase-auth:21.0.5'
+    implementation 'com.google.firebase:firebase-core:21.0.0'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:28.3.1')
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+
+
+
+    // Simple Adapter
+    implementation 'com.master.android:simpleadapter:3.2'
+
+    // For banners
+    implementation('com.mopub:mopub-sdk-banner:5.17.0@aar') {
+        transitive = true
+    }
+
+    // For fullscreen ads
+    implementation('com.mopub:mopub-sdk-fullscreen:5.17.0@aar') {
+        transitive = true
+    }
+    implementation 'com.mopub.volley:mopub-volley:2.1.0'
+
+
+    // Material Design
+    implementation "com.google.android.material:material:$material_version"
+
+    //Room Database
+    implementation "androidx.room:room-runtime:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.2"
+    //Easy Adapter
+    implementation 'com.dc.easyadapter:easyadapter:2.0.3'
+
+    //for lottie animation
+    implementation 'com.airbnb.android:lottie:4.1.0'
+
+
+
+
+}

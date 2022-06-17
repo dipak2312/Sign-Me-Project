@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="facebook_app_id">3173960712646425</string>
+    <string name="fb_login_protocol_scheme">fb3173960712646425</string>-->
+
+    <string name="facebook_app_id">728211564501944</string>
+    <string name="fb_login_protocol_scheme">fb7282115645019445</string>
+
+    <string name="google_client_id" translatable="false">34616391218-mcvhepecp33q5n9s15312h1q33g8qqml.apps.googleusercontent.com</string>
+    <string name="google_client_secret" translatable="false">gQSdDTfS812ZfSDDJMkkz1he</string>
+<!--    <string name="google_places_api_key" translatable="false">AIzaSyDoLaBdjllKfNeH_w0o3RMzf&#45;&#45;SZf0-ci4</string>-->
+
+    <string name="google_places_api_key" translatable="false">AIzaSyCLlHTQK_4lzrVd2GgTkXSFMC_Dt9hz0SM</string>
+    <string name="google_places_api_key_test" translatable="false">AIzaSyCLlHTQK_4lzrVd2GgTkXSFMC_Dt9hz0SM</string>
+
+    <!--test ads-->
+    <string name="admob_app_id_test" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_unit_id_test" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_interstitial_unit_id_test" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--live ads
+       App also receives live AdMob ids from config APIs-->
+    <string name="admob_app_id" translatable="false">ca-app-pub-9519026442672910~8001337816</string>
+    <string name="admob_banner_unit_id" translatable="false">ca-app-pub-9519026442672910/2686072581</string>
+    <string name="admob_interstitial_unit_id" translatable="false">ca-app-pub-9519026442672910/1696424542</string>
+
+
+
+    <string name="mopub_banner_unit_id_test" translatable="false">b195f8dd8ded45fe847ad89ed1d016da</string>
+    <string name="mopub_full_screen_unit_id_test" translatable="false">24534e1901884e398f1253216226017e</string>
+
+    <string name="mopub_banner_unit_id_live" translatable="false">2310b382e45b4204947aab2ea3f863ea</string>
+    <string name="mopub_full_screen_unit_id_live" translatable="false">1be452c2aee0460a9c98f3f5de5f22bb</string>
+
+
+</resources>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="subscriptionModel"
+            type="com.app.signme.dataclasses.SubscriptionPlan" />
+
+    </data>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSubscriptionPlanGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            app:cardCornerRadius="@dimen/_6sdp"
+            app:cardElevation="@dimen/_4sdp"
+            android:layout_margin="@dimen/dimen_4dp">
+
+            <LinearLayout
+                android:id="@+id/llSubscriptionContent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_48dp"
+                android:background="@drawable/bg_selected_new"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_48dp"
+                android:background="@drawable/bg_selected_new"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlanAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:singleLine="false"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:text="@{subscriptionModel.planAmountForDisplay}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_dimen_16sp"
+                    android:fontFamily="@font/sf_pro_text_regular" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDivider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/tvPlanAmount"
+                    android:text=" / "
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:textColor="@color/colorWhite" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPlanTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toEndOf="@+id/tvDivider"
+                    android:singleLine="false"
+                    android:layout_marginBottom="@dimen/dimen_8dp"
+                    android:text="@{subscriptionModel.planName}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_dimen_16sp"
+                    android:fontFamily="@font/sf_pro_text_regular"  />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivMarkSelected"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_check_green"
+                    android:visibility="invisible" />
+
+            </RelativeLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDiscountPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="@string/_15_off"
+            android:textColor="@color/colorLightGray"
+            android:textSize="@dimen/text_dimen_14sp"
+            android:fontFamily="@font/sf_pro_text_regular"
+            android:visibility="visible" />
+    </LinearLayout>
+
+
+
+</layout>

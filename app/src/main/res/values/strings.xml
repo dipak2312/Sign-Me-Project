@@ -1,0 +1,344 @@
+<resources>
+    <string name="app_name">Sign Me</string>
+    <string name="network_connection_error">Internet connection lost, please retry again</string>
+    <string name="network_connection_back">Internet connection is back</string>
+    <string name="network_default_error">Something wrong happened, please retry again</string>
+    <string name="network_internal_error">Our systems got an error, please retry again</string>
+    <string name="network_server_not_available">Our services are under maintenance, please retry after some time</string>
+    <string name="network_server_timeout">Timeout error, please retry again</string>
+    <string name="server_connection_error">Not able to connect, please retry again</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="hint_enter_a_city_name">Enter a City Name</string>
+    <string name="label_search">Search</string>
+    <string name="str_network_error">Whoops!! Network error, Please try again.</string>
+    <string name="weather_type_icon">Weather Type Icon</string>
+    <string name="background_image">Background Image</string>
+    <string name="msg_please_enter_city_name">Please enter a City Name</string>
+    <string name="hint_enter_city_name">Search City name</string>
+    <string name="agree_terms_and_condition">I agree to Terms &amp; Conditions, <b><font color='#29499e'>Privacy Policy</font> and <font color='#29499e'>Eula Policy</font></b></string>
+    <string name="sign_up_agree_terms_and_condition">I agree to the Terms &amp; Conditions and <b><font color='#29499e'>Privacy Policy</font></b></string>
+    <string name="primary_channel">TheAppineers Channel</string>
+    <string name="secondary_channel">Secondary Channel</string>
+    <string name="msg_logged_in_from_other_device">You are logged out now because you have logged in from some other device.</string>
+
+    //Content Description here..
+    <string name="app_logo">app logo here</string>
+    <string name="bad_weather_bg">Bad weather image for bg</string>
+    <string name="weather_icon">Weather icon</string>
+    <string name="boarding_image">Boarding Image</string>
+    <string name="facebook_icon">Login through Facebook</string>
+    <string name="google_icon">Login through GMail</string>
+    <string name="apple_icon">Login through Apple</string>
+    <string name="add_profile_icon">Add profile pic icon</string>
+    <string name="gallery_image">Gallery image here</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_n_conditions">Terms &amp; Conditions</string>
+
+    //EditText Hints
+    <string name="hint_username">Username</string>
+    <string name="hint_mobile_number">Mobile Number</string>
+    <string name="hint_mobile_number_optional">Mobile Number(Optional)</string>
+    <string name="hint_old_mobile_number">Old Mobile Number</string>
+    <string name="hint_new_mobile_number">New Mobile Number</string>
+    <string name="hint_confirm_mobile_number">Confirm Mobile Number</string>
+    <string name="hint_password">Enter Password</string>
+    <string name="hint_email">Enter Email Address</string>
+    <string name="hint_email_optional">Email(Optional)</string>
+    <string name="hint_forgot_email">theapp@gmail.com</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_city">City</string>
+    <string name="hint_state">State</string>
+    <string name="hint_zip_code">Zip Code</string>
+    <string name="hint_dob">Date of Birth</string>
+    <string name="hint_FirstName">Enter First Name</string>
+    <string name="hint_LastName">Enter Last Name</string>
+    <string name="hint_old_password">Enter Old Password</string>
+    <string name="hint_new_password">Enter New Password</string>
+    <string name="hint_confirm_password">Enter Confirm Password</string>
+    <string name="hint_brief_explain_message">Add Description</string>
+    <string name="message_address_update">Address Updated Successfully!</string>
+
+    //Button Label
+    <string name="label_login_button">Sign In</string>
+    <string name="label_save_button">Save</string>
+    <string name="label_clear_button">Clear</string>
+    <string name="label_next_button">Next</string>
+    <string name="label_create_account_button">Create an account </string>
+    <string name="label_sign_up">Sign Up</string>
+    <string name="label_previous_button">Back</string>
+    <string name="label_skip_button">Skip</string>
+    <string name="label_send_reset_link_button">Send</string>
+    <string name="label_resend_otp_button">Resend OTP</string>
+    <string name="label_submit_otp_button">Submit</string>
+    <string name="label_reset_password_button">Reset Password</string>
+    <string name="label_cancel_button">Cancel</string>
+    <string name="label_done_button">Done</string>
+    <string name="label_update_button">Update</string>
+    <string name="label_settings_text">Settings</string>
+    <string name="label_change_password">Change Password</string>
+    <string name="label_change">Save New Password</string>
+    <string name="label_yes_button">Yes</string>
+    <string name="label_no_button">No</string>
+    <string name="label_send_button">Send</string>
+    <string name="label_agree_button">Agree</string>
+    <string name="label_not_now_button">Not Now</string>
+    <string name="label_later_button">Later</string>
+    <string name="label_rate_now_button">Rate Now</string>
+    <string name="label_start_button">Get Started</string>
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_email_address">Email Address</string>
+    <string name="label_password">Password</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="label_gender">Gender</string>
+    <string name="label_bithday">Birthday</string>
+    <string name="label_back_button">Back</string>
+    <string name="label_welcome">Welcome</string>
+    <string name="label_sign_in_continue">Sign In To Continue</string>
+    <string name="alert_enter_brief">Please enter add description</string>
+    <string name="label_confirm_button">Confirm</string>
+    <string name="label_date_of_birth">Enter Date Of Birth</string>
+
+
+    //Text Label
+    <string name="label_resend_text"><b><font color='#29499e'>Resend OTP</font></b></string>
+    <string name="label_forgot_password_text">Forgot Password?</string>
+    <string name="label_forgot_password_toolbar_text">Forgot Password</string>
+    <string name="label_verification_otp_toolbar_text">Verification Code</string>
+    <string name="label_verification_toolbar_text">Verification</string>
+    <string name="label_mobile_number_toolbar_text">Mobile Number</string>
+    <string name="label_reset_password_toolbar_text">Reset Password</string>
+    <string name="label_image_cropper_toolbar_text">Crop</string>
+    <string name="label_sign_up_toolbar_text">Create An Account</string>
+    <string name="label_add_address">Address</string>
+    <string name="label_add_address_info">Additional Information</string>
+    <string name="label_static_page_toolbar_text">Title</string>
+    <string name="label_edit_profile_toolbar_text">Edit Profile</string>
+    <string name="label_edit_block_users_text">Block Users</string>
+    <string name="label_send_feedback_toolbar_text">Send Feedback</string>
+    <string name="label_change_password_toolbar_text">Change Password</string>
+    <string name="label_change_phone_number_toolbar_text">Change Phone Number</string>
+    <string name="label_friends_fragment_toolbar_text">Friends</string>
+    <string name="label_home_fragment_toolbar_text">Home</string>
+    <string name="label_home_fragment_explore_text">Explore</string>
+    <string name="label_settings_fragment_toolbar_text">Settings</string>
+    <string name="label_home_fragment_message_text">Chat</string>
+    <string name="label_profile_fragment_message_text">My Profile</string>
+    <string name="label_trips">Trips</string>
+    <string name="label_activity_text">Activity</string>
+    <string name="label_create_new_account_text">Create a new account?</string>
+    <string name="label_phone_sign_up_text"><font color='#29499e'><u>Sign up with mobile number.</u></font></string>
+    <string name="label_email_social_sign_up_text"><font color='#29499e'><u>Sign up with email or social.</u></font></string>
+    <string name="label_create_now_text">Sign Up</string>
+    <string name="label_forgot_password_otp_message_text">Enter your registered mobile number to send OTP.</string>
+    <string name="label_forgot_password_email_message_text">Please enter the email address associated with your account. We will email you a link to reset your password.</string>
+    <string name="label_enter_verification_code_message_text">Please type the verification code sent to</string>
+    <string name="label_verification_code_message_text">We did send OTP code to your phone number,Please check it and enter below.</string>
+    <string name="label_change_phone_number_message_text">Enter your old and new mobile number to change your mobile number.</string>
+    <string name="label_did_not_receive_otp_text">Didn\'t get OTP?</string>
+    <string name="label_attach_image">Attach Image</string>
+    <string name="label_feedback_report_problem">You can send us your feedback about the %1$s application. We would love to hear suggestions from you.</string>
+    <string name="label_account_settings_text">Account Settings</string>
+    <string name="label_notifications_text">Notification</string>
+    <string name="label_subscription_text">Subscription</string>
+    <string name="label_go_adv_free_text">Go Ad Free $0.99</string>
+    <string name="label_subcription_text">$4.99</string>
+    <string name="label_upgrade_your_profile_text">Upgrade Your Profile</string>
+    <string name="label_all_subscription_text">Upgrade Your Profile</string>
+    <string name="label_support_text">Support</string>
+    <string name="label_about_us_text">About Us</string>
+    <string name="label_send_feedback_text">Send Feedback</string>
+    <string name="label_share_app_text">Share With Friends</string>
+    <string name="label_delete_account_text">Delete Account</string>
+    <string name="label_log_out_text">Logout</string>
+    <string name="label_change_password_text">Change Password</string>
+    <string name="label_change_password_text_message">Enter your old and new password to change your password.</string>
+    <string name="label_privacy_policy_text">Privacy Policy</string>
+    <string name="label_eula_policy_text">Eula Policy</string>
+    <string name="label_terms_and_condition_text">Terms &amp; Conditions</string>
+    <string name="label_rate_app_text">Rate Us</string>
+    <string name="label_logs_text">Logs</string>
+    <string name="label_new_version_available_text">New Version Available!</string>
+    <string name="label_rate_message_text">If you enjoy using this app, would you mind taking a moment to rate it? It won\'t take more than minute. Thank you for your support!</string>
+    <string name="label_loading_dialog_text">Loading</string>
+    <string name="label_push_notifications">Notifications</string>
+    <string name="label_chat_list">Chat</string>
+    <string name="label_clear_all">Clear all</string>
+    <string name="label_no_notifications">No New Notifications</string>
+    <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
+</string>
+
+    //Bottom Navigation menu
+    <string name="explore">Explore</string>
+    <string name="matches">Matches</string>
+    <string name="chat">Chat</string>
+    <string name="activity">Activity</string>
+    <string name="profile">Profile</string>
+
+    //User Input errors
+    <string name="valid_mobile_number">"Enter valid mobile number"</string>
+    <string name="empty_mobile_number">"Enter mobile number"</string>
+    <string name="mobile_number_length">"Enter 10 digit mobile number"</string>
+    <string name="valid_email">Please enter valid email address for the email field.</string>
+    <string name="empty_email">Enter email</string>
+    <string name="valid_password">Enter valid password</string>
+    <string name="password_not_same">New and Confirm password should same</string>
+    <string name="password_policy">Password should contain min 8 character with 1 Alphabet and 1 Special character.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+
+    //user input errors signup
+    <string name="alert_enter_user_name">Please enter username.</string>
+    <string name="alert_user_name_length">Username must contain 5 to 20 characters.</string>
+    <string name="alert_first_name_length">First name must contain 1 to 80 characters.</string>
+    <string name="alert_last_name_length">Last name must contain 1 to 80 characters.</string>
+    <string name="alert_phone_number_length">Phone Number must contain 10 to 14 characters.</string>
+    <string name="alert_enter_dob">Please enter date of birth.</string>
+    <string name="alert_select_street_address">Please select address.</string>
+    <string name="alert_select_state">Please select state.</string>
+    <string name="alert_enter_city">Please enter city.</string>
+    <string name="alert_enter_zip_code">Please enter zip code.</string>
+    <string name="alert_invalid_zip_code_character">Zip Code should contain number or characters.</string>
+    <string name="alert_min_zip_code_length">Zip Code must contain 5 to 10 characters.</string>
+    <string name="alert_msg_password_and_confirm_password_not_same">Password and confirm password must be same.</string>
+    <string name="alert_accept_tnc_and_privacy">To create an account, please agree the terms &amp; conditions and privacy policy.</string>
+    <string name="alert_enter_otp">Please enter OTP</string>
+    <string name="alert_invalid_otp">Entered OTP is invalid</string>
+    <string name="msg_no_user_data">User data not available</string>
+    <string name="resend">Resend</string>
+    <string name="msg_resend_email">Do you want to resend verification email ?</string>
+
+    /***************** ALERT MESSAGES ***************/
+    <string name="alert_enter_first_name">Please enter first name</string>
+    <string name="alert_invalid_first_name_character">Please ener a valid first name. Numbers and special characters are not allowed.</string>
+    <string name="alert_enter_last_name">Please enter last name</string>
+    <string name="alert_invalid_last_name_character">Please enter a valid last name. Numbers and special characters are not allowed.  </string>
+    <string name="alert_enter_email">Please enter email</string>
+    <string name="alert_enter_valid_email">Please enter valid email</string>
+    <string name="alert_enter_mobile_number">Please enter phone number</string>
+    <string name="alert_invalid_phone_number">Please enter valid phone number</string>
+    <string name="alert_invalid_phone_number_format">Please enter valid phone number</string>
+    <string name="alert_enter_password">Please enter password</string>
+    <string name="alert_enter_old_password">Please enter old password</string>
+    <string name="alert_enter_new_password">Please enter new password</string>
+    <string name="alert_enter_confirm_password">Please enter confirm password</string>
+    <string name="alert_invalid_user_name_character">Please enter a valid Username. Special characters and white spaces are not allowed.</string>
+
+    <!--    <string name="alert_min_user_name_length">Username length should be between %1$d to %2$d characters</string>-->
+    <!--    <string name="alert_min_first_name_length">First name length should be between %1$d to %2$d characters</string>-->
+    <!--    <string name="alert_min_last_name_length">Last name length should be between %1$d to %2$d characters</string>-->
+
+    <string name="alert_min_user_name_length">Username must contain at least %1$d character</string>
+    <string name="alert_min_first_name_length">First name minimum length should be %1$d character</string>
+    <string name="alert_min_last_name_length">First name minimum length should be %1$d character</string>
+    <string name="alert_max_email_length">Email maximum length should be %1$d character</string>
+
+    <string name="alert_confirm_password_not_match">New password and confirm password must be same</string>
+    <string name="alert_valid_password">Password must contain at least 8 to 15 characters, including lower case, upper case and at least one number.</string>
+
+    <string name="open_notification_settings_alert">Are you sure you want to open system settings?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="share_using">Share using…</string>
+    <string name="delete_account_alert">Are you sure you want to delete your account?</string>
+    <string name="logout_alert">Are you sure you want to logout?</string>
+
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="remove_photo">Remove\nImage</string>
+    <string name="msg_capture_image">Capture image from camera or gallery</string>
+    <string name="title_activity_navigation_side_menu">NavigationSideMenuActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">The Appineers</string>
+    <string name="nav_header_subtitle">theappineers.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="drawerOpen">Drawer Open</string>
+    <string name="drawerClose">Drawer Close</string>
+
+    //Multimedia Content
+    <string name="label_upload_check_in_pic_text">Upload your photos</string>
+    <string name="label_add_photo_text">Add Photos</string>
+
+    //OnBoarding Content
+    <string name="daily_reports">Daily Reports</string>
+    <string name="stay_updated">Stay Updated</string>
+    <string name="online_payment">Easy Payment</string>
+    <string name="daily_reports_details">Keep track of attendance, bus route, result and much more.</string>
+    <string name="stay_updated_details">Stay Updated with notice, homework and announcement given by teacher.</string>
+    <string name="online_payment_details">Avoid unnecessary school visits with online payment and application.</string>
+    <string name="lbl_resend_otp_in_minute">Resend OTP in %1$s seconds</string>
+    <string name="permission_denied_by_user">You didn\'t give required permissions</string>
+    <string name="msg_report_problem">You can send us your feedback about the %1$s application. We would love to hear suggestions from you.</string>
+    <string name="hint_username_optional">Username (optional)</string>
+
+    <string name="privacy_policy_simple">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC,
+        making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur,
+        from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32
+        and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular
+        during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.The standard chunk of Lorem Ipsum used since
+        the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original
+        form, accompanied by English versions from the 1914 translation by H. Rackham.</string>
+    <string name="alert_password_old_new_match">You can not use old password again. Please enter new password.</string>
+    <string name="_1_month">1 Month</string>
+    <string name="_3_month">3 Month</string>
+    <string name="str_subscribe">Subscribe</string>
+    <string name="subscription">Subscription</string>
+    <string name="subscription_benefits">Subscription Benefits</string>
+    <string name="str_subscription_msg">On subscription the plan, you will have unlimited likes and access to messaging.</string>
+    <string name="str_subscription_msg_1_month">You will get unlimited likes and messaging on the subscription of 1 month plan with $14.99 amount.</string>
+    <string name="str_subscription_msg_3_month">You will get unlimited likes and messaging on the subscription of 3 month plan with $41.99 amount.</string>
+    <string name="str_subscription_msg_6_month">You will get unlimited likes and messaging on the subscription of 6 month plan with $77.99 amount.</string>
+    <string name="str_subscription_msg_1_year">You will get unlimited likes and messaging on the subscription of 1 year plan with $199.99 amount.</string>
+    <string name="no_subscription_plans_found">Subscription will auto</string>
+    <string name="str_subscription_rules">Subscription will automatically renew unless cancelled within 24-hours before the end of the current period. You can cancel anytime with your play store account settings. Any unused portion of a free trial will be forfeited if you purchase a subscription.</string>
+    <string name="str_policy_link">For more information see our  <b><font color='#29499e'>Terms &amp; Conditions, Eula Policy and Privacy Policy.</font></b></string>
+    <string name="eula_policy">Eula Policy</string>
+    <string name="update_subscription">Update Subscription</string>
+    <string name="upgrade_and_downgrade">Upgrade and Downgrade</string>
+    <string name="ONE">one</string>
+    <string name="TWO">two</string>
+    <string name="THREE">two</string>
+    <string name="label_subscription">Subscription</string>
+    <string name="_15_off">$15 off</string>
+    <string name="admob_native_unit_id_test" translatable="false">/6499/example/native</string>
+    //SnackBar messages
+    <string name="str_error_message">The Appineers</string>
+    <string name="str_success_message">The Appineers</string>
+    <string name="str_alert_message">Alert!</string>
+
+
+    //handle blank response from API
+    <string name="str_config_message">Unable to retrieve app configuration</string>
+    <string name="str_sign_up_message">Unable to get a sign up response at the moment. Please try again</string>
+    <string name="str_sign_up_error_message">Email Registration failed,Please try login to send registration email again"</string>
+    <string name="str_login_message">Unable to get Login response at the moment. Please try again</string>
+    <string name="str_otp_message">Unable to get OTP response at the moment. Please try again</string>
+    <string name="str_forgot_password_message">Unable to send email at the moment. Please try again</string>
+    <string name="str_forgot_password_phone_message">Unable to send otp at the moment. Please try again</string>
+    <string name="str_address_message">Unable to change address at the moment. Please try again</string>
+    <string name="str_edit_profile_address_message">Unable to change address at the moment. Please try again</string>
+    <string name="str_edit_profile_message">Unable to update profile at the moment. Please try again</string>
+    <string name="str_change_password_message">Unable to change your password at the moment. Please try again</string>
+    <string name="str_delete_account_message">Unable to delete your account at the moment. Please try again</string>
+
+
+    <string name="update_app">This is the sample for app update</string>
+    <string name="app_update_msg">Please restart the app to update</string>
+    <string name="restart">Restart</string>
+    //Upload Multimedia
+    <string name="upload_success">Media upload successfully.</string>
+    <string name="upload_failed">Error while uploading.</string>
+    <string name="message">Messages</string>
+    <string name="alert_media_upload_pending">Some media file still pending to upload. Try to upload again by clicking on retry button.</string>
+
+    <string name="no_image_data">No images to show</string>
+    <string name="label_don_not_show_again_button">Don\'t show again</string>
+
+</resources>

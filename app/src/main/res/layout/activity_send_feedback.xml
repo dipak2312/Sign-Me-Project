@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/screenbackground"
+        tools:context=".view.settings.feedback.SendFeedbackActivity">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSendFeedback"
+            android:layout_width="0dp"
+            android:layout_height="?actionBarSize"
+            style="@style/MediumTextStyle"
+            android:gravity="center"
+            android:text="@string/label_send_feedback_toolbar_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/back"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSendFeedback"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvSendFeedback" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSendFeedback">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="@dimen/dimen_170dp"
+                    android:layout_height="@dimen/dimen_130dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/app_logo"
+                    android:src="@mipmap/signme_logo" />
+
+                <!--Feedback-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputBrief"
+                    style="@style/OutlinedBoxInputLayoutStyle"
+                    android:hint="@string/hint_brief_explain_message"
+                    app:hintTextColor="@color/colorLightGray"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="1000"
+                    app:hintAnimationEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietBriefFeedback"
+                        style="@style/InputOtherStyle"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords|textMultiLine"
+                        android:maxLength="1000"
+                        android:maxLines="5"
+                        android:minHeight="@dimen/dimen_120dp"
+                        android:textSize="@dimen/text_dimen_14sp"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvFeedbackImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/cv_list_item_feedback_image" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvAttachImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    style="@style/BoldTextStyle"
+                    android:gravity="center"
+                    android:text="@string/label_attach_image"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_dimen_20sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvFeedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_16sdp"
+                    android:fontFamily="@font/sf_pro_text_regular"
+                    android:gravity="center"
+                    android:text="@string/label_feedback_report_problem"
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/text_dimen_14sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSend"
+                    style="@style/ButtonStyle"
+                    android:text="@string/label_send_button" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.lifecycle.MutableLiveData" />
+
+        <variable
+            name="textSize"
+            type="MutableLiveData&lt;String>" />
+    </data>
+</layout>

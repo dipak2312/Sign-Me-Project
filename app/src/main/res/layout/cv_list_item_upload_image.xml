@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.app.signme.dataclasses.UserImage" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+           android:layout_marginEnd="@dimen/dimen_4dp"
+            app:cardBackgroundColor="@color/transparent"
+            android:layout_gravity="center">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibtnAddImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_8sdp"
+                android:src="@drawable/ic_add"
+                android:tint="@android:color/black"
+                android:visibility="@{model.showAddButton() ? View.VISIBLE: View.GONE}" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivFeedbackImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_8sdp"
+                android:scaleType="centerInside"
+                android:visibility="@{model.showAddButton() ? View.GONE: View.VISIBLE}" />
+
+            <ImageView
+                android:id="@+id/ivRetry"
+                android:layout_width="@dimen/dimen_30dp"
+                android:layout_height="@dimen/dimen_30dp"
+                android:src="@drawable/ic_refresh"
+                android:layout_gravity="center"
+                app:tint="@color/white"
+                android:visibility="gone"/>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/ProgressDialogHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:layout_gravity="bottom"
+                android:indeterminate="true"
+                android:visibility="gone"/>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibtnRemoveImage"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_gravity="top|end"
+            android:background="@android:color/transparent"
+            android:elevation="@dimen/dimen_1dp"
+            android:src="@drawable/ic_remove"
+            android:tint="@color/colorGray"
+            android:visibility="@{model.showAddButton() ? View.GONE: View.VISIBLE}" />
+    </FrameLayout>
+
+   <!-- <FrameLayout
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_margin="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/transparent"
+            android:layout_gravity="center">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ibtnAddImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_add_image"
+                android:visibility="@{model.showAddButton() ? View.VISIBLE: View.GONE}" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivFeedbackImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:visibility="@{model.showAddButton() ? View.GONE: View.VISIBLE}"
+                app:imageUrl="@{model.imagePath}" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibtnRemoveImage"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_gravity="top|end"
+            android:background="@android:color/transparent"
+            android:elevation="@dimen/dimen_1dp"
+            android:src="@drawable/ic_remove"
+            android:tint="@color/colorGray"
+            android:visibility="@{model.showAddButton() ? View.GONE: View.VISIBLE}" />
+    </FrameLayout>-->
+</layout>

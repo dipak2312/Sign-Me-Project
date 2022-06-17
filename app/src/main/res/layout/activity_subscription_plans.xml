@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--Header-->
+        <RelativeLayout
+            android:id="@+id/rlHeaderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:background="@drawable/ic_subscription"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvHeaderTitle"
+                style="@style/HeaderTitleStyle"
+                android:layout_alignParentTop="true"
+                android:padding="@dimen/_10sdp"
+                android:text="@string/subscription"
+                android:textColor="@color/colorWhite" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/ic_arrow_back"
+                android:tint="@color/colorWhite" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="94dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSubscriptionBenefits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:padding="@dimen/_4sdp"
+                android:singleLine="false"
+                android:text="@string/subscription_benefits"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_dimen_18sp"
+                android:fontFamily="@font/sf_pro_text_semi_bold"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSubscriptionContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:layout_marginBottom="@dimen/dimen_16dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:padding="@dimen/_4sdp"
+                android:singleLine="false"
+                android:text="@string/str_subscription_msg"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_dimen_16sp"
+                android:fontFamily="@font/sf_pro_text_semi_bold"/>
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/dimen_16dp">
+
+                <View
+                    android:id="@+id/view_one_month"
+                    android:layout_width="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/dimen_10dp"
+                    android:background="@drawable/bg_dot_grey"/>
+
+
+                <View
+                    android:id="@+id/view_three_month"
+                    android:layout_width="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/dimen_10dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:background="@drawable/bg_dot_grey"/>
+                <View
+                    android:id="@+id/view_six_month"
+                    android:layout_width="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/dimen_10dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:background="@drawable/bg_dot_grey"/>
+                <View
+                    android:id="@+id/view_one_year"
+                    android:layout_width="@dimen/dimen_10dp"
+                    android:layout_height="@dimen/dimen_10dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:background="@drawable/bg_dot_grey"/>
+
+
+
+            </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_8sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSubscriptionPlanList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_8dp"
+                        android:visibility="gone"
+                        tools:listitem="@layout/subscription_plan_vertical_item" />
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/premiumUserViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_280sdp"
+                        android:layout_gravity="center" />
+
+                    <LinearLayout
+                        android:id="@+id/llNoData"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtNoDataFound"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/no_subscription_plans_found"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/_16sdp"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llSubscribe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp">
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSubscribe"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_52sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:text="@string/label_subscription"
+                        android:textColor="@android:color/white"
+                        app:backgroundTint="@color/colorPrimaryDark"
+                        app:cornerRadius="@dimen/_24sdp" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSubscriptionMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:gravity="start"
+                        android:padding="@dimen/_4sdp"
+                        android:singleLine="false"
+                        android:text="@string/str_subscription_rules"
+                        android:textColor="@color/colorLightGray"
+                        android:textSize="@dimen/text_dimen_14sp"
+                        android:fontFamily="@font/sf_pro_text_regular"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvSubscriptionPolicyLinks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:gravity="start"
+                        android:padding="@dimen/_4sdp"
+                        android:singleLine="false"
+                        android:text="@string/str_policy_link"
+                        android:textColor="@color/colorLightGray"
+                        android:textSize="@dimen/text_dimen_14sp"
+                        android:fontFamily="@font/sf_pro_text_regular"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

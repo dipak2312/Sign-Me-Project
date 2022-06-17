@@ -1,0 +1,40 @@
+[
+
+  {
+    "message_id": "1",
+    "notification_name": "Android Test1",
+    "notification_message": "Android Test1 sent message successfully!",
+    "notification_time": "06:30 am"
+  },
+  {
+    "message_id": "2",
+    "notification_name": "Android Test2",
+    "notification_message": "Android Test2 sent message successfully!",
+    "notification_time": "Yesterday"
+  },
+  {
+    "message_id": "3",
+    "notification_name": "Android Test3",
+    "notification_message": "Android Test3 sent message successfully!",
+    "notification_time": "12 July,2021"
+  },
+  {
+    "message_id": "4",
+    "notification_name": "Android Test4",
+    "notification_message": "Android Test4 sent message successfully!",
+    "notification_time": "08 July,2021"
+  },
+  {
+    "message_id": "5",
+    "notification_name": "Android Test5",
+    "notification_message": "Android Test5 sent message successfully!",
+    "notification_time": "30 June,2021"
+  },
+  {
+    "message_id": "6",
+    "notification_name": "Android Test6",
+    "notification_message": "Android Test6 sent message successfully!",
+    "notification_time": "18 June,2021"
+  }
+]
+

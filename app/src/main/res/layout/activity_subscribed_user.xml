@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <!--Header-->
+        <RelativeLayout
+            android:id="@+id/rlHeaderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorWhite"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/HeaderTitleStyle"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/dimen_12dp"
+                android:text="@string/subscription" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/dimen_12dp"
+                android:src="@drawable/ic_arrow_back"/>
+
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlHeaderLayout"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_8sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvSubscriptionMsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:clipToPadding="false"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_4sdp"
+                    app:cardUseCompatPadding="true">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvServiceCategoryGrid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:gravity="start"
+                        android:padding="@dimen/_4sdp"
+                        android:singleLine="false"
+                        android:text="@string/str_subscription_msg"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_dimen_16sp"
+                        android:fontFamily="@font/sf_pro_text_regular"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/premiumUserViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_350sdp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnUpgradeSubscribe"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_16sdp"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_dimen_16sp"
+                    android:textColor="@color/colorAccent"
+                    android:fontFamily="@font/sf_pro_text_semi_bold"
+                    android:text="@string/update_subscription" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSubscriptionMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:gravity="start"
+                    android:padding="@dimen/_4sdp"
+                    android:singleLine="false"
+                    android:text="@string/str_subscription_rules"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    android:fontFamily="@font/sf_pro_text_regular"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSubscriptionPolicyLinks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:gravity="start"
+                    android:padding="@dimen/_4sdp"
+                    android:singleLine="false"
+                    android:text="@string/str_policy_link"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    android:fontFamily="@font/sf_pro_text_regular"/>
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="androidx.lifecycle.MutableLiveData" />
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="phoneNumber"
+            type="String" />
+
+        <variable
+            name="time"
+            type="MutableLiveData&lt;String>" />
+
+        <variable
+            name="enableRetry"
+            type="MutableLiveData&lt;Boolean>" />
+
+        <variable
+            name="viewModel"
+            type="com.app.signme.viewModel.OTPSignUpViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.authentication.otp.otpsignup.OTPSignUpActivity">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvVerificationCode"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:text="@string/label_verification_otp_toolbar_text"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_dimen_18sp"
+            android:fontFamily="@font/sf_pro_text_regular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="@+id/tvVerificationCode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvVerificationCode" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvVerificationCode">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvOtpVerificationMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_24sdp"
+                    android:gravity="center"
+                    android:text="@string/label_enter_verification_code_message_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    android:fontFamily="@font/sf_pro_text_regular"/>
+
+                <com.app.signme.view.otpview.OtpView
+                    android:id="@+id/otp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/_16sdp"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textColor="@color/colorTextBlack"
+                    app:hideLineWhenFilled="false"
+                    app:itemCount="4"
+                    app:itemSpacing="6dp"
+                    app:lineColor="@color/otp_item_state"
+                    app:state_filled="true"
+                    app:viewTypeOTP="line" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDoNotReceiveOtp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:gravity="center"
+                    android:text="@string/label_did_not_receive_otp_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    android:fontFamily="@font/sf_pro_text_regular"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvResendOtp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dimen_4dp"
+                    android:text="@string/label_resend_text"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    android:fontFamily="@font/sf_pro_text_semi_bold"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnValidate"
+                    style="@style/ButtonStyle"
+                    android:text="@string/label_confirm_button" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

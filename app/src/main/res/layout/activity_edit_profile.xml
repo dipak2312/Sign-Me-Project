@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.app.signme.viewModel.UserProfileViewModel" />
+
+        <variable
+            name="user"
+            type="com.app.signme.dataclasses.response.LoginResponse" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.settings.editprofile.EditProfileActivity">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSignUp"
+            android:layout_width="0dp"
+            android:layout_height="?actionBarSize"
+            android:layout_centerInParent="true"
+            android:background="@color/colorWhite"
+            android:fontFamily="@font/sf_pro_text_regular"
+            android:gravity="center"
+            android:text="@string/label_edit_profile_toolbar_text"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_dimen_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ibtnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSignUp"
+            app:layout_constraintStart_toStartOf="@+id/tvSignUp"
+            app:layout_constraintTop_toTopOf="@+id/tvSignUp" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSignUp"/>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnUpdate"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/rlSelectProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dimen_4dp">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/sivUserImage"
+                        android:layout_width="@dimen/_90sdp"
+                        android:layout_height="@dimen/_90sdp"
+                        android:padding="@dimen/dimen_1dp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearance="@style/ShapeAppearance.CircleImageView"
+                        app:srcCompat="@drawable/ic_user_profile"
+                        app:strokeColor="@color/colorPrimaryDark"
+                        app:strokeWidth="0dp" />
+                    <!-- app:imageUrl="@{user.profileImage}"-->
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnAdd"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layout_gravity="bottom|end"
+                        android:adjustViewBounds="true"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:layout_margin="@dimen/dimen_2dp"
+                        android:background="@drawable/ic_camera"
+                        android:contentDescription="@string/add_profile_icon" />
+                </FrameLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFirstName"
+                    style="@style/OutlinedBoxInputLayoutStyle"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:hint="@string/hint_FirstName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietFirstName"
+                        style="@style/InputStyle"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textCapWords"
+                        android:maxLength="80"
+                        android:text="@{user.firstName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--Last Name-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilLastName"
+                    style="@style/OutlinedBoxInputLayoutStyle"
+                    android:hint="@string/hint_LastName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietLastName"
+                        style="@style/InputStyle"
+                        android:imeOptions="actionNext"
+                        android:inputType="text|textCapWords"
+                        android:maxLength="80"
+                        android:text="@{user.lastName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpdate"
+            style="@style/ButtonStyle"
+            android:text="@string/label_update_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34616391218",
+    "project_id": "whitelabelappdev",
+    "storage_bucket": "whitelabelappdev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34616391218:android:e3b07c9750fc1becffae2b",
+        "android_client_info": {
+          "package_name": "com.appineers.whitelabeldev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34616391218-mcvhepecp33q5n9s15312h1q33g8qqml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbG05Xx9eD80WGMALtcFFALmGMvzHlznc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34616391218-mcvhepecp33q5n9s15312h1q33g8qqml.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

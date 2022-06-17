@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "120854975197",
+    "project_id": "whitelabelappstage",
+    "storage_bucket": "whitelabelappstage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120854975197:android:48f66915b0dfee62590134",
+        "android_client_info": {
+          "package_name": "com.appineers.whitelabelstage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120854975197-jk2lbm7s3kn149nlcqb53c7ab50l0tea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIxUQ3twgfDIIgbehzPKgqLSJSLKlJAQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120854975197-jk2lbm7s3kn149nlcqb53c7ab50l0tea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

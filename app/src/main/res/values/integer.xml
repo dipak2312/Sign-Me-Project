@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="password_max_length">15</integer>
+    <integer name="mobile_number_max_length">14</integer>
+    <integer name="anim_duration_medium">300</integer>
+    <integer name="anim_duration_long">400</integer>
+
+    <integer name="first_name_max_length">80</integer>
+    <integer name="first_name_min_length">1</integer>
+
+    <integer name="user_name_min_length">5</integer>
+    <integer name="user_name_max_length">20</integer>
+
+    <integer name="city_max_length">50</integer>
+    <integer name="zip_code_min_length">5</integer>
+    <integer name="zip_code_max_length">10</integer>
+
+    <integer name="feedback_max_length">1000</integer>
+
+    <integer name="email_max_length">50</integer>
+</resources>

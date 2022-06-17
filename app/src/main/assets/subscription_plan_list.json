@@ -1,0 +1,28 @@
+[
+
+  {
+    "plan_name": "1 Month",
+    "plan_amount": "14.99",
+    "plan_amount_for_display": "$14.99",
+    "plan_validity_in_days": "30"
+  },
+  {
+    "plan_name": "3 Month",
+    "plan_amount": "41.99 ",
+    "plan_amount_for_display": "$41.99 ",
+    "plan_validity_in_days": "90"
+  },
+  {
+    "plan_name": "6 Month",
+    "plan_amount": "77.99",
+    "plan_amount_for_display": "$77.99",
+    "plan_validity_in_days": "180"
+  },
+  {
+    "plan_name": "1 Year",
+    "plan_amount": "119.99",
+    "plan_amount_for_display": "$119.99",
+    "plan_validity_in_days": "365"
+  }
+]
+

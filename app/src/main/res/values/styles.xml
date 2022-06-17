@@ -1,0 +1,353 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/screenbackground</item>
+        <item name="colorPrimaryDark">@color/screenbackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+        <item name="chipStyle">@style/Widget.App.Chip</item>
+
+    </style>
+
+
+    <style name="LoginTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/screenbackground</item>
+        <item name="colorPrimaryDark">@color/screenbackground</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+
+    </style>
+
+    <style name="Divider">
+        <item name="android:background">@android:color/darker_gray</item>
+    </style>
+
+    <style name="Divider.Horizontal" parent="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+
+    </style>
+
+    <!--FullScreen Dialog Style-->
+    <!--START-->
+    <style name="DialogTheme" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+    <!--END-->
+
+    <style name="DatePickerTheme" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorControlActivated">#33691e</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+    </style>
+
+
+    <style name="ProgressDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:screenOrientation">user</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <!--Header Title Style-->
+    <style name="HeaderTitleStyle">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/text_dimen_18sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:fontFamily">@font/sf_pro_text_regular</item>
+        <item name="android:layout_height">?actionBarSize</item>
+
+    </style>
+
+    <style name="Widget.App.Button.TextButton.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Button.TextButton</item>
+        <item name="android:textAppearance">@style/TextAppearance.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.SmallComponent</item>
+        <item name="strokeColor">@color/transparent</item>
+        <item name="iconGravity">top</item>
+        <item name="iconTint">@color/colorGray</item>
+        <item name="iconSize">@dimen/_32sdp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button.TextButton" parent="">
+        <item name="colorPrimary">@color/colorAccent</item>
+    </style>
+
+    <style name="TextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="textAllCaps">false</item>
+    </style>
+    <style name="AppTheme.AdAttribution">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">left</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:text">@string/ad_attribution</item>
+        <item name="android:background">#FFCC66</item>
+        <item name="android:width">15dp</item>
+        <item name="android:height">15dp</item>
+    </style>
+
+    <string name="ad_attribution">Ad</string>
+
+
+<!--    &lt;!&ndash;Style for TextInputLayout&ndash;&gt;-->
+<!--    <style name="OutlinedBoxInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:layout_marginStart">@dimen/dimen_16dp</item>-->
+<!--        <item name="android:layout_marginTop">@dimen/dimen_16dp</item>-->
+<!--        <item name="android:layout_marginEnd">@dimen/dimen_16dp</item>-->
+<!--        <item name="android:textColor">@color/colorGray</item>-->
+<!--        <item name="android:textSize">@dimen/text_dimen_12</item>-->
+<!--        <item name="android:textColorHint">@color/hint_text_color</item>-->
+<!--        <item name="hintTextColor">@color/hint_text_color</item>-->
+<!--        <item name="endIconTint">@color/hint_text_color</item>-->
+<!--        <item name="startIconTint">@color/hint_text_color</item>-->
+<!--        <item name="passwordToggleTint">@color/hint_text_color</item>-->
+<!--        <item name="cornerRadius">@dimen/dimen_16dp</item>-->
+<!--        <item name="boxBackgroundColor">@color/ColorTextInputLayout</item>-->
+<!--        <item name="boxStrokeColor">@color/hint_text_color</item>-->
+<!--        <item name="boxStrokeWidthFocused">@dimen/dimen_1dp</item>-->
+<!--        <item name="boxStrokeWidth">@dimen/dimen_1dp</item>-->
+
+<!--    </style>-->
+
+
+<!--    &lt;!&ndash;    Style for input field&ndash;&gt;-->
+<!--    <style name="InputStyle" parent="Widget.MaterialComponents.TextInputEditText.FilledBox">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">match_parent</item>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--        <item name="android:longClickable">false</item>-->
+<!--        <item name="android:maxLines">1</item>-->
+<!--        <item name="android:fontFamily">@font/sf_pro_text_regular</item>-->
+<!--        <item name="android:textSize">@dimen/text_dimen_14sp</item>-->
+<!--        <item name="android:textCursorDrawable">@drawable/color_cursor</item>-->
+<!--    </style>-->
+
+    <!--Buttons Style-->
+    <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">@dimen/dimen_200dp</item>
+        <item name="android:layout_height">@dimen/dimen_60dp</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_16dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_dimen_16sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/dimen_10dp</item>
+        <item name="backgroundTint">@color/colorAccent</item>
+
+
+    </style>
+    <style name="OtpWidget"/>
+
+    <style name="OtpWidget.OtpView" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@null</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:maxLines">1</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="LoginTheme.NoActionBar">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/black</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/splashcolor</item>
+        <item name="colorPrimaryDark">@color/splashcolor</item>
+        <item name="colorAccent">@color/splashcolor</item>
+    <item name="android:windowBackground">@drawable/splash</item>
+
+
+</style>
+
+
+
+
+    <style name="ProgressDialogHorizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:indeterminateTint">@color/status_red</item>
+        <item name="android:screenOrientation">user</item>
+    </style>
+
+
+    <style name="NormalTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/hint_text_color</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+    </style>
+    <style name="RegularTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/text_dimen_15sp</item>
+    </style>
+
+    <!--    Medium Text Style-->
+    <style name="MediumTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+    </style>
+
+    <!--    Semi Bold Text Style-->
+    <style name="SemiBoldTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+    </style>
+    <!--    Bold Text Style-->
+    <style name="BoldTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <style name="LightTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+        <item name="fontFamily">@font/poppins_light</item>
+    </style>
+
+    <style name="OutlinedBoxInputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="background">@android:color/transparent</item>
+        <item name="android:layout_marginStart">@dimen/dimen_16dp</item>
+        <item name="android:layout_marginTop">@dimen/dimen_16dp</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_16dp</item>
+        <item name="android:textColor">@color/black_tranperent</item>
+        <item name="android:textSize">@dimen/text_dimen_12</item>
+        <item name="android:textColorHint">@color/hint_white</item>
+        <item name="hintTextColor">@color/hint_white</item>
+        <item name="endIconTint">@color/hint_text_color</item>
+        <item name="startIconTint">@color/black_tranperent</item>
+        <item name="passwordToggleTint">@color/hint_white</item>
+        <item name="cornerRadius">@dimen/dimen_10dp</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="boxBackgroundColor">@color/black_tranperent</item>
+        <item name="boxStrokeColor">@color/hint_white</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+
+    </style>
+    <!--Outline Style for input field-->
+    <style name="InputStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_52dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:background">@drawable/bg_edit_black</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+    </style>
+    <style name="SignupInputStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_50dp</item>
+        <item name="android:layout_marginStart">@dimen/dimen_16dp</item>
+        <item name="android:layout_marginTop">@dimen/dimen_10dp</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_16dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/hint_white</item>
+        <item name="hintTextColor">@color/hint_white</item>
+        <item name="endIconTint">@color/hint_text_color</item>
+        <item name="startIconTint">@color/white</item>
+        <item name="passwordToggleTint">@color/hint_white</item>
+        <item name="cornerRadius">@dimen/dimen_10dp</item>
+        <item name="boxStrokeColor">@color/black</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="android:background">@drawable/bg_edit_gray</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+    </style>
+
+    <style name="InputOtherStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimen_52dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:longClickable">false</item>
+        <item name="android:letterSpacing">-0.01</item>
+        <item name="android:background">@drawable/bg_edit_gray</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+    </style>
+
+    <!--Choice Chip-->
+    <style name="Widget.App.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_bg_selector</item>
+        <item name="chipStrokeColor">@color/chip_stroke_selector</item>
+        <item name="android:textColor">@color/chip_text_selector</item>
+        <item name="chipStartPadding">@dimen/_15sdp</item>
+        <item name="chipEndPadding">@dimen/_15sdp</item>
+        <item name="chipMinHeight">@dimen/dimen_45dp</item>
+        <item name="android:padding">@dimen/_4sdp</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="textAllCaps">false</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.MaterialComponents.SmallComponent</item>
+        <item name="android:textAppearance">@style/chipText</item>
+    </style>
+
+    <style name="chipText" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+</resources>
