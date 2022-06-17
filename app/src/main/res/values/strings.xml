@@ -55,7 +55,7 @@
     <string name="hint_old_password">Enter Old Password</string>
     <string name="hint_new_password">Enter New Password</string>
     <string name="hint_confirm_password">Enter Confirm Password</string>
-    <string name="hint_brief_explain_message">Add Description</string>
+    <string name="hint_brief_explain_message">Type here...</string>
     <string name="message_address_update">Address Updated Successfully!</string>
 
     //Button Label
@@ -68,6 +68,7 @@
     <string name="label_previous_button">Back</string>
     <string name="label_skip_button">Skip</string>
     <string name="label_send_reset_link_button">Send</string>
+    <string name="label_edit_profile_button">Edit Profile</string>
     <string name="label_resend_otp_button">Resend OTP</string>
     <string name="label_submit_otp_button">Submit</string>
     <string name="label_reset_password_button">Reset Password</string>
@@ -79,7 +80,7 @@
     <string name="label_change">Save New Password</string>
     <string name="label_yes_button">Yes</string>
     <string name="label_no_button">No</string>
-    <string name="label_send_button">Send</string>
+    <string name="label_send_button">Send Feedback</string>
     <string name="label_agree_button">Agree</string>
     <string name="label_not_now_button">Not Now</string>
     <string name="label_later_button">Later</string>
@@ -137,6 +138,7 @@
     <string name="label_change_phone_number_message_text">Enter your old and new mobile number to change your mobile number.</string>
     <string name="label_did_not_receive_otp_text">Didn\'t get OTP?</string>
     <string name="label_attach_image">Attach Image</string>
+    <string name="label_send_my_feedback_text">Leave your feedback, suggestions, and issues for SignME! below. We’d love to hear from you!</string>
     <string name="label_feedback_report_problem">You can send us your feedback about the %1$s application. We would love to hear suggestions from you.</string>
     <string name="label_account_settings_text">Account Settings</string>
     <string name="label_notifications_text">Notification</string>

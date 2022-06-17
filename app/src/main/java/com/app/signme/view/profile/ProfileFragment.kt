@@ -61,20 +61,25 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         mTabLayout.setupWithViewPager(viewPagerImages)
 
         mImageAdapter.notifyDataSetChanged()
-        if (AppConfig.AdProvider_MoPub) {
-            this.activity?.let { showBannerAd(it, binding.moPubAdView) }
-        } else {
-            this.activity?.let { showBannerAd(it, binding.adView) }
-        }
+
         binding.user = sharedPreference.userDetail
         mediaFileRepository = MediaFileRepository.getInstance(this.activity!!)
-        getProfileData()
+        //getProfileData()
 
+        binding.tvNoData.visibility = View.GONE
+        binding.mTabLayout.visibility = View.VISIBLE
+        mImageAdapter.insertItem(
+            UserImage("", "", "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png", "")
+        )
+        mImageAdapter.insertItem(
+            UserImage("", "", "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png", "")
+        )
+        mImageAdapter.notifyDataSetChanged()
         binding.apply {
-            btnEdit.setOnClickListener {
-                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
-                startActivity(Intent(activity, EditProfileActivity::class.java))
-            }
+//            btnEdit.setOnClickListener {
+//                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
+//                startActivity(Intent(activity, EditProfileActivity::class.java))
+//            }
         }
 
 
@@ -167,13 +172,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
             }
         }
-        (activity?.application as AppineersApplication).isAdRemoved.observe(
-            this@ProfileFragment
-        ) {
-            if (it) {
-                binding.adView.visibility = View.GONE
-            }
-        }
+
 
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
@@ -214,7 +213,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
 
         binding.executePendingBindings()
-        btnWarning.visibility = if (showWarning) View.VISIBLE else View.GONE
         mImageAdapter.notifyDataSetChanged()
 
     }

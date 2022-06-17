@@ -3,6 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.lifecycle.MutableLiveData" />
+
+        <variable
+            name="textSize"
+            type="MutableLiveData&lt;String>" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,13 +69,28 @@
                     android:contentDescription="@string/app_logo"
                     android:src="@mipmap/signme_logo" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_40dp"
+                    android:layout_marginEnd="@dimen/dimen_40dp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    style="@style/RegularTextStyle"
+                    android:gravity="center"
+                    android:text="@string/label_send_my_feedback_text">
+
+                </androidx.appcompat.widget.AppCompatTextView>
+
                 <!--Feedback-->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputBrief"
                     style="@style/OutlinedBoxInputLayoutStyle"
                     android:hint="@string/hint_brief_explain_message"
-                    app:hintTextColor="@color/colorLightGray"
+                    app:hintTextColor="@color/hint_white"
+                    android:layout_marginTop="@dimen/dimen_30dp"
                     app:counterEnabled="true"
+                    app:counterTextColor="@color/white"
                     app:counterMaxLength="1000"
                     app:hintAnimationEnabled="false">
 
@@ -77,7 +103,7 @@
                         android:inputType="textCapWords|textMultiLine"
                         android:maxLength="1000"
                         android:maxLines="5"
-                        android:minHeight="@dimen/dimen_120dp"
+                        android:minLines="5"
                         android:textSize="@dimen/text_dimen_14sp"
                         android:overScrollMode="always"
                         android:scrollbarStyle="insideInset"
@@ -88,51 +114,23 @@
                     android:id="@+id/rvFeedbackImages"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/cv_list_item_feedback_image" />
 
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAttachImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    style="@style/BoldTextStyle"
-                    android:gravity="center"
-                    android:text="@string/label_attach_image"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_20sp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvFeedback"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="@dimen/_16sdp"
-                    android:fontFamily="@font/sf_pro_text_regular"
-                    android:gravity="center"
-                    android:text="@string/label_feedback_report_problem"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/text_dimen_14sp" />
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSend"
                     style="@style/ButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:paddingStart="@dimen/_40sdp"
+                    android:paddingEnd="@dimen/_40sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_40sdp"
                     android:text="@string/label_send_button" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <data>
 
-        <import type="android.view.View" />
-
-        <import type="androidx.lifecycle.MutableLiveData" />
-
-        <variable
-            name="textSize"
-            type="MutableLiveData&lt;String>" />
-    </data>
 </layout>

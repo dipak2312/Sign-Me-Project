@@ -79,8 +79,6 @@ class SendFeedbackActivity : BaseActivity<FeedbackViewModel>() {
                 }
                 false
             })
-            binding.tvFeedback.text =
-                String.format(getString(R.string.msg_report_problem), getString(R.string.app_name))
 
             btnBack.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
@@ -155,13 +153,10 @@ class SendFeedbackActivity : BaseActivity<FeedbackViewModel>() {
             if (view.id == R.id.ibtnAddImage) {
                 checkPermission()
             }
-            else if(view.id == R.id.imgbtnAddImage)
-            {
-                checkPermission()
-            } else if (view.id == R.id.ibtnRemoveImage) {
+             else if (view.id == R.id.ibtnRemoveImage) {
                 removeSelectedImage(position)
             }
-        }, R.id.ibtnAddImage,R.id.imgbtnAddImage, R.id.ibtnRemoveImage)
+        }, R.id.ibtnAddImage, R.id.ibtnRemoveImage)
     }
 
     /**

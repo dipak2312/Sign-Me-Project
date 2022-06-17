@@ -22,10 +22,10 @@
     <color name="placeholdercolor">#D5D5D5</color>
     <color name="hint_white">#85FFFFFF</color>
     <color name="black_tranperent">#57FFFFFF</color>
+    <color name="screen_top_background">#383838</color>
     <color name="gray_tranperent">#3B3B3B</color>
-    <color name="app_gray">#ABFFFFFF</color>
+   <color name="app_gray">#ABFFFFFF</color>
     <color name="signup_title_gray">#B4B4B4</color>
-
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="colorBlue">#5e89f7</color>
@@ -38,6 +38,7 @@
     <color name="color_icon">#cdcdcd</color>
     <color name="color_icon_dark">#898b9b</color>
     <color name="color_text_cursor">#707070</color>
+    <color name="profile_gray">#CBCBCB</color>
 
 
     <color name="app_color">#FF5F0D</color>

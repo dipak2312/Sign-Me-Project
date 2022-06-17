@@ -62,12 +62,11 @@ class PagerImageAdapter(
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val binding = ItemPagerImageBinding.inflate(LayoutInflater.from(container.context))
-        binding.btnRetry.visibility = View.GONE
+
         var mediaFileRepository: MediaFileRepository? =
             container.context?.let { MediaFileRepository.getInstance(it) }
 
         if (!imageList.get(position).imageUrl.equals("")) {
-            binding.btnRetry.visibility = View.GONE
             Glide.with(container.context)
                 .load(imageList.get(position).imageUrl)
                 // .error(R.drawable.ic_theappineers_logo)
@@ -78,10 +77,9 @@ class PagerImageAdapter(
                     )
                 )
                 .into(binding.ivGalleryImage)
-            binding.btnRetry.visibility = View.GONE
+
         }
         if (!imageList.get(position).imageUri.equals("")) {
-
             Glide.with(container.context)
                 .load(imageList.get(position).imageUri)
                 //.error(R.drawable.ic_theappineers_logo)
@@ -92,77 +90,9 @@ class PagerImageAdapter(
                     )
                 )
                 .into(binding.ivGalleryImage)
-            binding.btnRetry.visibility = View.VISIBLE
-            binding.btnDelete.visibility = View.VISIBLE
-        } /*else {
-            when (imageList[position].uploadStatus) {
-                IConstants.PENDING -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.btnRetry.visibility = View.VISIBLE
-                }
-                (IConstants.IN_PROGRESS) -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.btnRetry.visibility = View.GONE
-                }
-                else -> {
-                    binding.progressBar.visibility = View.GONE
-                    binding.btnRetry.visibility = View.GONE
-                }
-            }
-*/
 
-            /* Glide.with(container.context)
-                 .load(imageList.get(position).imageUri)
-                 //.error(R.drawable.ic_theappineers_logo)
-                // .placeholder(R.drawable.ic_theappineers_logo)
-                 .apply(
-                     RequestOptions.bitmapTransform(
-                         RoundedCornersTransformation(container.context, sCorner, sMargin)
-                     ))
-                 .into(binding.ivGalleryImage)*/
-      //  }
-        binding.btnRetry.setOnClickListener {
-            binding.btnRetry.visibility = View.GONE
-            // binding.progressBar.visibility = View.VISIBLE
-            if (container.context != null) {
-                mediaFileRepository = MediaFileRepository.getInstance(container.context!!)
-                CoroutineScope(Dispatchers.IO).launch {
-                    var localFiles = imageList.filter { it.imageUri.equals("") }
-                    (mActivity?.application as AppineersApplication).isImageCout = localFiles.size
-                    var count: Int = localFiles.size
-                    for (filePath in localFiles) {
-                        //(activity?.application as MainApplication).isImageCout=count
-                        val file =
-                            filePath.localImageId
-                        if (file != null) {
-                            startFileUploadService(
-                                filePath.imageUrl!!,
-                                filePath.localImageId!!,
-                                position
-                            )
-                        } else {
-                            removeItem(position)
-                        }
-                    }
-
-                }
-
-            }
         }
 
-
-        if (editable) {
-            binding.btnDelete.visibility = View.VISIBLE
-            binding.btnDelete.setOnClickListener {
-                mRecyclerViewActionListener.onItemClick(
-                    binding.btnDelete.id,
-                    position,
-                    null
-                )
-            }
-        } else {
-            binding.btnDelete.visibility = View.GONE
-        }
 
         binding.ivGalleryImage.setOnClickListener {
 

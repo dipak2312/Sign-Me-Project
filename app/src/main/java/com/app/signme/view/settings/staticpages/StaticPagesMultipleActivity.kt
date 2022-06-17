@@ -124,7 +124,7 @@ class StaticPagesMultipleActivity : BaseActivity<StaticPagesViewModel>() {
                         binding.tvScreenName.text = it.data!![0].pageTitle
                         if (it.data!!.size > 0) {
                             var urldata =
-                                "<font size='3'color='#ffffff'>" + it.data!![0].content!! + "</font>"
+                                "<font size='3'color='FFFFFF'>" + it.data!![0].content!! + "</font>"
                             binding.webView.loadDataWithBaseURL(
                                 null,
                                 urldata,
