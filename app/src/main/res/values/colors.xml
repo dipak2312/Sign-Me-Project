@@ -39,7 +39,8 @@
     <color name="color_icon_dark">#898b9b</color>
     <color name="color_text_cursor">#707070</color>
     <color name="profile_gray">#CBCBCB</color>
-
+    <color name="location_gray">#392D1D</color>
+    <style name="devider_light">#0CFFFFFF</style>
 
     <color name="app_color">#FF5F0D</color>
     <color name="splashcolor">#0C000000</color>

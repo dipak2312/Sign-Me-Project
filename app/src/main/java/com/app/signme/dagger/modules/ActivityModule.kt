@@ -15,6 +15,7 @@ import com.app.signme.viewModel.ForgotPasswordPhoneViewModel
 import com.app.signme.repository.ResetPasswordRepository
 import com.app.signme.repository.ChangePasswordRepository
 import com.app.signme.repository.inappbilling.BillingRepository
+import com.app.signme.view.landing.LocationEnableActivity
 import com.app.signme.viewModel.NotificationViewModel
 import com.app.signme.viewModel.ResetPasswordViewModel
 import dagger.Module
@@ -382,6 +383,24 @@ class ActivityModule(private val activity: BaseActivity<*>) {
                 notificationRepository
             )
         }).get(NotificationViewModel::class.java)
+
+
+    @Provides
+    fun provideLocationEnableActivityModule(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+       landingRepository: LandingRepository
+    ): LandingViewMode = ViewModelProviders.of(
+        activity, ViewModelProviderFactory(LandingViewMode::class) {
+            LandingViewMode(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                landingRepository
+            )
+        }).get(LandingViewMode::class.java)
+
 
 
 }

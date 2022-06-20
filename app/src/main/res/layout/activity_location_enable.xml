@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.app.signme.viewModel.LandingViewMode" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screenbackground">
+
+    <com.skyfishjy.library.RippleBackground
+        android:id="@+id/rippleBackground"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rb_color="@color/location_gray"
+        app:rb_duration="3000"
+        app:rb_radius="30dp"
+        app:rb_rippleAmount="5"
+        app:rb_scale="6">
+
+        <ImageView
+            android:id="@+id/centerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_point_location" />
+    </com.skyfishjy.library.RippleBackground>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/rippleBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/label_enable_location"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_24sp"
+            style="@style/BoldTextStyle">
+
+        </androidx.appcompat.widget.AppCompatTextView>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="@dimen/dimen_35dp"
+            android:layout_marginEnd="@dimen/dimen_35dp"
+            android:layout_marginTop="@dimen/dimen_15dp"
+            android:gravity="center"
+            android:text="@string/label_need_location_info"
+            android:alpha="0.8"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_15sp"
+            style="@style/MediumTextStyle">
+
+        </androidx.appcompat.widget.AppCompatTextView>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mbtnAllowLocation"
+            style="@style/ButtonStyle"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/label_location_allow_button"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

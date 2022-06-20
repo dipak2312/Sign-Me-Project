@@ -116,22 +116,12 @@ class SignUpWithEmailSocialActivity : BaseActivity<SignUpWithEmailViewModel>() {
             )
         }
 
-        val genders = arrayOf("Man", "Woman", "Transgender","Non-binary/non-confirming","Prefer not to respond")
-        AddGender(genders)
+
 
 
     }
 
-    fun AddGender(genders: Array<String>)
-    {
 
-
-        for (gender in genders) {
-            val chip = Chip(this@SignUpWithEmailSocialActivity)
-            chip.text = gender
-            binding?.genderChipGroup?.addView(chip)
-        }
-    }
 
     /**
      * Set Social information, if user signup with social

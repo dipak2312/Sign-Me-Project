@@ -2,7 +2,9 @@ package com.app.signme.view.profile
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Handler
+import android.text.Html
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
@@ -20,6 +22,7 @@ import com.app.signme.db.repo.MediaFileRepository
 import com.app.signme.view.settings.editprofile.EditProfileActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.UserProfileViewModel
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,6 +39,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
     var mediaFileRepository: MediaFileRepository? = null
     var showWarning = false
     var userInfo: LoginResponse? = null
+
     var mImageAdapter = PagerImageAdapter(false, this)
 
 
@@ -49,6 +53,8 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun setupView(view: View) {
+        getContext()?.getTheme()?.applyStyle(R.style.ProfileTheme, true)
+        //activity!!.getWindow().setStatusBarColor(Color.TRANSPARENT)
         setFireBaseAnalyticsData("id-profileScreen", "view_profileScreen", "view_profileScreen")
         binding = DataBindingUtil.bind(view)!!
         binding.viewModel = viewModel
@@ -66,7 +72,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         mediaFileRepository = MediaFileRepository.getInstance(this.activity!!)
         //getProfileData()
 
-        binding.tvNoData.visibility = View.GONE
         binding.mTabLayout.visibility = View.VISIBLE
         mImageAdapter.insertItem(
             UserImage("", "", "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png", "")
@@ -75,14 +80,40 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
             UserImage("", "", "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png", "")
         )
         mImageAdapter.notifyDataSetChanged()
+
+
+
+        var friends=getString(R.string.label_friends)+" "+"<font color='#FF5F0D'>80%</font>"
+        binding!!.textFriends.text=Html.fromHtml(friends)
+        var quickmeet=getString(R.string.label_quickmeet)+" "+"<font color='#FF5F0D'>90%</font>"
+        binding!!.textQuickMeet.text=Html.fromHtml(quickmeet)
+        var relationship=getString(R.string.label_relationship)+" "+"<font color='#FF5F0D'>90%</font>"
+        binding!!.textRelationship.text=Html.fromHtml(relationship)
+
+        val lookingfor = arrayOf("Friendship", "Quick-Meet", "Relationship")
+        addLookingFor(lookingfor)
+
+        initListeners()
+
+    }
+
+    fun  initListeners(){
         binding.apply {
-//            btnEdit.setOnClickListener {
-//                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
-//                startActivity(Intent(activity, EditProfileActivity::class.java))
-//            }
+            btnEditProfile.setOnClickListener {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
+                startActivity(EditProfileActivity.getStartIntent(this@ProfileFragment.requireContext()))
+            }
         }
+    }
 
-
+    fun addLookingFor(lookingFor: Array<String>)
+    {
+        for (lookingfor in lookingFor) {
+            val chip = Chip(this@ProfileFragment.requireContext())
+            chip.text = lookingfor
+            chip.setTextAppearanceResource(R.style.mychipText);
+            binding?.lookingForChipGroup?.addView(chip)
+        }
     }
 
     private fun getProfileData() {
@@ -188,7 +219,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 mImageAdapter.insertItem(
                     UserImage("", "", userInfo!!.profileImage, "")
                 )
-                binding.tvNoData.visibility = View.GONE
                 binding.mTabLayout.visibility = View.VISIBLE
                 mImageAdapter.notifyDataSetChanged()
 
@@ -200,13 +230,12 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 )
             }
             if (userInfo!!.userImages != null && userInfo!!.userImages!!.size > 0) {
-                binding.tvNoData.visibility = View.GONE
+
                 binding.mTabLayout.visibility = View.VISIBLE
                 mImageAdapter.insertAllItem(userInfo!!.userImages!!)
                 mImageAdapter.notifyDataSetChanged()
             } else {
 
-                binding.tvNoData.visibility = View.VISIBLE
                 binding.mTabLayout.visibility = View.GONE
             }
         }

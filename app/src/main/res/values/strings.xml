@@ -68,6 +68,7 @@
     <string name="label_previous_button">Back</string>
     <string name="label_skip_button">Skip</string>
     <string name="label_send_reset_link_button">Send</string>
+    <string name="label_location_allow_button">Allow</string>
     <string name="label_edit_profile_button">Edit Profile</string>
     <string name="label_resend_otp_button">Resend OTP</string>
     <string name="label_submit_otp_button">Submit</string>
@@ -93,12 +94,18 @@
     <string name="label_confirm_password">Confirm Password</string>
     <string name="label_gender">Gender</string>
     <string name="label_bithday">Birthday</string>
+    <string name="label_city">City</string>
+    <string name="label_maximum_distance">Maximum Distance</string>
+    <string name="label_30km">30km.</string>
+    <string name="label_age_range">Age Range</string>
     <string name="label_back_button">Back</string>
     <string name="label_welcome">Welcome</string>
     <string name="label_sign_in_continue">Sign In To Continue</string>
     <string name="alert_enter_brief">Please enter add description</string>
     <string name="label_confirm_button">Confirm</string>
     <string name="label_date_of_birth">Enter Date Of Birth</string>
+    <string name="label_enable_location">Enable Location</string>
+    <string name="label_need_location_info">You\'ll need to enable your location in order to use sign me</string>
 
 
     //Text Label
@@ -137,7 +144,11 @@
     <string name="label_verification_code_message_text">We did send OTP code to your phone number,Please check it and enter below.</string>
     <string name="label_change_phone_number_message_text">Enter your old and new mobile number to change your mobile number.</string>
     <string name="label_did_not_receive_otp_text">Didn\'t get OTP?</string>
+    <string name="label_profile_match_description">You both match due to intellectual, emotional and the ability to create new ideas compatibility. This combination is very compatible as long as their is a form of freedom.</string>
     <string name="label_attach_image">Attach Image</string>
+    <string name="label_about_you">About You</string>
+    <string name="label_looking_for">Looking For</string>
+    <string name="label_profile_picture">Profile Picture</string>
     <string name="label_send_my_feedback_text">Leave your feedback, suggestions, and issues for SignME! below. We’d love to hear from you!</string>
     <string name="label_feedback_report_problem">You can send us your feedback about the %1$s application. We would love to hear suggestions from you.</string>
     <string name="label_account_settings_text">Account Settings</string>
@@ -167,6 +178,9 @@
     <string name="label_chat_list">Chat</string>
     <string name="label_clear_all">Clear all</string>
     <string name="label_no_notifications">No New Notifications</string>
+    <string name="label_friends">Friends:</string>
+    <string name="label_quickmeet">Quick-Meet:</string>
+    <string name="label_relationship">Relationship:</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
 </string>
 

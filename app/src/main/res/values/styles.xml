@@ -7,6 +7,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
         <item name="chipStyle">@style/Widget.App.Chip</item>
+        <item name="checkboxStyle">@style/Widget.App.CheckBox</item>
+
 
     </style>
 
@@ -17,6 +19,14 @@
         <item name="colorPrimaryDark">@color/screenbackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+
+    </style>
+
+    <style name="ProfileTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/transparent</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
     </style>
 
@@ -280,7 +290,7 @@
         <item name="android:layout_marginTop">@dimen/dimen_16dp</item>
         <item name="android:layout_marginEnd">@dimen/dimen_16dp</item>
         <item name="android:textColor">@color/black_tranperent</item>
-        <item name="android:textSize">@dimen/text_dimen_12</item>
+        <item name="android:textSize">@dimen/text_dimen_12sp</item>
         <item name="android:textColorHint">@color/hint_white</item>
         <item name="hintTextColor">@color/hint_white</item>
         <item name="endIconTint">@color/hint_text_color</item>
@@ -361,9 +371,25 @@
         <item name="android:textAppearance">@style/chipText</item>
     </style>
 
+    <style name="Widget.App.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/bg_selected_checkbox</item>
+        <item name="android:textAppearance">@style/chipText</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_dimen_15sp</item>
+        <item name="android:paddingLeft">@dimen/_8sdp</item>
+        <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+
     <style name="chipText" parent="TextAppearance.MaterialComponents.Chip">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="mychipText" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">@dimen/text_dimen_12sp</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textColor">@color/app_color</item>
     </style>
 
 </resources>

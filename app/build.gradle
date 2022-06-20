@@ -290,6 +290,9 @@ dependencies {
     //for lottie animation
     implementation 'com.airbnb.android:lottie:4.1.0'
 
+    //Ripple effect
+    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
+
 
 
 

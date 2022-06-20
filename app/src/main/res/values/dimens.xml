@@ -51,7 +51,9 @@
     <dimen name="dimen_52dp">52dp</dimen>
 
     // For Texts
-    <dimen name="text_dimen_12">12sp</dimen>
+    <dimen name="text_dimen_11sp">11sp</dimen>
+    <dimen name="text_dimen_12sp">12sp</dimen>
+    <dimen name="text_dimen_13sp">13sp</dimen>
     <dimen name="text_dimen_14sp">14sp</dimen>
     <dimen name="text_dimen_15sp">15sp</dimen>
     <dimen name="text_dimen_16sp">16sp</dimen>

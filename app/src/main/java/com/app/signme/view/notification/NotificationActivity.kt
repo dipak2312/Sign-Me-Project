@@ -43,13 +43,13 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(), Notification
 
     private fun initListeners() {
         binding?.let {
-            with(it, {
+            with(it) {
 
                 ibtnBack.setOnClickListener {
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
-                     finish()
+                    finish()
                 }
-            })
+            }
         }
         tvClearAll.setOnClickListener{
             clearAllNotifications()

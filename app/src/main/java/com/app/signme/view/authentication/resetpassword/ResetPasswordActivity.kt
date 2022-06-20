@@ -62,7 +62,7 @@ class ResetPasswordActivity : BaseActivity<ResetPasswordViewModel>() {
             "view_resetPasswordScreen"
         )
         binding?.let {
-            with(it, {
+            with(it) {
 
                 tietPassword.doAfterTextChanged { enteredNewPassword ->
                     newPassword = enteredNewPassword?.toString()?.trim()!!
@@ -105,7 +105,7 @@ class ResetPasswordActivity : BaseActivity<ResetPasswordViewModel>() {
                         else -> false
                     }
                 }
-            })
+            }
         }
     }
 

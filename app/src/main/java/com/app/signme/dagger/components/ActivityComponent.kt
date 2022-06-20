@@ -23,6 +23,7 @@ import com.app.signme.view.authentication.login.loginwithemailsocial.LoginWithEm
 import com.app.signme.view.authentication.otp.otpsignup.OTPSignUpActivity
 import com.app.signme.view.authentication.otp.otpforgotpassword.OTPForgotPasswordActivity
 import com.app.signme.view.home.HomeActivity
+import com.app.signme.view.landing.LocationEnableActivity
 import com.app.signme.view.settings.SettingsActivity
 
 @ActivityScope
@@ -48,5 +49,6 @@ interface ActivityComponent{
     fun inject(SubscribedUserActivity: SubscribedUserActivity)
     fun inject(notificationActivity: NotificationActivity)
     fun inject(settingsActivity: SettingsActivity)
+    fun inject(locationEnableActivity: LocationEnableActivity)
 
 }

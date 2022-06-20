@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -34,6 +35,8 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.chip.Chip
 import com.hb.logger.msc.MSCGenerator
 import com.hb.logger.msc.core.GenConstants
 import com.karumi.dexter.Dexter
@@ -59,7 +62,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     var mediaFile = java.util.ArrayList<String>()
 
     companion object {
-        const val TAG = "HomeActivity"
+        const val TAG = "EditProfileActivity"
 
         fun getStartIntent(mContext: Context): Intent {
             return Intent(mContext, EditProfileActivity::class.java).apply {
@@ -88,11 +91,42 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         binding?.user = sharedPreference.userDetail
         (application as AppineersApplication).isRemoved = sharedPreference.userDetail?.profileImage.equals("")
 
-
+        val genders = arrayOf("Man", "Woman", "Transgender","Non-binary/non-confirming","Prefer not to respond")
+        AddGender(genders)
+        val lookingfor = arrayOf("Friendship", "Quick-Meet", "Relationship")
+        addLookingFor(lookingfor)
+        AddLokingFor(genders)
         initListener()
         addObservers()
 
     }
+
+    fun addLookingFor(lookingFor: Array<String>)
+    {
+        for (lookingfor in lookingFor) {
+            val checkbox = MaterialCheckBox(this@EditProfileActivity)
+            checkbox.text = lookingfor
+            binding?.lokingForRelation?.addView(checkbox)
+        }
+    }
+
+    fun AddGender(genders: Array<String>)
+    {
+        for (gender in genders) {
+            val chip = Chip(this@EditProfileActivity)
+            chip.text = gender
+            binding?.genderChipGroup?.addView(chip)
+        }
+    }
+    fun AddLokingFor(lookingFor: Array<String>)
+    {
+        for (gender in lookingFor) {
+            val chip = Chip(this@EditProfileActivity)
+            chip.text = gender
+            binding?.genderLookingForChipGroup?.addView(chip)
+        }
+    }
+
 
     private fun initListener() {
         binding?.apply {
@@ -104,32 +138,21 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             }
 
 
-            btnUpdate.setOnClickListener {
-                setFireBaseAnalyticsData("id-saveprofile", "click_saveprofile", "click_saveprofile")
-                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Validate and Submit Click")
-                MSCGenerator.addAction(
-                    GenConstants.ENTITY_USER,
-                    GenConstants.ENTITY_APP,
-                    "Validate and Submit Profile"
-                )
-                performEditProfile()
-            }
-            sivUserImage.setOnClickListener {
-                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Add Image Button Click")
-                checkPermission()
-            }
-            btnAdd.setOnClickListener {
-                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Add Image Button Click")
-                checkPermission()
-            }
+//            btnUpdate.setOnClickListener {
+//                setFireBaseAnalyticsData("id-saveprofile", "click_saveprofile", "click_saveprofile")
+//                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Validate and Submit Click")
+//                MSCGenerator.addAction(
+//                    GenConstants.ENTITY_USER,
+//                    GenConstants.ENTITY_APP,
+//                    "Validate and Submit Profile"
+//                )
+//                performEditProfile()
+//            }
 
-//            userName = binding?.textUserName!!.getTrimText(),
-//            firstName = binding?.tietFirstName!!.getTrimText(),
-//            lastName = binding?.tietLastName!!.getTrimText(),
-
-
-            setProfileImage()
-
+//            btnAdd.setOnClickListener {
+//                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Add Image Button Click")
+//                checkPermission()
+//            }
 
         }
 
@@ -137,7 +160,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
     private fun setProfileImage() {
         if (!sharedPreference.userDetail?.profileImage.equals("")) {
-            loadImage(binding!!.sivUserImage, sharedPreference.userDetail?.profileImage)
+           // loadImage(binding!!.sivUserImage, sharedPreference.userDetail?.profileImage)
         }
     }
 
@@ -148,8 +171,8 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         val signUpRequest = viewModel.getEditProfileRequest(
             //  userProfileImage = getProfileImageUrl(), //imagePath,
             userProfileImage = imagePath, //imagePath,
-            firstName = binding?.tietFirstName!!.getTrimText(),
-            lastName = binding?.tietLastName!!.getTrimText(),
+//            firstName = binding?.tietFirstName!!.getTrimText(),
+//            lastName = binding?.tietLastName!!.getTrimText(),
             latitude = if (selectedPlace != null) (selectedPlace?.latLng?.latitude
                 ?: 0.0).toString() else sharedPreference.userDetail?.latitude ?: "0.0",
             longitude = if (selectedPlace != null) (selectedPlace?.latLng?.longitude
@@ -229,57 +252,57 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         binding?.apply {
             when (failType) {
 
-                FIRST_NAME_EMPTY -> {
-                    runOnUiThread {
-                        showMessage(
-                            getString(R.string.alert_enter_first_name)
-                        )
-                    }
-                    tietFirstName.requestFocus()
-                }
-                FIRST_NAME_INVALID -> {
-                    runOnUiThread {
-                        showMessage(
-                            getString(R.string.alert_invalid_first_name_character)
-                        )
-                    }
-                    tietFirstName.requestFocus()
-                }
-
-                FIRST_NAME_CHARACTER_INVALID -> {
-                    runOnUiThread {
-                        showMessage(
-                            getString(R.string.alert_invalid_first_name_character)
-                        )
-                    }
-                    tietFirstName.requestFocus()
-                }
-
-                LAST_NAME_EMPTY -> {
-                    runOnUiThread {
-                        showMessage(
-                            getString(R.string.alert_enter_last_name)
-                        )
-                    }
-                    tietLastName.requestFocus()
-                }
-                LAST_NAME_INVALID -> {
-                    runOnUiThread {
-                        showMessage(
-                            getString(R.string.alert_invalid_last_name_character)
-                        )
-                    }
-                    tietLastName.requestFocus()
-                }
-
-                LAST_NAME_CHARACTER_INVALID -> {
-                    runOnUiThread {
-                        showMessage(
-                            getString(R.string.alert_invalid_last_name_character)
-                        )
-                    }
-                    tietLastName.requestFocus()
-                }
+//                FIRST_NAME_EMPTY -> {
+//                    runOnUiThread {
+//                        showMessage(
+//                            getString(R.string.alert_enter_first_name)
+//                        )
+//                    }
+//                    tietFirstName.requestFocus()
+//                }
+//                FIRST_NAME_INVALID -> {
+//                    runOnUiThread {
+//                        showMessage(
+//                            getString(R.string.alert_invalid_first_name_character)
+//                        )
+//                    }
+//                    tietFirstName.requestFocus()
+//                }
+//
+//                FIRST_NAME_CHARACTER_INVALID -> {
+//                    runOnUiThread {
+//                        showMessage(
+//                            getString(R.string.alert_invalid_first_name_character)
+//                        )
+//                    }
+//                    tietFirstName.requestFocus()
+//                }
+//
+//                LAST_NAME_EMPTY -> {
+//                    runOnUiThread {
+//                        showMessage(
+//                            getString(R.string.alert_enter_last_name)
+//                        )
+//                    }
+//                    tietLastName.requestFocus()
+//                }
+//                LAST_NAME_INVALID -> {
+//                    runOnUiThread {
+//                        showMessage(
+//                            getString(R.string.alert_invalid_last_name_character)
+//                        )
+//                    }
+//                    tietLastName.requestFocus()
+//                }
+//
+//                LAST_NAME_CHARACTER_INVALID -> {
+//                    runOnUiThread {
+//                        showMessage(
+//                            getString(R.string.alert_invalid_last_name_character)
+//                        )
+//                    }
+//                    tietLastName.requestFocus()
+//                }
 
 
             }
@@ -369,7 +392,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
                                 } else {
                                     ImageSourceDialog(this@EditProfileActivity, onPhotoRemove = {
-                                        binding!!.sivUserImage.setImageResource(R.drawable.ic_profile_img)
+                                        //binding!!.sivUserImage.setImageResource(R.drawable.ic_profile_img)
                                         currentProfilePathToDelete =
                                             sharedPreference.userDetail?.profileImage
                                         // imagePath = sharedPreference.userDetail?.profileImage.toString()
@@ -514,10 +537,10 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 if (selectedProfileImage == false) {
 
                 } else if (selectedProfileImage == true) {
-                    binding?.sivUserImage?.loadCircleImage(
-                        imageFile.absolutePath,
-                        R.drawable.user_profile
-                    )
+//                    binding?.sivUserImage?.loadCircleImage(
+//                        imageFile.absolutePath,
+//                        R.drawable.user_profile
+//                    )
 
                 }
 

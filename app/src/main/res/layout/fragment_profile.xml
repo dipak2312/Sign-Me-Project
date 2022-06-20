@@ -34,7 +34,7 @@
                 android:background="@color/gray_view" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/mbtnSendResetLink"
+                android:id="@+id/btnEditProfile"
                 style="@style/ButtonEditStyle"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/dimen_15dp"
@@ -57,18 +57,6 @@
 
             </androidx.appcompat.widget.AppCompatImageView>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvNoData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dimen_12dp"
-                android:fontFamily="@font/sf_pro_text_regular"
-                android:text="@string/no_image_data"
-                android:textColor="@color/colorGray"
-                android:textSize="@dimen/text_dimen_16sp"
-                tools:text="@tools:sample/lorem" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/mTabLayout"
@@ -103,69 +91,204 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvUserFullName"
+                    style="@style/BoldTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/BoldTextStyle"
                     android:text="@{user.getFullName()}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_24sp"
                     tools:text="Sagar 28" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/LightTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableStart="@drawable/ic_location_profile"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:text="Aquarius"
+                        android:textColor="@color/profile_gray"
+                        android:textSize="@dimen/text_dimen_14sp"
+                        tools:text="Sagar 28" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_location_profile"
+                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:text="Atlanta, Georgia"
+                        android:textColor="@color/profile_gray"
+                        android:textSize="@dimen/text_dimen_14sp"
+                        tools:text="Atlanta, Georgia" />
+
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    app:cardBackgroundColor="@color/screen_top_background"
+                    app:cardCornerRadius="@dimen/dimen_12dp"
+                    app:cardElevation="@dimen/dimen_0dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/dimen_10dp">
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/dimen_10dp">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/textFriends"
+                                style="@style/RegularTextStyle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_dimen_12sp"
+                                tools:text="Sagar 28" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/textQuickMeet"
+                                style="@style/RegularTextStyle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_dimen_12sp"
+                                tools:text="Sagar 28" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/textRelationship"
+                                style="@style/RegularTextStyle"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_dimen_12sp"
+                                tools:text="Sagar 28" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#0CFFFFFF" />
+
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="0dp"
+                            style="@style/RegularTextStyle"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawablePadding="@dimen/dimen_10dp"
-                            android:drawableStart="@drawable/ic_location_profile"
-                            android:text="Aquarius"
-                            style="@style/LightTextStyle"
+                            android:padding="@dimen/dimen_10dp"
+                            android:text="@string/label_profile_match_description"
                             android:textColor="@color/profile_gray"
-                            android:textSize="@dimen/text_dimen_14sp"
-                            tools:text="Sagar 28" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="@dimen/dimen_10dp"
-                            android:drawableStart="@drawable/ic_location_profile"
-                            android:text="Atlanta, Georgia"
-                            android:textColor="@color/profile_gray"
-                            android:textSize="@dimen/text_dimen_14sp"
-                            tools:text="Atlanta, Georgia" />
+                            android:textSize="@dimen/text_dimen_11sp"
+                            tools:text="@string/label_profile_match_description" />
 
                     </LinearLayout>
 
-                  <androidx.cardview.widget.CardView
-                      android:layout_width="match_parent"
-                      android:layout_height="@dimen/_90sdp"
-                      app:cardCornerRadius="@dimen/dimen_12dp"
-                      app:cardElevation="@dimen/dimen_0dp"
-                      app:cardBackgroundColor="@color/screen_top_background"
-                      android:layout_marginTop="@dimen/dimen_15dp">
+                </androidx.cardview.widget.CardView>
 
-                  </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_90sdp"
-                    app:cardCornerRadius="@dimen/dimen_12dp"
-                    app:cardElevation="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_15dp"
                     app:cardBackgroundColor="@color/screen_top_background"
-                    android:layout_marginTop="@dimen/dimen_15dp">
+                    app:cardCornerRadius="@dimen/dimen_12dp"
+                    app:cardElevation="@dimen/dimen_0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/RegularTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dimen_10dp"
+                            android:text="@string/label_looking_for"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_12sp"
+                            tools:text="@string/label_looking_for" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#0CFFFFFF" />
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dimen_10dp"
+                            android:scrollbars="none">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/lookingForChipGroup"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:singleSelection="false">
+
+                            </com.google.android.material.chip.ChipGroup>
+                        </HorizontalScrollView>
+
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_90sdp"
-                    app:cardCornerRadius="@dimen/dimen_12dp"
-                    app:cardElevation="@dimen/dimen_0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_15dp"
                     app:cardBackgroundColor="@color/screen_top_background"
-                    android:layout_marginTop="@dimen/dimen_15dp">
+                    app:cardCornerRadius="@dimen/dimen_12dp"
+                    app:cardElevation="@dimen/dimen_0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/RegularTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dimen_10dp"
+                            android:text="@string/label_about_you"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_12sp"
+                            tools:text="@string/label_about_you" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#0CFFFFFF" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/RegularTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dimen_10dp"
+                            android:text="@string/label_profile_match_description"
+                            android:textColor="@color/profile_gray"
+                            android:textSize="@dimen/text_dimen_11sp"
+                            tools:text="@string/label_profile_match_description" />
+
+
+                    </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
 

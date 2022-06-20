@@ -17,19 +17,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/screenbackground"
         tools:context=".view.settings.editprofile.EditProfileActivity">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSignUp"
+            android:id="@+id/tvEditProfile"
             android:layout_width="0dp"
             android:layout_height="?actionBarSize"
             android:layout_centerInParent="true"
-            android:background="@color/colorWhite"
-            android:fontFamily="@font/sf_pro_text_regular"
+            style="@style/MediumTextStyle"
             android:gravity="center"
             android:text="@string/label_edit_profile_toolbar_text"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/text_dimen_18sp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,19 +40,10 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/_8sdp"
             android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintBottom_toBottomOf="@+id/tvSignUp"
-            app:layout_constraintStart_toStartOf="@+id/tvSignUp"
-            app:layout_constraintTop_toTopOf="@+id/tvSignUp" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSignUp"/>
+            android:src="@drawable/back"
+            app:layout_constraintBottom_toBottomOf="@+id/tvEditProfile"
+            app:layout_constraintStart_toStartOf="@+id/tvEditProfile"
+            app:layout_constraintTop_toTopOf="@+id/tvEditProfile" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -60,88 +51,315 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnUpdate"
-            app:layout_constraintTop_toBottomOf="@+id/view">
+            app:layout_constraintTop_toBottomOf="@+id/tvEditProfile">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/rlSelectProfile"
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/dimen_4dp">
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_gender"/>
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/sivUserImage"
-                        android:layout_width="@dimen/_90sdp"
-                        android:layout_height="@dimen/_90sdp"
-                        android:padding="@dimen/dimen_1dp"
-                        android:layout_marginTop="@dimen/_20sdp"
-                        android:scaleType="centerCrop"
-                        app:shapeAppearance="@style/ShapeAppearance.CircleImageView"
-                        app:srcCompat="@drawable/ic_user_profile"
-                        app:strokeColor="@color/colorPrimaryDark"
-                        app:strokeWidth="0dp" />
-                    <!-- app:imageUrl="@{user.profileImage}"-->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:scrollbars="none">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btnAdd"
-                        android:layout_width="@dimen/_24sdp"
-                        android:layout_height="@dimen/_24sdp"
-                        android:layout_gravity="bottom|end"
-                        android:adjustViewBounds="true"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:layout_margin="@dimen/dimen_2dp"
-                        android:background="@drawable/ic_camera"
-                        android:contentDescription="@string/add_profile_icon" />
-                </FrameLayout>
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/genderChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true">
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_bithday"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:orientation="horizontal"
+                    style="@style/SignupInputStyle">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:textColor="@color/hint_white"
+                        android:text="@string/label_date_of_birth">
+
+                    </androidx.appcompat.widget.AppCompatTextView>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen_20dp"
+                        android:src="@drawable/ic_spinner">
+
+                    </androidx.appcompat.widget.AppCompatImageView>
+
+                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_profile_picture"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/mRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:itemCount="6"
+                    tools:listitem="@layout/cv_list_item_feedback_image" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_about_you"/>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilFirstName"
+                    android:id="@+id/inputBrief"
                     style="@style/OutlinedBoxInputLayoutStyle"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:hint="@string/hint_FirstName">
+                    android:hint="@string/hint_brief_explain_message"
+                    app:hintTextColor="@color/hint_white"
+                    app:counterEnabled="true"
+                    app:counterTextColor="@color/white"
+                    app:counterMaxLength="1000"
+                    app:hintAnimationEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tietFirstName"
-                        style="@style/InputStyle"
+                        android:id="@+id/textAboutYou"
+                        style="@style/InputOtherStyle"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
                         android:imeOptions="actionNext"
-                        android:inputType="text|textCapWords"
-                        android:maxLength="80"
-                        android:text="@{user.firstName}" />
+                        android:inputType="textCapWords|textMultiLine"
+                        android:maxLength="1000"
+                        android:maxLines="5"
+                        android:minLines="5"
+                        android:textSize="@dimen/text_dimen_14sp"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!--Last Name-->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilLastName"
-                    style="@style/OutlinedBoxInputLayoutStyle"
-                    android:hint="@string/hint_LastName">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tietLastName"
-                        style="@style/InputStyle"
-                        android:imeOptions="actionNext"
-                        android:inputType="text|textCapWords"
-                        android:maxLength="80"
-                        android:text="@{user.lastName}" />
-                </com.google.android.material.textfield.TextInputLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:background="#0CFFFFFF" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_looking_for"/>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/genderLookingForChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true">
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <LinearLayout
+                    android:id="@+id/lokingForRelation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/dimen_16dp"
+                    android:background="#0CFFFFFF" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/MediumTextStyle"
+                    android:textSize="@dimen/text_dimen_15sp"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:textColor="@color/signup_title_gray"
+                    android:text="@string/label_city"/>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietFirstName"
+                    style="@style/SignupInputStyle"
+                    android:drawableStart="@drawable/ic_location_gray"
+                    android:padding="@dimen/dimen_15dp"
+                    android:text="Atlanta, Georgia"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:drawablePadding="@dimen/dimen_15dp"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences"
+                    android:maxLength="80" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/MediumTextStyle"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_dimen_15sp"
+                        android:layout_marginStart="@dimen/dimen_18dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:layout_marginTop="@dimen/dimen_20dp"
+                        android:textColor="@color/signup_title_gray"
+                        android:text="@string/label_maximum_distance"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/MediumTextStyle"
+                        android:textSize="@dimen/text_dimen_15sp"
+                        android:layout_marginStart="@dimen/dimen_16dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:textColor="@color/signup_title_gray"
+                        android:text="@string/label_30km"/>
+
+                </LinearLayout>
+
+                <com.google.android.material.slider.Slider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    app:thumbStrokeColor="@color/screen_top_background"
+                    app:tickColorActive="@color/app_color"
+                    app:tickColorInactive="@color/settingwhite"
+                    app:trackColorActive="@color/app_color"
+                    app:trackColorInactive="@color/settingwhite"
+                    app:thumbColor="@color/app_color"
+                    android:valueFrom="0.0"
+                    android:valueTo="30.0"
+                    android:stepSize="1.0">
+
+                </com.google.android.material.slider.Slider>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        style="@style/MediumTextStyle"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_dimen_15sp"
+                        android:layout_marginStart="@dimen/dimen_18dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:textColor="@color/signup_title_gray"
+                        android:text="@string/label_age_range"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/MediumTextStyle"
+                        android:textSize="@dimen/text_dimen_15sp"
+                        android:layout_marginStart="@dimen/dimen_18dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:textColor="@color/signup_title_gray"
+                        android:text="18 - 90"/>
+
+                </LinearLayout>
+
+                <com.google.android.material.slider.RangeSlider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:layout_marginTop="@dimen/dimen_5dp"
+                    app:thumbStrokeColor="@color/screen_top_background"
+                    app:tickColorActive="@color/app_color"
+                    app:tickColorInactive="@color/settingwhite"
+                    app:trackColorActive="@color/app_color"
+                    app:trackColorInactive="@color/settingwhite"
+                    app:values="@array/initial_slider_values"
+                    app:thumbColor="@color/app_color"
+                    android:valueFrom="18.0"
+                    android:valueTo="90.0"
+                    android:stepSize="1.0">
+
+                </com.google.android.material.slider.RangeSlider>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUpdate"
+                    style="@style/ButtonStyle"
+                    android:layout_marginTop="@dimen/dimen_40dp"
+                    android:text="@string/label_update_button"
+                    android:layout_gravity="center_horizontal" />
             </LinearLayout>
         </ScrollView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnUpdate"
-            style="@style/ButtonStyle"
-            android:text="@string/label_update_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
