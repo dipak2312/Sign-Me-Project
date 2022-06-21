@@ -14,12 +14,17 @@ import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextPaint
+import android.text.method.HideReturnsTransformationMethod
 import android.text.method.LinkMovementMethod
+import android.text.method.PasswordTransformationMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -55,7 +60,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
-import com.google.android.material.chip.Chip
 import com.hb.logger.msc.MSCGenerator
 import com.hb.logger.msc.core.GenConstants
 import com.karumi.dexter.Dexter
@@ -90,6 +94,8 @@ class SignUpWithEmailSocialActivity : BaseActivity<SignUpWithEmailViewModel>() {
     private var social: Social? = null
     private var captureUri: Uri? = null
     private var currentProfilePathToDelete: String? = ""
+    var confirmPasswordStatus:Boolean=false
+    var passwordStatus:Boolean=false
 
     override fun setDataBindingLayout() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up_with_email)
@@ -115,14 +121,7 @@ class SignUpWithEmailSocialActivity : BaseActivity<SignUpWithEmailViewModel>() {
                 getString(R.string.privacy_policy)
             )
         }
-
-
-
-
     }
-
-
-
     /**
      * Set Social information, if user signup with social
      */
@@ -294,6 +293,38 @@ class SignUpWithEmailSocialActivity : BaseActivity<SignUpWithEmailViewModel>() {
                         "sign up"
                     )
                     signUp()
+                }
+
+                imgConfirmHideShow.setOnClickListener {
+                    if(confirmPasswordStatus){
+                        tietConfirmPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                        tietConfirmPassword.setSelection(tietConfirmPassword.text.toString().length)
+                        //inactive icon
+                        imgConfirmHideShow.setImageDrawable(ContextCompat.getDrawable(this@SignUpWithEmailSocialActivity, R.drawable.ic_password_not_visible))
+                        confirmPasswordStatus=false
+                    } else{
+                        tietConfirmPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                        tietConfirmPassword.setSelection(tietConfirmPassword.text.toString().length)
+                        //active icon
+                        imgConfirmHideShow.setImageDrawable(ContextCompat.getDrawable(this@SignUpWithEmailSocialActivity, R.drawable.ic_password_visible))
+                        confirmPasswordStatus=true
+                    }
+                }
+
+                imgPasswordHideShow.setOnClickListener {
+                    if(passwordStatus){
+                        tietPassword.transformationMethod = PasswordTransformationMethod.getInstance()
+                        tietPassword.setSelection(tietPassword.text.toString().length)
+                        //inactive icon
+                        imgPasswordHideShow.setImageDrawable(ContextCompat.getDrawable(this@SignUpWithEmailSocialActivity, R.drawable.ic_password_not_visible))
+                        passwordStatus=false
+                    } else{
+                        tietPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                        tietPassword.setSelection(tietPassword.text.toString().length)
+                        //active icon
+                        imgPasswordHideShow.setImageDrawable(ContextCompat.getDrawable(this@SignUpWithEmailSocialActivity, R.drawable.ic_password_visible))
+                        passwordStatus=true
+                    }
                 }
 
 //                sivUserImage.setOnClickListener {

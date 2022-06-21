@@ -294,7 +294,7 @@
         <item name="android:textColorHint">@color/hint_white</item>
         <item name="hintTextColor">@color/hint_white</item>
         <item name="endIconTint">@color/hint_text_color</item>
-        <item name="startIconTint">@color/black_tranperent</item>
+        <item name="startIconTint">@color/white</item>
         <item name="passwordToggleTint">@color/hint_white</item>
         <item name="cornerRadius">@dimen/dimen_10dp</item>
         <item name="android:letterSpacing">-0.01</item>
@@ -328,7 +328,7 @@
         <item name="android:textColorHint">@color/hint_white</item>
         <item name="hintTextColor">@color/hint_white</item>
         <item name="endIconTint">@color/hint_text_color</item>
-        <item name="startIconTint">@color/white</item>
+        <item name="startIconTint">@color/hint_white</item>
         <item name="passwordToggleTint">@color/hint_white</item>
         <item name="cornerRadius">@dimen/dimen_10dp</item>
         <item name="boxStrokeColor">@color/black</item>
@@ -342,9 +342,29 @@
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
     </style>
 
+
+    <style name="SignupPasswordInputStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/dimen_40dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/hint_white</item>
+        <item name="hintTextColor">@color/hint_white</item>
+        <item name="endIconTint">@color/hint_text_color</item>
+        <item name="startIconTint">@color/hint_white</item>
+        <item name="passwordToggleTint">@color/hint_white</item>
+        <item name="boxStrokeColor">@color/screen_top_background</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">@dimen/text_dimen_14sp</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+    </style>
+
     <style name="InputOtherStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/dimen_52dp</item>
+        <item name="android:layout_height">@dimen/dimen_54dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:longClickable">false</item>
         <item name="android:letterSpacing">-0.01</item>

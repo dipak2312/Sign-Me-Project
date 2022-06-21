@@ -16,18 +16,13 @@
         android:background="@drawable/onboarding"
         tools:context=".view.onboarding.OnBoardingActivity">
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/mbtnBack"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/dimen_8dp"
-            android:backgroundTint="@android:color/transparent"
-            android:textAllCaps="false"
-            style="@style/RegularTextStyle"
-            android:textColor="@color/gray_skip"
-            android:textSize="@dimen/text_dimen_16sp"
-            android:text="@string/label_back_button"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
             android:layout_marginTop="@dimen/dimen_40dp"
+            android:layout_marginStart="@dimen/_20sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

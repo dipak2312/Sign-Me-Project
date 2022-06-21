@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_40dp"
                     android:layout_marginEnd="@dimen/dimen_40dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/settingwhite"
                     android:textSize="@dimen/text_dimen_14sp"
                     style="@style/RegularTextStyle"
                     android:gravity="center"
@@ -90,7 +90,7 @@
                     app:hintTextColor="@color/hint_white"
                     android:layout_marginTop="@dimen/dimen_30dp"
                     app:counterEnabled="true"
-                    app:counterTextColor="@color/white"
+                    app:counterTextColor="@color/settingwhite"
                     app:counterMaxLength="1000"
                     app:hintAnimationEnabled="false">
 

@@ -345,7 +345,7 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
                 true
             }
             401 -> {
-                if (serverError.success == "0") showSessionExpireDialog(true)
+                serverError?.message?.showSnackBar(this@BaseActivity)
                 true
             }
             else -> {

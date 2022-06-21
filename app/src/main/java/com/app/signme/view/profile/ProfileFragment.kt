@@ -19,6 +19,7 @@ import com.app.signme.databinding.FragmentProfileBinding
 import com.app.signme.dataclasses.UserImage
 import com.app.signme.dataclasses.response.LoginResponse
 import com.app.signme.db.repo.MediaFileRepository
+import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.EditProfileActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.UserProfileViewModel
@@ -102,6 +103,9 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
             btnEditProfile.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
                 startActivity(EditProfileActivity.getStartIntent(this@ProfileFragment.requireContext()))
+            }
+            btnsetting.setOnClickListener{
+                startActivity(SettingsActivity.getStartIntent(this@ProfileFragment.requireContext()))
             }
         }
     }

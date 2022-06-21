@@ -96,8 +96,9 @@
     <string name="label_bithday">Birthday</string>
     <string name="label_city">City</string>
     <string name="label_maximum_distance">Maximum Distance</string>
-    <string name="label_30km">30km.</string>
+    <string name="label_km">km.</string>
     <string name="label_age_range">Age Range</string>
+    <string name="label_15_km">15km.</string>
     <string name="label_back_button">Back</string>
     <string name="label_welcome">Welcome</string>
     <string name="label_sign_in_continue">Sign In To Continue</string>
@@ -122,7 +123,7 @@
     <string name="label_add_address_info">Additional Information</string>
     <string name="label_static_page_toolbar_text">Title</string>
     <string name="label_edit_profile_toolbar_text">Edit Profile</string>
-    <string name="label_edit_block_users_text">Block Users</string>
+    <string name="label_edit_block_users_text">Blocked Users</string>
     <string name="label_send_feedback_toolbar_text">Send Feedback</string>
     <string name="label_change_password_toolbar_text">Change Password</string>
     <string name="label_change_phone_number_toolbar_text">Change Phone Number</string>
@@ -154,7 +155,7 @@
     <string name="label_account_settings_text">Account Settings</string>
     <string name="label_notifications_text">Notification</string>
     <string name="label_subscription_text">Subscription</string>
-    <string name="label_go_adv_free_text">Go Ad Free $0.99</string>
+    <string name="label_go_adv_free_text">Go Ad Free ($1.99)</string>
     <string name="label_subcription_text">$4.99</string>
     <string name="label_upgrade_your_profile_text">Upgrade Your Profile</string>
     <string name="label_all_subscription_text">Upgrade Your Profile</string>
@@ -195,7 +196,8 @@
     <string name="valid_mobile_number">"Enter valid mobile number"</string>
     <string name="empty_mobile_number">"Enter mobile number"</string>
     <string name="mobile_number_length">"Enter 10 digit mobile number"</string>
-    <string name="valid_email">Please enter valid email address for the email field.</string>
+    <string name="valid_email">Please enter email.</string>
+    <string name="enter_valid_email">Please enter valid email.</string>
     <string name="empty_email">Enter email</string>
     <string name="valid_password">Enter valid password</string>
     <string name="password_not_same">New and Confirm password should same</string>

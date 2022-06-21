@@ -96,8 +96,16 @@ class ForgotPasswordWithEmailActivity : BaseActivity<ForgotPasswordEmailViewMode
 
             }
             else -> {
-                tietEMail.error = getString(R.string.valid_email)
-                viewModel.messageString.postValue(Resource.error(getString(R.string.valid_email)))
+                //tietEMail.error = getString(R.string.valid_email)
+                if(tietEMail.text.toString().isNullOrEmpty())
+                {
+                    viewModel.messageString.postValue(Resource.error(getString(R.string.valid_email)))
+                }
+                else
+                {
+                    viewModel.messageString.postValue(Resource.error(getString(R.string.enter_valid_email)))
+                }
+
             }
         }
     }

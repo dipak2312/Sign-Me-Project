@@ -1,6 +1,7 @@
 package com.app.signme.view.settings.editprofile
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.app.signme.BuildConfig
@@ -37,6 +39,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.chip.Chip
+import com.google.android.material.slider.RangeSlider
 import com.hb.logger.msc.MSCGenerator
 import com.hb.logger.msc.core.GenConstants
 import com.karumi.dexter.Dexter
@@ -134,6 +137,18 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 setFireBaseAnalyticsData("id_btnback", "click_btnback", "click_btnback")
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
                 finish()
+
+            }
+
+            distanceSlider.addOnChangeListener{slider, value, fromUser->
+                var distance:Int=value.toInt()
+                textDistanceSlider.text=distance.toString()+getString(R.string.label_km)
+
+            }
+
+            ageRangeSlider.addOnChangeListener{slider, value, fromUser->
+                var distance:Int=value.toInt()
+                textDistanceSlider.text=distance.toString()+getString(R.string.label_km)
 
             }
 

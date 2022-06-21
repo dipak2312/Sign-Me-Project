@@ -49,6 +49,7 @@
     <dimen name="dimen_19dp">19dp</dimen>
     <dimen name="dimen_3dp">3dp</dimen>
     <dimen name="dimen_52dp">52dp</dimen>
+    <dimen name="dimen_54dp">54dp</dimen>
 
     // For Texts
     <dimen name="text_dimen_11sp">11sp</dimen>

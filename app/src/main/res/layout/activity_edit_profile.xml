@@ -272,19 +272,22 @@
                         android:text="@string/label_maximum_distance"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textDistanceSlider"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/MediumTextStyle"
                         android:textSize="@dimen/text_dimen_15sp"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/dimen_16dp"
                         android:layout_marginEnd="@dimen/dimen_16dp"
                         android:layout_marginTop="@dimen/dimen_12dp"
                         android:textColor="@color/signup_title_gray"
-                        android:text="@string/label_30km"/>
+                        android:text="@string/label_15_km"/>
 
                 </LinearLayout>
 
                 <com.google.android.material.slider.Slider
+                    android:id="@+id/distanceSlider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_18dp"
@@ -292,13 +295,14 @@
                     android:layout_marginTop="@dimen/dimen_5dp"
                     app:thumbStrokeColor="@color/screen_top_background"
                     app:tickColorActive="@color/app_color"
-                    app:tickColorInactive="@color/settingwhite"
+                    app:tickColorInactive="@android:color/transparent"
                     app:trackColorActive="@color/app_color"
                     app:trackColorInactive="@color/settingwhite"
                     app:thumbColor="@color/app_color"
-                    android:valueFrom="0.0"
-                    android:valueTo="30.0"
-                    android:stepSize="1.0">
+                    android:value="15"
+                    android:valueFrom="0"
+                    android:valueTo="30"
+                    android:stepSize="1">
 
                 </com.google.android.material.slider.Slider>
 
@@ -323,6 +327,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         style="@style/MediumTextStyle"
+                        android:layout_gravity="center_vertical"
                         android:textSize="@dimen/text_dimen_15sp"
                         android:layout_marginStart="@dimen/dimen_18dp"
                         android:layout_marginEnd="@dimen/dimen_18dp"
@@ -333,6 +338,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/ageRangeSlider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_16dp"
@@ -340,7 +346,7 @@
                     android:layout_marginTop="@dimen/dimen_5dp"
                     app:thumbStrokeColor="@color/screen_top_background"
                     app:tickColorActive="@color/app_color"
-                    app:tickColorInactive="@color/settingwhite"
+                    app:tickColorInactive="@android:color/transparent"
                     app:trackColorActive="@color/app_color"
                     app:trackColorInactive="@color/settingwhite"
                     app:values="@array/initial_slider_values"
@@ -358,6 +364,7 @@
                     android:text="@string/label_update_button"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
+
         </ScrollView>
 
 

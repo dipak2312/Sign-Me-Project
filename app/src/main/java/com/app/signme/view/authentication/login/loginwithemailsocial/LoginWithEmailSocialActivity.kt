@@ -428,7 +428,6 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
     override fun setupObservers() {
         super.setupObservers()
         viewModel.loginEmailMutableLiveData.observe(this, Observer { response ->
-            hideProgressDialog()
             when {
                 response.settings?.isSuccess == true -> {
                     MSCGenerator.addAction(
@@ -542,6 +541,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
         })
 
         viewModel.configParamsLiveData.observe(this, Observer { it ->
+            hideProgressDialog()
             if (it.settings?.isSuccess == true) {
                 if (!it.data.isNullOrEmpty()) {
                     AppineersApplication.sharedPreference.configDetails =
@@ -603,7 +603,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 Timber.d(response.settings?.message)
             }*/
         })
-        viewModel.statusCodeLiveData.observe(this, { serverError ->
+        viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             if (serverError.code == 403 && serverError.success == "2") {
                 if (social.socialId != null) {
@@ -619,7 +619,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 handleApiStatusCodeError(serverError)
 
             }
-        })
+        }
 
     }
 

@@ -76,7 +76,7 @@ android {
             versionName defaultConfig.versionName
            /*  manifestPlaceholders["hostName"] = "www.example.com" */
 
-            buildConfigField("String", "Base_Url", "\"http://18.211.58.235/Appineers_V4_Web/Appineers_V4/WS/\"")
+            buildConfigField("String", "Base_Url", "\"http://18.211.58.235/Sign_Me_Web/signme/WS/\"")
             //buildConfigField("String", "Base_Url","\"http://100.24.42.250/Appineers_V4_Web/Appineers_V4/WS/\"")
             buildConfigField("String", "facebook_app_id", "\"728211564501944\"")
 

@@ -56,7 +56,7 @@ class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel>() {
     }
 
     private fun addObservers() {
-        viewModel.validationObserver.observe(this@ChangePasswordActivity, {
+        viewModel.validationObserver.observe(this@ChangePasswordActivity) {
             binding.root.focusOnField(it.failedViewId)
             when (it.failType) {
                 OLD_PASSWORD_EMPTY -> {
@@ -79,9 +79,9 @@ class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel>() {
                     showMessage(getString(R.string.alert_password_old_new_match))
                 }
             }
-        })
+        }
 
-        viewModel.changePasswordLiveData.observe(this, {
+        viewModel.changePasswordLiveData.observe(this) {
             hideProgressDialog()
             if (it?.settings?.isSuccess == true) {
                 MSCGenerator.addAction(
@@ -106,7 +106,7 @@ class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel>() {
                 )
                 showMessage(it.settings!!.message)
             }*/
-        })
+        }
 
 
         viewModel.logoutLiveData.observe(this, {
