@@ -84,7 +84,7 @@
             tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name="com.app.signme.view.landing.LocationEnableActivity"
+            android:name="com.app.signme.view.enablePermission.PermissionEnableActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
@@ -94,6 +94,10 @@
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
 
+        <activity
+            android:name=".permission.PermissionsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.app.signme.view.authentication.resetpassword.ResetPasswordActivity"
             android:screenOrientation="portrait"

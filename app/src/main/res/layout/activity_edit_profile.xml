@@ -22,10 +22,10 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEditProfile"
+            style="@style/MediumTextStyle"
             android:layout_width="0dp"
             android:layout_height="?actionBarSize"
             android:layout_centerInParent="true"
-            style="@style/MediumTextStyle"
             android:gravity="center"
             android:text="@string/label_edit_profile_toolbar_text"
             android:textColor="@color/white"
@@ -59,21 +59,21 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/MediumTextStyle"
-                    android:textSize="@dimen/text_dimen_15sp"
                     android:layout_marginStart="@dimen/dimen_18dp"
-                    android:layout_marginEnd="@dimen/dimen_18dp"
                     android:layout_marginTop="@dimen/dimen_12dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:text="@string/label_gender"
                     android:textColor="@color/signup_title_gray"
-                    android:text="@string/label_gender"/>
+                    android:textSize="@dimen/text_dimen_15sp" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:scrollbars="none">
 
                     <com.google.android.material.chip.ChipGroup
@@ -86,30 +86,30 @@
                 </HorizontalScrollView>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/MediumTextStyle"
-                    android:textSize="@dimen/text_dimen_15sp"
                     android:layout_marginStart="@dimen/dimen_18dp"
-                    android:layout_marginEnd="@dimen/dimen_18dp"
                     android:layout_marginTop="@dimen/dimen_12dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:text="@string/label_bithday"
                     android:textColor="@color/signup_title_gray"
-                    android:text="@string/label_bithday"/>
+                    android:textSize="@dimen/text_dimen_15sp" />
 
                 <LinearLayout
+                    style="@style/SignupInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_50dp"
-                    android:orientation="horizontal"
-                    style="@style/SignupInputStyle">
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginStart="@dimen/_20sdp"
                         android:layout_marginEnd="@dimen/_10sdp"
-                        android:textColor="@color/hint_white"
-                        android:text="@string/label_date_of_birth">
+                        android:layout_weight="1"
+                        android:text="@string/label_date_of_birth"
+                        android:textColor="@color/hint_white">
 
                     </androidx.appcompat.widget.AppCompatTextView>
 
@@ -122,16 +122,17 @@
                     </androidx.appcompat.widget.AppCompatImageView>
 
                 </LinearLayout>
+
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/MediumTextStyle"
-                    android:textSize="@dimen/text_dimen_15sp"
                     android:layout_marginStart="@dimen/dimen_18dp"
-                    android:layout_marginEnd="@dimen/dimen_18dp"
                     android:layout_marginTop="@dimen/dimen_12dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:text="@string/label_profile_picture"
                     android:textColor="@color/signup_title_gray"
-                    android:text="@string/label_profile_picture"/>
+                    android:textSize="@dimen/text_dimen_15sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mRecyclerView"
@@ -143,25 +144,25 @@
                     tools:listitem="@layout/cv_list_item_feedback_image" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/MediumTextStyle"
-                    android:textSize="@dimen/text_dimen_15sp"
                     android:layout_marginStart="@dimen/dimen_18dp"
-                    android:layout_marginEnd="@dimen/dimen_18dp"
                     android:layout_marginTop="@dimen/dimen_12dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:text="@string/label_about_you"
                     android:textColor="@color/signup_title_gray"
-                    android:text="@string/label_about_you"/>
+                    android:textSize="@dimen/text_dimen_15sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputBrief"
                     style="@style/OutlinedBoxInputLayoutStyle"
                     android:hint="@string/hint_brief_explain_message"
-                    app:hintTextColor="@color/hint_white"
                     app:counterEnabled="true"
-                    app:counterTextColor="@color/white"
                     app:counterMaxLength="1000"
-                    app:hintAnimationEnabled="false">
+                    app:counterTextColor="@color/white"
+                    app:hintAnimationEnabled="false"
+                    app:hintTextColor="@color/hint_white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/textAboutYou"
@@ -173,10 +174,10 @@
                         android:maxLength="1000"
                         android:maxLines="5"
                         android:minLines="5"
-                        android:textSize="@dimen/text_dimen_14sp"
                         android:overScrollMode="always"
                         android:scrollbarStyle="insideInset"
-                        android:scrollbars="vertical"/>
+                        android:scrollbars="vertical"
+                        android:textSize="@dimen/text_dimen_14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -187,21 +188,21 @@
                     android:background="#0CFFFFFF" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/MediumTextStyle"
-                    android:textSize="@dimen/text_dimen_15sp"
                     android:layout_marginStart="@dimen/dimen_18dp"
-                    android:layout_marginEnd="@dimen/dimen_18dp"
                     android:layout_marginTop="@dimen/dimen_16dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:text="@string/label_looking_for"
                     android:textColor="@color/signup_title_gray"
-                    android:text="@string/label_looking_for"/>
+                    android:textSize="@dimen/text_dimen_15sp" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:scrollbars="none">
 
                     <com.google.android.material.chip.ChipGroup
@@ -217,8 +218,8 @@
                     android:id="@+id/lokingForRelation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:layout_marginStart="@dimen/dimen_18dp"
+                    android:layout_marginTop="@dimen/dimen_10dp"
                     android:layout_marginEnd="@dimen/dimen_18dp"
                     android:orientation="vertical">
 
@@ -231,28 +232,28 @@
                     android:background="#0CFFFFFF" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/MediumTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/MediumTextStyle"
-                    android:textSize="@dimen/text_dimen_15sp"
                     android:layout_marginStart="@dimen/dimen_18dp"
-                    android:layout_marginEnd="@dimen/dimen_18dp"
                     android:layout_marginTop="@dimen/dimen_12dp"
+                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:text="@string/label_city"
                     android:textColor="@color/signup_title_gray"
-                    android:text="@string/label_city"/>
+                    android:textSize="@dimen/text_dimen_15sp" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tietFirstName"
                     style="@style/SignupInputStyle"
-                    android:drawableStart="@drawable/ic_location_gray"
-                    android:padding="@dimen/dimen_15dp"
-                    android:text="Atlanta, Georgia"
                     android:clickable="false"
-                    android:focusable="false"
+                    android:drawableStart="@drawable/ic_location_gray"
                     android:drawablePadding="@dimen/dimen_15dp"
+                    android:focusable="false"
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences"
-                    android:maxLength="80" />
+                    android:maxLength="80"
+                    android:padding="@dimen/dimen_15dp"
+                    android:text="Atlanta, Georgia" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -260,29 +261,29 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/MediumTextStyle"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_dimen_15sp"
                         android:layout_marginStart="@dimen/dimen_18dp"
-                        android:layout_marginEnd="@dimen/dimen_18dp"
                         android:layout_marginTop="@dimen/dimen_20dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:layout_weight="1"
+                        android:text="@string/label_maximum_distance"
                         android:textColor="@color/signup_title_gray"
-                        android:text="@string/label_maximum_distance"/>
+                        android:textSize="@dimen/text_dimen_15sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textDistanceSlider"
+                        style="@style/MediumTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/MediumTextStyle"
-                        android:textSize="@dimen/text_dimen_15sp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/dimen_16dp"
-                        android:layout_marginEnd="@dimen/dimen_16dp"
                         android:layout_marginTop="@dimen/dimen_12dp"
+                        android:layout_marginEnd="@dimen/dimen_16dp"
+                        android:text="@string/label_km_count"
                         android:textColor="@color/signup_title_gray"
-                        android:text="@string/label_15_km"/>
+                        android:textSize="@dimen/text_dimen_15sp" />
 
                 </LinearLayout>
 
@@ -290,19 +291,19 @@
                     android:id="@+id/distanceSlider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_18dp"
-                    android:layout_marginEnd="@dimen/dimen_18dp"
+                    android:layout_marginStart="@dimen/dimen_12dp"
                     android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_marginEnd="@dimen/dimen_12dp"
+                    android:stepSize="1"
+                    android:value="10"
+                    android:valueFrom="0"
+                    android:valueTo="30"
+                    app:thumbColor="@color/app_color"
                     app:thumbStrokeColor="@color/screen_top_background"
                     app:tickColorActive="@color/app_color"
                     app:tickColorInactive="@android:color/transparent"
                     app:trackColorActive="@color/app_color"
-                    app:trackColorInactive="@color/settingwhite"
-                    app:thumbColor="@color/app_color"
-                    android:value="15"
-                    android:valueFrom="0"
-                    android:valueTo="30"
-                    android:stepSize="1">
+                    app:trackColorInactive="@color/settingwhite">
 
                 </com.google.android.material.slider.Slider>
 
@@ -312,57 +313,81 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        style="@style/MediumTextStyle"
-                        android:layout_weight="1"
-                        android:textSize="@dimen/text_dimen_15sp"
                         android:layout_marginStart="@dimen/dimen_18dp"
-                        android:layout_marginEnd="@dimen/dimen_18dp"
                         android:layout_marginTop="@dimen/dimen_12dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:layout_weight="1"
+                        android:text="@string/label_age_range"
                         android:textColor="@color/signup_title_gray"
-                        android:text="@string/label_age_range"/>
+                        android:textSize="@dimen/text_dimen_15sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textAgeStart"
+                        style="@style/MediumTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/MediumTextStyle"
                         android:layout_gravity="center_vertical"
-                        android:textSize="@dimen/text_dimen_15sp"
-                        android:layout_marginStart="@dimen/dimen_18dp"
-                        android:layout_marginEnd="@dimen/dimen_18dp"
                         android:layout_marginTop="@dimen/dimen_12dp"
+                        android:text="@string/label_range_slider_start"
                         android:textColor="@color/signup_title_gray"
-                        android:text="18 - 90"/>
+                        android:textSize="@dimen/text_dimen_15sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dimen_5dp"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:layout_marginEnd="@dimen/dimen_5dp"
+                        android:text="-"
+                        android:textColor="@color/signup_title_gray"
+                        android:textSize="@dimen/text_dimen_15sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textAgeEnd"
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:text="@string/label_range_slider_end"
+                        android:textColor="@color/signup_title_gray"
+                        android:textSize="@dimen/text_dimen_15sp" />
 
                 </LinearLayout>
+
 
                 <com.google.android.material.slider.RangeSlider
                     android:id="@+id/ageRangeSlider"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dimen_16dp"
-                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:layout_marginStart="@dimen/dimen_12dp"
                     android:layout_marginTop="@dimen/dimen_5dp"
+                    android:layout_marginEnd="@dimen/dimen_12dp"
+                    android:stepSize="1.0"
+                    android:valueFrom="18.0"
+                    android:valueTo="90.0"
+                    app:thumbColor="@color/app_color"
                     app:thumbStrokeColor="@color/screen_top_background"
                     app:tickColorActive="@color/app_color"
                     app:tickColorInactive="@android:color/transparent"
                     app:trackColorActive="@color/app_color"
                     app:trackColorInactive="@color/settingwhite"
-                    app:values="@array/initial_slider_values"
-                    app:thumbColor="@color/app_color"
-                    android:valueFrom="18.0"
-                    android:valueTo="90.0"
-                    android:stepSize="1.0">
+                    app:values="@array/initial_slider_values">
 
                 </com.google.android.material.slider.RangeSlider>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUpdate"
                     style="@style/ButtonStyle"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dimen_40dp"
-                    android:text="@string/label_update_button"
-                    android:layout_gravity="center_horizontal" />
+                    android:text="@string/label_update_button" />
             </LinearLayout>
 
         </ScrollView>

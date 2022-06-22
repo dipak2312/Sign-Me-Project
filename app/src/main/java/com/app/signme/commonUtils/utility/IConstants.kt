@@ -20,11 +20,15 @@ interface IConstants {
         const val APP_UPDATE_REQUEST_CODE : Int = 5
         const val APP_FORCE_UPDATE_REQUEST_CODE : Int = 6
         const val NOTIFICATION_PERMISSION_REQUEST_CODE : Int = 7
+        const val REQUEST_CODE_LOCATION = 108
         const val MEDIA_TYPE_IMAGE = 1
         private val storageDir = Environment.getExternalStorageDirectory().toString() + "/TheAppineers/"
         val IMAGES_FOLDER_PATH = "$storageDir/Images"
         const val IMAGE_DIRECTORY_NAME = ".theappineers"
         const val FOLDER_NAME = "TheAppineers"
+        const val STATUS="status"
+        const val EDIT="edit"
+        const val ADD="add"
         const val SP_NOTIFICATION_CHANNEL_DEFAULT = "sp_notification_channel_default"
         const val PARAM_NOTIFICATION_TYPE = "type"
 

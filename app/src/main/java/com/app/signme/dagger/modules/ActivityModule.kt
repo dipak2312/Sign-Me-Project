@@ -15,7 +15,6 @@ import com.app.signme.viewModel.ForgotPasswordPhoneViewModel
 import com.app.signme.repository.ResetPasswordRepository
 import com.app.signme.repository.ChangePasswordRepository
 import com.app.signme.repository.inappbilling.BillingRepository
-import com.app.signme.view.landing.LocationEnableActivity
 import com.app.signme.viewModel.NotificationViewModel
 import com.app.signme.viewModel.ResetPasswordViewModel
 import dagger.Module

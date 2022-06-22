@@ -1,7 +1,11 @@
 package com.app.signme.view
 
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.core.BaseActivity
@@ -30,6 +35,8 @@ import androidx.lifecycle.Observer
 import com.app.signme.BuildConfig
 import com.app.signme.commonUtils.utility.extension.showSnackBar
 import com.app.signme.R
+import com.app.signme.view.enablePermission.PermissionEnableActivity
+import com.app.signme.view.settings.editprofile.EditProfileActivity
 import com.app.signme.view.settings.staticpages.StaticPagesMultipleActivity
 
 
@@ -253,6 +260,17 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
     }
 
+    fun locationEnableOrNot():Boolean
+    {
+        val hasPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        return hasPermission && gpsStatus
+
+    }
     /**
      * Choose activity to open
      *
@@ -262,9 +280,15 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
         return if (sharedPreference.isLogin) {
             // Return Home activity
-
-            Logger.setUserInfo(sharedPreference.userDetail?.email ?: "")
-            HomeActivity::class.java
+            val locationStatus=locationEnableOrNot()
+            if(locationStatus)
+            {
+                Logger.setUserInfo(sharedPreference.userDetail?.email ?: "")
+                HomeActivity::class.java
+            }
+            else{
+                PermissionEnableActivity::class.java
+            }
 
         } else {
 
@@ -379,12 +403,26 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
             finish()
         } else {
-            Handler().postDelayed({
-                startActivity(Intent(this@SplashActivity, getLaunchClass()))
-                finish()
-            }, 1000)
+            val locationStatus=locationEnableOrNot()
+            if(locationStatus && sharedPreference.isLogin)
+            {
+                if(sharedPreference.configDetails!!.isUpdated.equals("0"))
+                {
+                 startActivity(EditProfileActivity.getStartIntent(this@SplashActivity,IConstants.ADD))
+                    finish()
+                }
+                else
+                {
+                    navigateToHomeScreen()
+                }
+            }
+            else{
+                Handler().postDelayed({
+                    startActivity(Intent(this@SplashActivity, getLaunchClass()))
+                    finish()
+                }, 1000)
+            }
         }
-
     }
 
     /**

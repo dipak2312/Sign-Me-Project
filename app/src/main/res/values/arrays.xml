@@ -2,6 +2,6 @@
 <resources>
     <array name="initial_slider_values">
         <item>18.0</item>
-        <item>90.0</item>
+        <item>45.0</item>
     </array>
 </resources>

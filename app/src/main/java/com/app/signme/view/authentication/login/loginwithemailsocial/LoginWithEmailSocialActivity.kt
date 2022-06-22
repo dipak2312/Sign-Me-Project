@@ -1,16 +1,20 @@
 package com.app.signme.view.authentication.login.loginwithemailsocial
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.app.signme.BuildConfig
@@ -38,7 +42,9 @@ import com.app.signme.view.authentication.signup.SignUpWithEmailSocialActivity
 import com.app.signme.view.authentication.social.AppleLoginManager
 import com.app.signme.view.authentication.social.FacebookLoginManager
 import com.app.signme.view.authentication.social.GoogleLoginManager
+import com.app.signme.view.enablePermission.PermissionEnableActivity
 import com.app.signme.view.home.HomeActivity
+import com.app.signme.view.settings.editprofile.EditProfileActivity
 import com.app.signme.view.settings.staticpages.StaticPagesMultipleActivity
 import com.app.signme.viewModel.LoginWithEmailSocialViewModel
 import com.bumptech.glide.Glide
@@ -425,6 +431,18 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
         }
     }
 
+    fun locationEnableOrNot():Boolean
+    {
+        val hasPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        return hasPermission && gpsStatus
+
+    }
+
     override fun setupObservers() {
         super.setupObservers()
         viewModel.loginEmailMutableLiveData.observe(this, Observer { response ->
@@ -437,52 +455,12 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                     )
                     viewModel.saveUserDetails(response.data!![0])
                     viewModel.callGetConfigParameters()
-//                    if (AppineersApplication.sharedPreference.isAddress.equals(
-//                            ""
-//                        )
-//                    ) {
-//                        navigateToAddressScreen()
-//                    } else {
-//
-//                    }
-                    /*else {
-                        navigateToHomeScreen()
-                    }*/
-
                 }
-                /* response.settings?.success.equals("3") -> {
-                     MSCGenerator.addAction(
-                         GenConstants.ENTITY_APP,
-                         GenConstants.ENTITY_USER,
-                         "resend email"
-                     )
-                     showResendEmailDialog(response.settings?.message ?: "")
-                 }
-                 else -> {
-                     if (response.equals("") || response == null) {
-                         showMessage(
-                             getString(R.string.str_login_message),
-                             IConstants.SNAKBAR_TYPE_ERROR
-                         )
-                         finish()
-                     } else {
-                         MSCGenerator.addAction(
-                             GenConstants.ENTITY_APP,
-                             GenConstants.ENTITY_USER,
-                             "logged in failed"
-                         )
-                         showMessage(response.settings!!.message)
-                         Timber.d(response.settings?.message)
-                     }
-
-                 }*/
             }
-
-
         })
 
         viewModel.loginSocialMutableLiveData.observe(this, Observer { response ->
-            hideProgressDialog()
+            //hideProgressDialog()
             if (response.settings?.isSuccess == true) {
                 MSCGenerator.addAction(
                     GenConstants.ENTITY_APP,
@@ -495,48 +473,8 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 )
                 viewModel.saveUserDetails(response.data!![0])
                 callEmailSocialSignUp(social)
-                viewModel.callGetConfigParameters()
-//                if (AppineersApplication.sharedPreference.isAddress.equals(
-//                        ""
-//                    )
-//                ) {
-//                    navigateToAddressScreen()
-//                } else {
-//
-//                }
-
 
             }
-            /* "2" -> {
-                 MSCGenerator.addAction(
-                     GenConstants.ENTITY_APP,
-                     GenConstants.ENTITY_USER,
-                     "social login success"
-                 )
-
-                 callEmailSocialSignUp(social)
-
-             }
-             else -> {
-                 if (response.equals("") || response == null) {
-                     showMessage(
-                         getString(R.string.str_login_message),
-                         IConstants.SNAKBAR_TYPE_ERROR
-                     )
-                     finish()
-                 } else {
-                     MSCGenerator.addAction(
-                         GenConstants.ENTITY_APP,
-                         GenConstants.ENTITY_USER,
-                         "social login failed"
-                     )
-
-                     showMessage(response.settings!!.message)
-                     Timber.d(response.settings?.message)
-                 }
-
-             }*/
-
 
         })
 
@@ -552,7 +490,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
         })
 
         viewModel.signUpLiveDataSocial.observe(this, Observer { response ->
-            hideProgressDialog()
+            //hideProgressDialog()
             if (response.settings?.isSuccess == true) {
                 MSCGenerator.addAction(
                     GenConstants.ENTITY_APP,
@@ -564,23 +502,16 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                     finish()
                 } else {
                     viewModel.saveUserDetails(response.data!![0])
-                    startActivity(
-                        HomeActivity.getStartIntent(
-                            mContext = this@LoginWithEmailSocialActivity,
-                            social = social
-                        )
-                    )
-                    finish()
+                    viewModel.callGetConfigParameters()
+//                    startActivity(
+//                        HomeActivity.getStartIntent(
+//                            mContext = this@LoginWithEmailSocialActivity,
+//                            social = social
+//                        )
+//                    )
+//                    finish()
                 }
-            } /*else {
-                MSCGenerator.addAction(
-                    GenConstants.ENTITY_APP,
-                    GenConstants.ENTITY_USER,
-                    "OTP validation failed"
-                )
-                showMessage(response.settings!!.message, IConstants.SNAKBAR_TYPE_ERROR)
-                Timber.d(response.settings?.message)
-            }*/
+            }
         })
 
 
@@ -593,16 +524,9 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                     "resend email success"
                 )
                 showMessage(response.settings!!.message, IConstants.SNAKBAR_TYPE_SUCCESS)
-            } /*else {
-                MSCGenerator.addAction(
-                    GenConstants.ENTITY_APP,
-                    GenConstants.ENTITY_USER,
-                    "resend email failed"
-                )
-                showMessage(response.settings!!.message)
-                Timber.d(response.settings?.message)
-            }*/
+            }
         })
+
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             if (serverError.code == 403 && serverError.success == "2") {
@@ -617,10 +541,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 showResendEmailDialog(serverError.message)
             } else {
                 handleApiStatusCodeError(serverError)
-
-            }
-        }
-
+            } }
     }
 
     /**
@@ -756,13 +677,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 ""
             )
         ) {
-            startActivity(
-                Intent(
-                    this@LoginWithEmailSocialActivity,
-                    HomeActivity::class.java
-                )
-            )
-            finish()
+           openActivityPage()
         } else if (!configDetails.termsConditionsVersion.equals(configDetails.termsConditionsVersionApplication)
             && !configDetails.privacyPolicyVersion.equals(configDetails.privacyPolicyVersionApplication)
             && configDetails.shouldShowVersionDialog(
@@ -777,32 +692,50 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
         } else if (!configDetails.termsConditionsVersion.equals(configDetails.termsConditionsVersionApplication)
             && !configDetails.privacyPolicyVersion.equals(configDetails.privacyPolicyVersionApplication)
         ) {
-            Log.i(
-                SplashActivity.TAG,
-                "checkUpdateAndTC: " + configDetails.termsConditionsVersion
-            )
+
             callAgreePrivacyPolicyTermsConditions(configDetails)
 
         } else if (!configDetails.termsConditionsVersion.equals(configDetails.termsConditionsVersionApplication)
             || !configDetails.privacyPolicyVersion.equals(configDetails.privacyPolicyVersionApplication)
         ) {
             callAgreePrivacyPolicyTermsConditions(configDetails)
-            Log.i(
-                SplashActivity.TAG,
-                "checkUpdateAndTC: " + configDetails.termsConditionsVersion
-            )
+
 
         } else if (configDetails.shouldShowVersionDialog(this@LoginWithEmailSocialActivity)) {
             showNewVersionAvailableDialog(configDetails)
         } else {
+
+            openActivityPage()
+        }
+    }
+
+
+    fun  openActivityPage()
+    {
+        val locationStatus=locationEnableOrNot()
+        if(locationStatus)
+        {
+            if(AppineersApplication.sharedPreference.configDetails!!.isUpdated.equals("0"))
+            {
+                startActivity(EditProfileActivity.getStartIntent(this@LoginWithEmailSocialActivity,IConstants.ADD))
+                finish()
+            }
+            else
+            {
+                navigateToHomeScreen()
+            }
+        }
+        else
+        {
             startActivity(
                 Intent(
                     this@LoginWithEmailSocialActivity,
-                    HomeActivity::class.java
+                    PermissionEnableActivity::class.java
                 )
             )
             finish()
         }
+
     }
 
     /**

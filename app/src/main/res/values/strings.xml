@@ -98,7 +98,9 @@
     <string name="label_maximum_distance">Maximum Distance</string>
     <string name="label_km">km.</string>
     <string name="label_age_range">Age Range</string>
-    <string name="label_15_km">15km.</string>
+    <string name="label_km_count">10km.</string>
+    <string name="label_range_slider_start">18</string>
+    <string name="label_range_slider_end">45</string>
     <string name="label_back_button">Back</string>
     <string name="label_welcome">Welcome</string>
     <string name="label_sign_in_continue">Sign In To Continue</string>
@@ -123,6 +125,7 @@
     <string name="label_add_address_info">Additional Information</string>
     <string name="label_static_page_toolbar_text">Title</string>
     <string name="label_edit_profile_toolbar_text">Edit Profile</string>
+    <string name="label_complete_profile_toolbar_text">Complete Your Profile</string>
     <string name="label_edit_block_users_text">Blocked Users</string>
     <string name="label_send_feedback_toolbar_text">Send Feedback</string>
     <string name="label_change_password_toolbar_text">Change Password</string>
@@ -135,6 +138,8 @@
     <string name="label_profile_fragment_message_text">My Profile</string>
     <string name="label_trips">Trips</string>
     <string name="label_activity_text">Activity</string>
+    <string name="label_save_profile">Save Profile</string>
+    <string name="label_get_started_profile">Get Started</string>
     <string name="label_create_new_account_text">Create a new account?</string>
     <string name="label_phone_sign_up_text"><font color='#29499e'><u>Sign up with mobile number.</u></font></string>
     <string name="label_email_social_sign_up_text"><font color='#29499e'><u>Sign up with email or social.</u></font></string>
@@ -182,6 +187,8 @@
     <string name="label_friends">Friends:</string>
     <string name="label_quickmeet">Quick-Meet:</string>
     <string name="label_relationship">Relationship:</string>
+    <string name="label_edit">edit</string>
+    <string name="label_add">add</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
 </string>
 
@@ -191,6 +198,7 @@
     <string name="chat">Chat</string>
     <string name="activity">Activity</string>
     <string name="profile">Profile</string>
+
 
     //User Input errors
     <string name="valid_mobile_number">"Enter valid mobile number"</string>
@@ -224,6 +232,7 @@
     <string name="alert_enter_otp">Please enter OTP</string>
     <string name="alert_invalid_otp">Entered OTP is invalid</string>
     <string name="msg_no_user_data">User data not available</string>
+    <string name="alert_we_need_location_permission_allow_from_settings">We need location permission to continue, please allow it from settings.</string>
     <string name="resend">Resend</string>
     <string name="msg_resend_email">Do you want to resend verification email ?</string>
 

@@ -46,6 +46,7 @@ import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import kotlinx.android.synthetic.main.snackbar.view.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
@@ -63,13 +64,14 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     var userId: String? = null
     var deletedImageId: String? = ""
     var mediaFile = java.util.ArrayList<String>()
+    var status:String?=""
 
     companion object {
         const val TAG = "EditProfileActivity"
 
-        fun getStartIntent(mContext: Context): Intent {
+        fun getStartIntent(mContext: Context,status: String): Intent {
             return Intent(mContext, EditProfileActivity::class.java).apply {
-
+                putExtra(IConstants.STATUS, status)
             }
         }
     }
@@ -79,6 +81,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile)
         binding?.viewModel = viewModel
         binding?.lifecycleOwner = this
+        status=intent?.getStringExtra(IConstants.STATUS)
     }
 
     override fun injectDependencies(activityComponent: ActivityComponent) {
@@ -93,7 +96,15 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         )
         binding?.user = sharedPreference.userDetail
         (application as AppineersApplication).isRemoved = sharedPreference.userDetail?.profileImage.equals("")
-
+        if(status.equals(getString(R.string.label_edit)))
+        {
+            binding!!.tvEditProfile.text=getString(R.string.label_edit_profile_toolbar_text)
+            binding!!.btnUpdate.text=getString(R.string.label_save_profile)
+        }else
+        {
+            binding!!.tvEditProfile.text=getString(R.string.label_complete_profile_toolbar_text)
+            binding!!.btnUpdate.text=getString(R.string.label_get_started_profile)
+        }
         val genders = arrayOf("Man", "Woman", "Transgender","Non-binary/non-confirming","Prefer not to respond")
         AddGender(genders)
         val lookingfor = arrayOf("Friendship", "Quick-Meet", "Relationship")
@@ -146,23 +157,33 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
             }
 
-            ageRangeSlider.addOnChangeListener{slider, value, fromUser->
-                var distance:Int=value.toInt()
-                textDistanceSlider.text=distance.toString()+getString(R.string.label_km)
+
+
+          ageRangeSlider.addOnChangeListener{slider, value, fromUser->
+                var ageStart:Int=slider.values[0].toInt()
+                var ageEnd:Int=slider.values[1].toInt()
+                textAgeStart.text=ageStart.toString()
+                textAgeEnd.text=ageEnd.toString()
 
             }
 
 
-//            btnUpdate.setOnClickListener {
-//                setFireBaseAnalyticsData("id-saveprofile", "click_saveprofile", "click_saveprofile")
-//                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Validate and Submit Click")
-//                MSCGenerator.addAction(
-//                    GenConstants.ENTITY_USER,
-//                    GenConstants.ENTITY_APP,
-//                    "Validate and Submit Profile"
-//                )
-//                performEditProfile()
-//            }
+            btnUpdate.setOnClickListener {
+                setFireBaseAnalyticsData("id-saveprofile", "click_saveprofile", "click_saveprofile")
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Validate and Submit Click")
+                MSCGenerator.addAction(
+                    GenConstants.ENTITY_USER,
+                    GenConstants.ENTITY_APP,
+                    "Validate and Submit Profile"
+                )
+                if(status.equals(getString(R.string.label_edit)))
+                {
+                   finish()
+                }else
+                {
+                   navigateToHomeScreen()
+                }
+            }
 
 //            btnAdd.setOnClickListener {
 //                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Add Image Button Click")

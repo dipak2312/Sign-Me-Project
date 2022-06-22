@@ -78,7 +78,9 @@ data class VersionConfigResponse(
     val subscription: ArrayList<PurchasedSubscription>? = null,
 
     @JsonProperty("mandatory_array")
-    val mandatoryArray: ArrayList<MandatoryFlags>? = null
+    val mandatoryArray: ArrayList<MandatoryFlags>? = null,
+    @JsonProperty("is_updated")
+    val isUpdated: String? = null
 
 
 ) {

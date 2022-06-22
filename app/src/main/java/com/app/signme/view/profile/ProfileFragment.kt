@@ -102,7 +102,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         binding.apply {
             btnEditProfile.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
-                startActivity(EditProfileActivity.getStartIntent(this@ProfileFragment.requireContext()))
+                startActivity(EditProfileActivity.getStartIntent(this@ProfileFragment.requireContext(),IConstants.EDIT))
             }
             btnsetting.setOnClickListener{
                 startActivity(SettingsActivity.getStartIntent(this@ProfileFragment.requireContext()))

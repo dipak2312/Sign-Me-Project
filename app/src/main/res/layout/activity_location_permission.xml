@@ -70,7 +70,7 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/mbtnAllowLocation"
+            android:id="@+id/btnAllow"
             style="@style/ButtonStyle"
             android:layout_marginTop="@dimen/_50sdp"
             android:layout_gravity="center_horizontal"
