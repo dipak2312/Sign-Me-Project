@@ -5,18 +5,18 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
-import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityLocationPermissionBinding
@@ -26,6 +26,7 @@ import com.app.signme.view.settings.editprofile.EditProfileActivity
 import com.app.signme.viewModel.LandingViewMode
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import java.util.*
 
 
 class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
@@ -46,6 +47,8 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
     var lastKnownLocation: Location? = null
     private lateinit var locationCallback: LocationCallback
     var locationPermissionGranted: Boolean? = null
+    var latitude:String?=""
+    var longitude:String?=""
 
     override fun setDataBindingLayout() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_location_permission)
@@ -127,6 +130,14 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
                             hideProgressDialog()
                             lastKnownLocation = locationResult.locations[0]
                             mFusedLocationProviderClient?.removeLocationUpdates(this)
+
+                            latitude= lastKnownLocation?.latitude!!.toString()
+                            longitude=lastKnownLocation?.longitude!!.toString()
+
+                            sharedPreference.latitude=latitude
+                            sharedPreference.longitude=longitude
+
+
                             if(AppineersApplication.sharedPreference.configDetails!!.isUpdated.equals("0"))
                             {
                                 startActivity(EditProfileActivity.getStartIntent(this@PermissionEnableActivity,IConstants.ADD))

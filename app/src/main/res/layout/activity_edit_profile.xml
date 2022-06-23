@@ -97,12 +97,14 @@
                     android:textSize="@dimen/text_dimen_15sp" />
 
                 <LinearLayout
+                    android:id="@+id/btnAgeRange"
                     style="@style/SignupInputStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_50dp"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textDOB"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_20sdp"
@@ -138,10 +140,13 @@
                     android:id="@+id/mRecyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dimen_8dp"
+                    android:layout_marginStart="@dimen/dimen_8dp"
+                    android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="3"
                     tools:itemCount="6"
-                    tools:listitem="@layout/cv_list_item_feedback_image" />
+                    tools:listitem="@layout/item_user_profile" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/MediumTextStyle"
@@ -155,7 +160,6 @@
                     android:textSize="@dimen/text_dimen_15sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputBrief"
                     style="@style/OutlinedBoxInputLayoutStyle"
                     android:hint="@string/hint_brief_explain_message"
                     app:counterEnabled="true"
@@ -165,7 +169,7 @@
                     app:hintTextColor="@color/hint_white">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textAboutYou"
+                        android:id="@+id/editAboutYou"
                         style="@style/InputOtherStyle"
                         android:layout_height="wrap_content"
                         android:gravity="top"
@@ -243,7 +247,7 @@
                     android:textSize="@dimen/text_dimen_15sp" />
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietFirstName"
+                    android:id="@+id/textCityState"
                     style="@style/SignupInputStyle"
                     android:clickable="false"
                     android:drawableStart="@drawable/ic_location_gray"
@@ -253,7 +257,7 @@
                     android:inputType="textCapSentences"
                     android:maxLength="80"
                     android:padding="@dimen/dimen_15dp"
-                    android:text="Atlanta, Georgia" />
+                    tools:text="Atlanta, Georgia" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

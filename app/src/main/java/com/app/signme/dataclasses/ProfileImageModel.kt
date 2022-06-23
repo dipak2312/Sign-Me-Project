@@ -9,7 +9,7 @@ import android.net.Uri
  * @constructor
  */
 class ProfileImageModel (var contentUri: Uri? = null,
-                         var imagePath: String = ""){
+                         var imagePath: String? = ""){
 
     /**
      * This will show add image button in list item for add image

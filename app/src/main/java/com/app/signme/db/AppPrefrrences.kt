@@ -135,6 +135,22 @@ class AppPrefrrences(context: Context) {
         get() = pref.getString("loginType", "")
         set(value) = pref.edit().putString("loginType", value).apply()
 
+
+    /**
+     * set and get current location latitude
+     */
+    var latitude: String?
+        get() = pref.getString("latitude", "")
+        set(value) = pref.edit().putString("latitude", value).apply()
+
+    /**
+     * set and get current location latitude
+     */
+    var longitude: String?
+        get() = pref.getString("longitude", "")
+        set(value) = pref.edit().putString("longitude", value).apply()
+
+
     /**
      * Boolean value for app rating status
      */
@@ -145,6 +161,8 @@ class AppPrefrrences(context: Context) {
     /**
      * timestamp value of first app launch
      */
+
+
     var ratingInitTime: Long
         get() = pref.getLong("ratingInitTime", 0)
         set(value) = pref.edit().putLong("ratingInitTime", value).apply()

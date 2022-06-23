@@ -3,9 +3,13 @@ package com.app.signme.view.settings.editprofile
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +21,7 @@ import androidx.databinding.DataBindingUtil
 import com.app.signme.BuildConfig
 import com.app.signme.utility.validation.*
 import com.app.signme.R
+import com.app.signme.adapter.AddUserProfileAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.application.AppineersApplication.Companion.sharedPreference
 import com.app.signme.commonUtils.common.CommonUtils
@@ -27,6 +32,7 @@ import com.app.signme.commonUtils.utility.extension.*
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityEditProfileBinding
+import com.app.signme.dataclasses.ProfileImageModel
 import com.app.signme.db.entity.MediaFileEntity
 import com.app.signme.db.repo.MediaFileRepository
 import com.app.signme.viewModel.UserProfileViewModel
@@ -50,10 +56,12 @@ import kotlinx.android.synthetic.main.snackbar.view.*
 import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
+import javax.xml.datatype.DatatypeConstants.MONTHS
 
 
 class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewActionListener {
 
+    var mAdapter: AddUserProfileAdapter? = null
     private var captureUri: Uri? = null
     private var imagePath: String = ""
     private var selectedPlace: Place? = null
@@ -65,18 +73,23 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     var deletedImageId: String? = ""
     var mediaFile = java.util.ArrayList<String>()
     var status:String?=""
+    var city:String?=""
+    var state:String?=""
+    var selectGender:String?=""
+    var DOB:String?=""
+    var lookingForGender:String?=""
+    var relationship:String?=""
+    var genderChip:Chip?=null
+    var userProfile = ArrayList<ProfileImageModel>()
 
     companion object {
         const val TAG = "EditProfileActivity"
-
         fun getStartIntent(mContext: Context,status: String): Intent {
             return Intent(mContext, EditProfileActivity::class.java).apply {
                 putExtra(IConstants.STATUS, status)
             }
         }
     }
-
-
     override fun setDataBindingLayout() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile)
         binding?.viewModel = viewModel
@@ -112,7 +125,40 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         AddLokingFor(genders)
         initListener()
         addObservers()
+        getCityAndState()
+        userProfile.add(ProfileImageModel(null,null))
+        userProfile.add(ProfileImageModel(null,null))
+        userProfile.add(ProfileImageModel(null,null))
+        userProfile.add(ProfileImageModel(null,null))
+        userProfile.add(ProfileImageModel(null,null))
+        userProfile.add(ProfileImageModel(null,null))
 
+        mAdapter = AddUserProfileAdapter(this, this)
+        binding!!.mRecyclerView.adapter = mAdapter
+
+        mAdapter!!.addAllItem(userProfile)
+
+    }
+
+    fun getCityAndState()
+    {
+        val geocoder = Geocoder(this@EditProfileActivity, Locale.getDefault())
+
+        if(!sharedPreference.latitude.isNullOrEmpty() && !sharedPreference.longitude.isNullOrEmpty())
+        {
+            val addresses: List<Address>
+            addresses = geocoder.getFromLocation(sharedPreference.latitude!!.toDouble(), sharedPreference.longitude!!.toDouble(), 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+            com.app.signme.commonUtils.utility.extension.sharedPreference.appLoginType
+            if (addresses != null && addresses.isNotEmpty()) {
+                city = addresses[0].locality
+                state = addresses[0].adminArea
+                //val country = addresses[0].countryName
+                val cityState=city+","+" "+state
+                binding!!.textCityState.setText(cityState)
+            }
+        }
     }
 
     fun addLookingFor(lookingFor: Array<String>)
@@ -120,6 +166,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         for (lookingfor in lookingFor) {
             val checkbox = MaterialCheckBox(this@EditProfileActivity)
             checkbox.text = lookingfor
+
             binding?.lokingForRelation?.addView(checkbox)
         }
     }
@@ -127,9 +174,15 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     fun AddGender(genders: Array<String>)
     {
         for (gender in genders) {
-            val chip = Chip(this@EditProfileActivity)
-            chip.text = gender
-            binding?.genderChipGroup?.addView(chip)
+             genderChip = Chip(this@EditProfileActivity)
+            genderChip!!.text = gender
+            genderChip!!.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked)
+                {
+                    selectGender=genderChip!!.text.toString()
+                }
+            }
+            binding?.genderChipGroup?.addView(genderChip)
         }
     }
     fun AddLokingFor(lookingFor: Array<String>)
@@ -137,6 +190,12 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         for (gender in lookingFor) {
             val chip = Chip(this@EditProfileActivity)
             chip.text = gender
+            chip!!.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked)
+                {
+                    lookingForGender=chip!!.text.toString()
+                }
+            }
             binding?.genderLookingForChipGroup?.addView(chip)
         }
     }
@@ -151,15 +210,14 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
             }
 
+
             distanceSlider.addOnChangeListener{slider, value, fromUser->
                 var distance:Int=value.toInt()
                 textDistanceSlider.text=distance.toString()+getString(R.string.label_km)
 
             }
 
-
-
-          ageRangeSlider.addOnChangeListener{slider, value, fromUser->
+            ageRangeSlider.addOnChangeListener{slider, value, fromUser->
                 var ageStart:Int=slider.values[0].toInt()
                 var ageEnd:Int=slider.values[1].toInt()
                 textAgeStart.text=ageStart.toString()
@@ -181,8 +239,32 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                    finish()
                 }else
                 {
-                   navigateToHomeScreen()
+                   performEditProfile()
+                   // navigateToHomeScreen()
                 }
+            }
+
+            btnAgeRange.setOnClickListener{
+                val c = Calendar.getInstance()
+                val year = c.get(Calendar.YEAR)
+                val month = c.get(Calendar.MONTH)
+                val day = c.get(Calendar.DAY_OF_MONTH)
+
+
+                var dpd = DatePickerDialog(this@EditProfileActivity, DatePickerDialog.OnDateSetListener { view, year1, monthOfYear, dayOfMonth ->
+
+                    // Display Selected date in textbox
+                    var selectMonth=monthOfYear.toInt()+1
+                    textDOB.setTextColor(Color.parseColor("#ffffff"))
+                    DOB=year1.toString()+"-"+selectMonth.toString()+"-"+dayOfMonth.toString()
+                    textDOB.setText(DOB)
+
+                }, year, month, day)
+
+                dpd.datePicker.spinnersShown=true
+                dpd.datePicker.calendarViewShown=false
+                dpd.getDatePicker().setMaxDate(c.getTimeInMillis())
+                dpd.show()
             }
 
 //            btnAdd.setOnClickListener {
@@ -204,11 +286,17 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
      * Perform edit profile
      */
     private fun performEditProfile() {
+        var distance:String?=binding!!.distanceSlider.value.toInt().toString()
+        var ageStart:String?=binding!!.ageRangeSlider.values[0].toInt().toString()
+        var ageEnd:String?=binding!!.ageRangeSlider.values[1].toInt().toString()
+        var gender=selectGender
+        var lookgender=lookingForGender
+        var dob=DOB
+        var aboutyou=binding!!.editAboutYou.text.toString()
+
         val signUpRequest = viewModel.getEditProfileRequest(
             //  userProfileImage = getProfileImageUrl(), //imagePath,
             userProfileImage = imagePath, //imagePath,
-//            firstName = binding?.tietFirstName!!.getTrimText(),
-//            lastName = binding?.tietLastName!!.getTrimText(),
             latitude = if (selectedPlace != null) (selectedPlace?.latLng?.latitude
                 ?: 0.0).toString() else sharedPreference.userDetail?.latitude ?: "0.0",
             longitude = if (selectedPlace != null) (selectedPlace?.latLng?.longitude
@@ -217,19 +305,23 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             deleteImageProfile = currentProfilePathToDelete.toString(),   //currentProfilePathToDelete.toString()
             deleteImageIds = deletedImageId!!
         )
-        if (viewModel.isValid(signUpRequest)) {
-            when {
-                checkInternet() -> {
-                    showProgressDialog(
-                        isCheckNetwork = true,
-                        isSetTitle = false,
-                        title = IConstants.EMPTY_LOADING_MSG
-                    )
-                    viewModel.updateUserProfile(signUpRequest)
-                }
-            }
 
-        }
+
+
+
+//        if (viewModel.isValid(signUpRequest)) {
+//            when {
+//                checkInternet() -> {
+//                    showProgressDialog(
+//                        isCheckNetwork = true,
+//                        isSetTitle = false,
+//                        title = IConstants.EMPTY_LOADING_MSG
+//                    )
+//                    viewModel.updateUserProfile(signUpRequest)
+//                }
+//            }
+//
+//        }
     }
 
     private fun addObservers() {
