@@ -4,6 +4,7 @@ package com.app.signme.dataclasses.response
 import android.telephony.PhoneNumberUtils
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.fromServerDatetoYYYYMMDD
+import com.app.signme.dataclasses.SelectedRelationshipType
 import com.app.signme.dataclasses.UserImage
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -149,13 +150,39 @@ data class LoginResponse(
    // @field:SerializedName("user_images")
     @JsonProperty("user_images")
    // var userImages: ArrayList<UserImage>? = ArrayList<UserImage>()
-    var userImages: ArrayList<UserImage>? = null
-)
-
+    var userImages: ArrayList<UserImage>? = null,
+    @JsonProperty("gender")
+    val gender: String? = "",
+    @JsonProperty("about_me")
+    val aboutMe: String? = "",
+    @JsonProperty("looking_for_gender")
+    val lookingForGender: String? = "",
+    @JsonProperty("max_distance")
+    val maxDistance: String? = "",
+    @JsonProperty("age_lower_limit")
+    val ageLowerLimit: String? = "",
+    @JsonProperty("age_upper_limit")
+    val ageUpperLimit: String? = "",
+    @JsonProperty("sign_name")
+    val signName: String? = "",
+    @JsonProperty("logo_file_name")
+    val logoFileName: String? = "",
+    @JsonProperty("age")
+    val age: String? = "",
+    @JsonProperty("looking_for_relation_type")
+    var lookingForRelationType: ArrayList<SelectedRelationshipType>? = null)
 
 {
     fun getFullName(): String {
         return "$firstName $lastName"
+    }
+
+    fun getFullNameAndAge(): String {
+        return "$firstName $age"
+    }
+
+    fun getCityAndStateName(): String {
+        return "$city,$stateName"
     }
 
     fun isSocialLogin(): Boolean {

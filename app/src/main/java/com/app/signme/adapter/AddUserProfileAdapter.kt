@@ -63,6 +63,11 @@ class AddUserProfileAdapter(onClick: RecyclerViewActionListener, mActivity: Acti
         return mOriginalData
     }
 
+    fun addItem(index: Int,data: ProfileImageModel) {
+        mOriginalData.add(index,data)
+        mResultData.add(index,data)
+        notifyItemInserted(index)
+    }
     fun addItem(data: ProfileImageModel) {
 
         mOriginalData.add(data)

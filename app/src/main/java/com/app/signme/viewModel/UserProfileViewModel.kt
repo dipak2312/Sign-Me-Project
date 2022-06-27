@@ -14,11 +14,13 @@ import com.app.signme.commonUtils.utility.extension.isValidInputText
 import com.app.signme.commonUtils.utility.getDeviceName
 import com.app.signme.commonUtils.utility.getDeviceOSVersion
 import com.app.signme.core.BaseViewModel
+import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.request.SignUpRequestModel
 import com.app.signme.dataclasses.response.LoginResponse
 import com.app.signme.repository.UserProfileRepository
 import com.app.signme.view.authentication.signup.signupconfig.SignUpConfigItem
+import com.google.gson.annotations.SerializedName
 import io.reactivex.disposables.CompositeDisposable
 import okhttp3.RequestBody
 
@@ -37,10 +39,12 @@ class UserProfileViewModel(
     val checkForInternetConnectionLiveData = MutableLiveData<Boolean>()
     val updateUserLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
     val getUserLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
+    val getRelationshipStatus=MutableLiveData<TAListResponse<RelationshipType>>()
 
     /**
      * Update user profile details
      */
+
     fun updateUserProfile(request: SignUpRequestModel) {
         val map = HashMap<String, RequestBody>()
         map["user_name"] = WebServiceUtils.getStringRequestBody(request.userName)
@@ -60,10 +64,15 @@ class UserProfileViewModel(
         map["device_type"] = WebServiceUtils.getStringRequestBody(IConstants.DEVICE_TYPE_ANDROID)
         map["device_model"] = WebServiceUtils.getStringRequestBody(getDeviceName())
         map["device_os"] = WebServiceUtils.getStringRequestBody(getDeviceOSVersion())
-        map["device_token"] = WebServiceUtils.getStringRequestBody(
-            sharedPreference.deviceToken
-                ?: ""
-        )
+        map["device_token"] = WebServiceUtils.getStringRequestBody(sharedPreference.deviceToken ?: "")
+        map["gender"]=WebServiceUtils.getStringRequestBody(request.gender)
+        map["about_me"]=WebServiceUtils.getStringRequestBody(request.aboutMe)
+        map["looking_for_gender"]=WebServiceUtils.getStringRequestBody(request.lookingForGender)
+        map["looking_for_relation"]=WebServiceUtils.getStringRequestBody(request.lookingForRelation)
+        map["max_distance"]=WebServiceUtils.getStringRequestBody(request.maxDistance)
+        map["age_lower_limit"]=WebServiceUtils.getStringRequestBody(request.ageLowerLimt)
+        map["age_upper_limit"]=WebServiceUtils.getStringRequestBody(request.ageUpperLimt)
+
         compositeDisposable.addAll(
             userProfileRepository.updateUserProfile(
                 map = map,
@@ -76,6 +85,22 @@ class UserProfileViewModel(
                 .subscribe(
                     { response ->
                         updateUserLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun callGetRelationshipStatus() {
+        compositeDisposable.addAll(
+            userProfileRepository.callGetRelationshipStatus()
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        // showDialog.postValue(false)
+                        getRelationshipStatus.postValue(response)
                     },
                     { error ->
                         statusCodeLiveData.postValue(handleServerError(error))
@@ -186,6 +211,7 @@ class UserProfileViewModel(
     /**
      * Perform edit profile request
      */
+
     fun getEditProfileRequest(
         userProfileImage: String = "",
         userName: String = "",
@@ -200,7 +226,15 @@ class UserProfileViewModel(
         state: String = "",
         zip: String = "",
         deleteImageProfile: String = "",
-        deleteImageIds: String = ""
+        deleteImageIds: String = "",
+        gender:String="",
+        aboutMe:String="",
+        lookingForGender:String="",
+        lookingForRelation:String="",
+        maxDistance:String="",
+        ageLowerLimt:String="",
+        ageUpperLimt:String=""
+
     ): SignUpRequestModel {
         val request = SignUpRequestModel()
         request.profileImage = userProfileImage
@@ -217,6 +251,13 @@ class UserProfileViewModel(
         request.zipCode = zip
         request.deleteUserProfile = deleteImageProfile
         request.deleteImageIds = deleteImageIds
+        request.gender=gender
+        request.aboutMe=aboutMe
+        request.lookingForGender=lookingForGender
+        request.lookingForRelation=lookingForRelation
+        request.maxDistance=maxDistance
+        request.ageLowerLimt=ageLowerLimt
+        request.ageUpperLimt=ageUpperLimt
         return request
     }
 

@@ -82,4 +82,19 @@ data class SignUpRequestModel(
     var userImages: String = "",
     @field:SerializedName("delete_image_ids")
     var deleteImageIds: String = "",
+    @field:SerializedName("gender")
+    var gender: String = "",
+    @field:SerializedName("about_me")
+    var aboutMe: String = "",
+    @field:SerializedName("looking_for_gender")
+    var lookingForGender: String = "",
+    @field:SerializedName("looking_for_relation")
+    var lookingForRelation: String = "",
+    @field:SerializedName("max_distance")
+    var maxDistance: String = "",
+    @field:SerializedName("age_lower_limit")
+    var ageLowerLimt: String = "",
+    @field:SerializedName("age_upper_limit")
+    var ageUpperLimt: String = ""
+
 ) : Parcelable

@@ -109,7 +109,7 @@ class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel>() {
         }
 
 
-        viewModel.logoutLiveData.observe(this, {
+        viewModel.logoutLiveData.observe(this) {
             hideProgressDialog()
             if (it?.settings?.isSuccess == true) {
                 viewModel.callPasswordLogout()
@@ -126,10 +126,10 @@ class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel>() {
                 showMessage(it.settings?.message!!)
             }*/
 
-        })
-        viewModel.statusCodeLiveData.observe(this, { serverError ->
+        }
+        viewModel.statusCodeLiveData.observe(this) { serverError ->
             handleApiStatusCodeError(serverError)
-        })
+        }
 
     }
 

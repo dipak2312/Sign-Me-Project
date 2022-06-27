@@ -40,6 +40,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
     var mediaFileRepository: MediaFileRepository? = null
     var showWarning = false
     var userInfo: LoginResponse? = null
+    var lookingFor:ArrayList<String>?=null
 
     var mImageAdapter = PagerImageAdapter(false, this)
 
@@ -55,7 +56,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
     @SuppressLint("UseRequireInsteadOfGet")
     override fun setupView(view: View) {
         getContext()?.getTheme()?.applyStyle(R.style.ProfileTheme, true)
-        //activity!!.getWindow().setStatusBarColor(Color.TRANSPARENT)
         setFireBaseAnalyticsData("id-profileScreen", "view_profileScreen", "view_profileScreen")
         binding = DataBindingUtil.bind(view)!!
         binding.viewModel = viewModel
@@ -83,18 +83,15 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         mImageAdapter.notifyDataSetChanged()
 
 
-
-        var friends=getString(R.string.label_friends)+" "+"<font color='#FF5F0D'>80%</font>"
-        binding!!.textFriends.text=Html.fromHtml(friends)
-        var quickmeet=getString(R.string.label_quickmeet)+" "+"<font color='#FF5F0D'>90%</font>"
-        binding!!.textQuickMeet.text=Html.fromHtml(quickmeet)
-        var relationship=getString(R.string.label_relationship)+" "+"<font color='#FF5F0D'>90%</font>"
-        binding!!.textRelationship.text=Html.fromHtml(relationship)
-
-        val lookingfor = arrayOf("Friendship", "Quick-Meet", "Relationship")
-        addLookingFor(lookingfor)
+//        var friends=getString(R.string.label_friends)+" "+"<font color='#FF5F0D'>80%</font>"
+//        binding!!.textFriends.text=Html.fromHtml(friends)
+//        var quickmeet=getString(R.string.label_quickmeet)+" "+"<font color='#FF5F0D'>90%</font>"
+//        binding!!.textQuickMeet.text=Html.fromHtml(quickmeet)
+//        var relationship=getString(R.string.label_relationship)+" "+"<font color='#FF5F0D'>90%</font>"
+//        binding!!.textRelationship.text=Html.fromHtml(relationship)
 
         initListeners()
+        getProfileData()
 
     }
 
@@ -110,9 +107,10 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         }
     }
 
-    fun addLookingFor(lookingFor: Array<String>)
+    fun addLookingFor()
     {
-        for (lookingfor in lookingFor) {
+        binding!!.lookingForChipGroup.removeAllViews()
+        for (lookingfor in lookingFor!!) {
             val chip = Chip(this@ProfileFragment.requireContext())
             chip.text = lookingfor
             chip.setTextAppearanceResource(R.style.mychipText);
@@ -142,11 +140,27 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         super.setupObservers()
         hideProgressDialog()
 
-        (activity?.application as AppineersApplication).isProfileUpdated.observe(this) {
-            hideProgressDialog()
-            binding.user = sharedPreference.userDetail
-            binding.executePendingBindings()
-            getProfileData()
+        (activity?.application as AppineersApplication).isProfileUpdated.observe(this) {isUpdate->
+
+            if(isUpdate)
+            {
+                hideProgressDialog()
+                binding.user = sharedPreference.userDetail
+                binding.executePendingBindings()
+
+                if(sharedPreference.userDetail!!.lookingForRelationType!!.isNotEmpty())
+                {
+                    lookingFor!!.clear()
+                    for(response in sharedPreference.userDetail!!.lookingForRelationType!!)
+                    {
+                        lookingFor?.add(response.relationshipStatus)
+                    }
+
+                    addLookingFor()
+                }
+
+                (activity?.application as AppineersApplication).isProfileUpdated.postValue(false)
+            }
         }
 
         viewModel.updateUserLiveData.observe(this) {
@@ -156,37 +170,27 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 binding.executePendingBindings()
                 mImageAdapter.notifyDataSetChanged()
 
-
-            } /*else if (!handleApiError(it.settings)) {
-                MSCGenerator.addAction(
-                    GenConstants.ENTITY_APP,
-                    GenConstants.ENTITY_USER,
-                    "Profile updation failed"
-                )
-                it?.settings?.message?.showSnackBar(requireActivity())
-            } else {
-                showMessage(it.settings!!.message)
-            }*/
+            }
         }
 
         viewModel.getUserLiveData.observe(this) {
             hideProgressDialog()
+            lookingFor=ArrayList<String>()
             if (it.settings?.isSuccess == true) {
-                userInfo = it.data!![0]
-                AppineersApplication.sharedPreference.userDetail = it.data!![0]
-                localDatabaseImages()
-                setData()
-
-            } /*else if (!handleApiError(it.settings)) {
-                MSCGenerator.addAction(
-                    GenConstants.ENTITY_APP,
-                    GenConstants.ENTITY_USER,
-                    "Profile updation failed"
-                )
-                it?.settings?.message?.showSnackBar(requireActivity())
-            } else {
-                showMessage(it.settings!!.message)
-            }*/
+                if(!it.data.isNullOrEmpty())
+                {
+                    userInfo = it.data!![0]
+                    AppineersApplication.sharedPreference.userDetail = it.data!![0]
+                    binding!!.user=it.data!![0]
+                    localDatabaseImages()
+                    setData()
+                    for(response in it.data!![0].lookingForRelationType!!)
+                    {
+                        lookingFor?.add(response.relationshipStatus)
+                    }
+                    addLookingFor()
+                }
+            }
         }
 
         if ((activity?.application as AppineersApplication).isMediaUpdated.value == true) {
@@ -243,7 +247,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 binding.mTabLayout.visibility = View.GONE
             }
         }
-
 
         binding.executePendingBindings()
         mImageAdapter.notifyDataSetChanged()

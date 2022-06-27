@@ -95,7 +95,7 @@
                     style="@style/BoldTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{user.getFullName()}"
+                    android:text="@{user.getFullNameAndAge()}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_24sp"
                     tools:text="Sagar 28" />
@@ -113,95 +113,95 @@
                         android:layout_weight="1"
                         android:drawableStart="@drawable/ic_location_profile"
                         android:drawablePadding="@dimen/dimen_10dp"
-                        android:text="Aquarius"
+                        android:text="@{user.signName}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
-                        tools:text="Sagar 28" />
+                        tools:text="Aquarius" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_location_profile"
                         android:drawablePadding="@dimen/dimen_10dp"
-                        android:text="Atlanta, Georgia"
+                        android:text="@{user.getCityAndStateName()}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
                         tools:text="Atlanta, Georgia" />
 
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_15dp"
-                    app:cardBackgroundColor="@color/screen_top_background"
-                    app:cardCornerRadius="@dimen/dimen_12dp"
-                    app:cardElevation="@dimen/dimen_0dp">
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/dimen_15dp"-->
+<!--                    app:cardBackgroundColor="@color/screen_top_background"-->
+<!--                    app:cardCornerRadius="@dimen/dimen_12dp"-->
+<!--                    app:cardElevation="@dimen/dimen_0dp">-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="vertical">-->
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/dimen_10dp">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/dimen_10dp">-->
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/textFriends"
-                                style="@style/RegularTextStyle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_dimen_12sp"
-                                tools:text="Sagar 28" />
+<!--                            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                                android:id="@+id/textFriends"-->
+<!--                                style="@style/RegularTextStyle"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_dimen_12sp"-->
+<!--                                tools:text="Sagar 28" />-->
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/textQuickMeet"
-                                style="@style/RegularTextStyle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center_horizontal"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_dimen_12sp"
-                                tools:text="Sagar 28" />
+<!--                            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                                android:id="@+id/textQuickMeet"-->
+<!--                                style="@style/RegularTextStyle"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:gravity="center_horizontal"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_dimen_12sp"-->
+<!--                                tools:text="Sagar 28" />-->
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/textRelationship"
-                                style="@style/RegularTextStyle"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="end"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_dimen_12sp"
-                                tools:text="Sagar 28" />
+<!--                            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                                android:id="@+id/textRelationship"-->
+<!--                                style="@style/RegularTextStyle"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="1"-->
+<!--                                android:gravity="end"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_dimen_12sp"-->
+<!--                                tools:text="Sagar 28" />-->
 
-                        </LinearLayout>
+<!--                        </LinearLayout>-->
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#0CFFFFFF" />
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:background="#0CFFFFFF" />-->
 
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            style="@style/RegularTextStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="@dimen/dimen_10dp"
-                            android:text="@string/label_profile_match_description"
-                            android:textColor="@color/profile_gray"
-                            android:textSize="@dimen/text_dimen_11sp"
-                            tools:text="@string/label_profile_match_description" />
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            style="@style/RegularTextStyle"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:padding="@dimen/dimen_10dp"-->
+<!--                            android:text="@string/label_profile_match_description"-->
+<!--                            android:textColor="@color/profile_gray"-->
+<!--                            android:textSize="@dimen/text_dimen_11sp"-->
+<!--                            tools:text="@string/label_profile_match_description" />-->
 
-                    </LinearLayout>
+<!--                    </LinearLayout>-->
 
-                </androidx.cardview.widget.CardView>
+<!--                </androidx.cardview.widget.CardView>-->
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -283,7 +283,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@string/label_profile_match_description"
+                            android:text="@{user.aboutMe}"
                             android:textColor="@color/profile_gray"
                             android:textSize="@dimen/text_dimen_11sp"
                             tools:text="@string/label_profile_match_description" />

@@ -1,12 +1,10 @@
 package com.app.signme.view.settings.editprofile
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
@@ -14,12 +12,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
+import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.app.signme.BuildConfig
-import com.app.signme.utility.validation.*
 import com.app.signme.R
 import com.app.signme.adapter.AddUserProfileAdapter
 import com.app.signme.application.AppineersApplication
@@ -28,11 +26,13 @@ import com.app.signme.commonUtils.common.CommonUtils
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.IConstants.Companion.MULTI_IMAGE_REQUEST_CODE
 import com.app.signme.commonUtils.utility.dialog.ImageSourceDialog
-import com.app.signme.commonUtils.utility.extension.*
+import com.app.signme.commonUtils.utility.extension.compressImageFile
+import com.app.signme.commonUtils.utility.extension.focusOnField
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityEditProfileBinding
 import com.app.signme.dataclasses.ProfileImageModel
+import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.db.entity.MediaFileEntity
 import com.app.signme.db.repo.MediaFileRepository
 import com.app.signme.viewModel.UserProfileViewModel
@@ -45,18 +45,19 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.chip.Chip
-import com.google.android.material.slider.RangeSlider
 import com.hb.logger.msc.MSCGenerator
 import com.hb.logger.msc.core.GenConstants
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import kotlinx.android.synthetic.main.snackbar.view.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
-import javax.xml.datatype.DatatypeConstants.MONTHS
 
 
 class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewActionListener {
@@ -72,29 +73,35 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     var userId: String? = null
     var deletedImageId: String? = ""
     var mediaFile = java.util.ArrayList<String>()
-    var status:String?=""
-    var city:String?=""
-    var state:String?=""
-    var selectGender:String?=""
-    var DOB:String?=""
-    var lookingForGender:String?=""
-    var relationship:String?=""
-    var genderChip:Chip?=null
+    var status: String? = ""
+    var city: String? = ""
+    var state: String? = ""
+    var selectMyGender: String? = ""
+    var DOB: String? = ""
+    var lookingForGender: String? = ""
+    var relationship: String? = ""
+    var lookingForRelation: ArrayList<String>? = null
     var userProfile = ArrayList<ProfileImageModel>()
+    var lookingFor: ArrayList<String>? = null
+    var selectedGender = ""
+    var selectedLookingFor = ""
+    var genders: Array<String>? = null
+    var genders1: Array<String>? = null
 
     companion object {
         const val TAG = "EditProfileActivity"
-        fun getStartIntent(mContext: Context,status: String): Intent {
+        fun getStartIntent(mContext: Context, status: String): Intent {
             return Intent(mContext, EditProfileActivity::class.java).apply {
                 putExtra(IConstants.STATUS, status)
             }
         }
     }
+
     override fun setDataBindingLayout() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile)
         binding?.viewModel = viewModel
         binding?.lifecycleOwner = this
-        status=intent?.getStringExtra(IConstants.STATUS)
+        status = intent?.getStringExtra(IConstants.STATUS)
     }
 
     override fun injectDependencies(activityComponent: ActivityComponent) {
@@ -108,96 +115,180 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             "view-editprofilescreen"
         )
         binding?.user = sharedPreference.userDetail
-        (application as AppineersApplication).isRemoved = sharedPreference.userDetail?.profileImage.equals("")
-        if(status.equals(getString(R.string.label_edit)))
-        {
-            binding!!.tvEditProfile.text=getString(R.string.label_edit_profile_toolbar_text)
-            binding!!.btnUpdate.text=getString(R.string.label_save_profile)
-        }else
-        {
-            binding!!.tvEditProfile.text=getString(R.string.label_complete_profile_toolbar_text)
-            binding!!.btnUpdate.text=getString(R.string.label_get_started_profile)
+        (application as AppineersApplication).isRemoved =
+            sharedPreference.userDetail?.profileImage.equals("")
+        genders = arrayOf("Man", "Woman", "Transgender", getString(R.string.label_non_binary), getString(R.string.label_not_respond)
+        )
+        genders1 = arrayOf("Man", "Woman", "Transgender", getString(R.string.label_non_binary), getString(R.string.label_not_respond)
+        )
+        if (status.equals(getString(R.string.label_edit))) {
+            binding!!.tvEditProfile.text = getString(R.string.label_edit_profile_toolbar_text)
+            binding!!.btnUpdate.text = getString(R.string.label_save_profile)
+            binding!!.linFirstLastName.visibility=View.VISIBLE
+            editProfile()
+        } else {
+            AddGender(genders!!)
+            AddLokingFor(genders1!!)
+            binding!!.tvEditProfile.text = getString(R.string.label_complete_profile_toolbar_text)
+            binding!!.btnUpdate.text = getString(R.string.label_get_started_profile)
+            binding!!.linFirstLastName.visibility=View.GONE
         }
-        val genders = arrayOf("Man", "Woman", "Transgender","Non-binary/non-confirming","Prefer not to respond")
-        AddGender(genders)
-        val lookingfor = arrayOf("Friendship", "Quick-Meet", "Relationship")
-        addLookingFor(lookingfor)
-        AddLokingFor(genders)
+
         initListener()
         addObservers()
         getCityAndState()
-        userProfile.add(ProfileImageModel(null,null))
-        userProfile.add(ProfileImageModel(null,null))
-        userProfile.add(ProfileImageModel(null,null))
-        userProfile.add(ProfileImageModel(null,null))
-        userProfile.add(ProfileImageModel(null,null))
-        userProfile.add(ProfileImageModel(null,null))
-
+        userProfile.add(ProfileImageModel(null, null))
+        userProfile.add(ProfileImageModel(null, null))
+        userProfile.add(ProfileImageModel(null, null))
+        userProfile.add(ProfileImageModel(null, null))
+        userProfile.add(ProfileImageModel(null, null))
+        userProfile.add(ProfileImageModel(null, null))
         mAdapter = AddUserProfileAdapter(this, this)
         binding!!.mRecyclerView.adapter = mAdapter
-
         mAdapter!!.addAllItem(userProfile)
+
+        getRelationshipStatus()
 
     }
 
-    fun getCityAndState()
-    {
+    fun editProfile() {
+        selectedGender = sharedPreference.userDetail?.gender.toString()
+        if (selectedGender.isNotEmpty()) {
+            if (selectedGender.equals(getString(R.string.non_binary))) {
+                selectedGender = getString(R.string.label_non_binary)
+            } else if (selectedGender.equals(getString(R.string.not_to_respond))) {
+                selectedGender = getString(R.string.label_not_respond)
+            }
+        }
+
+        DOB = sharedPreference.userDetail!!.dob
+        binding!!.textDOB.text = DOB
+        binding!!.textDOB.setTextColor(Color.parseColor("#ffffff"))
+        binding!!.editAboutYou.setText(sharedPreference.userDetail!!.aboutMe)
+        binding!!.distanceSlider.value = sharedPreference.userDetail!!.maxDistance!!.toFloat()
+        binding!!.textDistanceSlider.text =
+            sharedPreference.userDetail!!.maxDistance + getString(R.string.label_km)
+        selectedLookingFor = sharedPreference.userDetail?.lookingForGender.toString()
+
+        if (selectedLookingFor.isNotEmpty()) {
+            if (selectedLookingFor.equals(getString(R.string.non_binary))) {
+                selectedLookingFor = getString(R.string.label_non_binary)
+            } else if (selectedLookingFor.equals(getString(R.string.not_to_respond))) {
+                selectedLookingFor = getString(R.string.label_not_respond)
+            }
+        }
+        val age = arrayOf(
+            sharedPreference.userDetail!!.ageLowerLimit!!.toFloat(),
+            sharedPreference.userDetail!!.ageUpperLimit!!.toFloat()
+        )
+        binding!!.textAgeStart.text = sharedPreference.userDetail!!.ageLowerLimit!!
+        binding!!.textAgeEnd.text = sharedPreference.userDetail!!.ageUpperLimit!!
+        binding!!.ageRangeSlider.values = age.toMutableList()
+
+        AddGender(genders!!)
+        AddLokingFor(genders1!!)
+    }
+
+    fun getRelationshipStatus() {
+        when {
+            checkInternet() -> {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
+                viewModel.callGetRelationshipStatus()
+            }
+        }
+    }
+
+    fun getCityAndState() {
         val geocoder = Geocoder(this@EditProfileActivity, Locale.getDefault())
 
-        if(!sharedPreference.latitude.isNullOrEmpty() && !sharedPreference.longitude.isNullOrEmpty())
-        {
+        if (!sharedPreference.latitude.isNullOrEmpty() && !sharedPreference.longitude.isNullOrEmpty()) {
             val addresses: List<Address>
-            addresses = geocoder.getFromLocation(sharedPreference.latitude!!.toDouble(), sharedPreference.longitude!!.toDouble(), 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            val address = addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            addresses = geocoder.getFromLocation(
+                sharedPreference.latitude!!.toDouble(),
+                sharedPreference.longitude!!.toDouble(),
+                1
+            ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            val address =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
             com.app.signme.commonUtils.utility.extension.sharedPreference.appLoginType
             if (addresses != null && addresses.isNotEmpty()) {
                 city = addresses[0].locality
                 state = addresses[0].adminArea
                 //val country = addresses[0].countryName
-                val cityState=city+","+" "+state
+                val cityState = city + "," + " " + state
                 binding!!.textCityState.setText(cityState)
             }
         }
     }
 
-    fun addLookingFor(lookingFor: Array<String>)
-    {
+    fun addLookingFor(lookingFor: ArrayList<RelationshipType>) {
+        lookingForRelation = ArrayList<String>()
         for (lookingfor in lookingFor) {
             val checkbox = MaterialCheckBox(this@EditProfileActivity)
-            checkbox.text = lookingfor
+            checkbox.text = lookingfor.relationshipStatus
+            checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    lookingForRelation!!.add(lookingfor.relationshipStatusId!!)
+                } else {
+                    lookingForRelation!!.remove(lookingfor.relationshipStatusId!!)
+                }
+            }
+
+            var lookingrelation = sharedPreference.userDetail?.lookingForRelationType
+            if (lookingrelation!!.isNotEmpty()) {
+                for (relation in lookingrelation) {
+                    if (relation.relationshipStatus.equals(lookingfor.relationshipStatus)) {
+                        checkbox.isChecked = true
+                    }
+                }
+            }
 
             binding?.lokingForRelation?.addView(checkbox)
         }
     }
 
-    fun AddGender(genders: Array<String>)
-    {
-        for (gender in genders) {
-             genderChip = Chip(this@EditProfileActivity)
-            genderChip!!.text = gender
+    fun AddGender(genders: Array<String>) {
+        binding!!.genderChipGroup.removeAllViews()
+        for (mygender in genders) {
+            val genderChip = Chip(this@EditProfileActivity)
+            genderChip.text = mygender
             genderChip!!.setOnCheckedChangeListener { buttonView, isChecked ->
-                if(isChecked)
-                {
-                    selectGender=genderChip!!.text.toString()
+                if (isChecked) {
+                    selectMyGender = genderChip!!.text.toString()
                 }
             }
-            binding?.genderChipGroup?.addView(genderChip)
+
+            if (selectedGender.isNotEmpty() && mygender.equals(selectedGender)) {
+                genderChip.isChecked = true
+            }
+
+            binding!!.genderChipGroup?.addView(genderChip)
         }
+
     }
-    fun AddLokingFor(lookingFor: Array<String>)
-    {
+
+    fun AddLokingFor(lookingFor: Array<String>) {
+        binding!!.genderLookingForChipGroup.removeAllViews()
         for (gender in lookingFor) {
             val chip = Chip(this@EditProfileActivity)
             chip.text = gender
             chip!!.setOnCheckedChangeListener { buttonView, isChecked ->
-                if(isChecked)
-                {
-                    lookingForGender=chip!!.text.toString()
+                if (isChecked) {
+                    lookingForGender = chip!!.text.toString()
                 }
             }
+            if (selectedLookingFor.isNotEmpty() && gender.equals(selectedLookingFor)) {
+                chip.isChecked = true
+            }
+
             binding?.genderLookingForChipGroup?.addView(chip)
         }
+
     }
 
 
@@ -210,19 +301,16 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
             }
 
-
-            distanceSlider.addOnChangeListener{slider, value, fromUser->
-                var distance:Int=value.toInt()
-                textDistanceSlider.text=distance.toString()+getString(R.string.label_km)
-
+            distanceSlider.addOnChangeListener { slider, value, fromUser ->
+                var distance: Int = value.toInt()
+                textDistanceSlider.text = distance.toString() + getString(R.string.label_km)
             }
 
-            ageRangeSlider.addOnChangeListener{slider, value, fromUser->
-                var ageStart:Int=slider.values[0].toInt()
-                var ageEnd:Int=slider.values[1].toInt()
-                textAgeStart.text=ageStart.toString()
-                textAgeEnd.text=ageEnd.toString()
-
+            ageRangeSlider.addOnChangeListener { slider, value, fromUser ->
+                var ageStart: Int = slider.values[0].toInt()
+                var ageEnd: Int = slider.values[1].toInt()
+                textAgeStart.text = ageStart.toString()
+                textAgeEnd.text = ageEnd.toString()
             }
 
 
@@ -234,36 +322,52 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                     GenConstants.ENTITY_APP,
                     "Validate and Submit Profile"
                 )
-                if(status.equals(getString(R.string.label_edit)))
-                {
-                   finish()
-                }else
-                {
-                   performEditProfile()
-                   // navigateToHomeScreen()
+                if (status.equals(getString(R.string.label_edit))) {
+                    performEditProfile()
+                } else {
+                    performEditProfile()
+                    // navigateToHomeScreen()
                 }
             }
 
-            btnAgeRange.setOnClickListener{
+            btnAgeRange.setOnClickListener {
+
+                val cMin = Calendar.getInstance()
+                cMin.set(Calendar.YEAR, cMin.get(Calendar.YEAR)-90)
                 val c = Calendar.getInstance()
+                c.set(Calendar.YEAR, c.get(Calendar.YEAR)-18)
                 val year = c.get(Calendar.YEAR)
                 val month = c.get(Calendar.MONTH)
                 val day = c.get(Calendar.DAY_OF_MONTH)
 
 
-                var dpd = DatePickerDialog(this@EditProfileActivity, DatePickerDialog.OnDateSetListener { view, year1, monthOfYear, dayOfMonth ->
+                var dpd = DatePickerDialog(
+                    this@EditProfileActivity,
+                    DatePickerDialog.OnDateSetListener { view, year1, monthOfYear, dayOfMonth ->
 
-                    // Display Selected date in textbox
-                    var selectMonth=monthOfYear.toInt()+1
-                    textDOB.setTextColor(Color.parseColor("#ffffff"))
-                    DOB=year1.toString()+"-"+selectMonth.toString()+"-"+dayOfMonth.toString()
-                    textDOB.setText(DOB)
+                        // Display Selected date in textbox
+                        var selectMonth = monthOfYear.toInt() + 1
+                        textDOB.setTextColor(Color.parseColor("#ffffff"))
+                        DOB =
+                            year1.toString() + "-" + selectMonth.toString() + "-" + dayOfMonth.toString()
+                        try {
 
-                }, year, month, day)
+                            var dateFormat = SimpleDateFormat("yyy-MM-dd");
+                            var ageDate = dateFormat.parse(DOB)
+                            DOB = dateFormat.format(ageDate)
+                            textDOB.setText(DOB)
 
-                dpd.datePicker.spinnersShown=true
-                dpd.datePicker.calendarViewShown=false
-                dpd.getDatePicker().setMaxDate(c.getTimeInMillis())
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    },
+                    year,
+                    month,
+                    day
+                )
+
+                dpd.datePicker.minDate=cMin.timeInMillis
+                dpd.datePicker.maxDate = c.timeInMillis
                 dpd.show()
             }
 
@@ -278,7 +382,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
     private fun setProfileImage() {
         if (!sharedPreference.userDetail?.profileImage.equals("")) {
-           // loadImage(binding!!.sivUserImage, sharedPreference.userDetail?.profileImage)
+            // loadImage(binding!!.sivUserImage, sharedPreference.userDetail?.profileImage)
         }
     }
 
@@ -286,42 +390,67 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
      * Perform edit profile
      */
     private fun performEditProfile() {
-        var distance:String?=binding!!.distanceSlider.value.toInt().toString()
-        var ageStart:String?=binding!!.ageRangeSlider.values[0].toInt().toString()
-        var ageEnd:String?=binding!!.ageRangeSlider.values[1].toInt().toString()
-        var gender=selectGender
-        var lookgender=lookingForGender
-        var dob=DOB
-        var aboutyou=binding!!.editAboutYou.text.toString()
+        var distance: String? = binding!!.distanceSlider.value.toInt().toString()
+        var ageStart: String? = binding!!.ageRangeSlider.values[0].toInt().toString()
+        var ageEnd: String? = binding!!.ageRangeSlider.values[1].toInt().toString()
 
-        val signUpRequest = viewModel.getEditProfileRequest(
-            //  userProfileImage = getProfileImageUrl(), //imagePath,
-            userProfileImage = imagePath, //imagePath,
-            latitude = if (selectedPlace != null) (selectedPlace?.latLng?.latitude
-                ?: 0.0).toString() else sharedPreference.userDetail?.latitude ?: "0.0",
-            longitude = if (selectedPlace != null) (selectedPlace?.latLng?.longitude
-                ?: 0.0).toString() else sharedPreference.userDetail?.longitude ?: "0.0",
+        if (selectMyGender.isNullOrEmpty()) {
+            showMessage(getString(R.string.alert_select_gender), IConstants.SNAKBAR_TYPE_ERROR)
+        } else if (DOB.isNullOrEmpty()) {
+            showMessage(getString(R.string.alert_select_dob), IConstants.SNAKBAR_TYPE_ERROR)
+        } else if (binding!!.editAboutYou.text.toString().isNullOrEmpty()) {
+            showMessage(getString(R.string.alert_add_about_you), IConstants.SNAKBAR_TYPE_ERROR)
+        } else if (lookingForGender.isNullOrEmpty()) {
+            showMessage(getString(R.string.alert_looking_for_gender), IConstants.SNAKBAR_TYPE_ERROR)
+        } else if (lookingForRelation.isNullOrEmpty()) {
+            showMessage(
+                getString(R.string.alert_select_relationship),
+                IConstants.SNAKBAR_TYPE_ERROR
+            )
+        } else if (distance.equals("0")) {
+            showMessage(getString(R.string.alert_select_distance), IConstants.SNAKBAR_TYPE_ERROR)
+        } else {
+            if (selectMyGender.equals(getString(R.string.label_non_binary))) {
+                selectMyGender = getString(R.string.non_binary)
+            }
 
-            deleteImageProfile = currentProfilePathToDelete.toString(),   //currentProfilePathToDelete.toString()
-            deleteImageIds = deletedImageId!!
-        )
+            if (lookingForGender.equals(getString(R.string.label_not_respond))) {
+                lookingForGender = getString(R.string.not_to_respond)
+            }
 
+            if (!lookingForRelation.isNullOrEmpty()) {
+                relationship = lookingForRelation!!.joinToString(separator = ",")
+            }
+            val signUpRequest = viewModel.getEditProfileRequest(
+                //  userProfileImage = getProfileImageUrl(), //imagePath,
+                userProfileImage = imagePath, //imagePath,
+                latitude = sharedPreference.latitude ?: "0.0",
+                longitude = sharedPreference.longitude ?: "0.0",
+                city = city ?: "",
+                state = state ?: "",
+                dob = DOB!!,
+                deleteImageProfile = currentProfilePathToDelete.toString(),   //currentProfilePathToDelete.toString()
+                deleteImageIds = deletedImageId!!,
+                gender = selectMyGender!!,
+                aboutMe = binding!!.editAboutYou.text.toString(),
+                lookingForGender = lookingForGender!!,
+                lookingForRelation = relationship!!,
+                maxDistance = distance!!,
+                ageLowerLimt = ageStart!!,
+                ageUpperLimt = ageEnd!!
+            )
 
-
-
-//        if (viewModel.isValid(signUpRequest)) {
-//            when {
-//                checkInternet() -> {
-//                    showProgressDialog(
-//                        isCheckNetwork = true,
-//                        isSetTitle = false,
-//                        title = IConstants.EMPTY_LOADING_MSG
-//                    )
-//                    viewModel.updateUserProfile(signUpRequest)
-//                }
-//            }
-//
-//        }
+            when {
+                checkInternet() -> {
+                    showProgressDialog(
+                        isCheckNetwork = true,
+                        isSetTitle = false,
+                        title = IConstants.EMPTY_LOADING_MSG
+                    )
+                    viewModel.updateUserProfile(signUpRequest)
+                }
+            }
+        }
     }
 
     private fun addObservers() {
@@ -335,31 +464,39 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                     "Profile updated"
                 )
                 showMessage(it.settings!!.message, IConstants.SNAKBAR_TYPE_SUCCESS)
-                binding!!.btnUpdate.isClickable=false
-                binding!!.btnUpdate.isFocusable=false
+                binding!!.btnUpdate.isClickable = false
+                binding!!.btnUpdate.isFocusable = false
+                sharedPreference.userDetail = it.data!![0]
                 Handler(mainLooper).postDelayed(
                     {
-                        sharedPreference.userDetail = it.data!![0]
                         (application as AppineersApplication).isProfileUpdated.value = true
-                        finish()
+                        if (status.equals(getString(R.string.label_edit))) {
+                            finish()
+                        } else {
+                            navigateToHomeScreen()
+                        }
                     }, IConstants.SNAKE_BAR_SHOW_TIME
                 )
-//                if (it.data!!.size > 0) {
-//                    userId = it.data!![0].userId
-//                    if (userId != null) {
-//                        if (!mediaFile.equals("") && deletedImageId.equals("")) {
-//                            startUploadService()
-//
-//                        }
-//
-//
-//                    }
-//                    Handler(mainLooper).postDelayed(
-//                        { finish() },
-//                        3000L
-//                    )
-//                }
 
+            }
+        }
+
+        viewModel.getRelationshipStatus.observe(this) { response ->
+            lookingFor = ArrayList<String>()
+            hideProgressDialog()
+            if (response?.settings?.isSuccess == true) {
+                MSCGenerator.addAction(
+                    GenConstants.ENTITY_APP,
+                    GenConstants.ENTITY_USER,
+                    "Change Password Success"
+                )
+                if (!response.data.isNullOrEmpty()) {
+//                   for(response in response.data!!)
+//                   {
+//                       response.relationshipStatus?.let { lookingFor?.add(it) }
+//                   }
+                    addLookingFor(response.data!!)
+                }
             }
         }
 
@@ -376,6 +513,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
 
     }
+
     private fun focusInvalidInput(failType: Int) {
         binding?.apply {
             when (failType) {
@@ -471,7 +609,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
      */
     private fun openPlacePicker() {
         hideKeyboard()
-        Places.initialize(applicationContext,(resources.getString(R.string.google_places_api_key)))
+        Places.initialize(applicationContext, (resources.getString(R.string.google_places_api_key)))
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
         val fields =
@@ -744,13 +882,15 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     }
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
+        val availableIndex=mAdapter!!.getAllItems().filter { !it.imagePath.isNullOrEmpty() }.size
+        mAdapter!!.addItem(availableIndex,ProfileImageModel(imagePath = "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png"))
+        Log.i(TAG, "onItemClick: "+availableIndex)
         when (viewId) {
 
 
         }
 
     }
-
 
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {

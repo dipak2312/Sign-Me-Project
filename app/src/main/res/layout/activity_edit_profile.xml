@@ -58,6 +58,62 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:id="@+id/linFirstLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_18dp"
+                        android:layout_marginTop="@dimen/dimen_15dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:text="@string/label_first_name"
+                        android:textColor="@color/signup_title_gray"
+                        android:textSize="@dimen/text_dimen_15sp" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietFirstName"
+                        style="@style/SignupInputStyle"
+                        android:drawableStart="@drawable/ic_edit_profile"
+                        android:drawablePadding="@dimen/dimen_15dp"
+                        android:hint="@string/hint_FirstName"
+                        android:text="@{user.firstName}"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapSentences"
+                        android:maxLength="80"
+                        android:padding="@dimen/dimen_15dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_18dp"
+                        android:layout_marginTop="@dimen/dimen_15dp"
+                        android:layout_marginEnd="@dimen/dimen_18dp"
+                        android:text="@string/label_last_name"
+                        android:textColor="@color/signup_title_gray"
+                        android:textSize="@dimen/text_dimen_15sp" />
+
+                    <!--Last Name-->
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tietLastName"
+                        style="@style/SignupInputStyle"
+                        android:drawableStart="@drawable/ic_edit_profile"
+                        android:drawablePadding="@dimen/dimen_15dp"
+                        android:hint="@string/hint_LastName"
+                        android:imeOptions="actionNext"
+                        android:text="@{user.lastName}"
+                        android:inputType="textCapSentences"
+                        android:maxLength="80"
+                        android:padding="@dimen/dimen_15dp" />
+
+                </LinearLayout>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/MediumTextStyle"
                     android:layout_width="wrap_content"

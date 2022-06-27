@@ -1,5 +1,6 @@
 package com.app.signme.api.network
 
+import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.dataclasses.generics.TAGenericResponse
 import com.app.signme.dataclasses.generics.TAListResponse
@@ -163,6 +164,9 @@ interface NetworkService {
 
     @GET("get_user_profile")
     fun callGetProfile() : Single<TAListResponse<LoginResponse>>
+
+    @GET("relationship_status_list")
+    fun getRelationshipStatus():Single<TAListResponse<RelationshipType>>
 
 
 }

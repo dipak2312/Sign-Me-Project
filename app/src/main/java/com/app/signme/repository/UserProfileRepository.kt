@@ -1,6 +1,7 @@
 package com.app.signme.repository
 
 import com.app.signme.api.network.NetworkService
+import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.response.LoginResponse
 import com.google.gson.JsonElement
@@ -27,5 +28,8 @@ class UserProfileRepository @Inject constructor(
 
     fun callGetProfile(): Single<TAListResponse<LoginResponse>> =
         networkService.callGetProfile()
+
+    fun callGetRelationshipStatus(): Single<TAListResponse<RelationshipType>> =
+        networkService.getRelationshipStatus()
 
 }
