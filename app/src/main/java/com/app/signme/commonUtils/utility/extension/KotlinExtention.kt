@@ -7,15 +7,19 @@ package com.app.signme.commonUtils.utility.extension
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory.decodeFile
 import android.net.Uri
+import android.provider.MediaStore
 import android.telephony.PhoneNumberUtils
 import android.util.Base64
 import android.view.*
+import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.cardview.widget.CardView
 import com.app.signme.R
@@ -34,10 +38,33 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import android.widget.TextView
+import com.facebook.FacebookSdk
 
 
+fun File.getMimeType(fallback: String = "image/*"): String {
+    return MimeTypeMap.getFileExtensionFromUrl(toString())
+        ?.run { MimeTypeMap.getSingleton().getMimeTypeFromExtension(toLowerCase()) }
+        ?: fallback // You might set it to */*
+}
 
-
+fun Uri.convertIntoPath(): String? {
+    var path = this.path
+    if (this.toString().startsWith("content://")) {
+        val projection = arrayOf(MediaStore.MediaColumns.DATA)
+        val cr: ContentResolver = FacebookSdk.getApplicationContext().getContentResolver()
+        val cursor: Cursor? = cr.query(this, projection, null, null, null)
+        if (cursor != null) {
+            try {
+                if (cursor.moveToFirst()) {
+                    path = cursor.getString(0)
+                }
+            } finally {
+                cursor.close()
+            }
+        }
+    }
+    return path
+}
 
 val sharedPreference: AppPrefrrences by lazy {
     AppineersApplication.sharedPreference

@@ -25,6 +25,7 @@ import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseViewModel
 import com.app.signme.scheduler.ExportLogService
 import com.app.signme.view.authentication.login.loginwithemailsocial.LoginWithEmailSocialActivity
+import com.app.signme.scheduler.aws.cacheUtils.UploadSuccessCallback
 import com.facebook.FacebookSdk
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
@@ -57,6 +58,7 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     var isSubscriptionTaken = MutableLiveData<Boolean>()
     var weakActivity: WeakReference<BaseActivity<BaseViewModel>>? = null
     val isMediaUploaded = MutableLiveData<MediaUpload?>()
+    val awsFileUploader = MutableLiveData<UploadSuccessCallback>()
     val isMediaUpdated = MutableLiveData<Boolean>()
     var counterInterstitialAdd: Int = 0// Show interstitial add after 4 count
     var mInterstitialAd: InterstitialAd? = null

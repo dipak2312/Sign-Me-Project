@@ -201,6 +201,11 @@
             android:exported="true"
             tools:ignore="ExportedService" />
 
+        <service
+            android:name=".scheduler.aws.AwsService"
+            android:enabled="true"
+            android:exported="false" />
+
       <!--  <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id_test" />-->

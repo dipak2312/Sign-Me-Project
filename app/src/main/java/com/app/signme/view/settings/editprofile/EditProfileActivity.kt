@@ -27,14 +27,18 @@ import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.IConstants.Companion.MULTI_IMAGE_REQUEST_CODE
 import com.app.signme.commonUtils.utility.dialog.ImageSourceDialog
 import com.app.signme.commonUtils.utility.extension.compressImageFile
+import com.app.signme.commonUtils.utility.extension.convertIntoPath
 import com.app.signme.commonUtils.utility.extension.focusOnField
+import com.app.signme.commonUtils.utility.extension.showSnackBar
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityEditProfileBinding
 import com.app.signme.dataclasses.ProfileImageModel
 import com.app.signme.dataclasses.RelationshipType
+import com.app.signme.dataclasses.UserImage
 import com.app.signme.db.entity.MediaFileEntity
 import com.app.signme.db.repo.MediaFileRepository
+import com.app.signme.scheduler.aws.AwsService
 import com.app.signme.viewModel.UserProfileViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.libraries.places.api.Places
@@ -51,11 +55,10 @@ import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
+import java.net.URL
+import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -81,12 +84,13 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     var lookingForGender: String? = ""
     var relationship: String? = ""
     var lookingForRelation: ArrayList<String>? = null
-    var userProfile = ArrayList<ProfileImageModel>()
+    var userProfile = ArrayList<UserImage>()
     var lookingFor: ArrayList<String>? = null
     var selectedGender = ""
     var selectedLookingFor = ""
     var genders: Array<String>? = null
-    var genders1: Array<String>? = null
+    var uploadedFiles = ArrayList<String>()
+    var isImageUploading:Boolean=false
 
     companion object {
         const val TAG = "EditProfileActivity"
@@ -119,8 +123,6 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             sharedPreference.userDetail?.profileImage.equals("")
         genders = arrayOf("Man", "Woman", "Transgender", getString(R.string.label_non_binary), getString(R.string.label_not_respond)
         )
-        genders1 = arrayOf("Man", "Woman", "Transgender", getString(R.string.label_non_binary), getString(R.string.label_not_respond)
-        )
         if (status.equals(getString(R.string.label_edit))) {
             binding!!.tvEditProfile.text = getString(R.string.label_edit_profile_toolbar_text)
             binding!!.btnUpdate.text = getString(R.string.label_save_profile)
@@ -128,7 +130,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             editProfile()
         } else {
             AddGender(genders!!)
-            AddLokingFor(genders1!!)
+            AddLokingFor(genders!!)
             binding!!.tvEditProfile.text = getString(R.string.label_complete_profile_toolbar_text)
             binding!!.btnUpdate.text = getString(R.string.label_get_started_profile)
             binding!!.linFirstLastName.visibility=View.GONE
@@ -137,12 +139,12 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         initListener()
         addObservers()
         getCityAndState()
-        userProfile.add(ProfileImageModel(null, null))
-        userProfile.add(ProfileImageModel(null, null))
-        userProfile.add(ProfileImageModel(null, null))
-        userProfile.add(ProfileImageModel(null, null))
-        userProfile.add(ProfileImageModel(null, null))
-        userProfile.add(ProfileImageModel(null, null))
+        userProfile.add(UserImage("","","", ""))
+        userProfile.add(UserImage("","","", ""))
+        userProfile.add(UserImage("","","", ""))
+        userProfile.add(UserImage("","","", ""))
+        userProfile.add(UserImage("","","", ""))
+        userProfile.add(UserImage("","","", ""))
         mAdapter = AddUserProfileAdapter(this, this)
         binding!!.mRecyclerView.adapter = mAdapter
         mAdapter!!.addAllItem(userProfile)
@@ -166,8 +168,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         binding!!.textDOB.setTextColor(Color.parseColor("#ffffff"))
         binding!!.editAboutYou.setText(sharedPreference.userDetail!!.aboutMe)
         binding!!.distanceSlider.value = sharedPreference.userDetail!!.maxDistance!!.toFloat()
-        binding!!.textDistanceSlider.text =
-            sharedPreference.userDetail!!.maxDistance + getString(R.string.label_km)
+        binding!!.textDistanceSlider.text = sharedPreference.userDetail!!.maxDistance + getString(R.string.label_km)
         selectedLookingFor = sharedPreference.userDetail?.lookingForGender.toString()
 
         if (selectedLookingFor.isNotEmpty()) {
@@ -186,7 +187,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         binding!!.ageRangeSlider.values = age.toMutableList()
 
         AddGender(genders!!)
-        AddLokingFor(genders1!!)
+        AddLokingFor(genders!!)
     }
 
     fun getRelationshipStatus() {
@@ -371,10 +372,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 dpd.show()
             }
 
-//            btnAdd.setOnClickListener {
-//                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Add Image Button Click")
-//                checkPermission()
-//            }
+
 
         }
 
@@ -500,6 +498,32 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             }
         }
 
+
+        (application as AppineersApplication).awsFileUploader.observe(this@EditProfileActivity) {
+            if (it != null && mAdapter!!.itemCount > it.position) {
+                when (it.status) {
+                    AwsService.UPLOADING_SUCCESS -> {
+                        isImageUploading=false
+                        val url = URL(URLDecoder.decode(it.callbackKey, "UTF-8"))
+                        Log.i("TAG", "addObservers: location " + url)
+                        uploadedFiles.add(url.toString())
+                        handleResponse(it.position, IConstants.DONE, 0)
+                    }
+                    AwsService.UPLOADING_FAILED -> {
+                        isImageUploading=false
+                        Log.i("TAG", "addObservers: exception " + it.message)
+                        handleResponse(it.position, IConstants.PENDING, 0)
+                    }
+                    else -> {
+                        isImageUploading=true
+                        Log.i("TAG", "addObservers: " + it.status)
+                        handleResponse(it.position, IConstants.IN_PROGRESS, it.status)
+
+                    }
+                }
+            }
+        }
+
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             handleApiStatusCodeError(serverError)
@@ -514,62 +538,32 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
     }
 
+
+    private fun handleResponse(index: Int, uploadingStatus: String, percent: Int) {
+
+        var position = index
+            if (index >= 6) {
+                position = index - 1
+            }
+            val localItem = mAdapter!!.getItem(position)
+            if (index >= 0) {
+                mAdapter!!.replaceItem(
+                    position,
+                    UserImage(
+                        imageId = "",
+                        localImageId = "",
+                        imageUrl = localItem.imageUrl,
+                        imageUri = localItem.imageUri,
+                        uploadStatus = if (percent == 100) IConstants.DONE else uploadingStatus,
+                        progress = percent
+                    )
+                )
+            }
+    }
+
     private fun focusInvalidInput(failType: Int) {
         binding?.apply {
             when (failType) {
-
-//                FIRST_NAME_EMPTY -> {
-//                    runOnUiThread {
-//                        showMessage(
-//                            getString(R.string.alert_enter_first_name)
-//                        )
-//                    }
-//                    tietFirstName.requestFocus()
-//                }
-//                FIRST_NAME_INVALID -> {
-//                    runOnUiThread {
-//                        showMessage(
-//                            getString(R.string.alert_invalid_first_name_character)
-//                        )
-//                    }
-//                    tietFirstName.requestFocus()
-//                }
-//
-//                FIRST_NAME_CHARACTER_INVALID -> {
-//                    runOnUiThread {
-//                        showMessage(
-//                            getString(R.string.alert_invalid_first_name_character)
-//                        )
-//                    }
-//                    tietFirstName.requestFocus()
-//                }
-//
-//                LAST_NAME_EMPTY -> {
-//                    runOnUiThread {
-//                        showMessage(
-//                            getString(R.string.alert_enter_last_name)
-//                        )
-//                    }
-//                    tietLastName.requestFocus()
-//                }
-//                LAST_NAME_INVALID -> {
-//                    runOnUiThread {
-//                        showMessage(
-//                            getString(R.string.alert_invalid_last_name_character)
-//                        )
-//                    }
-//                    tietLastName.requestFocus()
-//                }
-//
-//                LAST_NAME_CHARACTER_INVALID -> {
-//                    runOnUiThread {
-//                        showMessage(
-//                            getString(R.string.alert_invalid_last_name_character)
-//                        )
-//                    }
-//                    tietLastName.requestFocus()
-//                }
-
 
             }
             val imm: InputMethodManager =
@@ -582,63 +576,6 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     }
 
 
-    /* */
-    /**
-     * Open date picker and set date of birth
-     *//*
-    private fun setDOB() {
-        val calendar = Calendar.getInstance()
-        if (binding?.tietDOB?.getTrimText()?.isNotEmpty()!!) {
-            calendar.time = binding!!.tietDOB.getTrimText().toMMDDYYYDate()
-        }
-        val datePicker = DatePickerDialog(
-            this@EditProfileActivity, R.style.DatePickerTheme,
-            { _, year, month, dayOfMonth ->
-                binding!!.tietDOB.setText(viewModel.getDateFromPicker(year, month, dayOfMonth))
-                binding!!.tietDOB.error = null
-            }, calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePicker.datePicker.maxDate = Calendar.getInstance().timeInMillis
-        datePicker.show()
-    }
-*/
-    /**
-     * Open auto complete place picker to get address
-     */
-    private fun openPlacePicker() {
-        hideKeyboard()
-        Places.initialize(applicationContext, (resources.getString(R.string.google_places_api_key)))
-        // Set the fields to specify which types of place data to
-        // return after the user has made a selection.
-        val fields =
-            listOf(Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG)
-        // Start the autocomplete intent.
-        val intent: Intent
-        if (placeSearchBy == IConstants.CITY_SEARCH) {
-            intent = Autocomplete.IntentBuilder(
-                AutocompleteActivityMode.OVERLAY, fields
-            ).setTypeFilter(TypeFilter.CITIES)
-                .build(this)
-            /**
-             * Use US if we have to show places only for USA
-             */
-            //.setCountry("US")
-
-        } else {
-            intent = Autocomplete.IntentBuilder(
-                AutocompleteActivityMode.OVERLAY, fields
-            )
-                .build(this)
-            /**
-             * Use US if we have to show places only for USA
-             */
-            // .setCountry("US")
-
-        }
-        startActivityForResult(intent, IConstants.AUTOCOMPLETE_REQUEST_CODE)
-    }
 
     private fun checkPermission() {
         Dexter.withContext(this)
@@ -652,21 +589,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                             currentProfilePathToDelete = ""
                             selectedProfileImage = true
                             if (report.areAllPermissionsGranted()) {
-                                if ((application as AppineersApplication).isRemoved
-                                ) {
-                                    openImageFromGalleryCamera()
-
-                                } else {
-                                    ImageSourceDialog(this@EditProfileActivity, onPhotoRemove = {
-                                        //binding!!.sivUserImage.setImageResource(R.drawable.ic_profile_img)
-                                        currentProfilePathToDelete =
-                                            sharedPreference.userDetail?.profileImage
-                                        // imagePath = sharedPreference.userDetail?.profileImage.toString()
-                                        (application as AppineersApplication).isRemoved = true
-                                    }).show(supportFragmentManager, "image source dialog")
-
-                                }
-
+                                openImageFromGalleryCamera()
                             }
                         }
                     } else {
@@ -704,51 +627,6 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             .start(MULTI_IMAGE_REQUEST_CODE)
     }
 
-    private fun checkMediaUploadPermission() {
-        Dexter.withContext(this)
-            .withPermissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            ).withListener(object : MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                    if (!report.isAnyPermissionPermanentlyDenied) {
-                        if (report.areAllPermissionsGranted()) {
-                            ImagePicker.with(this@EditProfileActivity)
-                                .crop()
-                                .compress(2048) //Final image size will be less than 1 MB(Optional)
-                                .maxResultSize(
-                                    1580,
-                                    2580
-                                )    //Final image resolution will be less than 1080 x 1080(Optional)
-                                .galleryMimeTypes(  //Exclude gif images
-                                    mimeTypes = arrayOf(
-                                        "image/png",
-                                        "image/jpg",
-                                        "image/jpeg"
-                                    )
-                                )
-                                .start(MULTI_IMAGE_REQUEST_CODE)
-                            selectedProfileImage = false
-
-
-                        }
-                    } else {
-                        showMessage(
-                            getString(R.string.permission_denied_by_user)
-                        )
-                        CommonUtils.openApplicationSettings(this@EditProfileActivity)
-                    }
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-            }).check()
-    }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -765,7 +643,19 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                     captureUri = fileUri
                     handleImageRequest()
                 }
-
+                IConstants.REQUEST_CODE_GALLERY -> {
+                    // get path of selected file
+                    val fileUri = data?.data
+                    captureUri = fileUri
+                    val path: String? = captureUri!!.convertIntoPath()
+                    startService(
+                        AwsService.getStartIntent(
+                            this@EditProfileActivity,
+                            path!!,
+                            1
+                        )
+                    )
+                }
             }
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             if (data != null) {
@@ -792,7 +682,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             val currentUri = captureUri
             val imageFile = compressImageFile(currentUri!!)
             imagePath = imageFile!!.absolutePath
-            (application as AppineersApplication).isRemoved = false
+
             if (imageFile != null) {
                 val newUri = FileProvider.getUriForFile(
                     this@EditProfileActivity,
@@ -800,15 +690,23 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                     imageFile
                 )
                 captureUri = newUri
-                if (selectedProfileImage == false) {
 
-                } else if (selectedProfileImage == true) {
-//                    binding?.sivUserImage?.loadCircleImage(
-//                        imageFile.absolutePath,
-//                        R.drawable.user_profile
-//                    )
+                val availableIndex=mAdapter!!.getAllItems().filter { !it.imageUrl.isNullOrEmpty() }.size
+                mAdapter!!.replaceItem(availableIndex,  UserImage(
+                    imageId = "",
+                    localImageId = "",
+                    imageUrl = imageFile.absolutePath,
+                    imageUri = imageFile.absolutePath,
+                    uploadStatus = IConstants.IN_PROGRESS
+                ))
 
-                }
+                startService(
+                    AwsService.getStartIntent(
+                        this@EditProfileActivity,
+                        imageFile.absolutePath,
+                        availableIndex
+                    )
+                )
 
             }
 
@@ -830,71 +728,116 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         deleteFiles()
     }
 
-//    private fun setAddress(place: Place) {
-//        selectedPlace = place
-//        val locationAddress =
-//            place.addressComponents?.let { super.getParseAddressComponents(addressComponents = it) }
-//        binding?.apply {
-//            tietAddress.setText(locationAddress?.address)
-//            tietState.setText(locationAddress?.state)
-//            tietCity.setText(locationAddress?.city)
-//            tietZipCode.setText(locationAddress?.zipCode)
-//            tietAddress.error = null
-//            tietState.error = null
-//            tietCity.error = null
-//            tietZipCode.error = null
-//        }
-//        logger.debugEvent("Place Result", place.address ?: "")
-//    }
 
-
-    /**
-     * Initialize recycle view
-     */
-
-
-    private fun startUploadService() {
-        val mediaFileRepository: MediaFileRepository? =
-            MediaFileRepository.getInstance(this)
-        //mediaFileRepository!!.deleteAll()
-        for (filePath in mediaFile) {
-            val tempFileId = Date().time
-            val uploadMedia = Intent(this, UploadPostMediaService::class.java)
-            uploadMedia.putExtra(UploadPostMediaService.KEY_FILE_URI, filePath)
-            uploadMedia.putExtra(UploadPostMediaService.KEY_USER_ID, userId)
-            uploadMedia.putExtra(UploadPostMediaService.KEY_FILE_ID, tempFileId.toString())
-            mediaFileRepository?.insertFile(
-                MediaFileEntity(
-                    fileId = tempFileId,
-                    filePath = filePath,
-                    userId = userId!!,
-                    status = IConstants.PENDING
-                )
-            )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(uploadMedia)
-            } else {
-                startService(uploadMedia)
-            }
-        }
-
-
+    override fun onDestroy() {
+        super.onDestroy()
+        deleteAllUploadedFiles()
     }
 
+    private fun deleteAllUploadedFiles() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (!uploadedFiles.isNullOrEmpty()) {
+                uploadedFiles.forEach { image ->
+                    AwsService.deleteFile(image.substringAfter(".com/"))
+                }
+                uploadedFiles.clear()
+                (application as AppineersApplication).awsFileUploader.postValue(
+                    null
+                )
+                sendBroadcast(Intent(AwsService.UPLOAD_CANCELLED_ACTION))
+            }
+        }
+    }
+
+
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
-        val availableIndex=mAdapter!!.getAllItems().filter { !it.imagePath.isNullOrEmpty() }.size
-        mAdapter!!.addItem(availableIndex,ProfileImageModel(imagePath = "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png"))
-        Log.i(TAG, "onItemClick: "+availableIndex)
+
         when (viewId) {
 
+            R.id.ibtnAddImage -> {
+               checkPermission()
+            }
+            R.id.ivRetry -> {
+                val image = mAdapter!!.getItem(position)
+                startService(
+                    AwsService.getStartIntent(
+                        this@EditProfileActivity,
+                        image.imageUrl!!,
+                        position
+                    )
+                )
+            }
 
+            R.id.ibtnRemoveImage -> {
+
+                if (isImageUploading){
+                    "Image uploading in-progress wait a moment".showSnackBar(this@EditProfileActivity)
+                    return
+                }
+                val item = mAdapter!!.getItem(position)
+                if (item.imageId!!.isNotEmpty()
+                    && item.imageUrl!!.isNotEmpty()
+                ) {
+                    if (mAdapter!!.getAllItems() != null
+                        && mAdapter!!.getAllItems().size > 0
+                    ) {
+                        //val userImageList: ArrayList<UserImage> = adapterImages.getAllItems()
+                        deletedImageId = if (deletedImageId.equals("")) {
+                            item.imageId
+                        } else {
+                            deletedImageId + "," + item.imageId!!
+                        }
+                    }
+
+                }
+                if (item.uploadStatus.equals(IConstants.DONE)) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        showProgressDialog(
+                            isCheckNetwork = true,
+                            isSetTitle = false,
+                            title = IConstants.EMPTY_LOADING_MSG
+                        )
+
+                        try {
+                            var uploadedFileIndex=0
+                            if (position<0){
+                                uploadedFileIndex = (position - 1)
+                            }else if (position==0){
+                                uploadedFileIndex = position
+                            }
+
+                            val uploadedFile = uploadedFiles[uploadedFileIndex]
+
+                            if (AwsService.deleteFile(uploadedFile.substringAfter(".com/"))) {
+                                mAdapter!!.replaceItem(position, UserImage("","","",""))
+                                uploadedFiles.removeAt(uploadedFileIndex)
+
+                                "Image Deleted !".showSnackBar(
+                                    this@EditProfileActivity,
+                                    IConstants.SNAKBAR_TYPE_SUCCESS
+                                )
+                            }else{
+                                "Failed to delete".showSnackBar(this@EditProfileActivity)
+                            }
+
+                        } catch (e: Exception) {
+
+                        }
+                        hideProgressDialog()
+                    }
+                    return
+                } else {
+                    mAdapter!!.replaceItem(position, UserImage("","","",""))
+
+                }
+
+            }
         }
-
     }
 
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
-        TODO("Not yet implemented")
     }
+
 
 }

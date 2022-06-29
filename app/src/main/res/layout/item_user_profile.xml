@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.app.signme.dataclasses.ProfileImageModel" />
+            type="com.app.signme.dataclasses.UserImage" />
     </data>
 
     <RelativeLayout
@@ -45,7 +45,29 @@
                 android:layout_margin="@dimen/_8sdp"
                 android:scaleType="centerInside"
                 android:visibility="@{model.showAddButton() ? View.GONE: View.VISIBLE}"
-                app:imageUrl="@{model.imagePath}" />
+                />
+            <ImageView
+                android:id="@+id/ivRetry"
+                android:layout_width="@dimen/dimen_30dp"
+                android:layout_height="@dimen/dimen_30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_refresh"
+                android:visibility="@{model.uploadingFailed?View.VISIBLE:View.GONE}"
+                app:tint="@color/white"
+                tools:visibility="gone" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:max="100"
+                tools:progress="50"
+                android:progress="@{model.progress}"
+                app:indicatorColor="@color/white"
+                app:trackColor="@color/colorGray"
+                android:visibility="@{model.uploadingFinished?View.GONE:View.VISIBLE}"
+                tools:visibility="visible" />
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.appcompat.widget.AppCompatImageButton
