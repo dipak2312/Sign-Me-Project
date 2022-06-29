@@ -114,31 +114,36 @@ class SettingsActivity : BaseActivity<SettingsViewModel>() {
                     "click_subcriptionclick"
                 )
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Try Premium Button Click")
-                val user = AppineersApplication.sharedPreference.userDetail
-                if (user?.subscription != null && user.subscription?.size!! > 0) {
-                    if (user.subscription?.filter { it.subscriptionStatus == "1" }!!.isNotEmpty()) {
-                        startActivity(
-                            Intent(
-                                this@SettingsActivity,
-                                SubscribedUserActivity::class.java
-                            )
-                        )
-                    } else {
-                        startActivity(
-                            Intent(
-                                this@SettingsActivity,
-                                SubscriptionPlansActivity::class.java
-                            )
-                        )
-                    }
-                } else {
-                    startActivity(
-                        Intent(
-                            this@SettingsActivity,
-                            SubscriptionPlansActivity::class.java
-                        )
+                startActivity(
+                    Intent(
+                        this@SettingsActivity,
+                        SubscriptionPlansActivity::class.java
                     )
-                }
+                )
+//                if (user?.subscription != null && user.subscription?.size!! > 0) {
+//                    if (user.subscription?.filter { it.subscriptionStatus == "1" }!!.isNotEmpty()) {
+//                        startActivity(
+//                            Intent(
+//                                this@SettingsActivity,
+//                                SubscribedUserActivity::class.java
+//                            )
+//                        )
+//                    } else {
+//                        startActivity(
+//                            Intent(
+//                                this@SettingsActivity,
+//                                SubscriptionPlansActivity::class.java
+//                            )
+//                        )
+//                    }
+//                } else {
+//                    startActivity(
+//                        Intent(
+//                            this@SettingsActivity,
+//                            SubscriptionPlansActivity::class.java
+//                        )
+//                    )
+//                }
 
             }
             tvShareApp.setOnClickListener {

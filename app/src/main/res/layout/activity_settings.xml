@@ -185,19 +185,19 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_14sp" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvsubscribeValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            style="@style/MediumTextStyle"
-                            android:paddingStart="@dimen/_16sdp"
-                            android:paddingTop="@dimen/_12sdp"
-                            android:paddingEnd="@dimen/_16sdp"
-                            android:paddingBottom="@dimen/_12sdp"
-                            android:text="@string/label_subcription_text"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_14sp" />
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:id="@+id/tvsubscribeValue"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            style="@style/MediumTextStyle"-->
+<!--                            android:paddingStart="@dimen/_16sdp"-->
+<!--                            android:paddingTop="@dimen/_12sdp"-->
+<!--                            android:paddingEnd="@dimen/_16sdp"-->
+<!--                            android:paddingBottom="@dimen/_12sdp"-->
+<!--                            android:text="@string/label_subcription_text"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="@dimen/text_dimen_14sp" />-->
 
                     </LinearLayout>
 

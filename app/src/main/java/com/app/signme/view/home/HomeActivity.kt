@@ -4,8 +4,11 @@ package com.app.signme.view.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.application.AppineersApplication.Companion.sharedPreference
@@ -24,7 +27,12 @@ import com.google.gson.Gson
 
 class HomeActivity : BaseActivity<HomeViewModel>() {
     private lateinit var binding: ActivityHomeBinding
-
+    object TAGS {
+        val HOME = "home"
+        val Matches = "matches"
+        val Messages = "messages"
+        var Profile = "profile"
+    }
 
     companion object {
         const val TAG = "HomeActivity"
@@ -37,6 +45,14 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     }
 
     private var social: Social? = null
+    val fm: FragmentManager = supportFragmentManager
+    val homeFragment: Fragment = HomeFragment()
+    val matchesFragment: Fragment = MatchesFragment()
+    val messagesFragment: Fragment = ChatFragment()
+    val profileFragment: Fragment = ProfileFragment()
+    var active: Fragment = homeFragment
+    var isTabChanging = false
+    private var lastSelectedTab: Int? = null
 
     override fun setDataBindingLayout() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
@@ -53,55 +69,86 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             sharedPreference.socialUserDetails = social
         }
 
+        if (intent != null && intent.extras != null) {
+            Log.i(TAG, "setupView: " + Gson().toJson(intent.extras))
+            val data = intent.extras!!.getString(IConstants.OTHERS)
+            lastSelectedTab = intent.getIntExtra(IConstants.BUNDLE_TAB_ID, R.id.action_explore)
+            //checkNotificationsData(data)
+        }
+
+
         setFireBaseAnalyticsData("id-homeScreen", "view_homeScreen", "view_homeScreen")
         binding.apply {
             bottomNavigation.setOnNavigationItemSelectedListener {
-                when (it.itemId) {
-                    R.id.action_explore -> {
-                        logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Home Button CLick")
-                        if (supportFragmentManager.findFragmentById(R.id.frameContainer) is HomeFragment) {
-                            true
-                        } else {
-                            setCurrentFragment(HomeFragment())
-                            true
-                        }
-                    }
-                    R.id.action_matches -> {
-                        logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Friends Tab CLick")
-                        if (supportFragmentManager.findFragmentById(R.id.frameContainer) is MatchesFragment) {
-                            true
-                        } else {
-                            setCurrentFragment(MatchesFragment())
-                            true
-                        }
-                    }
-                    R.id.action_chat -> {
-                        logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Message Tab Click")
-                        if (supportFragmentManager.findFragmentById(R.id.frameContainer) is ChatFragment) {
-                            true
-                        } else {
-                            setCurrentFragment(ChatFragment())
-                            true
-                        }
-                    }
-
-                    R.id.action_profile -> {
-                        logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Settings Tab Click")
-                        if (supportFragmentManager.findFragmentById(R.id.frameContainer) is ProfileFragment) {
-                            true
-                        } else {
-                            setCurrentFragment(ProfileFragment())
-                            true
-                        }
-                    }
-                    else -> false
+                if (isTabChanging) {
+                    return@setOnNavigationItemSelectedListener false
                 }
+                isTabChanging = true
+                setCurrentFragment(it.itemId)
             }
         }
 
+        if (lastSelectedTab != null && lastSelectedTab != R.id.action_explore) {
+            setCurrentFragment(lastSelectedTab!!)
+        } else {
+            setFragment(homeFragment, TAGS.HOME, 0)
+        }
+        //(application as AppineersApplication).isActiveFilter.postValue(false)
         addObservers()
-        binding.bottomNavigation.selectedItemId = R.id.action_explore
+
        // checkAdditionalInfo()
+    }
+
+
+
+    /**
+     * Set the fragment in frame container by Id
+     */
+    private fun setCurrentFragment(tabId: Int): Boolean {
+        return when (tabId) {
+            R.id.action_explore -> {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Home Tab CLick")
+                setFireBaseAnalyticsData(
+                    "id-userHomeTab",
+                    "click_userHomeTab",
+                    "click_userHomeTab"
+                )
+                setFragment(homeFragment, TAGS.HOME, 0)
+                true
+            }
+            R.id.action_matches -> {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Sessions Tab CLick")
+                setFireBaseAnalyticsData(
+                    "id-sessionTab",
+                    "click_sessionTab",
+                    "click_sessionTab"
+                )
+                setFragment(matchesFragment, TAGS.Matches, 1)
+                true
+            }
+            R.id.action_chat -> {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Feeds Tab Click")
+                setFireBaseAnalyticsData(
+                    "id-feedsTab",
+                    "click_feedsTab",
+                    "click_feedsTab"
+                )
+                setFragment(messagesFragment, TAGS.Messages, 2)
+                true
+            }
+            R.id.action_profile -> {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Favorite Tab Click")
+                setFireBaseAnalyticsData(
+                    "id-favoriteTab",
+                    "click_favoriteTab",
+                    "click_favoriteTab"
+                )
+                setFragment(profileFragment, TAGS.Profile, 3)
+                true
+            }
+
+            else -> false
+        }
     }
 
     private fun addObservers() {
@@ -148,9 +195,23 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     }
 
 
-    private fun setCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frameContainer, fragment)
-            commit()
+    fun setFragment(fragment: Fragment, tag: String?, position: Int) {
+        val fragmentTransaction: FragmentTransaction = fm.beginTransaction()
+        val curFrag: Fragment? = fm.getPrimaryNavigationFragment()
+        if (curFrag != null) {
+            fragmentTransaction.hide(curFrag)
         }
+        if (fragment.isAdded) {
+            fragmentTransaction.show(fragment)
+        } else {
+            fragmentTransaction.add(R.id.frameContainer, fragment, tag)
+        }
+
+        fragmentTransaction.setPrimaryNavigationFragment(fragment)
+        fragmentTransaction.setReorderingAllowed(true)
+        fragmentTransaction.commitNowAllowingStateLoss()
+        binding.bottomNavigation.getMenu().getItem(position).setChecked(true)
+        active = fragment
+        isTabChanging = false
+    }
 }

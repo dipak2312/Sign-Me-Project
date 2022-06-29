@@ -10,6 +10,7 @@ import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
 import com.app.signme.databinding.FragmentMatchesBinding
 import com.app.signme.view.enablePermission.PermissionEnableActivity
+import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.viewModel.MatchesViewModel
 
 class MatchesFragment : BaseFragment<MatchesViewModel>() {
@@ -42,7 +43,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>() {
 
                 btnsetting.setOnClickListener {
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
-                    startActivity(PermissionEnableActivity.getStartIntent(this@MatchesFragment.requireContext()))
+                    startActivity(SettingsActivity.getStartIntent(this@MatchesFragment.requireContext()))
                 }
             }
         }

@@ -33,12 +33,8 @@ class ChatListAdapter(val context: Context, var list: ArrayList<ChatListData>, p
         fun bindItems(chatListData: ChatListData) {
             val textPersonName = itemView.findViewById(R.id.tvPersonName) as TextView
             val textMessage  = itemView.findViewById(R.id.tvChatMessage) as TextView
-            val textMessageTime  = itemView.findViewById(R.id.tvMessageTime) as TextView
-            val textChatCount  = itemView.findViewById(R.id.tvChatCount) as TextView
             textPersonName.text = chatListData.personName
             textMessage.text = chatListData.message
-            textMessageTime.text = chatListData.messageTime
-            textChatCount.text = chatListData.messageCount
         }
     }
 }

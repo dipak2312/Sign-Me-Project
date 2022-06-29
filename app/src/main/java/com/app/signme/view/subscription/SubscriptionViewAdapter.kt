@@ -18,11 +18,11 @@ import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.dataclasses.SubscriptionPlan
 
 
-
-class SubscriptionViewAdapter(val context: Context,
-                                                          var list: ArrayList<SubscriptionPlan>,
-                                                          val flag_upgrade_downgrade: String,
-                                                          private val subscriptionClickListener: SubscriptionClickListener
+class SubscriptionViewAdapter(
+    val context: Context,
+    var list: ArrayList<SubscriptionPlan>,
+    val flag_upgrade_downgrade: String,
+    private val subscriptionClickListener: SubscriptionClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -53,13 +53,12 @@ class SubscriptionViewAdapter(val context: Context,
                 llSubscriptionContent.background =
                     ContextCompat.getDrawable(context, R.drawable.bg_un_selected)
             }
-          /**
+            /**
              * Mark last selected item
              */
             if (sharedPreference.subscriptionItemSelected == position && flag_upgrade_downgrade == "1") {
                 ivMarkSelected.visibility = View.VISIBLE
             }
-
 
 
             val recyclerViewModel = list[position]
@@ -68,20 +67,19 @@ class SubscriptionViewAdapter(val context: Context,
             if (position == 0 && recyclerViewModel.planValidityInDays == "30") {
                 tvDiscountPercent.visibility = View.VISIBLE
                 tvDiscountPercent.text = "(Start with a 1 month free trial)" //$3 Off
-               // sharedPreference.subscriptionItemSelected = position
-            }
-            else if (position == 1 && recyclerViewModel.planValidityInDays == "90") {
+                // sharedPreference.subscriptionItemSelected = position
+            } else if (position == 1 && recyclerViewModel.planValidityInDays == "90") {
                 tvDiscountPercent.visibility = View.VISIBLE
                 tvDiscountPercent.text = "(Save Upto 20%)" //$3 Off
-               // sharedPreference.subscriptionItemSelected = position
+                // sharedPreference.subscriptionItemSelected = position
             } else if (position == 2 && recyclerViewModel.planValidityInDays == "180") {
                 tvDiscountPercent.visibility = View.VISIBLE
                 tvDiscountPercent.text = "(Save Upto 20%)" //$12 Off
-               // sharedPreference.subscriptionItemSelected = position
+                // sharedPreference.subscriptionItemSelected = position
             } else if (position == 3 && recyclerViewModel.planValidityInDays == "365") {
                 tvDiscountPercent.visibility = View.VISIBLE
                 tvDiscountPercent.text = "(Save Upto 20%)" //$60 Of
-              //  sharedPreference.subscriptionItemSelected = position
+                //  sharedPreference.subscriptionItemSelected = position
             } else {
                 tvDiscountPercent.visibility = View.GONE
 
@@ -98,7 +96,10 @@ class SubscriptionViewAdapter(val context: Context,
                     lastItemSelectedPos = selectedItemPos
                 }
                 notifyDataSetChanged()
-                subscriptionClickListener.onSubscriptionClick(selectedItemPos,data = recyclerViewModel)
+                subscriptionClickListener.onSubscriptionClick(
+                    selectedItemPos,
+                    data = recyclerViewModel
+                )
             }
 
         }
@@ -158,7 +159,10 @@ class SubscriptionViewAdapter(val context: Context,
                 }
 
                 notifyDataSetChanged()
-                subscriptionClickListener.onSubscriptionClick(selectedItemPos,data = recyclerViewModel)
+                subscriptionClickListener.onSubscriptionClick(
+                    selectedItemPos,
+                    data = recyclerViewModel
+                )
             }
         }
     }

@@ -31,6 +31,8 @@ interface IConstants {
         const val ADD="add"
         const val SP_NOTIFICATION_CHANNEL_DEFAULT = "sp_notification_channel_default"
         const val PARAM_NOTIFICATION_TYPE = "type"
+        const val OTHERS:String="others"
+        const val BUNDLE_TAB_ID: String = "bundle_tab_id"
 
         const val SPLASH_TIME = 2000L//splash time 3second
         const val SNAKE_BAR_SHOW_TIME = 3000L

@@ -60,6 +60,7 @@
 
     //Button Label
     <string name="label_login_button">Sign In</string>
+    <string name="label_upgrade_button">Upgrade</string>
     <string name="label_save_button">Save</string>
     <string name="label_clear_button">Clear</string>
     <string name="label_next_button">Next</string>
@@ -347,8 +348,16 @@
     <string name="TWO">two</string>
     <string name="THREE">two</string>
     <string name="label_subscription">Subscription</string>
+    <string name="label_upgrade_profile_text">UPGRADE YOUR PROFILE!</string>
+    <string name="label_liked_profile_text">See everyone who has\n liked your profile</string>
+    <string name="label_Regular_subscription_text">Unlimited likes and\n 5 Super likes per week</string>
+    <string name="label_golden_subscription_text">Unlimited likes and\n Unlimited super likes</string>
     <string name="_15_off">$15 off</string>
     <string name="admob_native_unit_id_test" translatable="false">/6499/example/native</string>
+    <string name="label_regular_month_price">$4.99 / Month</string>
+    <string name="label_regular_subscription">Reguler Subscription</string>
+    <string name="label_golden_subscription">Golden Subscription</string>
+    <string name="label_golden_month_price">$9.99 / Month</string>
     //SnackBar messages
     <string name="str_error_message">The Appineers</string>
     <string name="str_success_message">The Appineers</string>

@@ -46,9 +46,12 @@ import com.app.signme.viewModel.SettingsViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_subscription_plans.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
-class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), SubscriptionClickListener {
+class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
 
 
     lateinit var binding: ActivitySubscriptionPlansBinding
@@ -91,15 +94,27 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
                 }
             }
         }
-        initView()
+
     }
+
+
+    override fun injectDependencies(activityComponent: ActivityComponent) {
+        activityComponent.inject(this)
+    }
+
+    override fun setupView(savedInstanceState: Bundle?) {
+
+        initView()
+        initListeners()
+    }
+
 
 
     /**
      * Initialize view
      */
     private fun initView() {
-        initListeners()
+
         setBoldAndColorSpannable(
             binding.tvSubscriptionPolicyLinks,
             getString(R.string.terms_n_conditions),
@@ -111,35 +126,25 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
         if (user?.subscription != null && user.subscription?.size!! > 0) {
             if (user.subscription?.filter { it.subscriptionStatus == "1" }!!.size > 0) {
                 viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-                initRecycleView()
                 addObserver()
                 loadSubscriptionPlans()
                 binding.apply {
-                    rvSubscriptionPlanList.visibility = View.VISIBLE
-                    llNoData.visibility = View.GONE
-                    premiumUserViewPager.visibility = View.GONE
                     btnSubscribe.visibility = View.VISIBLE
-                    tvHeaderTitle.setText(getString(R.string.upgrade_and_downgrade))
+
                 }
 
             } else {
                 viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-                initRecycleView()
+                //initRecycleView()
                 addObserver()
                 loadSubscriptionPlans()
-                binding.rvSubscriptionPlanList.visibility = View.VISIBLE
-                binding.llNoData.visibility = View.GONE
-                binding.premiumUserViewPager.visibility = View.GONE
                 binding.btnSubscribe.visibility = View.VISIBLE
             }
         } else {
             viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-            initRecycleView()
+           // initRecycleView()
             addObserver()
             loadSubscriptionPlans()
-            binding.rvSubscriptionPlanList.visibility = View.VISIBLE
-            binding.llNoData.visibility = View.GONE
-            binding.premiumUserViewPager.visibility = View.GONE
             binding.btnSubscribe.visibility = View.VISIBLE
         }
     }
@@ -159,7 +164,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
         var subscriptionPlanList: ArrayList<SubscriptionPlan> = ArrayList()
         subscriptionPlanList =
             getJsonListDataFromAsset(this@SubscriptionPlansActivity, "subscription_plan_list.json")
-        setSubscriptionListData(subscriptionPlanList)
+       // setSubscriptionListData(subscriptionPlanList)
     }
 
     /**
@@ -181,44 +186,12 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
         return reviews
     }
 
-    /**
-     * Init recycle view
-     *
-     */
-    private fun initRecycleView() {
-        subscriptionPlanListAdapter = SubscriptionViewAdapter(
-            context = this@SubscriptionPlansActivity,
-            list = ArrayList<SubscriptionPlan>(),
-            flag_upgrade_downgrade,
-            subscriptionClickListener = this@SubscriptionPlansActivity
-        )
-        // val layoutManager = GridLayoutManager(this@SubscriptionPlansActivity, numberOfColumns)
-
-        val layoutManager = LinearLayoutManager(this@SubscriptionPlansActivity)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
-        /* layoutManager.spanSizeLookup = object : SpanSizeLookup() {
-             override fun getSpanSize(position: Int): Int {
-                 return if (subscriptionPlanListAdapter != null) {
-                     when (subscriptionPlanListAdapter.getItemViewType(position)) {
-                         1 -> 1
-                         2 -> 2 //number of columns of the grid
-                         else -> -1
-                     }
-                 } else {
-                     -1
-                 }
-             }
-         }*/
-        binding.rvSubscriptionPlanList.layoutManager = layoutManager
-        binding.rvSubscriptionPlanList.adapter = subscriptionPlanListAdapter
-    }
-
 
     /**
      * Add Observers to listen changes in view model
      */
     private fun addObserver() {
-        viewModel.subscriptionSKUList.observe(this, {
+        viewModel.subscriptionSKUList.observe(this) {
             subscriptionSKUList = it
             if (subscriptionSKUList.isNotEmpty()) {
                 subscriptionSKUList.forEach {
@@ -228,10 +201,10 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
                     )
                 }
             }
-        })
+        }
 
 
-        viewModel.inAppSKUList.observe(this, {
+        viewModel.inAppSKUList.observe(this) {
             inAppSKUList = it
             if (inAppSKUList.isNotEmpty()) {
                 inAppSKUList.forEach {
@@ -241,9 +214,9 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
                     )
                 }
             }
-        })
+        }
 
-        viewModel.orderReceiptJsonForOneTime.observe(this@SubscriptionPlansActivity, {
+        viewModel.orderReceiptJsonForOneTime.observe(this@SubscriptionPlansActivity) {
             if (it.isNotEmpty()) {
                 val receiptData = Gson().fromJson(it, GoogleReceipt::class.java)
                 logger.dumpCustomEvent(IConstants.EVENT_PURCHASED, "Order Receipt: $it")
@@ -253,33 +226,44 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
 
 
             }
-        })
+        }
 
         viewModel.orderReceiptJsonForUpgradeDowngradeSubscription.observe(
-            this@SubscriptionPlansActivity,
-             {
-                if (it.isNotEmpty()) {
-                    it.showSnackBar(
-                        this@SubscriptionPlansActivity,
-                        type = IConstants.SNAKBAR_TYPE_SUCCESS,
-                        duration = IConstants.SNAKE_BAR_SHOW_TIME_INT
-                    )
+            this@SubscriptionPlansActivity
+        ) {
+            if (it.isNotEmpty()) {
+                it.showSnackBar(
+                    this@SubscriptionPlansActivity,
+                    type = IConstants.SNAKBAR_TYPE_SUCCESS,
+                    duration = IConstants.SNAKE_BAR_SHOW_TIME_INT
+                )
 
-                    Handler().postDelayed(
-                        { navigateToHomeScreen() },
-                        IConstants.SNAKE_BAR_PROFILE_SHOW_TIME
-                    )
-                    mIdlingResource?.setIdleState(true)
+                Handler().postDelayed(
+                    { navigateToHomeScreen() },
+                    IConstants.SNAKE_BAR_PROFILE_SHOW_TIME
+                )
+                mIdlingResource?.setIdleState(true)
 
-                }
-            })
+            }
+        }
 
-        viewModel.orderReceiptJsonForSubscription.observe(this@SubscriptionPlansActivity, {
+        viewModel.orderReceiptJsonForSubscription.observe(this@SubscriptionPlansActivity) {
             if (it.isNotEmpty()) {
                 val receiptData = Gson().fromJson(it, GoogleReceipt::class.java)
                 logger.dumpCustomEvent(IConstants.EVENT_PURCHASED, "Order Receipt: $it")
                 if (!flag_upgrade_downgrade.equals("1")) {
-                    viewModel.callBuySubscription(receiptData)
+                    when {
+                        checkInternet() -> {
+                            showProgressDialog(
+                                isCheckNetwork = true,
+                                isSetTitle = false,
+                                title = IConstants.EMPTY_LOADING_MSG
+                            )
+                            viewModel.callBuySubscription(receiptData)
+                        }
+
+                    }
+
                 } else {
                     flag_upgrade_downgrade = "0"
                     if (user?.subscription != null && user.subscription?.size!! > 0) {
@@ -297,8 +281,9 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
                 }
 
             }
-        })
-        viewModel.buySubscriptionLiveData.observe(this@SubscriptionPlansActivity, {
+        }
+        viewModel.buySubscriptionLiveData.observe(this@SubscriptionPlansActivity) {
+            hideProgressDialog()
             if (it.settings?.isSuccess == true) {
                 if (it.data != null) {
                     val subscription = it.data?.get(0)?.subscription
@@ -323,124 +308,51 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
                 )
 
             }
-        })
-        viewModel.statusCodeLiveData.observe(this, { serverError ->
-            handleApiStatusCodeError(serverError)
-        })
-
-    }
-
-    /**
-     * Set Entertainment List Data
-     * @param it ArrayList<Entertainment>
-     */
-    private fun setSubscriptionListData(it: ArrayList<SubscriptionPlan>) {
-        if (it.isNotEmpty()) {
-            showData()
-        } else {
-            showNoData()
         }
-        subscriptionPlanListAdapter.list = it
-        subscriptionPlanListAdapter.notifyDataSetChanged()
+        viewModel.statusCodeLiveData.observe(this) { serverError ->
+            handleApiStatusCodeError(serverError)
+            hideProgressDialog()
+        }
+
     }
 
-    private fun showData() {
-        binding.rvSubscriptionPlanList.visibility = View.VISIBLE
-        binding.llNoData.visibility = View.GONE
-    }
 
-    private fun showNoData() {
-        binding.rvSubscriptionPlanList.visibility = View.GONE
-        binding.llNoData.visibility = View.VISIBLE
-    }
 
     /**
      * Initialise listeners to listen all click and other actions performed by user
      */
     private fun initListeners() {
         binding.apply {
-            ivBack.setOnClickListener {
+            btnBack.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
                 finish()
+            }
+
+            linRegularSubscription.setOnClickListener{
+                linRegularSubscription.setBackgroundResource(R.drawable.bg_button_select)
+                linGoldenSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
+                textUpgradeProfile.text=getString(R.string.label_Regular_subscription_text)
+            }
+
+            linGoldenSubscription.setOnClickListener{
+                linGoldenSubscription.setBackgroundResource(R.drawable.bg_button_select)
+                linRegularSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
+                textUpgradeProfile.text=getString(R.string.label_golden_subscription_text)
             }
 
             btnSubscribe.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Subscribe Button Click")
 
-                if (subscriptionSKUList.isNotEmpty() && selectedSubscriptionPlan != null) {
-                    if (selectedSubscriptionPlan!!.planValidityInDays == "0" || selectedSubscriptionPlan!!.planValidityInDays == "7") {
-                        inAppSKUList.forEach {
-                            when (selectedSubscriptionPlan!!.planValidityInDays) {
-                                "0" -> {
-                                    if (it.sku == "com.app.reboundapp.life_time") {
-
-                                        viewModel.makePurchase(
-                                            this@SubscriptionPlansActivity,
-                                            skuDetails = it,
-                                            purchaseToken = purchaseToken,
-                                            oldSku = oldSku
-                                        )
-                                    }
-                                }
-                                "7" -> {
-                                    if (it.sku == "com.app.reboundapp.seven_days") {
-                                        viewModel.makePurchase(
-                                            this@SubscriptionPlansActivity,
-                                            skuDetails = it,
-                                            purchaseToken = purchaseToken,
-                                            oldSku = oldSku
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        subscriptionSKUList.forEach {
-                            when (selectedSubscriptionPlan!!.planValidityInDays) {
-                                "30" -> {
-                                    if (it.sku == "com.appineers.whitelabel.monthly") {
-                                        viewModel.makePurchase(
-                                            this@SubscriptionPlansActivity,
-                                            skuDetails = it,
-                                            purchaseToken = purchaseToken,
-                                            oldSku = oldSku
-                                        )
-                                    }
-                                }
-                                "90" -> {
-                                    if (it.sku == "com.appineers.whitelabel.3months") {
-                                        viewModel.makePurchase(
-                                            this@SubscriptionPlansActivity,
-                                            skuDetails = it,
-                                            purchaseToken = purchaseToken,
-                                            oldSku = oldSku
-                                        )
-                                    }
-                                }
-                                "180" -> {
-                                    if (it.sku == "com.appineers.whitelabel.6months") {
-                                        viewModel.makePurchase(
-                                            this@SubscriptionPlansActivity,
-                                            skuDetails = it,
-                                            purchaseToken = purchaseToken,
-                                            oldSku = oldSku
-                                        )
-                                    }
-                                }
-                                "365" -> {
-                                    if (it.sku == "yearly") {
-                                        viewModel.makePurchase(
-                                            this@SubscriptionPlansActivity,
-                                            skuDetails = it,
-                                            purchaseToken = purchaseToken,
-                                            oldSku = oldSku
-                                        )
-                                    }
-                                }
-                            }
-                        }
+                if (inAppSKUList.isNotEmpty()) {
+                    val selectedSku = inAppSKUList.find { it.sku == "android.test.purchased" }
+                    if (selectedSku != null) {
+                        this@SubscriptionPlansActivity.viewModel.makePurchase(
+                            this@SubscriptionPlansActivity,
+                            skuDetails = selectedSku
+                        )
                     }
                 }
+
             }
         }
     }
@@ -552,7 +464,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
                     ForegroundColorSpan(
                         ContextCompat.getColor(
                             this@SubscriptionPlansActivity,
-                            R.color.colorPrimary
+                            R.color.app_color
                         )
                     ), startIndex, endIndex, Spannable.SPAN_INCLUSIVE_INCLUSIVE
                 )
@@ -571,58 +483,6 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
         textView.text = spannableString1
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
-    override fun onSubscriptionClick(position: Int, data: SubscriptionPlan) {
-        selectedSubscriptionPlan = data
-        selectedSubscriptionPosition = position
-
-        /**
-         * On click of plan change the text content
-         */
-
-        if (selectedSubscriptionPlan?.planAmountForDisplay.equals("$14.99") && position == 0) {
-            tvSubscriptionContent.text = resources.getText(R.string.str_subscription_msg_1_month)
-        } else if (position == 1) {
-            tvSubscriptionContent.text = resources.getText(R.string.str_subscription_msg_3_month)
-        } else if (selectedSubscriptionPlan?.planAmountForDisplay.equals("$77.99") && position == 2) {
-            tvSubscriptionContent.text = resources.getText(R.string.str_subscription_msg_6_month)
-        } else if (selectedSubscriptionPlan?.planAmountForDisplay.equals("$119.99") && position == 3) {
-            tvSubscriptionContent.text = resources.getText(R.string.str_subscription_msg_1_year)
-        } else {
-            print("other amount")
-        }
-
-        /**
-         * On click of plan change view background
-         */
-
-        if (selectedSubscriptionPlan?.planAmountForDisplay.equals("$14.99") && position == 0) {
-            view_one_month.background = resources.getDrawable(R.drawable.bg_dot_black)
-            view_one_month.background.setTint(resources.getColor(R.color.white))
-        } else {
-            view_one_month.background = resources.getDrawable(R.drawable.bg_dot_grey)
-        }
-        if (position == 1) {
-            view_three_month.background = resources.getDrawable(R.drawable.bg_dot_black)
-            view_three_month.background.setTint(resources.getColor(R.color.white))
-        } else {
-            view_three_month.background = resources.getDrawable(R.drawable.bg_dot_grey)
-        }
-        if (selectedSubscriptionPlan?.planAmountForDisplay.equals("$77.99") && position == 2) {
-            view_six_month.background = resources.getDrawable(R.drawable.bg_dot_black)
-            view_six_month.background.setTint(resources.getColor(R.color.white))
-        } else {
-            view_six_month.background = resources.getDrawable(R.drawable.bg_dot_grey)
-        }
-        if (selectedSubscriptionPlan?.planAmountForDisplay.equals("$119.99") && position == 3) {
-            view_one_year.background = resources.getDrawable(R.drawable.bg_dot_black)
-            view_one_year.background.setTint(resources.getColor(R.color.white))
-        } else {
-            view_one_year.background = resources.getDrawable(R.drawable.bg_dot_grey)
-        }
-
-
-    }
 
     @Nullable
     private var mIdlingResource: RemoteIdlingResource? = null
@@ -640,13 +500,5 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>(), Subscriptio
         return mIdlingResource as RemoteIdlingResource
     }
 
-
-    override fun injectDependencies(activityComponent: ActivityComponent) {
-        activityComponent.inject(this)
-    }
-
-    override fun setupView(savedInstanceState: Bundle?) {
-
-    }
 
 }

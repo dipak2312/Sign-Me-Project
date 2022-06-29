@@ -82,9 +82,9 @@ class SubscribedUserActivity : BaseActivity<SettingsViewModel>(), SubscriptionCl
      * Add Observers to listen changes in view model
      */
     private fun addObserver() {
-        viewModel.statusCodeLiveData.observe(this, { serverError ->
+        viewModel.statusCodeLiveData.observe(this) { serverError ->
             handleApiStatusCodeError(serverError)
-        })
+        }
 
     }
 

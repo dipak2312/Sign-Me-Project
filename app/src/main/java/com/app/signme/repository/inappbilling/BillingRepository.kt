@@ -524,8 +524,8 @@ class BillingRepository @Inject constructor(private val application: Application
      */
 
     private object AppSku {
-        val ADD_FREE = "com.appineers.whitelabel.goadfree"
-        val ONE_MONTH = "com.appineers.whitelabel.monthly"
+        val ADD_FREE = "android.test.purchased"
+        val ONE_MONTH = "android.test.purchased"
         val SIX_MONTH = "com.appineers.whitelabel.6months"
         val PURCHASE_COUNT = "purchase_count"
         val YEARLY = "yearly"

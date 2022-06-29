@@ -90,4 +90,5 @@
             android:visibility="@{model.showAddButton() ? View.GONE: View.VISIBLE}" />
     </FrameLayout>
     </RelativeLayout>
+
 </layout>

@@ -6,11 +6,13 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.signme.R
+import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.getJsonDataFromAsset
 import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentChatBinding
 import com.app.signme.dataclasses.ChatListData
 import com.app.signme.core.BaseFragment
+import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.viewModel.ChatViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -39,15 +41,15 @@ class ChatFragment : BaseFragment<ChatViewModel>(), ChatClickListener {
         initListeners()
     }
     private fun initListeners() {
-       /* binding?.let {
-            with(it, {
+        binding?.let {
+            with(it) {
 
-                ibtnBack.setOnClickListener {
-                    logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
-                    finish()
+                btnSettings.setOnClickListener {
+                    logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Setting Button Click")
+                    startActivity(SettingsActivity.getStartIntent(this@ChatFragment.requireContext()))
                 }
-            })
-        }*/
+            }
+        }
 
         initRecycleView()
         loadChatList()

@@ -182,8 +182,8 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                     userInfo = it.data!![0]
                     AppineersApplication.sharedPreference.userDetail = it.data!![0]
                     binding!!.user=it.data!![0]
-                    localDatabaseImages()
-                    setData()
+                    //localDatabaseImages()
+                    //setData()
                     for(response in it.data!![0].lookingForRelationType!!)
                     {
                         lookingFor?.add(response.relationshipStatus)
@@ -255,11 +255,11 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
-        TODO("Not yet implemented")
+
     }
 
     private fun localDatabaseImages() {
