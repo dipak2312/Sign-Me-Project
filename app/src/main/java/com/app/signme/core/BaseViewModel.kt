@@ -25,6 +25,7 @@ abstract class BaseViewModel(
     val showDialog: MutableLiveData<Boolean> = MutableLiveData()
     val validationObserver : MutableLiveData<ValidationResult> = MutableLiveData()
     var statusCodeLiveData = MutableLiveData<ServerError>()
+    var statusRelationshipCodeLiveData=MutableLiveData<ServerError>()
 
 
     protected fun checkInternetConnection(): Boolean = NetworkHelper.isNetworkConnected()

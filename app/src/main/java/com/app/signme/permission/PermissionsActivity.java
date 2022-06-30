@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import com.app.signme.R;
+
 import java.util.ArrayList;
 
 /**
@@ -92,7 +94,7 @@ public class PermissionsActivity extends Activity {
                 }
             }
         };
-        new AlertDialog.Builder(this).setTitle(options.rationaleDialogTitle)
+        new AlertDialog.Builder(this,AlertDialog.THEME_DEVICE_DEFAULT_DARK).setTitle(options.rationaleDialogTitle)
                 .setMessage(rationale)
                 .setPositiveButton(android.R.string.ok, listener)
                 .setNegativeButton(android.R.string.cancel, listener)

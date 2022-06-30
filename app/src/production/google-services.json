@@ -1,110 +1,34 @@
 {
   "project_info": {
-    "project_number": "699060553821",
-    "firebase_url": "https://whitelabelapp-c93da.firebaseio.com",
-    "project_id": "whitelabelapp-c93da",
-    "storage_bucket": "whitelabelapp-c93da.appspot.com"
+    "project_number": "626428000219",
+    "project_id": "sign-me-29ced",
+    "storage_bucket": "sign-me-29ced.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:699060553821:android:4044c888cf34f714ed65b4",
+        "mobilesdk_app_id": "1:626428000219:android:997c45b6a0ea2aebc699fe",
         "android_client_info": {
-          "package_name": "com.app.whitelabel"
+          "package_name": "com.app.signme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "699060553821-g8akcp66lq7b58kr6dt89vohe5vai3ae.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.whitelabel",
-            "certificate_hash": "9a123bb3dca89e93555e779bfc3281496a137453"
-          }
-        },
-        {
-          "client_id": "699060553821-ij4pomfhdvvtbsibg7fjbnqlbs9en2gu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.whitelabel",
-            "certificate_hash": "71bef0cbd5afacaac0e956c51cdd3a62e08d0881"
-          }
-        },
-        {
-          "client_id": "699060553821-tera810t4e545l6g6nj9fcdthbkjhe4g.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.app.whitelabel",
-            "certificate_hash": "d0c98fb65cfb32cdd327b0af7d038498930fa2ae"
-          }
-        },
-        {
-          "client_id": "699060553821-1smv9v9o9l36eff0s5me3djik02smob7.apps.googleusercontent.com",
+          "client_id": "626428000219-7srde4k92qrc8rmtmfaedp5grug6vrh0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCSjXoiCDQZlG1UNT14FaOom-W3j6pyey8"
+          "current_key": "AIzaSyD54xeuPIDinfz-BoAFOy_FDVs5KyCYrCE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "699060553821-1smv9v9o9l36eff0s5me3djik02smob7.apps.googleusercontent.com",
+              "client_id": "626428000219-7srde4k92qrc8rmtmfaedp5grug6vrh0.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "699060553821-8gcrb4mrrdqkfj91e32b4poepi4foq6g.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.appineers.whitelabel"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:699060553821:android:30d7698fa7012483ed65b4",
-        "android_client_info": {
-          "package_name": "com.appineers.whitelabel"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "699060553821-154sv78oh35i4sdj39pn8vfoc7r37q61.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.appineers.whitelabel",
-            "certificate_hash": "9a123bb3dca89e93555e779bfc3281496a137453"
-          }
-        },
-        {
-          "client_id": "699060553821-1smv9v9o9l36eff0s5me3djik02smob7.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCSjXoiCDQZlG1UNT14FaOom-W3j6pyey8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "699060553821-1smv9v9o9l36eff0s5me3djik02smob7.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "699060553821-8gcrb4mrrdqkfj91e32b4poepi4foq6g.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.appineers.whitelabel"
-              }
             }
           ]
         }

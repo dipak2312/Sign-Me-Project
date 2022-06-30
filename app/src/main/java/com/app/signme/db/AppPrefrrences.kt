@@ -9,6 +9,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.app.signme.R
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.dataclasses.DeleteUserProfile
 import com.app.signme.dataclasses.Social
 import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.dataclasses.response.LoginResponse
@@ -111,6 +112,8 @@ class AppPrefrrences(context: Context) {
     /**
      * Store and get logged in user details
      */
+
+
     var socialUserDetails: Social?
         get() = getObjectFromJsonString<Social>(
             pref.getString("socialUserDetails", "")
@@ -123,6 +126,8 @@ class AppPrefrrences(context: Context) {
                 pref.edit().putString("socialUserDetails", getJsonStringFromObject(value)).apply()
             }
 
+
+
     var notificationDefaultChannelSet: Boolean
         get() = pref.getBoolean(IConstants.SP_NOTIFICATION_CHANNEL_DEFAULT, false)
         set(value) = pref.edit().putBoolean(IConstants.SP_NOTIFICATION_CHANNEL_DEFAULT, value)
@@ -134,6 +139,15 @@ class AppPrefrrences(context: Context) {
     var appLoginType: String?
         get() = pref.getString("loginType", "")
         set(value) = pref.edit().putString("loginType", value).apply()
+
+
+    /**
+     * Store User Profile url
+     */
+    var userProfileUrl: String?
+        get() = pref.getString("userProfile", "")
+        set(value) = pref.edit().putString("userProfile", value).apply()
+
 
 
     /**

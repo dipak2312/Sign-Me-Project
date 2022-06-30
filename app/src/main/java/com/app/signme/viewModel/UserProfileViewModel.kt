@@ -103,7 +103,7 @@ class UserProfileViewModel(
                         getRelationshipStatus.postValue(response)
                     },
                     { error ->
-                        statusCodeLiveData.postValue(handleServerError(error))
+                        statusRelationshipCodeLiveData.postValue(handleServerError(error))
                     }
                 )
         )
@@ -144,7 +144,7 @@ class UserProfileViewModel(
      * Validate sign up inputs
      */
     fun isValid(request: SignUpRequestModel): Boolean {
-        when {
+        return when {
 
             //First Name
             !isValidInputText(
@@ -154,9 +154,9 @@ class UserProfileViewModel(
                 maximumLength = application.resources.getInteger(R.integer.first_name_max_length),
                 validationObserver = validationObserver, config = SignUpConfigItem("1", "0")
             ) -> {
-
-                return false
+                false
             }
+
 
             //Last Name
             !isValidInputText(
@@ -166,47 +166,12 @@ class UserProfileViewModel(
                 maximumLength = application.resources.getInteger(R.integer.first_name_max_length),
                 validationObserver = validationObserver, config = SignUpConfigItem("1", "0")
             ) -> {
-
-                return false
+                false
             }
-//            //Street Address
-//            !isValidInputText(
-//                text = request.address, emptyFailType = ADDRESS_EMPTY, viewId = R.id.tietAddress,
-//                validationObserver = validationObserver, config = SignUpConfigItem("1", "1")
-//            ) -> {
-//                return false
-//            }
-//
-//            //City
-//            !isValidInputText(
-//                text = request.city, emptyFailType = CITY_EMPTY, viewId = R.id.tietCity,
-//                validationObserver = validationObserver, config = SignUpConfigItem("1", "1")
-//            ) -> {
-//                return false
-//            }
-//
-//            //State
-//            !isValidInputText(
-//                text = request.state, emptyFailType = STATE_EMPTY, viewId = R.id.tietState,
-//                validationObserver = validationObserver, config = SignUpConfigItem("1", "1")
-//            ) -> {
-//                return false
-//            }
-//
-//            //Zip Code
-//            !isValidInputText(
-//                text = request.zipCode, emptyFailType = ZIP_CODE_EMPTY,
-//                invalidFailType = ZIP_CODE_INVALID, viewId = R.id.tietZipCode,
-//                minimumLength = application.resources.getInteger(R.integer.zip_code_min_length),
-//                maximumLength = application.resources.getInteger(R.integer.zip_code_max_length),
-//                validationObserver = validationObserver, config = SignUpConfigItem("1", "1")
-//            ) -> {
-//
-//                return false
-//            }
-            else -> return true
+            else -> true
         }
     }
+
 
     /**
      * Perform edit profile request

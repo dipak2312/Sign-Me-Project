@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.signme.R
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.getJsonDataFromAsset
+import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentChatBinding
 import com.app.signme.dataclasses.ChatListData
@@ -50,6 +51,8 @@ class ChatFragment : BaseFragment<ChatViewModel>(), ChatClickListener {
                 }
             }
         }
+
+
 
         initRecycleView()
         loadChatList()

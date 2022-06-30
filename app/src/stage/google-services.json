@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "120854975197",
-    "project_id": "whitelabelappstage",
-    "storage_bucket": "whitelabelappstage.appspot.com"
+    "project_number": "626428000219",
+    "project_id": "sign-me-29ced",
+    "storage_bucket": "sign-me-29ced.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:120854975197:android:48f66915b0dfee62590134",
+        "mobilesdk_app_id": "1:626428000219:android:997c45b6a0ea2aebc699fe",
         "android_client_info": {
-          "package_name": "com.appineers.whitelabelstage"
+          "package_name": "com.app.signme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "120854975197-jk2lbm7s3kn149nlcqb53c7ab50l0tea.apps.googleusercontent.com",
+          "client_id": "626428000219-7srde4k92qrc8rmtmfaedp5grug6vrh0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBIxUQ3twgfDIIgbehzPKgqLSJSLKlJAQc"
+          "current_key": "AIzaSyD54xeuPIDinfz-BoAFOy_FDVs5KyCYrCE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "120854975197-jk2lbm7s3kn149nlcqb53c7ab50l0tea.apps.googleusercontent.com",
+              "client_id": "626428000219-7srde4k92qrc8rmtmfaedp5grug6vrh0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

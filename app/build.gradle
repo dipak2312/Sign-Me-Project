@@ -10,8 +10,8 @@ apply plugin: 'com.google.firebase.crashlytics'
 android {
     signingConfigs {
         config {
-           // storeFile file('C:\\Users\\Lenovo\\AndroidStudioProjects\\AppineersApp_V3_Android\\app\\release_key_alias.jks')
-            storeFile file('D:\\WhitelabelV4\\AppineersApp_V4_Android\\app\\release_key_alias.jks')
+
+            storeFile file('D:\\SignMe\\SignMe_Android\\app\\release_key_alias.jks')
             storePassword 'Today123'
             keyAlias 'key0'
             keyPassword 'Today123'
@@ -72,7 +72,7 @@ android {
 
     productFlavors {
         development {
-            applicationId "com.appineers.whitelabeldev"
+            applicationId "com.app.signme"
             versionName defaultConfig.versionName
            /*  manifestPlaceholders["hostName"] = "www.example.com" */
 
@@ -82,13 +82,13 @@ android {
 
         }
         stage {
-            applicationId "com.appineers.whitelabelstage"
+            applicationId "com.app.signme"
             versionName defaultConfig.versionName
             buildConfigField("String", "Base_Url", "\"http://54.80.150.240/Appineers_V4_Web/Appineers_V4/WS/\"")
             buildConfigField("String", "facebook_app_id", "\"728211564501944\"")
         }
         production {
-            applicationId "com.appineers.whitelabel"
+            applicationId "com.app.signme"
             versionName defaultConfig.versionName
             buildConfigField("String", "Base_Url", "\"http://54.80.150.240/Appineers_V4_Web/Appineers_V4/WS/\"")
             buildConfigField("String", "facebook_app_id", "\"728211564501944\"")
