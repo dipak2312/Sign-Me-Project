@@ -15,9 +15,9 @@ class AddAddressRepository @Inject constructor(
    /* fun callSignUpWithPhone(map: HashMap<String, RequestBody>): Single<TAListResponse<LoginResponse>> =
         networkService.callSignUpWithPhone(fieldMap = map)
 */
-    fun updateUserProfile(map: HashMap<String, RequestBody>, file: MultipartBody.Part?
-    ): Single<TAListResponse<LoginResponse>> =
-        networkService.callUpdateUserProfile(map,file)
+//    fun updateUserProfile(map: HashMap<String, RequestBody>, file: MultipartBody.Part?
+//    ): Single<TAListResponse<LoginResponse>> =
+//        networkService.callUpdateUserProfile(map,null)
 
 
 }

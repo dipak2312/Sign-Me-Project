@@ -5,15 +5,24 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import com.app.signme.BuildConfig
@@ -31,12 +40,18 @@ import com.app.signme.databinding.ActivityEditProfileBinding
 import com.app.signme.dataclasses.DeleteUserProfile
 import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.dataclasses.UserImage
+import com.app.signme.dataclasses.UserMediaList
 import com.app.signme.scheduler.aws.AwsService
+import com.app.signme.view.enablePermission.PermissionEnableActivity
 import com.app.signme.viewModel.UserProfileViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.gms.location.*
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.chip.Chip
 import com.hb.logger.msc.MSCGenerator
@@ -46,12 +61,12 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import kotlinx.coroutines.*
+import timber.log.Timber
 import java.io.File
 import java.net.URL
 import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewActionListener {
@@ -83,6 +98,13 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     var uploadedFiles = ArrayList<String>()
     var deleteUserProfile=ArrayList<DeleteUserProfile>()
     var isImageUploading: Boolean = false
+    var latitude:String?=""
+    var longitude:String?=""
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
+    private lateinit var locationCallback: LocationCallback
+    var lastKnownLocation: Location? = null
+    private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
+    var locationPermissionGranted: Boolean? = false
 
     companion object {
         const val TAG = "EditProfileActivity"
@@ -110,6 +132,8 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             "view-editprofilescreen",
             "view-editprofilescreen"
         )
+        mFusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(this)
         binding?.user = sharedPreference.userDetail
         (application as AppineersApplication).isRemoved =
             sharedPreference.userDetail?.profileImage.equals("")
@@ -124,6 +148,10 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             binding!!.tvEditProfile.text = getString(R.string.label_edit_profile_toolbar_text)
             binding!!.btnUpdate.text = getString(R.string.label_save_profile)
             binding!!.linFirstLastName.visibility = View.VISIBLE
+            binding!!.btnSelectCity.isClickable=true
+            binding!!.btnSetAddress.visibility=View.VISIBLE
+            latitude= sharedPreference.userDetail!!.latitude
+            longitude= sharedPreference.userDetail!!.longitude
             editProfile()
         } else {
             AddGender(genders!!)
@@ -131,11 +159,15 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             binding!!.tvEditProfile.text = getString(R.string.label_complete_profile_toolbar_text)
             binding!!.btnUpdate.text = getString(R.string.label_get_started_profile)
             binding!!.linFirstLastName.visibility = View.GONE
+            binding!!.btnSelectCity.isClickable=false
+            binding!!.btnSetAddress.visibility=View.GONE
+            latitude= sharedPreference.latitude
+            longitude= sharedPreference.longitude
+            getCityAndState(latitude,longitude)
         }
 
         initListener()
         addObservers()
-        getCityAndState()
         userProfile.add(UserImage("", "", "", ""))
         userProfile.add(UserImage("", "", "", ""))
         userProfile.add(UserImage("", "", "", ""))
@@ -146,7 +178,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         binding!!.mRecyclerView.adapter = mAdapter
         mAdapter!!.addAllItem(userProfile)
 
-        getRelationshipStatus()
+       // getRelationshipStatus()
 
     }
 
@@ -165,9 +197,11 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         binding!!.textDOB.setTextColor(Color.parseColor("#ffffff"))
         binding!!.editAboutYou.setText(sharedPreference.userDetail!!.aboutMe)
         binding!!.distanceSlider.value = sharedPreference.userDetail!!.maxDistance!!.toFloat()
-        binding!!.textDistanceSlider.text =
-            sharedPreference.userDetail!!.maxDistance + getString(R.string.label_km)
+        binding!!.textDistanceSlider.text = sharedPreference.userDetail!!.maxDistance + getString(R.string.label_km)
         selectedLookingFor = sharedPreference.userDetail?.lookingForGender.toString()
+        city = sharedPreference.userDetail!!.city
+        state = sharedPreference.userDetail!!.stateName
+        binding!!.textCityState.setText(city + "," + " " + state)
 
         if (selectedLookingFor.isNotEmpty()) {
             if (selectedLookingFor.equals(getString(R.string.non_binary))) {
@@ -201,14 +235,14 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         }
     }
 
-    fun getCityAndState() {
+    fun getCityAndState(latitude:String?,longitude:String?) {
         val geocoder = Geocoder(this@EditProfileActivity, Locale.getDefault())
 
-        if (!sharedPreference.latitude.isNullOrEmpty() && !sharedPreference.longitude.isNullOrEmpty()) {
+        if (!latitude.isNullOrEmpty() && !longitude.isNullOrEmpty()) {
             val addresses: List<Address>
             addresses = geocoder.getFromLocation(
-                sharedPreference.latitude!!.toDouble(),
-                sharedPreference.longitude!!.toDouble(),
+                latitude.toDouble(),
+                longitude.toDouble(),
                 1
             ) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             val address =
@@ -305,9 +339,18 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 textDistanceSlider.text = distance.toString() + getString(R.string.label_km)
             }
 
+
+            btnSelectCity.setOnClickListener{
+                openPlacePicker()
+            }
+
            btnRefreshRelationship.setOnClickListener{
                getRelationshipStatus()
            }
+            btnSetAddress.setOnClickListener{
+                getCurrentLocation()
+            }
+
 
             ageRangeSlider.addOnChangeListener { slider, value, fromUser ->
                 var ageStart: Int = slider.values[0].toInt()
@@ -379,6 +422,139 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
     }
 
+    fun locationEnableOrNot():Boolean
+    {
+        val hasPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        return hasPermission && gpsStatus
+
+    }
+
+    fun getCurrentLocation()
+    {
+        val locationStatus=locationEnableOrNot()
+        if(locationStatus)
+        {
+            showProgressDialog(
+                isCheckNetwork = true,
+                isSetTitle = false,
+                title = IConstants.EMPTY_LOADING_MSG
+            )
+            locationPermissionGranted=true
+            getDeviceLocation()
+
+        }
+        else
+        {
+            startActivity(PermissionEnableActivity.getStartIntent(this@EditProfileActivity,getString(R.string.label_edit)))
+        }
+    }
+
+    private fun getDeviceLocation() {
+        /*
+         * Get the best and most recent location of the device, which may be null in rare
+         * cases when a location is not available.
+         */
+        try {
+            if (locationPermissionGranted!!) {
+                val locationRequest = LocationRequest.create()
+                locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+                locationRequest.interval = 5 * 1000
+                locationCallback = object : LocationCallback() {
+                    override fun onLocationResult(locationResult: LocationResult?) {
+
+                        if (locationResult == null) {
+                            hideProgressDialog()
+                            logger.dumpCustomEvent("Location", "Location not found.")
+                            Toast.makeText(
+                                this@EditProfileActivity,
+                                "Unable to fetch location..",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return
+                        }
+
+                        if (locationResult.locations.isEmpty()) {
+                            hideProgressDialog()
+                            logger.dumpCustomEvent("Location", "Location not found.")
+                            Toast.makeText(
+                                this@EditProfileActivity,
+                                "Unable to fetch location..",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return
+                        } else {
+                            hideProgressDialog()
+                            lastKnownLocation = locationResult.locations[0]
+                            mFusedLocationProviderClient?.removeLocationUpdates(this)
+
+                            latitude= lastKnownLocation?.latitude!!.toString()
+                            longitude=lastKnownLocation?.longitude!!.toString()
+
+                            com.app.signme.commonUtils.utility.extension.sharedPreference.latitude=latitude
+                            com.app.signme.commonUtils.utility.extension.sharedPreference.longitude=longitude
+                            getCityAndState(latitude,longitude)
+                        }
+                    }
+                }
+
+                mFusedLocationProviderClient?.requestLocationUpdates(
+                    locationRequest,
+                    locationCallback,
+                    Looper.getMainLooper()
+                )
+            } else {
+                hideProgressDialog()
+
+            }
+        } catch (e: SecurityException) {
+            hideProgressDialog()
+            Log.e("Exception: %s", e.message, e)
+        }
+    }
+
+    /**
+     * Open auto complete place picker to get address
+     */
+    private fun openPlacePicker() {
+        hideKeyboard()
+        Places.initialize(applicationContext, "AIzaSyCLlHTQK_4lzrVd2GgTkXSFMC_Dt9hz0SM")
+        // Set the fields to specify which types of place data to
+        // return after the user has made a selection.
+        val fields =
+            listOf(Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS, Place.Field.LAT_LNG)
+
+        // Start the autocomplete intent.
+        val intent: Intent
+        if (placeSearchBy == IConstants.CITY_SEARCH) {
+            intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY, fields
+            ).setTypeFilter(TypeFilter.CITIES)
+                .build(this)
+            /**
+             * Use US if we have to show places only for USA
+             */
+            //.setCountry("US")
+
+        } else {
+            intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY, fields
+            )
+                .build(this)
+            /**
+             * Use US if we have to show places only for USA
+             */
+            //.setCountry("US")
+
+        }
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+    }
+
+
     private fun setProfileImage() {
         if (!sharedPreference.userDetail?.profileImage.equals("")) {
             // loadImage(binding!!.sivUserImage, sharedPreference.userDetail?.profileImage)
@@ -414,6 +590,8 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         } else if (distance.equals("0")) {
             showMessage(getString(R.string.alert_select_distance), IConstants.SNAKBAR_TYPE_ERROR)
         } else {
+
+            var userMedia:UserMediaList?=null
             if (selectMyGender.equals(getString(R.string.label_non_binary))) {
                 selectMyGender = getString(R.string.non_binary)
             }
@@ -425,12 +603,16 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             if (!lookingForRelation.isNullOrEmpty()) {
                 relationship = lookingForRelation!!.joinToString(separator = ",")
             }
+            if(!uploadedFiles.isNullOrEmpty())
+            {
+                userMedia= UserMediaList(uploadedFiles)
+            }
             val signUpRequest = viewModel.getEditProfileRequest(
                 //  userProfileImage = getProfileImageUrl(), //imagePath,
                 firstName = binding?.tietFirstName!!.getTrimText(),
                 lastName = binding?.tietLastName!!.getTrimText(), //imagePath,
-                latitude = sharedPreference.latitude ?: "0.0",
-                longitude = sharedPreference.longitude ?: "0.0",
+                latitude = latitude ?: "0.0",
+                longitude = longitude ?: "0.0",
                 city = city ?: "",
                 state = state ?: "",
                 dob = DOB!!,
@@ -442,7 +624,8 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 lookingForRelation = relationship!!,
                 maxDistance = distance!!,
                 ageLowerLimt = ageStart!!,
-                ageUpperLimt = ageEnd!!
+                ageUpperLimt = ageEnd!!,
+                userMediaList = uploadedFiles!!.joinToString(separator = ",")
             )
 
             when {
@@ -471,8 +654,10 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 )
                 showMessage(it.settings!!.message, IConstants.SNAKBAR_TYPE_SUCCESS)
                 binding!!.btnUpdate.isClickable = false
-                binding!!.btnUpdate.isFocusable = false
+
                 sharedPreference.userDetail = it.data!![0]
+                uploadedFiles.clear()
+                sharedPreference.userProfileUrl=""
                 Handler(mainLooper).postDelayed(
                     {
                         (application as AppineersApplication).isProfileUpdated.value = true
@@ -483,6 +668,17 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                         }
                     }, IConstants.SNAKE_BAR_SHOW_TIME
                 )
+
+            }
+        }
+
+        (application as AppineersApplication).isCurrentLocationUpdated.observe(this){isUpdate->
+            if(isUpdate)
+            {
+                latitude= sharedPreference.latitude
+                longitude= sharedPreference.longitude
+                getCityAndState(sharedPreference.latitude, sharedPreference.longitude)
+                (application as AppineersApplication).isCurrentLocationUpdated.postValue(false)
 
             }
         }
@@ -642,6 +838,26 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             .start(MULTI_IMAGE_REQUEST_CODE)
     }
 
+    /**
+     * Set Address
+     */
+    private fun setAddress(place: Place) {
+        selectedPlace = place
+        val locationAddress =
+            place.addressComponents?.let { super.getParseAddressComponents(addressComponents = it) }
+
+         latitude=place.latLng.latitude.toString()
+         longitude=place.latLng.longitude.toString()
+         city=locationAddress?.city
+         state=locationAddress?.state
+
+        val cityState = city + "," + " " + state
+        binding!!.textCityState.setText(cityState)
+
+        logger.debugEvent("Place Result", place.address ?: "")
+    }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -650,7 +866,8 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             when (requestCode) {
                 IConstants.AUTOCOMPLETE_REQUEST_CODE -> {
                     if (data != null) {
-                        //setAddress(Autocomplete.getPlaceFromIntent(data))
+                        setAddress(Autocomplete.getPlaceFromIntent(data))
+                        data.dataString?.let { Timber.d(it) }
                     }
                 }
                 MULTI_IMAGE_REQUEST_CODE -> {
@@ -829,7 +1046,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                             if (AwsService.deleteFile(uploadedFile.substringAfter(".com/"))) {
                                 //mAdapter!!.replaceItem(position, UserImage("", "", "", ""))
                                 mAdapter!!.removeItem(position)
-                                mAdapter!!.addItem(UserImage("","","","",))
+                                mAdapter!!.addItem(UserImage("", "", "", ""))
                                 uploadedFiles.removeAt(uploadedFileIndex)
                                 if(!uploadedFiles.isNullOrEmpty())
                                 {
@@ -857,7 +1074,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 } else {
                    // mAdapter!!.replaceItem(position, UserImage("", "", "", ""))
                     mAdapter!!.removeItem(position)
-                    mAdapter!!.addItem(UserImage("","","","",))
+                    mAdapter!!.addItem(UserImage("", "", "", ""))
 
                 }
 
@@ -866,8 +1083,11 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     }
 
 
-    override fun onLoadMore(itemCount: Int, nextPage: Int) {
+    override fun onLoadMore(itemCount: Int, nextPage: Int)
+    {
+
     }
+
 
 
 }

@@ -1,9 +1,12 @@
 package com.app.signme.api.network
 
 import com.app.signme.dataclasses.RelationshipType
+import com.app.signme.dataclasses.UserMedia
+import com.app.signme.dataclasses.UserMediaList
 import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.dataclasses.generics.TAGenericResponse
 import com.app.signme.dataclasses.generics.TAListResponse
+import com.app.signme.dataclasses.request.SignUpRequestModel
 import com.app.signme.dataclasses.response.*
 import com.app.signme.dataclasses.response.forgotpasswordwithphone.ResetWithPhone
 import com.google.gson.JsonElement
@@ -130,12 +133,10 @@ interface NetworkService {
     @FormUrlEncoded
     fun callChangePhoneNumber(@Field("new_mobile_number") old_password: String?): Single<TAListResponse<JsonElement>>
 
-    @Multipart
+   @Multipart
     @POST("edit_profile")
     fun callUpdateUserProfile(
-        @PartMap map: HashMap<String, RequestBody>,
-        @Part file: MultipartBody.Part? = null
-    ): Single<TAListResponse<LoginResponse>>
+       @PartMap map: HashMap<String, RequestBody>): Single<TAListResponse<LoginResponse>>
 
     @POST("get_config_paramaters")
     fun callConfigParameters(): Single<TAListResponse<VersionConfigResponse>>

@@ -1,6 +1,8 @@
 package com.app.signme.dataclasses.request
 
 import android.os.Parcelable
+import com.app.signme.dataclasses.UserMediaList
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -95,6 +97,8 @@ data class SignUpRequestModel(
     @field:SerializedName("age_lower_limit")
     var ageLowerLimt: String = "",
     @field:SerializedName("age_upper_limit")
-    var ageUpperLimt: String = ""
+    var ageUpperLimt: String = "",
+    @JsonProperty("user_media")
+    var userMedia: String?=""
 
 ) : Parcelable

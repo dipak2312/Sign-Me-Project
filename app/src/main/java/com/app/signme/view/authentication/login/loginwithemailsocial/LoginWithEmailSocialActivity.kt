@@ -727,12 +727,8 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
         }
         else
         {
-            startActivity(
-                Intent(
-                    this@LoginWithEmailSocialActivity,
-                    PermissionEnableActivity::class.java
-                )
-            )
+
+            startActivity(PermissionEnableActivity.getStartIntent(this@LoginWithEmailSocialActivity,getString(R.string.label_add)))
             finish()
         }
 

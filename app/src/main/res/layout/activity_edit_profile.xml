@@ -312,19 +312,43 @@
                     android:text="@string/label_city"
                     android:textColor="@color/signup_title_gray"
                     android:textSize="@dimen/text_dimen_15sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textCityState"
-                    style="@style/SignupInputStyle"
-                    android:clickable="false"
-                    android:drawableStart="@drawable/ic_location_gray"
-                    android:drawablePadding="@dimen/dimen_15dp"
-                    android:focusable="false"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapSentences"
-                    android:maxLength="80"
-                    android:padding="@dimen/dimen_15dp"
-                    tools:text="Atlanta, Georgia" />
+                    <LinearLayout
+                        android:id="@+id/btnSelectCity"
+                        android:background="@drawable/bg_edit_gray"
+                        android:layout_margin="@dimen/dimen_16dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/dimen_50dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/textCityState"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            style="@style/RegularTextStyle"
+                            android:drawableStart="@drawable/ic_location_gray"
+                            android:drawablePadding="@dimen/dimen_15dp"
+                            android:maxLength="80"
+                            android:padding="@dimen/dimen_15dp"
+                            tools:text="Atlanta, Georgia" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/btnSetAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_locate_me"
+                        android:layout_marginEnd="@dimen/dimen_15dp"
+                        android:layout_gravity="center_vertical">
+
+                    </androidx.appcompat.widget.AppCompatImageView>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

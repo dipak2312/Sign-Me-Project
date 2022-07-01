@@ -53,6 +53,7 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
 
     lateinit var applicationComponent: ApplicationComponent
     var isLogStatusUpdated = MutableLiveData<Boolean>()
+    var isCurrentLocationUpdated = MutableLiveData<Boolean>()
     val isProfileUpdated = MutableLiveData<Boolean>()
     val isAdRemoved = MutableLiveData<Boolean>()
     var isSubscriptionTaken = MutableLiveData<Boolean>()

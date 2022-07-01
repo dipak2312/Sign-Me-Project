@@ -2,7 +2,10 @@ package com.app.signme.repository
 
 import com.app.signme.api.network.NetworkService
 import com.app.signme.dataclasses.RelationshipType
+import com.app.signme.dataclasses.UserMedia
+import com.app.signme.dataclasses.UserMediaList
 import com.app.signme.dataclasses.generics.TAListResponse
+import com.app.signme.dataclasses.request.SignUpRequestModel
 import com.app.signme.dataclasses.response.LoginResponse
 import com.google.gson.JsonElement
 import io.reactivex.Single
@@ -13,9 +16,9 @@ import javax.inject.Inject
 class UserProfileRepository @Inject constructor(
     val networkService: NetworkService
 ) {
-    fun updateUserProfile(map: HashMap<String, RequestBody>, file: MultipartBody.Part?
+    fun updateUserProfile( map: HashMap<String, RequestBody>
     ): Single<TAListResponse<LoginResponse>> =
-        networkService.callUpdateUserProfile(map,file)
+        networkService.callUpdateUserProfile(map)
 
     fun callUploadMultimediaMedia(
         dataMap: HashMap<String, RequestBody>,

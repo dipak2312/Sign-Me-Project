@@ -11,6 +11,7 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
@@ -35,13 +36,13 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
 
     companion object {
 
-        fun getStartIntent(mContext: Context): Intent {
+        fun getStartIntent(mContext: Context, status: String): Intent {
             return Intent(mContext, PermissionEnableActivity::class.java).apply {
-
+                putExtra(IConstants.STATUS, status)
             }
         }
     }
-
+    var status: String? = ""
     //Location parameters
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     var lastKnownLocation: Location? = null
@@ -53,6 +54,7 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
     override fun setDataBindingLayout() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_location_permission)
         binding?.lifecycleOwner = this
+        status = intent?.getStringExtra(IConstants.STATUS)
     }
 
     override fun injectDependencies(activityComponent: ActivityComponent) {
@@ -71,6 +73,8 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
         mFusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(this)
         initListeners()
+
+
 
     }
 
@@ -100,6 +104,11 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
          */
         try {
             if (locationPermissionGranted != null && locationPermissionGranted!!) {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
                 val locationRequest = LocationRequest.create()
                 locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
                 locationRequest.interval = 5 * 1000
@@ -137,16 +146,21 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
                             sharedPreference.latitude=latitude
                             sharedPreference.longitude=longitude
 
-
-                            if(AppineersApplication.sharedPreference.configDetails!!.isUpdated.equals("0"))
-                            {
-                                startActivity(EditProfileActivity.getStartIntent(this@PermissionEnableActivity,IConstants.ADD))
+                            if (status.equals(getString(R.string.label_edit))) {
+                                (application as AppineersApplication).isCurrentLocationUpdated.postValue(true)
                                 finish()
+                            } else {
+                                if(AppineersApplication.sharedPreference.configDetails!!.isUpdated.equals("0"))
+                                {
+                                    startActivity(EditProfileActivity.getStartIntent(this@PermissionEnableActivity,IConstants.ADD))
+                                    finish()
+                                }
+                                else
+                                {
+                                    navigateToHomeScreen()
+                                }
                             }
-                            else
-                            {
-                                navigateToHomeScreen()
-                            }
+
                         }
                     }
                 }
@@ -220,6 +234,11 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
                 .checkLocationSettings(builder.build())
 
             task.addOnSuccessListener { response ->
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
                 val states = response.locationSettingsStates
 
                 when {

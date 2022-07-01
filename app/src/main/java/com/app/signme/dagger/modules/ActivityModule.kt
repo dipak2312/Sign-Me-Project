@@ -331,23 +331,23 @@ class ActivityModule(private val activity: BaseActivity<*>) {
 
     //************* AddAddressActivity Provides **************
 
-    @Provides
-    fun provideAddAddressActivityModule(
-        schedulerProvider: SchedulerProvider,
-        compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,
-        application: Application,
-        addAddressRepository: AddAddressRepository
-    ): AddAddressViewModel = ViewModelProviders.of(
-        activity, ViewModelProviderFactory(AddAddressViewModel::class) {
-            AddAddressViewModel(
-                schedulerProvider,
-                compositeDisposable,
-                networkHelper,
-                application,
-                addAddressRepository
-            )
-        }).get(AddAddressViewModel::class.java)
+//    @Provides
+//    fun provideAddAddressActivityModule(
+//        schedulerProvider: SchedulerProvider,
+//        compositeDisposable: CompositeDisposable,
+//        networkHelper: NetworkHelper,
+//        application: Application,
+//        addAddressRepository: AddAddressRepository
+//    ): AddAddressViewModel = ViewModelProviders.of(
+//        activity, ViewModelProviderFactory(AddAddressViewModel::class) {
+//            AddAddressViewModel(
+//                schedulerProvider,
+//                compositeDisposable,
+//                networkHelper,
+//                application,
+//                addAddressRepository
+//            )
+//        }).get(AddAddressViewModel::class.java)
 
     @Provides
     fun provideSplashActivityModule(

@@ -3,10 +3,10 @@
     <!--<string name="facebook_app_id">3173960712646425</string>
     <string name="fb_login_protocol_scheme">fb3173960712646425</string>-->
 
-    <string name="facebook_app_id">728211564501944</string>
-    <string name="fb_login_protocol_scheme">fb7282115645019445</string>
+    <string name="facebook_app_id">2950691051895275</string>
+    <string name="fb_login_protocol_scheme">fb2950691051895275</string>
 
-    <string name="google_client_id" translatable="false">34616391218-mcvhepecp33q5n9s15312h1q33g8qqml.apps.googleusercontent.com</string>
+    <string name="google_client_id" translatable="false">626428000219-7srde4k92qrc8rmtmfaedp5grug6vrh0.apps.googleusercontent.com</string>
     <string name="google_client_secret" translatable="false">gQSdDTfS812ZfSDDJMkkz1he</string>
 <!--    <string name="google_places_api_key" translatable="false">AIzaSyDoLaBdjllKfNeH_w0o3RMzf&#45;&#45;SZf0-ci4</string>-->
 

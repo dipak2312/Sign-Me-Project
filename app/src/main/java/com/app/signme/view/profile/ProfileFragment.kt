@@ -73,15 +73,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         mediaFileRepository = MediaFileRepository.getInstance(this.activity!!)
         //getProfileData()
 
-        binding.mTabLayout.visibility = View.VISIBLE
-        mImageAdapter.insertItem(
-            UserImage("", "", "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png", "")
-        )
-        mImageAdapter.insertItem(
-            UserImage("", "", "http://s3.amazonaws.com/quicklookbucket/quicklook/user_profile/8/IMG_20220617012407_62ac332f13396.png", "")
-        )
-        mImageAdapter.notifyDataSetChanged()
-
 
 //        var friends=getString(R.string.label_friends)+" "+"<font color='#FF5F0D'>80%</font>"
 //        binding!!.textFriends.text=Html.fromHtml(friends)
@@ -150,7 +141,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
                 if(sharedPreference.userDetail!!.lookingForRelationType!!.isNotEmpty())
                 {
-                    lookingFor!!.clear()
+                    lookingFor?.clear()
                     for(response in sharedPreference.userDetail!!.lookingForRelationType!!)
                     {
                         lookingFor?.add(response.relationshipStatus)
@@ -182,8 +173,13 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                     userInfo = it.data!![0]
                     AppineersApplication.sharedPreference.userDetail = it.data!![0]
                     binding!!.user=it.data!![0]
-                    //localDatabaseImages()
-                    //setData()
+                    binding.mTabLayout.visibility = View.VISIBLE
+                    for (respons in it.data!![0].UserMedia!!)
+                    {
+                        mImageAdapter.insertItem(UserImage(respons.mediaId,"",respons.imageUrl,""))
+                    }
+
+                    mImageAdapter.notifyDataSetChanged()
                     for(response in it.data!![0].lookingForRelationType!!)
                     {
                         lookingFor?.add(response.relationshipStatus)
@@ -220,38 +216,38 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         localDatabaseImages()
     }
 
-    private fun setData() {
-        mImageAdapter.removeAll()
-        if (userInfo!!.userImages == null) {
-            if (!sharedPreference.userDetail?.profileImage.equals("")) {
-                mImageAdapter.insertItem(
-                    UserImage("", "", userInfo!!.profileImage, "")
-                )
-                binding.mTabLayout.visibility = View.VISIBLE
-                mImageAdapter.notifyDataSetChanged()
-
-            }
-        } else {
-            if (!sharedPreference.userDetail?.profileImage.equals("")) {
-                mImageAdapter.insertItem(
-                    UserImage("", "", userInfo!!.profileImage, "")
-                )
-            }
-            if (userInfo!!.userImages != null && userInfo!!.userImages!!.size > 0) {
-
-                binding.mTabLayout.visibility = View.VISIBLE
-                mImageAdapter.insertAllItem(userInfo!!.userImages!!)
-                mImageAdapter.notifyDataSetChanged()
-            } else {
-
-                binding.mTabLayout.visibility = View.GONE
-            }
-        }
-
-        binding.executePendingBindings()
-        mImageAdapter.notifyDataSetChanged()
-
-    }
+//    private fun setData() {
+//        mImageAdapter.removeAll()
+//        if (userInfo!!.userImages == null) {
+//            if (!sharedPreference.userDetail?.profileImage.equals("")) {
+//                mImageAdapter.insertItem(
+//                    UserImage("", "", userInfo!!.profileImage, "")
+//                )
+//                binding.mTabLayout.visibility = View.VISIBLE
+//                mImageAdapter.notifyDataSetChanged()
+//
+//            }
+//        } else {
+//            if (!sharedPreference.userDetail?.profileImage.equals("")) {
+//                mImageAdapter.insertItem(
+//                    UserImage("", "", userInfo!!.profileImage, "")
+//                )
+//            }
+//            if (userInfo!!.userImages != null && userInfo!!.userImages!!.size > 0) {
+//
+//                binding.mTabLayout.visibility = View.VISIBLE
+//                mImageAdapter.insertAllItem(userInfo!!.userImages!!)
+//                mImageAdapter.notifyDataSetChanged()
+//            } else {
+//
+//                binding.mTabLayout.visibility = View.GONE
+//            }
+//        }
+//
+//        binding.executePendingBindings()
+//        mImageAdapter.notifyDataSetChanged()
+//
+//    }
 
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {

@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
 @Parcelize
 @JsonIgnoreProperties(ignoreUnknown = true)
+
 data class UserImage(
     @field:SerializedName("image_id")
     @field:JsonProperty("image_id")

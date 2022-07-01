@@ -15,6 +15,7 @@ import com.app.signme.commonUtils.utility.getDeviceName
 import com.app.signme.commonUtils.utility.getDeviceOSVersion
 import com.app.signme.core.BaseViewModel
 import com.app.signme.dataclasses.RelationshipType
+import com.app.signme.dataclasses.UserMediaList
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.request.SignUpRequestModel
 import com.app.signme.dataclasses.response.LoginResponse
@@ -72,14 +73,11 @@ class UserProfileViewModel(
         map["max_distance"]=WebServiceUtils.getStringRequestBody(request.maxDistance)
         map["age_lower_limit"]=WebServiceUtils.getStringRequestBody(request.ageLowerLimt)
         map["age_upper_limit"]=WebServiceUtils.getStringRequestBody(request.ageUpperLimt)
+        map["user_media"]=WebServiceUtils.getStringRequestBody(request.userMedia.toString())
 
         compositeDisposable.addAll(
             userProfileRepository.updateUserProfile(
-                map = map,
-                file = if (request.profileImage.isEmpty()) null else WebServiceUtils.getStringMultipartBodyPart(
-                    "user_profile",
-                    request.profileImage
-                )
+                map
             )
                 .subscribeOn(schedulerProvider.io())
                 .subscribe(
@@ -90,7 +88,7 @@ class UserProfileViewModel(
                         statusCodeLiveData.postValue(handleServerError(error))
                     }
                 )
-        )
+            )
     }
 
     fun callGetRelationshipStatus() {
@@ -198,7 +196,8 @@ class UserProfileViewModel(
         lookingForRelation:String="",
         maxDistance:String="",
         ageLowerLimt:String="",
-        ageUpperLimt:String=""
+        ageUpperLimt:String="",
+        userMediaList: String?
 
     ): SignUpRequestModel {
         val request = SignUpRequestModel()
@@ -223,6 +222,7 @@ class UserProfileViewModel(
         request.maxDistance=maxDistance
         request.ageLowerLimt=ageLowerLimt
         request.ageUpperLimt=ageUpperLimt
+        request.userMedia=userMediaList
         return request
     }
 
