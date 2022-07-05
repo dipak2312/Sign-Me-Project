@@ -6,6 +6,7 @@ import com.app.signme.dataclasses.UserMedia
 import com.app.signme.dataclasses.UserMediaList
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.request.SignUpRequestModel
+import com.app.signme.dataclasses.response.DeleteMediaResponse
 import com.app.signme.dataclasses.response.LoginResponse
 import com.google.gson.JsonElement
 import io.reactivex.Single
@@ -34,5 +35,8 @@ class UserProfileRepository @Inject constructor(
 
     fun callGetRelationshipStatus(): Single<TAListResponse<RelationshipType>> =
         networkService.getRelationshipStatus()
+
+    fun callDeleteMediaProfile(map:HashMap<String,String>): Single<TAListResponse<DeleteMediaResponse>> =
+        networkService.callDeleteUserMedia(map)
 
 }

@@ -64,7 +64,7 @@
                 android:max="100"
                 tools:progress="50"
                 android:progress="@{model.progress}"
-                app:indicatorColor="@color/white"
+                app:indicatorColor="@color/app_color"
                 app:trackColor="@color/colorGray"
                 android:visibility="@{model.uploadingFinished?View.GONE:View.VISIBLE}"
                 tools:visibility="visible" />

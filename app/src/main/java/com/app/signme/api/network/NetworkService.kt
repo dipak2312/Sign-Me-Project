@@ -169,5 +169,9 @@ interface NetworkService {
     @GET("relationship_status_list")
     fun getRelationshipStatus():Single<TAListResponse<RelationshipType>>
 
+    @POST("delete_user_media")
+    @FormUrlEncoded
+    fun callDeleteUserMedia(@FieldMap map: HashMap<String, String>): Single<TAListResponse<DeleteMediaResponse>>
+
 
 }

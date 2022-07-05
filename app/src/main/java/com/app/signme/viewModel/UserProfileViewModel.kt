@@ -18,6 +18,7 @@ import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.dataclasses.UserMediaList
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.request.SignUpRequestModel
+import com.app.signme.dataclasses.response.DeleteMediaResponse
 import com.app.signme.dataclasses.response.LoginResponse
 import com.app.signme.repository.UserProfileRepository
 import com.app.signme.view.authentication.signup.signupconfig.SignUpConfigItem
@@ -41,6 +42,7 @@ class UserProfileViewModel(
     val updateUserLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
     val getUserLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
     val getRelationshipStatus=MutableLiveData<TAListResponse<RelationshipType>>()
+    val deleteUserMediaProfileLiveData = MutableLiveData<TAListResponse<DeleteMediaResponse>>()
 
     /**
      * Update user profile details
@@ -106,6 +108,23 @@ class UserProfileViewModel(
                 )
         )
     }
+
+
+    fun CallDeleteMediaProfile(map:HashMap<String,String>) {
+        compositeDisposable.addAll(
+            userProfileRepository.callDeleteMediaProfile(map)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        deleteUserMediaProfileLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
 
     fun callGetProfile() {
         compositeDisposable.addAll(

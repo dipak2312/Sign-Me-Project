@@ -117,18 +117,27 @@ class AddUserProfileAdapter(onClick: RecyclerViewActionListener, mActivity: Acti
                     if (item.uploadStatus == IConstants.PENDING) View.VISIBLE else View.GONE
             }
 
-            Glide.with(binding.root.context)
-                .load(item.imageUrl)
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .centerCrop()
-                .error(R.drawable.ic_feedback_bag)
-                .placeholder(R.drawable.ic_feedback_bag)
-                .into(binding.ivFeedbackImage)
-
-//            val initials = getInitials(item)
-//            binding.tvInitials.text = initials
-
+            if(item.imageUri!!.isNotEmpty())
+            {
+                Glide.with(binding.root.context)
+                    .load(item.imageUri)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .centerCrop()
+                    .error(R.drawable.ic_feedback_bag)
+                    .placeholder(R.drawable.ic_feedback_bag)
+                    .into(binding.ivFeedbackImage)
+            }else
+            {
+                Glide.with(binding.root.context)
+                    .load(item.imageUrl)
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .centerCrop()
+                    .error(R.drawable.ic_feedback_bag)
+                    .placeholder(R.drawable.ic_feedback_bag)
+                    .into(binding.ivFeedbackImage)
+            }
 
             binding.ibtnAddImage.setOnClickListener{
                 mOnRecyclerClick.onItemClick(binding.ibtnAddImage.id, adapterPosition, null)

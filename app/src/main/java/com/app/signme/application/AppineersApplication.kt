@@ -23,6 +23,8 @@ import com.app.signme.db.AppPrefrrences
 import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseViewModel
+import com.app.signme.dataclasses.RelationshipType
+import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.scheduler.ExportLogService
 import com.app.signme.view.authentication.login.loginwithemailsocial.LoginWithEmailSocialActivity
 import com.app.signme.scheduler.aws.cacheUtils.UploadSuccessCallback
@@ -47,6 +49,7 @@ import com.mopub.mobileads.MoPubErrorCode
 import java.io.File
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycleCallbacks {
@@ -59,6 +62,7 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     var isSubscriptionTaken = MutableLiveData<Boolean>()
     var weakActivity: WeakReference<BaseActivity<BaseViewModel>>? = null
     val isMediaUploaded = MutableLiveData<MediaUpload?>()
+    var relationshipStatus=ArrayList<RelationshipType>()
     val awsFileUploader = MutableLiveData<UploadSuccessCallback>()
     val isMediaUpdated = MutableLiveData<Boolean>()
     var counterInterstitialAdd: Int = 0// Show interstitial add after 4 count

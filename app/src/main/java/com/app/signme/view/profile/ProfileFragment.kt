@@ -138,17 +138,28 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 hideProgressDialog()
                 binding.user = sharedPreference.userDetail
                 binding.executePendingBindings()
+//
+//                if(sharedPreference.userDetail!!.lookingForRelationType!!.isNotEmpty())
+//                {
+//                    lookingFor?.clear()
+//                    for(response in sharedPreference.userDetail!!.lookingForRelationType!!)
+//                    {
+//                        lookingFor?.add(response.relationshipStatus)
+//                    }
+//
+//                    addLookingFor()
+//                }
 
-                if(sharedPreference.userDetail!!.lookingForRelationType!!.isNotEmpty())
-                {
-                    lookingFor?.clear()
-                    for(response in sharedPreference.userDetail!!.lookingForRelationType!!)
-                    {
-                        lookingFor?.add(response.relationshipStatus)
-                    }
+//                if(!sharedPreference.userDetail?.UserMedia.isNullOrEmpty())
+//                {
+//                    mImageAdapter.removeAll()
+//                    for (respons in sharedPreference.userDetail?.UserMedia!!)
+//                    {
+//                        mImageAdapter.insertItem(UserImage(respons.mediaId,"",respons.imageUrl,""))
+//                    }
+//                }
 
-                    addLookingFor()
-                }
+                getProfileData()
 
                 (activity?.application as AppineersApplication).isProfileUpdated.postValue(false)
             }
@@ -170,6 +181,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
             if (it.settings?.isSuccess == true) {
                 if(!it.data.isNullOrEmpty())
                 {
+                    mImageAdapter.removeAll()
                     userInfo = it.data!![0]
                     AppineersApplication.sharedPreference.userDetail = it.data!![0]
                     binding!!.user=it.data!![0]
