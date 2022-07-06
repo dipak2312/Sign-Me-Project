@@ -42,10 +42,17 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     var adView: AdView? = null
     var moPubBannerView: MoPubView? = null
     var moPubInterstitial: MoPubInterstitial? = null
+    protected var mBaseActivity: BaseActivity<VM>? = null
 
     val logger by lazy {
         Logger(this::class.java.simpleName)
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mBaseActivity = activity as BaseActivity<VM>?
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectDependencies(buildFragmentComponent())

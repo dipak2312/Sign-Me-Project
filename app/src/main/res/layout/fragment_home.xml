@@ -43,6 +43,68 @@
 
               </androidx.appcompat.widget.AppCompatImageView>
 
+
+
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  app:layout_constraintTop_toBottomOf="@+id/tvHome"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  android:clipChildren="false">
+
+                  <RelativeLayout
+                      android:id="@+id/button_container"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentBottom="true"
+                      android:clipChildren="false">
+
+                      <androidx.appcompat.widget.AppCompatImageView
+                          android:id="@+id/btnClose"
+                          android:layout_width="@dimen/dimen_60dp"
+                          android:layout_height="@dimen/dimen_60dp"
+                          android:layout_centerVertical="true"
+                          android:layout_toStartOf="@+id/btnSuperLike"
+                          android:src="@drawable/ic_home_close" />
+
+                      <androidx.appcompat.widget.AppCompatImageView
+                          android:id="@+id/btnSuperLike"
+                          android:layout_width="@dimen/dimen_50dp"
+                          android:layout_height="@dimen/dimen_50dp"
+                          android:layout_centerInParent="true"
+                          android:layout_marginStart="@dimen/dimen_16dp"
+                          android:layout_marginEnd="@dimen/dimen_16dp"
+                          android:src="@drawable/ic_home_star" />
+
+                      <androidx.appcompat.widget.AppCompatImageView
+                          android:id="@+id/btnLike"
+                          android:layout_width="60dp"
+                          android:layout_height="wrap_content"
+                          android:layout_centerVertical="true"
+                          android:layout_toEndOf="@+id/btnSuperLike"
+                          android:src="@drawable/ic_home_like" />
+
+                  </RelativeLayout>
+
+                  <com.yuyakaido.android.cardstackview.CardStackView
+                      android:id="@+id/card_stack_view"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_above="@+id/button_container"
+                      android:layout_marginStart="@dimen/dimen_16dp"
+                      android:layout_marginTop="@dimen/_20sdp"
+                      android:layout_marginEnd="@dimen/dimen_16dp"
+                      android:layout_marginBottom="@dimen/_5sdp"
+                      android:clipToPadding="false"
+                      android:padding="4dp">
+
+                  </com.yuyakaido.android.cardstackview.CardStackView>
+
+              </RelativeLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

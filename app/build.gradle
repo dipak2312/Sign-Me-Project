@@ -293,6 +293,9 @@ dependencies {
     //Ripple effect
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
 
+    //swiper view
+    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
+
 
 
 

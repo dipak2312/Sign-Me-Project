@@ -72,13 +72,16 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/color_cursor.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/divider_drawable.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/gradation_black.xml" value="0.165" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_add_feedback.xml" value="0.1635" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_awesome_heart.xml" value="0.165" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_back.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_edit_profile.xml" value="0.1635" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_email.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_facebook.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_feedback_bag.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_gmail.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_home_like.xml" value="0.165" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_location.xml" value="0.1635" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_location_edit_profile.xml" value="0.165" />
@@ -114,6 +117,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_wind.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/image.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/notification_item_count.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/overlay_black.xml" value="0.165" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/password.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/password_toggle_selector.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/selector_add_profile_pic.xml" value="0.1" />
@@ -157,6 +161,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_chat_messages_item.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_list_item_feedback_image.xml" value="0.25" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_on_boarding_item.xml" value="0.22644927536231885" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_swiper_view.xml" value="0.24048913043478262" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_user_profile_item.xml" value="0.228125" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/dialog_custom.xml" value="0.2368659420289855" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_chat.xml" value="0.21875" />
@@ -169,8 +174,10 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_slideshow.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_trips.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_pager_image.xml" value="0.234375" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_swiper_view.xml" value="0.24048913043478262" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_user_profile.xml" value="0.24048913043478262" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/layout_two_premium_user_view.xml" value="0.1" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/overlay_black.xml" value="0.24048913043478262" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/stage/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/stage/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1415" />
