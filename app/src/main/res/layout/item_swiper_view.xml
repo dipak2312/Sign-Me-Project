@@ -4,6 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="response"
+            type="com.app.signme.dataclasses.SwiperViewResponse" />
+    </data>
+
 
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
@@ -38,8 +46,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawablePadding="@dimen/dimen_10dp"
-                android:text="Sagar29"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{response.userNameAndAge}"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18sp"
                 tools:text="Aquarius" />
@@ -49,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dimen_10dp"
-                android:text="28%"
+                android:text="@{response.relationPercent}"
                 android:textColor="@color/app_color"
                 android:textSize="@dimen/text_dimen_18sp"
                 tools:text="28%" />
@@ -61,14 +71,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/signLogo"
+                android:layout_width="@dimen/dimen_15dp"
+                android:layout_height="@dimen/dimen_15dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_location_profile">
+            </androidx.appcompat.widget.AppCompatImageView>
+
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/LightTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableStart="@drawable/ic_location_profile"
+                android:layout_marginStart="@dimen/dimen_8dp"
+                android:layout_marginEnd="@dimen/dimen_5dp"
                 android:drawablePadding="@dimen/dimen_10dp"
-                android:text="Aquarius"
+                android:text="@{response.signName}"
                 android:textColor="@color/profile_gray"
                 android:textSize="@dimen/text_dimen_14sp"
                 tools:text="Aquarius" />
@@ -77,10 +96,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dimen_10dp"
-                android:text="Atlanta, Georgia"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{response.relationshipDescription}"
                 android:textColor="@color/profile_gray"
-                android:textSize="@dimen/text_dimen_14sp"
-                tools:text="Atlanta, Georgia" />
+                android:textSize="@dimen/text_dimen_14sp" />
 
         </LinearLayout>
 

@@ -17,6 +17,7 @@ interface IConstants {
         const val SNAKBAR_TYPE_SUCCESS = 2
         const val SNAKBAR_TYPE_MESSAGE = 3
         const val REQUEST_STATIC_PAGE: Int = 4
+        const val RESULT_PER_PAGE: String="15"
         const val APP_UPDATE_REQUEST_CODE : Int = 5
         const val APP_FORCE_UPDATE_REQUEST_CODE : Int = 6
         const val NOTIFICATION_PERMISSION_REQUEST_CODE : Int = 7

@@ -1,12 +1,10 @@
 package com.app.signme.api.network
 
-import com.app.signme.dataclasses.RelationshipType
-import com.app.signme.dataclasses.UserMedia
-import com.app.signme.dataclasses.UserMediaList
+import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.dataclasses.*
 import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.dataclasses.generics.TAGenericResponse
 import com.app.signme.dataclasses.generics.TAListResponse
-import com.app.signme.dataclasses.request.SignUpRequestModel
 import com.app.signme.dataclasses.response.*
 import com.app.signme.dataclasses.response.forgotpasswordwithphone.ResetWithPhone
 import com.google.gson.JsonElement
@@ -173,5 +171,9 @@ interface NetworkService {
     @FormUrlEncoded
     fun callDeleteUserMedia(@FieldMap map: HashMap<String, String>): Single<TAListResponse<DeleteMediaResponse>>
 
-
+    @GET("user_list")
+    fun callGetSwiperList(
+        @Query("page_index") pageIndex: String?,
+        @Query("per_page_record") perPageRecord: String = IConstants.RESULT_PER_PAGE
+    ): Single<TAListResponse<SwiperViewResponse>>
 }

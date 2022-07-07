@@ -9,6 +9,7 @@ import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.response.GoogleReceipt
 import com.app.signme.dataclasses.response.LoginResponse
 import com.app.signme.core.BaseViewModel
+import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.repository.HomeRepository
 import com.app.signme.repository.inappbilling.BillingRepository
 import io.reactivex.disposables.CompositeDisposable
@@ -28,6 +29,7 @@ class HomeViewModel(
     var orderReceiptJsonForSubscription = MutableLiveData<String>()
     var orderReceiptJsonForUpgradeDowngradeSubscription = MutableLiveData<String>()
     var buySubscriptionLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
+    val swiperListLiveData= MutableLiveData<TAListResponse<SwiperViewResponse>>()
 
     override fun onCreate() {
         checkForInternetConnection()
@@ -75,4 +77,20 @@ class HomeViewModel(
                 )
         )
     }
+
+    fun getSwiperList(pageIndex: String?) {
+        compositeDisposable.addAll(
+            homeRepository.getSwiperList( pageIndex)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        swiperListLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
 }

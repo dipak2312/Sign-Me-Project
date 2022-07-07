@@ -4,15 +4,16 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DiffUtil
 import com.app.signme.R
 import com.app.signme.adapter.SwiperViewAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.SwiperDiffCallback
 import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
@@ -42,6 +43,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
     override fun provideLayoutId(): Int {
         return R.layout.fragment_home
+
+
     }
 
     override fun injectDependencies(fragmentComponent: FragmentComponent) {
@@ -83,12 +86,25 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                 supportsChangeAnimations = false
             }
         }
-
-        mAdapter!!.addAllItem(createswiperValue())
-
         addObservers()
         initListener()
+        mAdapter!!.addAllItem(createswiperValue())
+        //getSwiperList()
+     }
 
+    fun getSwiperList()
+    {
+        when {
+            checkInternet() -> {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
+
+                viewModel.getSwiperList("1")
+            }
+        }
     }
 
     private fun deleteAllUploadedFiles() {
@@ -119,10 +135,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                 val close = SwipeAnimationSetting.Builder()
                     .setDirection(Direction.Left)
                     .setDuration(Duration.Slow.duration)
-                    .setInterpolator(AccelerateInterpolator())
+                    .setInterpolator(LinearInterpolator())
                     .build()
                 manager!!.setSwipeAnimationSetting(close)
-                cardStackView.swipe()
+
             }
             btnLike.setOnClickListener{
                 val like = SwipeAnimationSetting.Builder()
@@ -145,9 +161,16 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         }
     }
 
-
     private fun addObservers() {
 
+        viewModel.swiperListLiveData.observe(this){response->
+            hideProgressDialog()
+            if (response?.settings?.isSuccess == true) {
+                if (!response.data.isNullOrEmpty()) {
+                    mAdapter!!.addAllItem(response.data!!)
+                }
+            }
+        }
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
@@ -157,16 +180,17 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
     private fun createswiperValue(): List<SwiperViewResponse> {
         val swiperValue = ArrayList<SwiperViewResponse>()
-        swiperValue.add(SwiperViewResponse(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Brooklyn Bridge", city = "New York", url = "https://source.unsplash.com/THozNzxEP3g/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Empire State Building", city = "New York", url = "https://source.unsplash.com/USrZRcRS2Lw/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "The statue of Liberty", city = "New York", url = "https://source.unsplash.com/PeFk7fzxTdk/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Louvre Museum", city = "Paris", url = "https://source.unsplash.com/LrMWHKqilUw/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Eiffel Tower", city = "Paris", url = "https://source.unsplash.com/HN-5Z6AmxrM/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Big Ben", city = "London", url = "https://source.unsplash.com/CdVAUADdqEc/600x800"))
-        swiperValue.add(SwiperViewResponse(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
+
+        swiperValue.add(SwiperViewResponse(name = "Yasaka Shrine", signName = "Aquarius", profileImage = "https://appineers.s3.amazonaws.com/sign_me/image/3/1657019138744.png",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Yasaka Shrine", signName = "Aquarius", profileImage = "https://source.unsplash.com/Xq1ntWruZQI/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Poonam", signName = "Aquarius", profileImage = "https://source.unsplash.com/NYyCqdBOKwc/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Bamboo Forest", signName = "Aquarius", profileImage = "https://source.unsplash.com/buF62ewDLcQ/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Empire State", signName = "Aquarius", profileImage = "https://source.unsplash.com/USrZRcRS2Lw/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Sagar", signName = "Aquarius", profileImage = "https://source.unsplash.com/PeFk7fzxTdk/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Louvre Museum", signName = "Aquarius", profileImage = "https://source.unsplash.com/LrMWHKqilUw/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Eiffel Tower", signName = "Aquarius", profileImage = "https://source.unsplash.com/HN-5Z6AmxrM/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Big Ben", signName = "Aquarius", profileImage = "https://source.unsplash.com/CdVAUADdqEc/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
+        swiperValue.add(SwiperViewResponse(name = "Pravin", signName = "Aquarius", profileImage = "https://source.unsplash.com/AWh9C-QjhE4/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
         return swiperValue
     }
 
@@ -176,10 +200,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
     override fun onCardSwiped(direction: Direction) {
 
-        if (manager!!.topPosition < mAdapter!!.itemCount - 5) {
-           mAdapter!!.addAllItem(createswiperValue())
+        if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
+            val old = mAdapter!!.getAllItems()
+            val new = old.plus(createswiperValue())
+            val callback = SwiperDiffCallback(old, new)
+            val result = DiffUtil.calculateDiff(callback)
+            mAdapter!!.addAllItem(new)
+            result.dispatchUpdatesTo(mAdapter!!)
         }
-        //Toast.makeText(this@HomeFragment.requireContext(), direction.name, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCardRewound() {
@@ -203,6 +231,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
 
     }
+
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
 

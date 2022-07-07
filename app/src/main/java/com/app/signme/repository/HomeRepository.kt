@@ -1,6 +1,7 @@
 package com.app.signme.repository
 
 import com.app.signme.api.network.NetworkService
+import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.response.LoginResponse
 import io.reactivex.Single
@@ -14,4 +15,7 @@ class HomeRepository @Inject constructor(
 
     fun callBuySubscription(map: HashMap<String, okhttp3.RequestBody>): Single<TAListResponse<LoginResponse>> =
         networkService.callBuySubscription(map)
+
+    fun getSwiperList(pageIndex:String?): Single<TAListResponse<SwiperViewResponse>> =
+        networkService.callGetSwiperList(pageIndex)
 }

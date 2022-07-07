@@ -2,15 +2,11 @@ package com.app.signme.adapter
 
 import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.signme.R
-import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.databinding.ItemSwiperViewBinding
-import com.app.signme.databinding.ItemUserProfileBinding
 import com.app.signme.dataclasses.SwiperViewResponse
-import com.app.signme.dataclasses.UserImage
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -75,7 +71,7 @@ class SwiperViewAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
     fun addAllItem(data: List<SwiperViewResponse>) {
         mOriginalData.addAll(data)
         mResultData.addAll(data)
-        notifyDataSetChanged()
+       // notifyDataSetChanged()
     }
 
     fun removeItem(index: Int) {
@@ -107,8 +103,9 @@ class SwiperViewAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: SwiperViewResponse) {
 
+            binding.response=item
             Glide.with(binding.root.context)
-                .load(item.url)
+                .load(item.profileImage)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .centerCrop()
@@ -116,7 +113,16 @@ class SwiperViewAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
                 .placeholder(R.drawable.ic_feedback_bag)
                 .into(binding.itemImage)
 
-            binding.executePendingBindings()
+            Glide.with(binding.root.context)
+                .load(item.signLogo)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .centerCrop()
+                .error(R.drawable.ic_feedback_bag)
+                .placeholder(R.drawable.ic_feedback_bag)
+                .into(binding.signLogo)
+
+              binding.executePendingBindings()
 
         }
     }
