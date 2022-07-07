@@ -24,6 +24,7 @@ import com.app.signme.view.authentication.otp.otpsignup.OTPSignUpActivity
 import com.app.signme.view.authentication.otp.otpforgotpassword.OTPForgotPasswordActivity
 import com.app.signme.view.home.HomeActivity
 import com.app.signme.view.enablePermission.PermissionEnableActivity
+import com.app.signme.view.home.OtherUserDetailsActivity
 import com.app.signme.view.settings.SettingsActivity
 
 @ActivityScope
@@ -50,5 +51,6 @@ interface ActivityComponent{
     fun inject(notificationActivity: NotificationActivity)
     fun inject(settingsActivity: SettingsActivity)
     fun inject(permissionEnableActivity: PermissionEnableActivity)
+    fun inject(otherUserDetailsActivity: OtherUserDetailsActivity)
 
 }

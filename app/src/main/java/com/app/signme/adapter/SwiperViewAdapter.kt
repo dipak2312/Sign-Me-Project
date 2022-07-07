@@ -122,6 +122,10 @@ class SwiperViewAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
                 .placeholder(R.drawable.ic_feedback_bag)
                 .into(binding.signLogo)
 
+            binding.cardSwiperView.setOnClickListener{
+                mOnRecyclerClick.onItemClick(binding.cardSwiperView.id, adapterPosition, null)
+            }
+
               binding.executePendingBindings()
 
         }

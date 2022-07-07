@@ -1,17 +1,13 @@
 package com.app.signme.view.profile
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Color
 import android.os.Handler
-import android.text.Html
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
-import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
 import com.app.signme.dagger.components.FragmentComponent
@@ -40,7 +36,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
     var mediaFileRepository: MediaFileRepository? = null
     var showWarning = false
     var userInfo: LoginResponse? = null
-    var lookingFor:ArrayList<String>?=null
+    var lookingFor: ArrayList<String>? = null
 
     var mImageAdapter = PagerImageAdapter(false, this)
 
@@ -74,32 +70,29 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         //getProfileData()
 
 
-//        var friends=getString(R.string.label_friends)+" "+"<font color='#FF5F0D'>80%</font>"
-//        binding!!.textFriends.text=Html.fromHtml(friends)
-//        var quickmeet=getString(R.string.label_quickmeet)+" "+"<font color='#FF5F0D'>90%</font>"
-//        binding!!.textQuickMeet.text=Html.fromHtml(quickmeet)
-//        var relationship=getString(R.string.label_relationship)+" "+"<font color='#FF5F0D'>90%</font>"
-//        binding!!.textRelationship.text=Html.fromHtml(relationship)
-
         initListeners()
         getProfileData()
 
     }
 
-    fun  initListeners(){
+    fun initListeners() {
         binding.apply {
             btnEditProfile.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
-                startActivity(EditProfileActivity.getStartIntent(this@ProfileFragment.requireContext(),IConstants.EDIT))
+                startActivity(
+                    EditProfileActivity.getStartIntent(
+                        this@ProfileFragment.requireContext(),
+                        IConstants.EDIT
+                    )
+                )
             }
-            btnsetting.setOnClickListener{
+            btnsetting.setOnClickListener {
                 startActivity(SettingsActivity.getStartIntent(this@ProfileFragment.requireContext()))
             }
         }
     }
 
-    fun addLookingFor()
-    {
+    fun addLookingFor() {
         binding!!.lookingForChipGroup.removeAllViews()
         for (lookingfor in lookingFor!!) {
             val chip = Chip(this@ProfileFragment.requireContext())
@@ -131,10 +124,9 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         super.setupObservers()
         hideProgressDialog()
 
-        (activity?.application as AppineersApplication).isProfileUpdated.observe(this) {isUpdate->
+        (activity?.application as AppineersApplication).isProfileUpdated.observe(this) { isUpdate ->
 
-            if(isUpdate)
-            {
+            if (isUpdate) {
                 hideProgressDialog()
                 binding.user = sharedPreference.userDetail
                 binding.executePendingBindings()
@@ -177,23 +169,27 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
         viewModel.getUserLiveData.observe(this) {
             hideProgressDialog()
-            lookingFor=ArrayList<String>()
+            lookingFor = ArrayList<String>()
             if (it.settings?.isSuccess == true) {
-                if(!it.data.isNullOrEmpty())
-                {
+                if (!it.data.isNullOrEmpty()) {
                     mImageAdapter.removeAll()
                     userInfo = it.data!![0]
                     AppineersApplication.sharedPreference.userDetail = it.data!![0]
-                    binding!!.user=it.data!![0]
+                    binding!!.user = it.data!![0]
                     binding.mTabLayout.visibility = View.VISIBLE
-                    for (respons in it.data!![0].UserMedia!!)
-                    {
-                        mImageAdapter.insertItem(UserImage(respons.mediaId,"",respons.imageUrl,""))
+                    for (respons in it.data!![0].UserMedia!!) {
+                        mImageAdapter.insertItem(
+                            UserImage(
+                                respons.mediaId,
+                                "",
+                                respons.imageUrl,
+                                ""
+                            )
+                        )
                     }
 
                     mImageAdapter.notifyDataSetChanged()
-                    for(response in it.data!![0].lookingForRelationType!!)
-                    {
+                    for (response in it.data!![0].lookingForRelationType!!) {
                         lookingFor?.add(response.relationshipStatus)
                     }
                     addLookingFor()

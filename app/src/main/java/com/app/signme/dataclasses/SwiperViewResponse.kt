@@ -38,6 +38,6 @@ data class SwiperViewResponse(
 
     fun getRelationPercent():String
     {
-        return relationshipPercent+" "+"%"
+        return relationshipPercent+"%"
     }
 }

@@ -38,7 +38,6 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(), Notification
     override fun setupView(savedInstanceState: Bundle?) {
         initListeners()
 
-
     }
 
     private fun initListeners() {

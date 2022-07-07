@@ -43,8 +43,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
     override fun provideLayoutId(): Int {
         return R.layout.fragment_home
-
-
     }
 
     override fun injectDependencies(fragmentComponent: FragmentComponent) {
@@ -138,6 +136,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     .setInterpolator(LinearInterpolator())
                     .build()
                 manager!!.setSwipeAnimationSetting(close)
+                cardStackView.swipe()
 
             }
             btnLike.setOnClickListener{
@@ -229,6 +228,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     }
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
+
+        when(viewId)
+        {
+            R.id.cardSwiperView->{
+
+                startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeFragment.requireContext()))
+            }
+        }
 
     }
 
