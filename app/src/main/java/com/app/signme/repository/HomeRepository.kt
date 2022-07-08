@@ -1,6 +1,7 @@
 package com.app.signme.repository
 
 import com.app.signme.api.network.NetworkService
+import com.app.signme.dataclasses.OtherUserDetailsResponse
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.response.LoginResponse
@@ -18,4 +19,7 @@ class HomeRepository @Inject constructor(
 
     fun getSwiperList(pageIndex:String?): Single<TAListResponse<SwiperViewResponse>> =
         networkService.callGetSwiperList(pageIndex)
+
+    fun callGetOtherUserDetailsList(otherUserId:String?): Single<TAListResponse<OtherUserDetailsResponse>> =
+        networkService.callGetOtherUserDetails(otherUserId)
 }

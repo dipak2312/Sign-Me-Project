@@ -57,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/dimen_30dp"
                 android:clipChildren="false"
                 android:orientation="horizontal">
 
@@ -106,8 +107,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnLike"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dimen_60dp"
+                    android:layout_height="@dimen/dimen_60dp"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/btnSuperLike"
                     android:src="@drawable/ic_home_like" />
@@ -122,7 +123,7 @@
                 android:layout_marginStart="@dimen/dimen_16dp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/dimen_16dp"
-                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/dimen_40dp"
                 android:clipToPadding="false"
                 android:padding="4dp">
 

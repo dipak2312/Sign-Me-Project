@@ -4,7 +4,7 @@ package com.app.signme.dataclasses.response
 import android.telephony.PhoneNumberUtils
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.fromServerDatetoYYYYMMDD
-import com.app.signme.dataclasses.SelectedRelationshipType
+import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.dataclasses.UserImage
 import com.app.signme.dataclasses.UserMedia
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
@@ -171,7 +171,7 @@ data class LoginResponse(
     @JsonProperty("age")
     val age: String? = "",
     @JsonProperty("looking_for_relation_type")
-    var lookingForRelationType: ArrayList<SelectedRelationshipType>? = null,
+    var lookingForRelationType: ArrayList<RelationshipType>? = null,
     @JsonProperty("user_media")
     var UserMedia: ArrayList<UserMedia>? = null)
 

@@ -87,7 +87,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         addObservers()
         initListener()
         mAdapter!!.addAllItem(createswiperValue())
-        //getSwiperList()
+       //getSwiperList()
      }
 
     fun getSwiperList()
@@ -167,6 +167,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
                     mAdapter!!.addAllItem(response.data!!)
+                    mAdapter!!.notifyDataSetChanged()
                 }
             }
         }
@@ -233,7 +234,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         {
             R.id.cardSwiperView->{
 
-                startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeFragment.requireContext()))
+                startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeFragment.requireContext(),mAdapter!!.getItem(position).userId))
             }
         }
 

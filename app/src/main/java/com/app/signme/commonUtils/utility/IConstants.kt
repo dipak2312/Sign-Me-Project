@@ -30,6 +30,7 @@ interface IConstants {
         const val STATUS="status"
         const val EDIT="edit"
         const val ADD="add"
+        const val USERID="userid"
         const val SP_NOTIFICATION_CHANNEL_DEFAULT = "sp_notification_channel_default"
         const val PARAM_NOTIFICATION_TYPE = "type"
         const val OTHERS:String="others"

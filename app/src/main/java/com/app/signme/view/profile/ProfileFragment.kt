@@ -19,6 +19,7 @@ import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.EditProfileActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.UserProfileViewModel
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.CoroutineScope
@@ -187,10 +188,11 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                             )
                         )
                     }
-
-                    mImageAdapter.notifyDataSetChanged()
+                    Glide.with(this@ProfileFragment.requireContext())
+                        .load(it.data!![0].logoFileName)
+                        .into(binding!!.signLogo)
                     for (response in it.data!![0].lookingForRelationType!!) {
-                        lookingFor?.add(response.relationshipStatus)
+                        lookingFor?.add(response.relationshipStatus.toString())
                     }
                     addLookingFor()
                 }

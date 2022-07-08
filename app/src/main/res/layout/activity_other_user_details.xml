@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="higherData"
+            type="com.app.signme.dataclasses.HigherCompatibilityData" />
+
+        <variable
+            name="response"
+            type="com.app.signme.dataclasses.OtherUserDetailsResponse" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/translucent_black"
+                android:background="@color/transparent"
                 android:visibility="gone"
                 app:tabBackground="@drawable/tab_dot_background"
                 app:tabGravity="center"
@@ -77,7 +87,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.55"
-                        android:text="Sagar 28"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{response.getNameAndage()}"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_24sp"
                         tools:text="Sagar 28" />
@@ -94,18 +106,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="Similar Minds"
+                            android:text="@{higherData.relationshipTitle}"
                             style="@style/LightTextStyle"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:textColor="@color/profile_gray"
-                            android:textSize="@dimen/text_dimen_14sp" />
+                            android:textSize="@dimen/text_dimen_14sp"
+                            tools:text="Similar Minds"/>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="21%"
+                            android:text="@{higherData.relationPercent()}"
                             android:layout_marginStart="@dimen/_5sdp"
                             style="@style/BoldTextStyle"
                             android:textColor="@color/app_color"
-                            android:textSize="@dimen/text_dimen_21sp" />
+                            android:textSize="@dimen/text_dimen_21sp"
+                            tools:text="20%"/>
                     </LinearLayout>
 
 
@@ -122,8 +140,7 @@
                         android:id="@+id/signLogo"
                         android:layout_width="@dimen/dimen_15dp"
                         android:layout_height="@dimen/dimen_15dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_location_profile">
+                        android:layout_gravity="center_vertical">
 
                     </androidx.appcompat.widget.AppCompatImageView>
 
@@ -133,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dimen_10dp"
                         android:layout_weight="1"
-                        android:text="Aquarius"
+                        android:text="@{response.signName}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
                         tools:text="Aquarius" />
@@ -143,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_location_profile"
                         android:drawablePadding="@dimen/dimen_10dp"
-                        android:text="Atlanta, Georgia"
+                        android:text="@{response.getCityAndState()}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
                         tools:text="Atlanta, Georgia" />
@@ -185,7 +202,6 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:gravity="center_horizontal"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_dimen_11sp"
                                 tools:text="Sagar 28" />
@@ -214,7 +230,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@string/label_profile_match_description"
+                            android:text="@{higherData.description}"
                             android:textColor="@color/profile_gray"
                             android:textSize="@dimen/text_dimen_11sp"
                             tools:text="@string/label_profile_match_description" />
@@ -274,6 +290,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_15dp"
+                    android:layout_marginBottom="@dimen/dimen_100dp"
                     app:cardBackgroundColor="@color/screen_top_background"
                     app:cardCornerRadius="@dimen/dimen_12dp"
                     app:cardElevation="@dimen/dimen_0dp">
@@ -303,7 +320,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@string/label_profile_match_description"
+                            android:text="@{response.aboutMe}"
                             android:textColor="@color/profile_gray"
                             android:textSize="@dimen/text_dimen_11sp"
                             tools:text="@string/label_profile_match_description" />
@@ -315,6 +332,72 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+
+        <RelativeLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="@dimen/dimen_20dp"
+            android:clipChildren="false"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnClose"
+                android:layout_width="@dimen/dimen_60dp"
+                android:layout_height="@dimen/dimen_60dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/btnSuperLike"
+                android:src="@drawable/ic_home_close" />
+
+            <RelativeLayout
+                android:id="@+id/btnSuperLike"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/dimen_16dp"
+                android:layout_marginEnd="@dimen/dimen_16dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_home_star" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/super_like_count"
+                    android:minWidth="17sp"
+                    android:minHeight="17sp"
+                    android:padding="2dp"
+                    android:gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="1dp"
+                    android:scaleType="fitStart"
+                    android:text="5"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnLike"
+                android:layout_width="60dp"
+                android:layout_height="@dimen/dimen_60dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/btnSuperLike"
+                android:src="@drawable/ic_home_like" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

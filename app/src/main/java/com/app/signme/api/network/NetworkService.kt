@@ -176,4 +176,9 @@ interface NetworkService {
         @Query("page_index") pageIndex: String?,
         @Query("per_page_record") perPageRecord: String = IConstants.RESULT_PER_PAGE
     ): Single<TAListResponse<SwiperViewResponse>>
+
+    @GET("user_compatibility_details")
+    fun callGetOtherUserDetails(
+        @Query("other_user_id") otherUserDetails: String?
+    ): Single<TAListResponse<OtherUserDetailsResponse>>
 }

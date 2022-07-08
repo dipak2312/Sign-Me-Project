@@ -9,6 +9,7 @@ import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.response.GoogleReceipt
 import com.app.signme.dataclasses.response.LoginResponse
 import com.app.signme.core.BaseViewModel
+import com.app.signme.dataclasses.OtherUserDetailsResponse
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.repository.HomeRepository
 import com.app.signme.repository.inappbilling.BillingRepository
@@ -30,6 +31,7 @@ class HomeViewModel(
     var orderReceiptJsonForUpgradeDowngradeSubscription = MutableLiveData<String>()
     var buySubscriptionLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
     val swiperListLiveData= MutableLiveData<TAListResponse<SwiperViewResponse>>()
+    val otherUserDetailsLiveData= MutableLiveData<TAListResponse<OtherUserDetailsResponse>>()
 
     override fun onCreate() {
         checkForInternetConnection()
@@ -85,6 +87,21 @@ class HomeViewModel(
                 .subscribe(
                     { response ->
                         swiperListLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun callOtherUserDetailsList(otherUserId: String?) {
+        compositeDisposable.addAll(
+            homeRepository.callGetOtherUserDetailsList(otherUserId)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        otherUserDetailsLiveData.postValue(response)
                     },
                     { error ->
                         statusCodeLiveData.postValue(handleServerError(error))

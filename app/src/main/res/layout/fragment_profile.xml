@@ -22,7 +22,7 @@
         <RelativeLayout
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_250dp"
+            android:layout_height="@dimen/dimen_270dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:background="@color/translucent_black"
+                android:background="@color/transparent"
                 android:visibility="gone"
                 app:tabBackground="@drawable/tab_dot_background"
                 app:tabGravity="center"
@@ -105,14 +105,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dimen_10dp"
                     android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/signLogo"
+                        android:layout_width="@dimen/dimen_15dp"
+                        android:layout_height="@dimen/dimen_15dp"
+                        android:layout_gravity="center_vertical">
 
+                    </androidx.appcompat.widget.AppCompatImageView>
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/LightTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_location_profile"
-                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:layout_marginStart="@dimen/dimen_10dp"
                         android:text="@{user.signName}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"

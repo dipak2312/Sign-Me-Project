@@ -71,11 +71,7 @@ class PagerImageAdapter(
                 .load(imageList.get(position).imageUrl)
                 // .error(R.drawable.ic_theappineers_logo)
                 // .placeholder(R.drawable.ic_theappineers_logo)
-                .apply(
-                    RequestOptions.bitmapTransform(
-                        RoundedCornersTransformation(container.context, sCorner, sMargin)
-                    )
-                )
+
                 .into(binding.ivGalleryImage)
 
         }
@@ -84,11 +80,6 @@ class PagerImageAdapter(
                 .load(imageList.get(position).imageUri)
                 //.error(R.drawable.ic_theappineers_logo)
                 // .placeholder(R.drawable.ic_theappineers_logo)
-                .apply(
-                    RequestOptions.bitmapTransform(
-                        RoundedCornersTransformation(container.context, sCorner, sMargin)
-                    )
-                )
                 .into(binding.ivGalleryImage)
 
         }
@@ -128,35 +119,8 @@ class PagerImageAdapter(
         return binding.root
     }
 
-    private fun startFileUploadService(filePath: String, fileId: String, position: Int) {
-        val uploadMedia = Intent(mActivity!!, UploadPostMediaService::class.java)
-        uploadMedia.putExtra(UploadPostMediaService.KEY_FILE_URI, filePath)
-        uploadMedia.putExtra(UploadPostMediaService.KEY_USER_ID, userId)
-        uploadMedia.putExtra(UploadPostMediaService.KEY_FILE_ID, fileId)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mActivity!!.startForegroundService(uploadMedia)
-        } else {
-            mActivity!!.startService(uploadMedia)
-        }
 
-        val imageItem = imageList[position]
-        imageItem.uploadStatus = IConstants.IN_PROGRESS
-        replaceItem(position, imageItem)
-    }
 
-    /* fun refreshAdapter() {
-         refresh = true
-         notifyDataSetChanged()
-     }*/
-
-    /*override fun getItemPosition(`object`: Any): Int {
-        return if (refresh) {
-            refresh = false
-            POSITION_NONE
-        } else {
-            super.getItemPosition(`object`)
-        }
-    }*/
     override fun getItemPosition(`object`: Any): Int {
         return POSITION_NONE;
     }

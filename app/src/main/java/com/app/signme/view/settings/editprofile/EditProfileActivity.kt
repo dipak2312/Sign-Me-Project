@@ -302,7 +302,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             }
 
             var lookingrelation = sharedPreference.userDetail?.lookingForRelationType
-            if (lookingrelation!!.isNotEmpty()) {
+            if (!lookingrelation.isNullOrEmpty()) {
                 for (relation in lookingrelation) {
                     if (relation.relationshipStatus.equals(lookingfor.relationshipStatus)) {
                         checkbox.isChecked = true
