@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.app.signme.R
+import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.databinding.DialogMatchesBinding
 
 import com.hb.logger.Logger
@@ -50,11 +51,16 @@ class MatchesDialog(
 
         binding?.apply {
 
-//            btnDone.setOnClickListener {
-//                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Done Button Click")
-//                listener?.onSuccess()
-//                dismiss()
-//            }
+            btnSendMessage.setOnClickListener {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Done Button Click")
+                listener?.onSuccess()
+                dismiss()
+            }
+            btnKeepSwiping.setOnClickListener {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Done Button Click")
+                listener?.onSuccess()
+                dismiss()
+            }
         }
     }
 }

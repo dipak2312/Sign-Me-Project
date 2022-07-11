@@ -9,6 +9,7 @@ import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.response.GoogleReceipt
 import com.app.signme.dataclasses.response.LoginResponse
 import com.app.signme.core.BaseViewModel
+import com.app.signme.dataclasses.LikeUnLikeResponse
 import com.app.signme.dataclasses.OtherUserDetailsResponse
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.repository.HomeRepository
@@ -32,6 +33,7 @@ class HomeViewModel(
     var buySubscriptionLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
     val swiperListLiveData= MutableLiveData<TAListResponse<SwiperViewResponse>>()
     val otherUserDetailsLiveData= MutableLiveData<TAListResponse<OtherUserDetailsResponse>>()
+    val userLikeSuperLikeLiveData= MutableLiveData<TAListResponse<LikeUnLikeResponse>>()
 
     override fun onCreate() {
         checkForInternetConnection()
@@ -102,6 +104,21 @@ class HomeViewModel(
                 .subscribe(
                     { response ->
                         otherUserDetailsLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun callLikeSuperLikeCancel(map:HashMap<String,String>) {
+        compositeDisposable.addAll(
+            homeRepository.callLikeSuperlikeCancel(map)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        userLikeSuperLikeLiveData.postValue(response)
                     },
                     { error ->
                         statusCodeLiveData.postValue(handleServerError(error))

@@ -181,4 +181,8 @@ interface NetworkService {
     fun callGetOtherUserDetails(
         @Query("other_user_id") otherUserDetails: String?
     ): Single<TAListResponse<OtherUserDetailsResponse>>
+
+    @POST("connections")
+    @FormUrlEncoded
+    fun callLikeSuperlikeCancel(@FieldMap map: HashMap<String, String>): Single<TAListResponse<LikeUnLikeResponse>>
 }

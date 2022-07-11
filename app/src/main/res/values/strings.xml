@@ -110,6 +110,8 @@
     <string name="label_date_of_birth">Enter Date Of Birth</string>
     <string name="label_enable_location">Enable Location</string>
     <string name="label_need_location_info">You\'ll need to enable your location in order to use sign me</string>
+    <string name="label_its_matches">It’s a Match!</string>
+    <string name="label_like_each_other">You and Chris have liked each other.</string>
 
 
     //Text Label
@@ -194,6 +196,8 @@
     <string name="label_add">add</string>
     <string name="non_binary">Non_binary</string>
     <string name="not_to_respond">Not_to_respond</string>
+    <string name="label_send_message">Send Chris a Message</string>
+    <string name="label_keep_swiping">Keep Swiping</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
 </string>
 

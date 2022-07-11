@@ -68,9 +68,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
         binding.user = sharedPreference.userDetail
         mediaFileRepository = MediaFileRepository.getInstance(this.activity!!)
-        //getProfileData()
-
-
         initListeners()
         getProfileData()
 

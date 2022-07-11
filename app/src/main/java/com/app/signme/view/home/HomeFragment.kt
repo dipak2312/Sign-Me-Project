@@ -21,6 +21,7 @@ import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentHomeBinding
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.scheduler.aws.AwsService
+import com.app.signme.view.dialogs.MatchesDialog
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.HomeViewModel
@@ -105,6 +106,20 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         }
     }
 
+
+    fun callLikeSuperlikeCancel(userId:String?,status:String)
+    {
+        when {
+            checkInternet() -> {
+                val map = HashMap<String, String>()
+                map["connection_type"] = status
+                map["connection_user_id"] = userId!!
+
+                viewModel.callLikeSuperLikeCancel(map)
+            }
+        }
+    }
+
     private fun deleteAllUploadedFiles() {
         CoroutineScope(Dispatchers.IO).launch {
             if (!uploadedFiles.isNullOrEmpty()) {
@@ -137,6 +152,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     .build()
                 manager!!.setSwipeAnimationSetting(close)
                 cardStackView.swipe()
+                //callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition].userId,IConstants.REJECT)
 
             }
             btnLike.setOnClickListener{
@@ -147,6 +163,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     .build()
                 manager!!.setSwipeAnimationSetting(like)
                 cardStackView.swipe()
+                //callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition].userId,IConstants.LIKE)
             }
             btnSuperLike.setOnClickListener{
                 val superlike = SwipeAnimationSetting.Builder()
@@ -156,6 +173,20 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     .build()
                 manager!!.setSwipeAnimationSetting(superlike)
                 cardStackView.swipe()
+
+                MatchesDialog(mListener = object :
+                    MatchesDialog.ClickListener {
+                    override fun onSuccess() {
+
+                    }
+
+                    override fun onCancel() {
+
+                    }
+
+                }).show(requireFragmentManager(), "Tag")
+
+                //callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition].userId,IConstants.SUPERLIKE)
             }
         }
     }
@@ -170,6 +201,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     mAdapter!!.notifyDataSetChanged()
                 }
             }
+        }
+        viewModel.userLikeSuperLikeLiveData.observe(this){response->
+            hideProgressDialog()
         }
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
