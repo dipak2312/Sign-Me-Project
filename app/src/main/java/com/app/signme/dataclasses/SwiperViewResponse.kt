@@ -28,7 +28,9 @@ data class SwiperViewResponse(
     @JsonProperty("relationship_percent")
     val relationshipPercent: String?="",
     @JsonProperty("relationship_description")
-    val relationshipDescription: String?=""
+    val relationshipDescription: String?="",
+    @JsonProperty("is_like")
+    val isLike: String?=""
 ): Parcelable
 {
     fun getUserNameAndAge():String

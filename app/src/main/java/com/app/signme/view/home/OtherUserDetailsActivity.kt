@@ -8,17 +8,21 @@ import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
+import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityOtherUserDetailsBinding
+import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.UserImage
+import com.app.signme.view.dialogs.MatchesDialog
 import com.app.signme.view.profile.PagerImageAdapter
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.HomeViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_profile.*
+import java.util.HashMap
 
 class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActionListener {
 
@@ -26,15 +30,19 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         fun getStartIntent(
             context: Context,
             userId:String?,
+            otherUserResponse:SwiperViewResponse
         ): Intent {
             return Intent(context, OtherUserDetailsActivity::class.java).apply {
                 putExtra(IConstants.USERID, userId)
+                putExtra(IConstants.USERDETAILS,otherUserResponse)
             }
         }
     }
     private var binding:ActivityOtherUserDetailsBinding?=null
     var lookingFor=ArrayList<String>()
     var userId:String?=""
+    var status:String?=""
+    var otherUserResponse:SwiperViewResponse?=null
     var mImageAdapter = PagerImageAdapter(false, this)
     override fun setDataBindingLayout() {
         binding=DataBindingUtil.setContentView(this, R.layout.activity_other_user_details)
@@ -49,6 +57,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         initListeners()
         addObservers()
         userId=intent.getStringExtra(IConstants.USERID)
+        otherUserResponse=intent.getParcelableExtra(IConstants.USERDETAILS)
 
         viewPagerImages.adapter = mImageAdapter
         viewPagerImages.currentItem = 0
@@ -65,13 +74,9 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     {
         when {
             checkInternet() -> {
-                showProgressDialog(
-                    isCheckNetwork = true,
-                    isSetTitle = false,
-                    title = IConstants.EMPTY_LOADING_MSG
-                )
+                binding!!.shimmer.startShimmer()
 
-                viewModel.callOtherUserDetailsList("3")
+                viewModel.callOtherUserDetailsList(userId)
             }
         }
     }
@@ -84,16 +89,52 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
                     finish()
                 }
+                btnClose.setOnClickListener{
+                    status=IConstants.REJECT
+                    callLikeSuperlikeCancel(userId,IConstants.REJECT)
+                }
+
+                btnSuperLike.setOnClickListener{
+                    status=IConstants.SUPERLIKE
+                    callLikeSuperlikeCancel(userId,IConstants.SUPERLIKE)
+                }
+
+                btnLike.setOnClickListener{
+                    status=IConstants.LIKE
+                    callLikeSuperlikeCancel(userId,IConstants.LIKE)
+                }
+
             }
         }
 
+    }
 
+    fun callLikeSuperlikeCancel(userId:String?,status:String)
+    {
+        when {
+            checkInternet() -> {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
+                val map = HashMap<String, String>()
+                map["connection_type"] = status
+                map["connection_user_id"] = userId!!
+
+                viewModel.callLikeSuperLikeCancel(map)
+            }
+        }
     }
 
     private fun addObservers() {
 
         viewModel.otherUserDetailsLiveData.observe(this){response->
-            hideProgressDialog()
+            binding!!.shimmer.stopShimmer()
+            binding!!.shimmer.visibility=View.GONE
+            binding!!.scrollview.visibility=View.VISIBLE
+            binding!!.buttonContainer.visibility=View.VISIBLE
+            binding!!.imageView.visibility=View.VISIBLE
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
 
@@ -120,7 +161,10 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                             )
                         )
                     }
-                    binding!!.mTabLayout.visibility = View.VISIBLE
+                    if(mImageAdapter.getAllItem().size!=1)
+                    {
+                        binding!!.mTabLayout.visibility = View.VISIBLE
+                    }
                     Glide.with(this@OtherUserDetailsActivity)
                         .load("http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png")
                         .into(binding!!.signLogo)
@@ -142,10 +186,63 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             }
         }
 
+        viewModel.userLikeSuperLikeLiveData.observe(this){response->
+            hideProgressDialog()
+            when(status)
+            {
+                IConstants.LIKE->{
+                    (application as AppineersApplication).isLike.postValue(true)
+
+                    if(otherUserResponse!!.isLike.equals("Yes"))
+                    {
+                        showMatchPopup()
+                    }
+                    else{
+                        showMessage(response.settings!!.message,IConstants.SNAKBAR_TYPE_SUCCESS)
+                    }
+
+                }
+                IConstants.SUPERLIKE->{
+                    (application as AppineersApplication).isSuperLike.postValue(true)
+                    if(otherUserResponse!!.isLike.equals("Yes"))
+                    {
+                        showMatchPopup()
+                    }
+                    else{
+                        showMessage(response.settings!!.message,IConstants.SNAKBAR_TYPE_SUCCESS)
+                    }
+                }
+                IConstants.REJECT->{
+                    (application as AppineersApplication).isReject.postValue(true)
+                    finish()
+                }
+            }
+        }
+
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
+            binding!!.shimmer.stopShimmer()
+
             handleApiStatusCodeError(serverError)
         }
+    }
+
+
+    private fun showMatchPopup() {
+
+        MatchesDialog(otherUserResponse!!,mListener = object :
+            MatchesDialog.ClickListener {
+            override fun onSuccess() {
+
+                finish()
+            }
+
+            override fun onCancel() {
+
+            }
+
+        }).show(supportFragmentManager, "Tag")
+
     }
 
     fun addLookingFor()

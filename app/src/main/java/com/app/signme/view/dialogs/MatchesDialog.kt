@@ -8,7 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.app.signme.R
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.databinding.DialogMatchesBinding
+import com.app.signme.dataclasses.SwiperViewResponse
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 import com.hb.logger.Logger
 
@@ -18,6 +22,7 @@ import com.hb.logger.Logger
  * to user with custom view
  */
 class MatchesDialog(
+    response: SwiperViewResponse,
     mListener: ClickListener?
 ) : DialogFragment() {
     interface ClickListener {
@@ -30,6 +35,7 @@ class MatchesDialog(
     }
     private var listener: ClickListener? = mListener
     private var binding: DialogMatchesBinding? = null
+    var res=response
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +54,24 @@ class MatchesDialog(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)!!
+
+        binding!!.textMatchDesc.text="You and"+" "+res.name+" "+getString(R.string.label_like_each_other)
+        Glide.with(this)
+            .load(res.profileImage)
+            .skipMemoryCache(false)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .centerCrop()
+            .error(R.drawable.ic_feedback_bag)
+            .placeholder(R.drawable.ic_feedback_bag)
+            .into(binding!!.imgOtherUser)
+        Glide.with(this)
+            .load(sharedPreference.userDetail!!.profileImage)
+            .skipMemoryCache(false)
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .centerCrop()
+            .error(R.drawable.ic_feedback_bag)
+            .placeholder(R.drawable.ic_feedback_bag)
+            .into(binding!!.imgMy)
 
         binding?.apply {
 

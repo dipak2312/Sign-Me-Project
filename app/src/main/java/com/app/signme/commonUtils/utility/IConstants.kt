@@ -31,6 +31,7 @@ interface IConstants {
         const val EDIT="edit"
         const val ADD="add"
         const val USERID="userid"
+        const val USERDETAILS="userDetails"
         const val LIKE="Like"
         const val SUPERLIKE="Superlike"
         const val REJECT="Reject"

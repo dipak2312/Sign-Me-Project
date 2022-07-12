@@ -174,7 +174,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                     userInfo = it.data!![0]
                     AppineersApplication.sharedPreference.userDetail = it.data!![0]
                     binding!!.user = it.data!![0]
-                    binding.mTabLayout.visibility = View.VISIBLE
+
                     for (respons in it.data!![0].UserMedia!!) {
                         mImageAdapter.insertItem(
                             UserImage(
@@ -185,6 +185,12 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                             )
                         )
                     }
+
+                    if(mImageAdapter.getAllItem().size !=1)
+                    {
+                        binding.mTabLayout.visibility = View.VISIBLE
+                    }
+
                     Glide.with(this@ProfileFragment.requireContext())
                         .load(it.data!![0].logoFileName)
                         .into(binding!!.signLogo)

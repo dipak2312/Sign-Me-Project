@@ -48,6 +48,7 @@
                 </androidx.appcompat.widget.AppCompatTextView>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textMatchDesc"
                     style="@style/RegularTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,21 +90,21 @@
                         android:layout_marginTop="@dimen/dimen_10dp">
 
                         <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imgMy"
                             android:layout_width="@dimen/dimen_120dp"
                             android:layout_height="@dimen/dimen_140dp"
                             android:layout_alignParentBottom="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/test"
                             app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.MediumComponent">
 
                         </com.google.android.material.imageview.ShapeableImageView>
 
                         <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/imgOtherUser"
                             android:layout_width="@dimen/dimen_120dp"
                             android:layout_height="@dimen/dimen_140dp"
                             android:layout_alignParentEnd="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/test1"
                             app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.MediumComponent">
 
                         </com.google.android.material.imageview.ShapeableImageView>

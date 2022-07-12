@@ -19,8 +19,8 @@ class HomeRepository @Inject constructor(
     fun callBuySubscription(map: HashMap<String, okhttp3.RequestBody>): Single<TAListResponse<LoginResponse>> =
         networkService.callBuySubscription(map)
 
-    fun getSwiperList(pageIndex:String?): Single<TAListResponse<SwiperViewResponse>> =
-        networkService.callGetSwiperList(pageIndex)
+    fun getSwiperList(pageIndex:String?,signId:String?): Single<TAListResponse<SwiperViewResponse>> =
+        networkService.callGetSwiperList(pageIndex,signId)
 
     fun callGetOtherUserDetailsList(otherUserId:String?): Single<TAListResponse<OtherUserDetailsResponse>> =
         networkService.callGetOtherUserDetails(otherUserId)

@@ -1,64 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-        <variable
-            name="higherData"
-            type="com.app.signme.dataclasses.HigherCompatibilityData" />
-
-        <variable
-            name="response"
-            type="com.app.signme.dataclasses.OtherUserDetailsResponse" />
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:background="@color/screenbackground">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <include layout="@layout/shimmer_other_user_details">
-
-            </include>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
         <RelativeLayout
-            android:id="@+id/imageView"
+            android:id="@+id/imageView1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_270dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewPagerImages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/shimmer_effect" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btbBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dimen_6dp"
-                android:layout_marginTop="@dimen/dimen_10dp"
-                android:padding="@dimen/dimen_10dp"
-                android:src="@drawable/ic_profile_back">
-
-            </androidx.appcompat.widget.AppCompatImageView>
-
-
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/mTabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -75,15 +38,12 @@
         </RelativeLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toBottomOf="@+id/imageView1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,7 +53,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dimen_30dp"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -103,18 +63,20 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.55"
+                        android:layout_marginEnd="@dimen/dimen_15dp"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="@{response.getNameAndage()}"
+                        android:background="@color/shimmer_effect"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_24sp"
-                        tools:text="Sagar 28" />
+                        />
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dimen_30dp"
                         android:layout_weight="0.45"
                         android:orientation="horizontal"
+                        android:background="@color/shimmer_effect"
                         android:layout_gravity="center_vertical"
                         android:gravity="end">
 
@@ -122,24 +84,21 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:text="@{higherData.relationshipTitle}"
                             style="@style/LightTextStyle"
-                            android:layout_weight="1"
                             android:gravity="end"
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:textColor="@color/profile_gray"
                             android:textSize="@dimen/text_dimen_14sp"
-                            tools:text="Similar Minds"/>
+                           />
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{higherData.relationPercent()}"
                             android:layout_marginStart="@dimen/_5sdp"
                             style="@style/BoldTextStyle"
                             android:textColor="@color/app_color"
                             android:textSize="@dimen/text_dimen_21sp"
-                            tools:text="20%"/>
+                           />
                     </LinearLayout>
 
 
@@ -148,46 +107,39 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dimen_30dp"
                     android:layout_marginTop="@dimen/dimen_10dp"
+                    android:weightSum="1"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/signLogo"
-                        android:layout_width="@dimen/dimen_15dp"
-                        android:layout_height="@dimen/dimen_15dp"
-                        android:layout_gravity="center_vertical">
-
-                    </androidx.appcompat.widget.AppCompatImageView>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/LightTextStyle"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_10dp"
-                        android:layout_weight="1"
-                        android:text="@{response.signName}"
+                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_weight="0.6"
+                        android:layout_marginEnd="@dimen/dimen_10dp"
+                        android:background="@color/shimmer_effect"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
-                        tools:text="Aquarius" />
+                        />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_location_profile"
+                        android:layout_height="@dimen/dimen_30dp"
+                        android:layout_weight="0.4"
                         android:drawablePadding="@dimen/dimen_10dp"
-                        android:text="@{response.getCityAndState()}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
-                        tools:text="Atlanta, Georgia" />
+                         android:background="@color/shimmer_effect"/>
 
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dimen_80dp"
                     android:layout_marginTop="@dimen/dimen_15dp"
-                    app:cardBackgroundColor="@color/screen_top_background"
+                    app:cardBackgroundColor="@color/shimmer_effect"
                     app:cardCornerRadius="@dimen/dimen_12dp"
                     app:cardElevation="@dimen/dimen_0dp">
 
@@ -203,42 +155,32 @@
                             android:padding="@dimen/dimen_10dp">
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/textFriends"
                                 style="@style/RegularTextStyle"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_dimen_11sp"
-                                tools:text="Sagar 28" />
+                                />
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/textQuickMeet"
                                 style="@style/RegularTextStyle"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/text_dimen_11sp"
-                                tools:text="Sagar 28" />
+                                android:textSize="@dimen/text_dimen_11sp" />
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/textRelationship"
                                 style="@style/RegularTextStyle"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/text_dimen_11sp"
-                                tools:text="Sagar 28" />
+                                android:textSize="@dimen/text_dimen_11sp" />
 
                         </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#0CFFFFFF" />
 
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -246,10 +188,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@{higherData.description}"
                             android:textColor="@color/profile_gray"
                             android:textSize="@dimen/text_dimen_11sp"
-                            tools:text="@string/label_profile_match_description" />
+                            />
 
                     </LinearLayout>
 
@@ -257,9 +198,9 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dimen_80dp"
                     android:layout_marginTop="@dimen/dimen_15dp"
-                    app:cardBackgroundColor="@color/screen_top_background"
+                    app:cardBackgroundColor="@color/shimmer_effect"
                     app:cardCornerRadius="@dimen/dimen_12dp"
                     app:cardElevation="@dimen/dimen_0dp">
 
@@ -273,15 +214,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@string/label_looking_for"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_12sp"
-                            tools:text="@string/label_looking_for" />
+                             />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#0CFFFFFF" />
+
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"
@@ -290,7 +227,6 @@
                             android:scrollbars="none">
 
                             <com.google.android.material.chip.ChipGroup
-                                android:id="@+id/lookingForChipGroup"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 app:singleSelection="false">
@@ -304,7 +240,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dimen_80dp"
                     android:layout_marginTop="@dimen/dimen_15dp"
                     android:layout_marginBottom="@dimen/dimen_100dp"
                     app:cardBackgroundColor="@color/screen_top_background"
@@ -314,6 +250,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/shimmer_effect"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -321,25 +258,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@string/label_about_you"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_12sp"
-                            tools:text="@string/label_about_you" />
+                            android:textSize="@dimen/text_dimen_12sp" />
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#0CFFFFFF" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/RegularTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@{response.aboutMe}"
                             android:textColor="@color/profile_gray"
-                            android:textSize="@dimen/text_dimen_11sp"
-                            tools:text="@string/label_profile_match_description" />
+                            android:textSize="@dimen/text_dimen_11sp" />
 
 
                     </LinearLayout>
@@ -350,73 +279,5 @@
         </androidx.core.widget.NestedScrollView>
 
 
-        <RelativeLayout
-            android:id="@+id/button_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="@dimen/dimen_20dp"
-            android:clipChildren="false"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btnClose"
-                android:layout_width="@dimen/dimen_60dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/btnSuperLike"
-                android:src="@drawable/ic_home_close" />
-
-            <RelativeLayout
-                android:id="@+id/btnSuperLike"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="@dimen/dimen_16dp"
-                android:layout_marginEnd="@dimen/dimen_16dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_home_star" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@drawable/super_like_count"
-                    android:minWidth="17sp"
-                    android:minHeight="17sp"
-                    android:padding="2dp"
-                    android:gravity="center"
-                    android:layout_alignParentEnd="true"
-                    android:paddingLeft="4dp"
-                    android:paddingRight="4dp"
-                    android:paddingBottom="1dp"
-                    android:scaleType="fitStart"
-                    android:text="5"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:visibility="visible" />
-            </RelativeLayout>
-
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btnLike"
-                android:layout_width="60dp"
-                android:layout_height="@dimen/dimen_60dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/btnSuperLike"
-                android:src="@drawable/ic_home_like" />
-
-        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>

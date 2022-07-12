@@ -39,6 +39,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     var uploadedFiles = ArrayList<String>()
     var mAdapter: SwiperViewAdapter? =null
     var manager:CardStackLayoutManager?=null
+    var status:String?=""
 
     override fun setDataBindingLayout() {}
 
@@ -87,21 +88,18 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         }
         addObservers()
         initListener()
-        mAdapter!!.addAllItem(createswiperValue())
-       //getSwiperList()
+        //mAdapter!!.addAllItem(createswiperValue())
+       getSwiperList()
      }
 
     fun getSwiperList()
     {
         when {
             checkInternet() -> {
-                showProgressDialog(
-                    isCheckNetwork = true,
-                    isSetTitle = false,
-                    title = IConstants.EMPTY_LOADING_MSG
-                )
 
-                viewModel.getSwiperList("1")
+                binding!!.shimmer.startShimmer()
+
+                viewModel.getSwiperList("1", sharedPreference.userDetail!!.astrologySignId)
             }
         }
     }
@@ -152,8 +150,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     .build()
                 manager!!.setSwipeAnimationSetting(close)
                 cardStackView.swipe()
-                //callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition].userId,IConstants.REJECT)
-
             }
             btnLike.setOnClickListener{
                 val like = SwipeAnimationSetting.Builder()
@@ -163,7 +159,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     .build()
                 manager!!.setSwipeAnimationSetting(like)
                 cardStackView.swipe()
-                //callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition].userId,IConstants.LIKE)
             }
             btnSuperLike.setOnClickListener{
                 val superlike = SwipeAnimationSetting.Builder()
@@ -174,19 +169,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                 manager!!.setSwipeAnimationSetting(superlike)
                 cardStackView.swipe()
 
-                MatchesDialog(mListener = object :
-                    MatchesDialog.ClickListener {
-                    override fun onSuccess() {
-
-                    }
-
-                    override fun onCancel() {
-
-                    }
-
-                }).show(requireFragmentManager(), "Tag")
-
-                //callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition].userId,IConstants.SUPERLIKE)
             }
         }
     }
@@ -194,7 +176,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     private fun addObservers() {
 
         viewModel.swiperListLiveData.observe(this){response->
-            hideProgressDialog()
+            binding!!.shimmer.stopShimmer()
+            binding!!.shimmer.visibility=View.GONE
+            binding!!.buttonContainer.visibility=View.VISIBLE
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
                     mAdapter!!.addAllItem(response.data!!)
@@ -207,8 +191,58 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         }
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
+            binding!!.shimmer.stopShimmer()
             (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
         }
+
+        (activity?.application as AppineersApplication).isLike.observe(this)
+            {isLike->
+                if(isLike)
+                {
+                   status=IConstants.LIKE
+                    val like = SwipeAnimationSetting.Builder()
+                        .setDirection(Direction.Right)
+                        .setDuration(Duration.Slow.duration)
+                        .setInterpolator(AccelerateInterpolator())
+                        .build()
+                     manager!!.setSwipeAnimationSetting(like)
+                     binding!!.cardStackView.swipe()
+                    (activity?.application as AppineersApplication).isLike.postValue(false)
+                }
+           }
+
+        (activity?.application as AppineersApplication).isSuperLike.observe(this)
+        {isSuperLike->
+            if(isSuperLike)
+            {
+                status=IConstants.SUPERLIKE
+                val superlike = SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Top)
+                    .setDuration(Duration.Slow.duration)
+                    .setInterpolator(AccelerateInterpolator())
+                    .build()
+                manager!!.setSwipeAnimationSetting(superlike)
+                binding!!.cardStackView.swipe()
+                (activity?.application as AppineersApplication).isSuperLike.postValue(false)
+            }
+        }
+
+        (activity?.application as AppineersApplication).isReject.observe(this)
+        {isReject->
+            if(isReject)
+            {
+                status=IConstants.REJECT
+                val close = SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Left)
+                    .setDuration(Duration.Slow.duration)
+                    .setInterpolator(LinearInterpolator())
+                    .build()
+                manager!!.setSwipeAnimationSetting(close)
+                binding!!.cardStackView.swipe()
+                (activity?.application as AppineersApplication).isReject.postValue(false)
+            }
+        }
+
     }
 
 
@@ -234,14 +268,56 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
     override fun onCardSwiped(direction: Direction) {
 
-        if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
-            val old = mAdapter!!.getAllItems()
-            val new = old.plus(createswiperValue())
-            val callback = SwiperDiffCallback(old, new)
-            val result = DiffUtil.calculateDiff(callback)
-            mAdapter!!.addAllItem(new)
-            result.dispatchUpdatesTo(mAdapter!!)
+        when(direction.name)
+        {
+            "Left"->{
+                if(status.isNullOrEmpty())
+                { callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition-1].userId,IConstants.REJECT) }else { status="" }
+            }
+            "Right"->{
+                if(status.isNullOrEmpty())
+                { callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition-1].userId,IConstants.LIKE)
+                    if(mAdapter!!.getAllItems()[manager!!.topPosition-1].isLike.equals("Yes"))
+                    {
+                        showMatchPopup(mAdapter!!.getItem(manager!!.topPosition-1))
+                    }
+
+                }else { status="" }
+            }
+            "Top"->{
+                if(status.isNullOrEmpty())
+                { callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition-1].userId,IConstants.SUPERLIKE)
+                    if(mAdapter!!.getAllItems()[manager!!.topPosition-1].isLike.equals("Yes"))
+                    {
+                        showMatchPopup(mAdapter!!.getItem(manager!!.topPosition-1))
+                    }}else { status="" }
+            }
         }
+
+        if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
+//            val old = mAdapter!!.getAllItems()
+//            val new = old.plus(createswiperValue())
+//            val callback = SwiperDiffCallback(old, new)
+//            val result = DiffUtil.calculateDiff(callback)
+//            mAdapter!!.addAllItem(new)
+//            result.dispatchUpdatesTo(mAdapter!!)
+        }
+    }
+
+    private fun showMatchPopup(item: SwiperViewResponse) {
+
+        MatchesDialog(item,mListener = object :
+            MatchesDialog.ClickListener {
+            override fun onSuccess() {
+
+            }
+
+            override fun onCancel() {
+
+            }
+
+        }).show(requireFragmentManager(), "Tag")
+
     }
 
     override fun onCardRewound() {
@@ -268,7 +344,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         {
             R.id.cardSwiperView->{
 
-                startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeFragment.requireContext(),mAdapter!!.getItem(position).userId))
+                startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeFragment.requireContext(),mAdapter!!.getItem(position).userId,mAdapter!!.getItem(position)))
             }
         }
 

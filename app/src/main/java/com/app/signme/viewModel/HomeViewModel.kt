@@ -82,9 +82,9 @@ class HomeViewModel(
         )
     }
 
-    fun getSwiperList(pageIndex: String?) {
+    fun getSwiperList(pageIndex: String?,signId:String?) {
         compositeDisposable.addAll(
-            homeRepository.getSwiperList( pageIndex)
+            homeRepository.getSwiperList(pageIndex,signId)
                 .subscribeOn(schedulerProvider.io())
                 .subscribe(
                     { response ->

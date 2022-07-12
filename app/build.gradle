@@ -296,6 +296,10 @@ dependencies {
     //swiper view
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
+    //shimmer effect
+
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
 
 
 

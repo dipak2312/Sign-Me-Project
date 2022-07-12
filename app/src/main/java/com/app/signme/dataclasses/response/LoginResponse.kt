@@ -166,14 +166,16 @@ data class LoginResponse(
     val ageUpperLimit: String? = "",
     @JsonProperty("sign_name")
     val signName: String? = "",
-    @JsonProperty("logo_file_name")
+    @JsonProperty("sign_logo_file_name")
     val logoFileName: String? = "",
     @JsonProperty("age")
     val age: String? = "",
     @JsonProperty("looking_for_relation_type")
     var lookingForRelationType: ArrayList<RelationshipType>? = null,
     @JsonProperty("user_media")
-    var UserMedia: ArrayList<UserMedia>? = null)
+    var UserMedia: ArrayList<UserMedia>? = null,
+    @JsonProperty("astrology_sign_id")
+    var astrologySignId:String? = "")
 
 {
     fun getFullName(): String {

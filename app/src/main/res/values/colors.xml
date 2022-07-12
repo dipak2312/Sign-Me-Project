@@ -78,6 +78,8 @@
     <color name="slate_black">#FF333333</color>
     <color name="warm_grey">#8e8e8e</color>
     <color name="translucent_black">#99000000</color>
+    
+    <color name="shimmer_effect">#383838</color>
 
 
     <!--SnackBar Color Codes-->

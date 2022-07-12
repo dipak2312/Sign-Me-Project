@@ -174,6 +174,7 @@ interface NetworkService {
     @GET("user_list")
     fun callGetSwiperList(
         @Query("page_index") pageIndex: String?,
+        @Query("user_astrology_sign_id") signId: String?,
         @Query("per_page_record") perPageRecord: String = IConstants.RESULT_PER_PAGE
     ): Single<TAListResponse<SwiperViewResponse>>
 

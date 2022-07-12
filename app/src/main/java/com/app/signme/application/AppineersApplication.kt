@@ -59,6 +59,9 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     var isCurrentLocationUpdated = MutableLiveData<Boolean>()
     val isProfileUpdated = MutableLiveData<Boolean>()
     val isAdRemoved = MutableLiveData<Boolean>()
+    val isLike=MutableLiveData<Boolean>()
+    val isSuperLike=MutableLiveData<Boolean>()
+    val isReject=MutableLiveData<Boolean>()
     var isSubscriptionTaken = MutableLiveData<Boolean>()
     var weakActivity: WeakReference<BaseActivity<BaseViewModel>>? = null
     val isMediaUploaded = MutableLiveData<MediaUpload?>()

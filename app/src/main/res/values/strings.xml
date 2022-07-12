@@ -111,7 +111,7 @@
     <string name="label_enable_location">Enable Location</string>
     <string name="label_need_location_info">You\'ll need to enable your location in order to use sign me</string>
     <string name="label_its_matches">It’s a Match!</string>
-    <string name="label_like_each_other">You and Chris have liked each other.</string>
+    <string name="label_like_each_other">have liked each other.</string>
 
 
     //Text Label
