@@ -307,6 +307,9 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             if (it.settings?.isSuccess == true) {
                 if (!it.data.isNullOrEmpty()) {
                     sharedPreference.configDetails = it.data!!.get(0)
+                    sharedPreference.likeCount= it.data!!.get(0).likeUserCount!!
+                    sharedPreference.superLikeCount= it.data!!.get(0).superLikeUserCount!!
+
                     handleDefaultConfigDetails()
                 }
             } else if (sharedPreference.configDetails != null) {

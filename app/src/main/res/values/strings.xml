@@ -198,6 +198,7 @@
     <string name="not_to_respond">Not_to_respond</string>
     <string name="label_send_message">Send Chris a Message</string>
     <string name="label_keep_swiping">Keep Swiping</string>
+    <string name="lanel_no_data_found">No users available.</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
 </string>
 

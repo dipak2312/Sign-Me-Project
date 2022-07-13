@@ -80,10 +80,17 @@ data class VersionConfigResponse(
     @JsonProperty("mandatory_array")
     val mandatoryArray: ArrayList<MandatoryFlags>? = null,
     @JsonProperty("is_updated")
-    val isUpdated: String? = null
-
-
-) {
+    val isUpdated: String? = null,
+    @JsonProperty("default_superlike_count")
+    val defaultSuperLikeCount: Int? = 0,
+    @JsonProperty("default_like_count")
+    val defaultLikeCount: Int? = 0,
+    @JsonProperty("like_user_count")
+    val likeUserCount: Int? =0,
+    @JsonProperty("superlike_user_count")
+    val superLikeUserCount: Int? = 0,
+    )
+{
     fun shouldShowVersionDialog(context: Context) =
         (((androidVersionNumber?.compareTo(getAppVersion(context, true))
             ?: 0) > 0) && versionUpdateCheck.equals("1"))

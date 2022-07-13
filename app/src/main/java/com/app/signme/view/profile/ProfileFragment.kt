@@ -103,11 +103,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
     private fun getProfileData() {
         when {
             checkInternet() -> {
-                showProgressDialog(
-                    isCheckNetwork = true,
-                    isSetTitle = false,
-                    title = IConstants.EMPTY_LOADING_MSG
-                )
+                binding!!.shimmer.startShimmer()
                 viewModel.callGetProfile()
             }
         }
@@ -166,7 +162,10 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         }
 
         viewModel.getUserLiveData.observe(this) {
-            hideProgressDialog()
+            binding!!.shimmer.stopShimmer()
+            binding!!.shimmer.visibility=View.GONE
+            binding!!.scrollView.visibility=View.VISIBLE
+            binding!!.imageView.visibility=View.VISIBLE
             lookingFor = ArrayList<String>()
             if (it.settings?.isSuccess == true) {
                 if (!it.data.isNullOrEmpty()) {
@@ -224,6 +223,8 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
+            hideProgressDialog()
+            binding!!.shimmer.stopShimmer()
         }
 
         localDatabaseImages()

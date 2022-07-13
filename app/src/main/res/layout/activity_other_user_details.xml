@@ -386,7 +386,7 @@
                     android:src="@drawable/ic_home_star" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text"
+                    android:id="@+id/textSuperLikeCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -400,10 +400,9 @@
                     android:paddingRight="4dp"
                     android:paddingBottom="1dp"
                     android:scaleType="fitStart"
-                    android:text="5"
                     android:textColor="@color/black"
                     android:textSize="12sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </RelativeLayout>
 
 

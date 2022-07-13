@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/screenbackground">
+
+        <RelativeLayout
+            android:id="@+id/relEmptyMessage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/emptyMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/signme_logo">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hint_white"
+                android:layout_below="@+id/emptyMessage"
+                android:layout_centerHorizontal="true"
+                style="@style/BoldTextStyle"
+                android:textSize="@dimen/text_dimen_16sp"
+                android:text="@string/lanel_no_data_found"
+                >
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+        </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/tvHome"
@@ -68,6 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                tools:visibility="visible"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/dimen_30dp"
                 android:clipChildren="false"
@@ -96,7 +128,7 @@
                         android:src="@drawable/ic_home_star" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text"
+                        android:id="@+id/textSuperlikeCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"

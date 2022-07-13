@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityOtherUserDetailsBinding
@@ -18,6 +20,7 @@ import com.app.signme.dataclasses.UserImage
 import com.app.signme.view.dialogs.MatchesDialog
 import com.app.signme.view.profile.PagerImageAdapter
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
+import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.HomeViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
@@ -95,13 +98,28 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 }
 
                 btnSuperLike.setOnClickListener{
-                    status=IConstants.SUPERLIKE
-                    callLikeSuperlikeCancel(userId,IConstants.SUPERLIKE)
+                    if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
+                    {
+                        startActivity(SubscriptionPlansActivity.getStartIntent(this@OtherUserDetailsActivity,"1"))
+                    }
+                    else
+                    {
+                        status=IConstants.SUPERLIKE
+                        callLikeSuperlikeCancel(userId,IConstants.SUPERLIKE)
+                    }
                 }
 
                 btnLike.setOnClickListener{
-                    status=IConstants.LIKE
-                    callLikeSuperlikeCancel(userId,IConstants.LIKE)
+                    if(sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount)
+                    {
+                        startActivity(SubscriptionPlansActivity.getStartIntent(this@OtherUserDetailsActivity,"1"))
+                    }
+                    else
+                    {
+                        status=IConstants.LIKE
+                        callLikeSuperlikeCancel(userId,IConstants.LIKE)
+                    }
+
                 }
 
             }
@@ -192,7 +210,8 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             {
                 IConstants.LIKE->{
                     (application as AppineersApplication).isLike.postValue(true)
-
+                    var likeValue= sharedPreference.likeCount
+                    sharedPreference.likeCount=likeValue+1
                     if(otherUserResponse!!.isLike.equals("Yes"))
                     {
                         showMatchPopup()
@@ -204,6 +223,19 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 }
                 IConstants.SUPERLIKE->{
                     (application as AppineersApplication).isSuperLike.postValue(true)
+
+                    var superLikeCountValue= sharedPreference.superLikeCount
+                    sharedPreference.superLikeCount=superLikeCountValue+1
+                    var count=sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
+                    if(count==0)
+                    {
+                        binding!!.textSuperLikeCount.visibility=View.GONE
+                    }
+                    else{
+                        binding!!.textSuperLikeCount.visibility=View.VISIBLE
+                        binding!!.textSuperLikeCount.text=count.toString()
+                    }
+
                     if(otherUserResponse!!.isLike.equals("Yes"))
                     {
                         showMatchPopup()

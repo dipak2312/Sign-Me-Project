@@ -188,6 +188,24 @@ class AppPrefrrences(context: Context) {
         get() = pref.getInt("launchCount", 0)
         set(value) = pref.edit().putInt("launchCount", value).apply()
 
+
+    /**
+     * app Like count
+     */
+    var likeCount: Int
+        get() = pref.getInt("LikeCount", 0)
+        set(value) = pref.edit().putInt("LikeCount", value).apply()
+
+    /**
+     * app Super Like count
+     */
+    var superLikeCount: Int
+        get() = pref.getInt("SuperLikeCount", 0)
+        set(value) = pref.edit().putInt("SuperLikeCount", value).apply()
+
+
+
+
     /**
      * log status flag
      * */
