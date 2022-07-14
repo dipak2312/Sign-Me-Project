@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/splash_screen"
+        android:background="@mipmap/ic_subscription_bag"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,53 +53,79 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/dimen_16dp"
-                android:layout_marginEnd="@dimen/dimen_16dp"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp"
+                    android:layout_height="140dp"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="@color/transparent"
                     android:contentDescription="@string/app_logo"
-                    android:src="@drawable/splash_signme_logo" />
+                    android:src="@drawable/ic_subscription_icon" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_20sp"
+                    android:layout_marginStart="@dimen/dimen_16dp"
+                    android:layout_marginEnd="@dimen/dimen_16dp"
+                    android:textSize="@dimen/text_dimen_22sp"
                     style="@style/BoldTextStyle"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/label_upgrade_profile_text"/>
 
+                 <androidx.appcompat.widget.AppCompatTextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="@dimen/dimen_10dp"
+                     android:layout_marginStart="@dimen/dimen_32dp"
+                     android:layout_marginEnd="@dimen/dimen_32dp"
+                     android:gravity="center"
+                     android:textColor="@color/subscription_gray"
+                     android:text="@string/label_upgrade_profile_desc"
+                     style="@style/RegularTextStyle">
+
+                 </androidx.appcompat.widget.AppCompatTextView>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/dimen_25dp"
+                    android:alpha="0.67"
+                    android:background="@color/subscription_line">
+
+                </View>
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dimen_16dp">
+                    android:layout_marginStart="@dimen/dimen_20dp"
+                    android:layout_marginEnd="@dimen/dimen_20dp"
+                    android:layout_marginTop="@dimen/dimen_25dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/tick"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_8dp"
-                        android:src="@drawable/ic_check">
+                        android:layout_marginTop="@dimen/dimen_6dp"
+                        android:src="@drawable/ic_subscription_green_tick">
 
                     </androidx.appcompat.widget.AppCompatImageView>
+
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textSubDesc"
+                        style="@style/MediumTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_toEndOf="@+id/tick"
-                        android:layout_marginStart="@dimen/dimen_15dp"
-                        android:textSize="@dimen/text_dimen_20sp"
-                        style="@style/MediumTextStyle"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/label_liked_profile_text"/>
+                        android:layout_marginStart="@dimen/dimen_15dp"
+                        android:layout_toEndOf="@+id/tick"
+                        android:text="@string/label_liked_profile_text"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_16sp" />
 
                 </RelativeLayout>
 
@@ -107,7 +133,8 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/dimen_20dp"
+                    android:layout_marginEnd="@dimen/dimen_20dp"
                     android:layout_marginTop="@dimen/dimen_16dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -115,20 +142,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_8dp"
-                        android:src="@drawable/ic_check">
+                        android:src="@drawable/ic_subscription_green_tick">
 
                     </androidx.appcompat.widget.AppCompatImageView>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textUpgradeProfile"
+                        style="@style/MediumTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:layout_toEndOf="@+id/tick1"
-                        android:layout_marginStart="@dimen/dimen_15dp"
-                        android:textSize="@dimen/text_dimen_20sp"
-                        style="@style/MediumTextStyle"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/label_Regular_subscription_text"/>
+                        android:layout_marginStart="@dimen/dimen_15dp"
+                        android:layout_toEndOf="@+id/tick1"
+                        android:text="@string/label_Regular_subscription_text"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_16sp" />
 
                 </RelativeLayout>
 
@@ -151,22 +179,45 @@
                            android:orientation="vertical"
                            android:padding="@dimen/dimen_10dp"
                            android:layout_marginEnd="@dimen/dimen_8dp"
-                           android:background="@drawable/bg_button_select">
+                           android:background="@drawable/bg_subscription_select">
 
-                           <androidx.appcompat.widget.AppCompatTextView
+                           <androidx.appcompat.widget.AppCompatImageView
+                               android:id="@+id/checkRegularTick"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
-                               android:textColor="@color/white"
+                               android:layout_gravity="end"
+                               android:src="@drawable/ic_subscription_orange_tick">
+
+                           </androidx.appcompat.widget.AppCompatImageView>
+
+                           <androidx.appcompat.widget.AppCompatTextView
+                               android:id="@+id/textRegularPrice"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:textColor="@color/golden"
                                android:layout_gravity="center_horizontal"
-                               android:textSize="@dimen/text_dimen_14sp"
-                               style="@style/MediumTextStyle"
+                               android:textSize="@dimen/text_dimen_22sp"
+                               style="@style/BoldTextStyle"
                                android:text="@string/label_regular_month_price"/>
 
                            <androidx.appcompat.widget.AppCompatTextView
+                               android:id="@+id/textRegularMothly"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
-                               android:textColor="@color/white"
+                               android:textColor="@color/golden"
                                android:gravity="center"
+                               android:layout_gravity="center_horizontal"
+                               android:textSize="@dimen/text_dimen_15sp"
+                               style="@style/MediumTextStyle"
+                               android:text="@string/label_montyly_subscription"/>
+                           <androidx.appcompat.widget.AppCompatTextView
+                               android:id="@+id/textRegularSubscription"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:textColor="@color/golden"
+                               android:gravity="center"
+                               android:layout_marginTop="@dimen/dimen_4dp"
+                               android:layout_marginBottom="@dimen/dimen_8dp"
                                android:layout_gravity="center_horizontal"
                                android:textSize="@dimen/text_dimen_10sp"
                                style="@style/MediumTextStyle"
@@ -185,20 +236,44 @@
                            android:layout_marginStart="@dimen/dimen_8dp"
                            android:background="@drawable/bg_button_blak_unselect">
 
+                           <androidx.appcompat.widget.AppCompatImageView
+                               android:id="@+id/checkGoldenTick"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_gravity="end"
+                               android:visibility="invisible"
+                               android:src="@drawable/ic_subscription_orange_tick">
+
+                           </androidx.appcompat.widget.AppCompatImageView>
+
                            <androidx.appcompat.widget.AppCompatTextView
+                               android:id="@+id/textGoldenPrice"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
                                android:textColor="@color/white"
                                android:layout_gravity="center_horizontal"
-                               android:textSize="@dimen/text_dimen_14sp"
-                               style="@style/MediumTextStyle"
+                               android:textSize="@dimen/text_dimen_22sp"
+                               style="@style/BoldTextStyle"
                                android:text="@string/label_golden_month_price"/>
 
                            <androidx.appcompat.widget.AppCompatTextView
+                               android:id="@+id/textGoldenMonthly"
                                android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
                                android:textColor="@color/white"
                                android:gravity="center"
+                               android:layout_gravity="center_horizontal"
+                               android:textSize="@dimen/text_dimen_15sp"
+                               style="@style/MediumTextStyle"
+                               android:text="@string/label_montyly_subscription"/>
+                           <androidx.appcompat.widget.AppCompatTextView
+                               android:id="@+id/textGoldenSubscription"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:textColor="@color/white"
+                               android:gravity="center"
+                               android:layout_marginTop="@dimen/dimen_4dp"
+                               android:layout_marginBottom="@dimen/dimen_8dp"
                                android:layout_gravity="center_horizontal"
                                android:textSize="@dimen/text_dimen_10sp"
                                style="@style/MediumTextStyle"
@@ -241,12 +316,13 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/dimen_20dp"
                     android:fontFamily="@font/sf_pro_text_regular"
                     android:gravity="center"
                     android:padding="@dimen/_4sdp"
                     android:singleLine="false"
                     android:text="@string/str_policy_link"
-                    android:textColor="@color/colorLightGray"
+                    android:textColor="@color/subscription_gray"
                     android:textSize="@dimen/text_dimen_14sp" />
 
             </LinearLayout>

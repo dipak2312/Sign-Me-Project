@@ -159,11 +159,17 @@
                     android:layout_height="@dimen/dimen_50dp"
                     android:orientation="horizontal">
 
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dimen_15dp"
+                        android:src="@drawable/ic_cal"/>
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textDOB"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/dimen_15dp"
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:layout_weight="1"
                         android:text="@string/label_date_of_birth"

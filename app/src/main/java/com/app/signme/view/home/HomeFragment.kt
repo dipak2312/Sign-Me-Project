@@ -43,8 +43,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     var mAdapter: SwiperViewAdapter? =null
     var manager:CardStackLayoutManager?=null
     var status:String?=""
-    var isLike:Boolean=true
-    var isSuperLike:Boolean=true
     var direction:String?=""
 
     override fun setDataBindingLayout() {}
@@ -151,13 +149,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             }
 
             btnClose.setOnClickListener{
-                val close = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
-                    .setDuration(Duration.Slow.duration)
-                    .setInterpolator(LinearInterpolator())
-                    .build()
-                manager!!.setSwipeAnimationSetting(close)
-                cardStackView.swipe()
+                swapReject()
             }
             btnLike.setOnClickListener{
 
@@ -166,15 +158,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeFragment.requireContext(),"1"))
                 }
                 else{
-                    val like = SwipeAnimationSetting.Builder()
-                        .setDirection(Direction.Right)
-                        .setDuration(Duration.Slow.duration)
-                        .setInterpolator(AccelerateInterpolator())
-                        .build()
-                    manager!!.setSwipeAnimationSetting(like)
-                    cardStackView.swipe()
+                    swapLike()
                 }
-
             }
             btnSuperLike.setOnClickListener{
                 if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
@@ -183,13 +168,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                 }
                 else
                 {
-                    val superlike = SwipeAnimationSetting.Builder()
-                        .setDirection(Direction.Top)
-                        .setDuration(Duration.Slow.duration)
-                        .setInterpolator(AccelerateInterpolator())
-                        .build()
-                    manager!!.setSwipeAnimationSetting(superlike)
-                    cardStackView.swipe()
+                   swapSuperLike()
                 }
             }
         }
@@ -214,7 +193,27 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             binding!!.shimmer.stopShimmer()
-            (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
+            if(serverError.code==500)
+            {
+                binding!!.shimmer.visibility=View.GONE
+                binding!!.relEmptyMessage.visibility=View.VISIBLE
+            }
+            else
+            {
+                (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
+            }
+        }
+
+        (activity?.application as AppineersApplication).isSwiperUpdated.observe(this) { isUpdate ->
+
+            if (isUpdate) {
+                mAdapter!!.removeAll()
+                binding!!.shimmer.visibility=View.VISIBLE
+                binding!!.shimmer.startShimmer()
+                binding!!.buttonContainer.visibility=View.GONE
+                getSwiperList()
+                (activity?.application as AppineersApplication).isSwiperUpdated.postValue(false)
+            }
         }
 
         (activity?.application as AppineersApplication).isLike.observe(this)
@@ -222,13 +221,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                 if(isLike)
                 {
                    status=IConstants.LIKE
-                    val like = SwipeAnimationSetting.Builder()
-                        .setDirection(Direction.Right)
-                        .setDuration(Duration.Slow.duration)
-                        .setInterpolator(AccelerateInterpolator())
-                        .build()
-                     manager!!.setSwipeAnimationSetting(like)
-                     binding!!.cardStackView.swipe()
+                    swapLike()
                     (activity?.application as AppineersApplication).isLike.postValue(false)
                 }
            }
@@ -238,13 +231,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             if(isSuperLike)
             {
                 status=IConstants.SUPERLIKE
-                val superlike = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Top)
-                    .setDuration(Duration.Slow.duration)
-                    .setInterpolator(AccelerateInterpolator())
-                    .build()
-                manager!!.setSwipeAnimationSetting(superlike)
-                binding!!.cardStackView.swipe()
+                swapSuperLike()
                 (activity?.application as AppineersApplication).isSuperLike.postValue(false)
             }
         }
@@ -254,13 +241,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             if(isReject)
             {
                 status=IConstants.REJECT
-                val close = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
-                    .setDuration(Duration.Slow.duration)
-                    .setInterpolator(LinearInterpolator())
-                    .build()
-                manager!!.setSwipeAnimationSetting(close)
-                binding!!.cardStackView.swipe()
+                swapReject()
                 (activity?.application as AppineersApplication).isReject.postValue(false)
             }
         }
@@ -306,17 +287,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     {
                         showMatchPopup(mAdapter!!.getItem(manager!!.topPosition-1))
                     }
-
                     var likeValue= sharedPreference.likeCount
                     sharedPreference.likeCount=likeValue+1
-
-                    if(sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount)
-                    {
-                        manager!!.setDirections(arrayOf(Direction.Left,Direction.Top).toMutableList())
-                        binding!!.cardStackView.layoutManager = manager
-                    }
-
-
+                    likeHideShow()
                 }else { status="" }
             }
             "Top"->{
@@ -326,24 +299,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     {
                         showMatchPopup(mAdapter!!.getItem(manager!!.topPosition-1))
                     }
-
                     var superLikeCountValue= sharedPreference.superLikeCount
                     sharedPreference.superLikeCount=superLikeCountValue+1
-
-                    if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
-                    {
-                        manager!!.setDirections(arrayOf(Direction.Left,Direction.Right).toMutableList())
-                        binding!!.cardStackView.layoutManager = manager
-                    }
-                    var count=sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
-                    if(count==0)
-                    {
-                        binding!!.textSuperlikeCount.visibility=View.GONE
-                    }
-                    else{
-                        binding!!.textSuperlikeCount.text=count.toString()
-                    }
-
+                    superLikeHideShow()
                 }else { status="" }
             }
         }
@@ -365,19 +323,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     }
 
     private fun showMatchPopup(item: SwiperViewResponse) {
-
         MatchesDialog(item,mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
-
             }
-
             override fun onCancel() {
-
             }
 
         }).show(requireFragmentManager(), "Tag")
-
     }
 
     override fun onCardRewound() {
@@ -386,72 +339,63 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
 
     override fun onCardCanceled() {
-
         when(direction)
         {
             "Right"->
             {
-                if(isLike)
-                {
-                    if(sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount)
+                if(sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount)
                     {
-                        isLike=false
                         startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeFragment.requireContext(),"1"))
                     }
-                }
             }
             "Top"->
             {
-                if(isSuperLike)
-                {
-                    if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
+                if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
                     {
-                        isSuperLike=false
                         startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeFragment.requireContext(),"1"))
                     }
-                }
             }
         }
-
     }
 
     override fun onCardAppeared(view: View, position: Int) {
-
         Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}")
-
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
-        Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}")
-    }
+        Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}") }
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
-
         when(viewId)
         {
             R.id.cardSwiperView->{
-
                 startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeFragment.requireContext(),mAdapter!!.getItem(position).userId,mAdapter!!.getItem(position)))
             }
         }
-
     }
 
-
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
-
     }
 
     override fun onResume() {
         super.onResume()
-        isLike=true
-        isSuperLike=true
+
+        likeHideShow()
+        superLikeHideShow()
+    }
+
+    fun likeHideShow()
+    {
         if(sharedPreference.configDetails!!.defaultLikeCount== sharedPreference.likeCount)
         {
             manager!!.setDirections(arrayOf(Direction.Left,Direction.Top).toMutableList())
             binding!!.cardStackView.layoutManager = manager
         }
+    }
 
+
+    fun superLikeHideShow()
+    {
         if(sharedPreference.configDetails!!.defaultSuperLikeCount== sharedPreference.superLikeCount)
         {
             manager!!.setDirections(arrayOf(Direction.Left,Direction.Right).toMutableList())
@@ -466,6 +410,38 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         else{
             binding!!.textSuperlikeCount.text=count.toString()
         }
+    }
+
+    fun swapLike()
+    {
+        val like = SwipeAnimationSetting.Builder()
+            .setDirection(Direction.Right)
+            .setDuration(Duration.Slow.duration)
+            .setInterpolator(AccelerateInterpolator())
+            .build()
+        manager!!.setSwipeAnimationSetting(like)
+        binding!!.cardStackView.swipe()
+    }
+
+    fun swapSuperLike()
+    {
+        val superlike = SwipeAnimationSetting.Builder()
+            .setDirection(Direction.Top)
+            .setDuration(Duration.Slow.duration)
+            .setInterpolator(AccelerateInterpolator())
+            .build()
+        manager!!.setSwipeAnimationSetting(superlike)
+        binding!!.cardStackView.swipe()
+    }
+    fun swapReject()
+    {
+        val close = SwipeAnimationSetting.Builder()
+            .setDirection(Direction.Left)
+            .setDuration(Duration.Slow.duration)
+            .setInterpolator(LinearInterpolator())
+            .build()
+        manager!!.setSwipeAnimationSetting(close)
+        binding!!.cardStackView.swipe()
     }
 }
 

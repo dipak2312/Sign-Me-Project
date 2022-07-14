@@ -58,6 +58,7 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     var isLogStatusUpdated = MutableLiveData<Boolean>()
     var isCurrentLocationUpdated = MutableLiveData<Boolean>()
     val isProfileUpdated = MutableLiveData<Boolean>()
+    val isSwiperUpdated=MutableLiveData<Boolean>()
     val isAdRemoved = MutableLiveData<Boolean>()
     val isLike=MutableLiveData<Boolean>()
     val isSuperLike=MutableLiveData<Boolean>()

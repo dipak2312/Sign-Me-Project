@@ -75,7 +75,7 @@
         <activity
             android:name="com.app.signme.view.subscription.SubscriptionPlansActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/LoginTheme.NoActionBar"
+            android:theme="@style/SubscriptionTheme.NoActionBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.app.signme.view.subscription.SubscribedUserActivity"

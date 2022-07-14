@@ -23,6 +23,15 @@
 
     </style>
 
+    <style name="SubscriptionTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/subscription_status</item>
+        <item name="colorPrimaryDark">@color/subscription_status</item>
+        <item name="colorAccent">@color/subscription_status</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
+
+    </style>
+
     <style name="ProfileTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/transparent</item>
@@ -264,10 +273,12 @@
         <item name="colorAccent">@color/splashcolor</item>
     <item name="android:windowBackground">@drawable/splash</item>
 
+    </style>
 
-</style>
-
-
+    <style name="SubscriptionTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 
     <style name="ProgressDialogHorizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">

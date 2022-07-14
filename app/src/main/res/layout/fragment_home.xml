@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/signme_logo">
+                android:src="@drawable/ic_opps">
 
             </androidx.appcompat.widget.AppCompatImageView>
 
@@ -29,6 +29,7 @@
                 android:textColor="@color/hint_white"
                 android:layout_below="@+id/emptyMessage"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_10dp"
                 style="@style/BoldTextStyle"
                 android:textSize="@dimen/text_dimen_16sp"
                 android:text="@string/lanel_no_data_found"

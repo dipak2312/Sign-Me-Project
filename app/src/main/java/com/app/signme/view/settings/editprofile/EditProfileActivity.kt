@@ -610,6 +610,9 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             showMessage(getString(R.string.alert_select_gender), IConstants.SNAKBAR_TYPE_ERROR)
         } else if (DOB.isNullOrEmpty()) {
             showMessage(getString(R.string.alert_select_dob), IConstants.SNAKBAR_TYPE_ERROR)
+        } else if(mAdapter!!.getItem(0).imageUrl.isNullOrEmpty())
+        {
+            showMessage(getString(R.string.alert_empty_profile), IConstants.SNAKBAR_TYPE_ERROR)
         } else if (binding!!.editAboutYou.text.toString().isNullOrEmpty()) {
             showMessage(getString(R.string.alert_add_about_you), IConstants.SNAKBAR_TYPE_ERROR)
         } else if (lookingForGender.isNullOrEmpty()) {
@@ -688,6 +691,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 Handler(mainLooper).postDelayed(
                     {
                         (application as AppineersApplication).isProfileUpdated.value = true
+                        (application as AppineersApplication).isSwiperUpdated.value = true
                         if (status.equals(getString(R.string.label_edit))) {
                             finish()
                         } else {

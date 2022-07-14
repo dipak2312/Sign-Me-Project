@@ -12,6 +12,7 @@
     <color name="colorLightGray">#808080</color>
     <color name="hint_text_color">#563C3C43</color>
     <color name="white">#ffffff</color>
+    <color name="golden">#B76E09</color>
     <color name="tab_gray">#B6C2C8</color>
     <color name="gray_view">#C6C6C8</color>
     <color name="settingwhite">#80FFFFFF</color>
@@ -44,7 +45,9 @@
     <color name="divider">#0CFFFFFF</color>
     <color name="app_color">#FF5F0D</color>
     <color name="splashcolor">#0C000000</color>
-
+    <color name="subscription_gray">#BFBFBF</color>
+    <color name="subscription_line">#787878</color>
+    <color name="subscription_status">#A54614</color>
 
     <color name="colorTextBlack">#222222</color>
     <color name="colorTxtButton">#29499e</color>

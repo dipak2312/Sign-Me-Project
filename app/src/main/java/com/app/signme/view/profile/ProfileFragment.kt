@@ -124,27 +124,6 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 hideProgressDialog()
                 binding.user = sharedPreference.userDetail
                 binding.executePendingBindings()
-//
-//                if(sharedPreference.userDetail!!.lookingForRelationType!!.isNotEmpty())
-//                {
-//                    lookingFor?.clear()
-//                    for(response in sharedPreference.userDetail!!.lookingForRelationType!!)
-//                    {
-//                        lookingFor?.add(response.relationshipStatus)
-//                    }
-//
-//                    addLookingFor()
-//                }
-
-//                if(!sharedPreference.userDetail?.UserMedia.isNullOrEmpty())
-//                {
-//                    mImageAdapter.removeAll()
-//                    for (respons in sharedPreference.userDetail?.UserMedia!!)
-//                    {
-//                        mImageAdapter.insertItem(UserImage(respons.mediaId,"",respons.imageUrl,""))
-//                    }
-//                }
-
                 getProfileData()
 
                 (activity?.application as AppineersApplication).isProfileUpdated.postValue(false)

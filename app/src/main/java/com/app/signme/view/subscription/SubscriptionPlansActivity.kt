@@ -329,15 +329,39 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
 
             linRegularSubscription.setOnClickListener{
-                linRegularSubscription.setBackgroundResource(R.drawable.bg_button_select)
+                linRegularSubscription.setBackgroundResource(R.drawable.bg_subscription_select)
                 linGoldenSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
                 textUpgradeProfile.text=getString(R.string.label_Regular_subscription_text)
+                textRegularPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                textRegularMothly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                textRegularSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                textGoldenPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                textGoldenMonthly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                textGoldenSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                checkRegularTick.visibility=View.VISIBLE
+                checkGoldenTick.visibility=View.INVISIBLE
+                tick.setImageResource(R.drawable.ic_subscription_green_tick)
+                tick1.setImageResource(R.drawable.ic_subscription_green_tick)
+                textSubDesc.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                textUpgradeProfile.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
             }
 
             linGoldenSubscription.setOnClickListener{
-                linGoldenSubscription.setBackgroundResource(R.drawable.bg_button_select)
+                linGoldenSubscription.setBackgroundResource(R.drawable.bg_subscription_select)
                 linRegularSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
                 textUpgradeProfile.text=getString(R.string.label_golden_subscription_text)
+                textRegularPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                textRegularMothly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                textRegularSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                textGoldenPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                textGoldenMonthly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                textGoldenSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                checkRegularTick.visibility=View.INVISIBLE
+                checkGoldenTick.visibility=View.VISIBLE
+                tick.setImageResource(R.drawable.ic_subscription_light_orange_tick)
+                tick1.setImageResource(R.drawable.ic_subscription_light_orange_tick)
+                textSubDesc.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                textUpgradeProfile.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
             }
 
             btnSubscribe.setOnClickListener {

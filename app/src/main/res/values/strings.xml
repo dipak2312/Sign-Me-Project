@@ -249,6 +249,7 @@
     <string name="alert_select_gender">Please select gender</string>
     <string name="alert_select_dob">Please select date of birth</string>
     <string name="alert_add_about_you">Please add about you</string>
+    <string name="alert_empty_profile">Please select profile</string>
     <string name="alert_looking_for_gender">Please select looking for gender</string>
     <string name="alert_select_relationship">Please select relationship</string>
     <string name="alert_add_city_state">Please add city state</string>
@@ -354,15 +355,17 @@
     <string name="THREE">two</string>
     <string name="label_subscription">Subscription</string>
     <string name="label_upgrade_profile_text">UPGRADE YOUR PROFILE!</string>
-    <string name="label_liked_profile_text">See everyone who has\n liked your profile</string>
-    <string name="label_Regular_subscription_text">Unlimited likes and\n 5 Super likes per week</string>
-    <string name="label_golden_subscription_text">Unlimited likes and\n Unlimited super likes</string>
+    <string name="label_upgrade_profile_desc">Upgrade your profile and Get 2x chance of new match</string>
+    <string name="label_liked_profile_text">See everyone who has liked your profile</string>
+    <string name="label_Regular_subscription_text">Unlimited likes and 5 Super likes per week</string>
+    <string name="label_golden_subscription_text">Unlimited likes and Unlimited super likes</string>
     <string name="_15_off">$15 off</string>
     <string name="admob_native_unit_id_test" translatable="false">/6499/example/native</string>
-    <string name="label_regular_month_price">$4.99 / Month</string>
+    <string name="label_regular_month_price">$4.99</string>
     <string name="label_regular_subscription">Reguler Subscription</string>
+    <string name="label_montyly_subscription">MONTHLY</string>
     <string name="label_golden_subscription">Golden Subscription</string>
-    <string name="label_golden_month_price">$9.99 / Month</string>
+    <string name="label_golden_month_price">$9.99</string>
     //SnackBar messages
     <string name="str_error_message">The Appineers</string>
     <string name="str_success_message">The Appineers</string>
