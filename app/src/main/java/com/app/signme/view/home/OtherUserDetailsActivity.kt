@@ -24,7 +24,10 @@ import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.HomeViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.activity_other_user_details.*
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.mTabLayout
+import kotlinx.android.synthetic.main.fragment_profile.viewPagerImages
 import java.util.HashMap
 
 class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActionListener {
@@ -69,7 +72,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         }
         mTabLayout.setupWithViewPager(viewPagerImages)
         getOtherDetails()
-
+        getSupeLikeCount()
     }
 
 
@@ -153,6 +156,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             binding!!.scrollview.visibility=View.VISIBLE
             binding!!.buttonContainer.visibility=View.VISIBLE
             binding!!.imageView.visibility=View.VISIBLE
+
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
 
@@ -206,47 +210,48 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
 
         viewModel.userLikeSuperLikeLiveData.observe(this){response->
             hideProgressDialog()
-            when(status)
-            {
-                IConstants.LIKE->{
-                    (application as AppineersApplication).isLike.postValue(true)
-                    var likeValue= sharedPreference.likeCount
-                    sharedPreference.likeCount=likeValue+1
-                    if(otherUserResponse!!.isLike.equals("Yes"))
-                    {
-                        showMatchPopup()
-                    }
-                    else{
-                        showMessage(response.settings!!.message,IConstants.SNAKBAR_TYPE_SUCCESS)
-                    }
+            if (response?.settings?.isSuccess == true) {
+                btnLike.isClickable = false
+                btnSuperLike.isClickable = false
+                btnClose.isClickable = false
+                when (status) {
+                    IConstants.LIKE -> {
 
-                }
-                IConstants.SUPERLIKE->{
-                    (application as AppineersApplication).isSuperLike.postValue(true)
+                        (application as AppineersApplication).isLike.postValue(true)
+                        var likeValue = sharedPreference.likeCount
+                        sharedPreference.likeCount = likeValue + 1
+                        if (otherUserResponse!!.isLike.equals("Yes")) {
+                            showMatchPopup()
+                        } else {
+                            showMessage(
+                                response.settings!!.message,
+                                IConstants.SNAKBAR_TYPE_SUCCESS
+                            )
+                        }
 
-                    var superLikeCountValue= sharedPreference.superLikeCount
-                    sharedPreference.superLikeCount=superLikeCountValue+1
-                    var count=sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
-                    if(count==0)
-                    {
-                        binding!!.textSuperLikeCount.visibility=View.GONE
                     }
-                    else{
-                        binding!!.textSuperLikeCount.visibility=View.VISIBLE
-                        binding!!.textSuperLikeCount.text=count.toString()
-                    }
+                    IConstants.SUPERLIKE -> {
+                        btnSuperLike.isFocusable = false
+                        (application as AppineersApplication).isSuperLike.postValue(true)
 
-                    if(otherUserResponse!!.isLike.equals("Yes"))
-                    {
-                        showMatchPopup()
+                        var superLikeCountValue = sharedPreference.superLikeCount
+                        sharedPreference.superLikeCount = superLikeCountValue + 1
+
+                        getSupeLikeCount()
+
+                        if (otherUserResponse!!.isLike.equals("Yes")) {
+                            showMatchPopup()
+                        } else {
+                            showMessage(
+                                response.settings!!.message,
+                                IConstants.SNAKBAR_TYPE_SUCCESS
+                            )
+                        }
                     }
-                    else{
-                        showMessage(response.settings!!.message,IConstants.SNAKBAR_TYPE_SUCCESS)
+                    IConstants.REJECT -> {
+                        (application as AppineersApplication).isReject.postValue(true)
+                        finish()
                     }
-                }
-                IConstants.REJECT->{
-                    (application as AppineersApplication).isReject.postValue(true)
-                    finish()
                 }
             }
         }
@@ -296,6 +301,20 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     }
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
+
+    }
+
+    fun getSupeLikeCount()
+    {
+        var count = sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(
+            sharedPreference.superLikeCount
+        )
+        if (count == 0) {
+            binding!!.textSuperLikeCount.visibility = View.GONE
+        } else {
+            binding!!.textSuperLikeCount.visibility = View.VISIBLE
+            binding!!.textSuperLikeCount.text = count.toString()
+        }
 
     }
 }

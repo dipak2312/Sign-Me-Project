@@ -690,9 +690,9 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 sharedPreference.userProfileUrl=""
                 Handler(mainLooper).postDelayed(
                     {
-                        (application as AppineersApplication).isProfileUpdated.value = true
-                        (application as AppineersApplication).isSwiperUpdated.value = true
                         if (status.equals(getString(R.string.label_edit))) {
+                           (application as AppineersApplication).isProfileUpdated.value = true
+                            (application as AppineersApplication).isSwiperUpdated.value = true
                             finish()
                         } else {
                             navigateToHomeScreen()

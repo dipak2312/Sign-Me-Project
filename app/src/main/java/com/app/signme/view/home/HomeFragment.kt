@@ -306,14 +306,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             }
         }
 
-        if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
+      //  if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
 //            val old = mAdapter!!.getAllItems()
 //            val new = old.plus(createswiperValue())
 //            val callback = SwiperDiffCallback(old, new)
 //            val result = DiffUtil.calculateDiff(callback)
 //            mAdapter!!.addAllItem(new)
 //            result.dispatchUpdatesTo(mAdapter!!)
-        }
+      //  }
 
         if(manager!!.topPosition==mAdapter!!.itemCount)
         {

@@ -109,8 +109,8 @@ class SwiperViewAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .centerCrop()
-                .error(R.drawable.ic_feedback_bag)
-                .placeholder(R.drawable.ic_feedback_bag)
+                .error(R.drawable.ic_no_image)
+                .placeholder(R.drawable.ic_empty_img)
                 .into(binding.itemImage)
 
             Glide.with(binding.root.context)
@@ -118,8 +118,6 @@ class SwiperViewAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .centerCrop()
-                .error(R.drawable.ic_feedback_bag)
-                .placeholder(R.drawable.ic_feedback_bag)
                 .into(binding.signLogo)
 
             binding.cardSwiperView.setOnClickListener{
