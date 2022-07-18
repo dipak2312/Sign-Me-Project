@@ -222,11 +222,13 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         }
 
         DOB = sharedPreference.userDetail!!.dob
-        binding!!.textDOB.text = DOB
+
+        var showDob=DOB?.toMMDDYYYDate()
+        binding!!.textDOB.text = showDob?.toMMDDYYYStr()
         binding!!.textDOB.setTextColor(Color.parseColor("#ffffff"))
         binding!!.editAboutYou.setText(sharedPreference.userDetail!!.aboutMe)
         binding!!.distanceSlider.value = sharedPreference.userDetail!!.maxDistance!!.toFloat()
-        binding!!.textDistanceSlider.text = sharedPreference.userDetail!!.maxDistance + getString(R.string.label_km)
+        binding!!.textDistanceSlider.text = sharedPreference.userDetail!!.maxDistance +" "+ getString(R.string.label_km)
         selectedLookingFor = sharedPreference.userDetail?.lookingForGender.toString()
         city = sharedPreference.userDetail!!.city
         state = sharedPreference.userDetail!!.stateName
@@ -365,7 +367,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
             distanceSlider.addOnChangeListener { slider, value, fromUser ->
                 var distance: Int = value.toInt()
-                textDistanceSlider.text = distance.toString() + getString(R.string.label_km)
+                textDistanceSlider.text = distance.toString()+" " + getString(R.string.label_km)
             }
 
 
@@ -415,23 +417,19 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 val month = c.get(Calendar.MONTH)
                 val day = c.get(Calendar.DAY_OF_MONTH)
 
-
                 var dpd = DatePickerDialog(
                     this@EditProfileActivity,
                     DatePickerDialog.OnDateSetListener { view, year1, monthOfYear, dayOfMonth ->
-
                         // Display Selected date in textbox
                         var selectMonth = monthOfYear.toInt() + 1
                         textDOB.setTextColor(Color.parseColor("#ffffff"))
-                        DOB =
-                            year1.toString() + "-" + selectMonth.toString() + "-" + dayOfMonth.toString()
+                        DOB = year1.toString() + "-" + selectMonth.toString() + "-" + dayOfMonth.toString()
                         try {
-
-                            var dateFormat = SimpleDateFormat("yyy-MM-dd");
+                            var dateFormat = SimpleDateFormat("yyy-MM-dd")
                             var ageDate = dateFormat.parse(DOB)
                             DOB = dateFormat.format(ageDate)
-                            textDOB.setText(DOB)
-
+                            var showDob=DOB?.toMMDDYYYDate()
+                            binding!!.textDOB.text = showDob?.toMMDDYYYStr()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -746,6 +744,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 if (!response.data.isNullOrEmpty()) {
 
                     addLookingFor(response.data!!)
+                    (application as AppineersApplication).relationshipStatus.clear()
                     for(i in response.data!!)
                     {
                         (application as AppineersApplication).relationshipStatus.add(i)

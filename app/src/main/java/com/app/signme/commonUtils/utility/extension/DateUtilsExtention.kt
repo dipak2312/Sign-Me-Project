@@ -21,10 +21,11 @@ fun Date.toMMDDYYYStr(): String {
     return format.format(this)
 }
 
+
 @SuppressLint("SimpleDateFormat")
 fun String.toMMDDYYYDate(): Date {
     return try {
-        SimpleDateFormat("MMM dd yyyy").parse(this)
+        SimpleDateFormat("yyy-MM-dd").parse(this)
     } catch (ex: Exception) {
         Calendar.getInstance().time
     }

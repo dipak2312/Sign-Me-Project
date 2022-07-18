@@ -44,10 +44,13 @@
     <style name="devider_light">#0CFFFFFF</style>
     <color name="divider">#0CFFFFFF</color>
     <color name="app_color">#FF5F0D</color>
+    <color name="superlike">#B76E09</color>
     <color name="splashcolor">#0C000000</color>
     <color name="subscription_gray">#BFBFBF</color>
     <color name="subscription_line">#787878</color>
     <color name="subscription_status">#A54614</color>
+    <color name="card_superlike">#FFEBD9</color>
+    <color name="matches_devider">#80707070</color>
 
     <color name="colorTextBlack">#222222</color>
     <color name="colorTxtButton">#29499e</color>

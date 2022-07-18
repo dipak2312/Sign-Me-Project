@@ -203,7 +203,6 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                             var relationship=response?.relationshipStatus+" "+getColoredSpanned(response.compatibilityPercentage+"%","#FF5F0D")
                             binding!!.textRelationship.text=Html.fromHtml(relationship) }
                     }
-
                 }
             }
         }
@@ -211,12 +210,9 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         viewModel.userLikeSuperLikeLiveData.observe(this){response->
             hideProgressDialog()
             if (response?.settings?.isSuccess == true) {
-                btnLike.isClickable = false
-                btnSuperLike.isClickable = false
-                btnClose.isClickable = false
+               binding!!.buttonContainer.visibility=View.GONE
                 when (status) {
                     IConstants.LIKE -> {
-
                         (application as AppineersApplication).isLike.postValue(true)
                         var likeValue = sharedPreference.likeCount
                         sharedPreference.likeCount = likeValue + 1

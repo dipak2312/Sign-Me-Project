@@ -97,9 +97,9 @@
     <string name="label_bithday">Birthday</string>
     <string name="label_city">City</string>
     <string name="label_maximum_distance">Maximum Distance</string>
-    <string name="label_km">km.</string>
+    <string name="label_km">miles.</string>
     <string name="label_age_range">Age Range</string>
-    <string name="label_km_count">10km.</string>
+    <string name="label_km_count">10miles.</string>
     <string name="label_range_slider_start">18</string>
     <string name="label_range_slider_end">45</string>
     <string name="label_back_button">Back</string>
@@ -111,7 +111,13 @@
     <string name="label_enable_location">Enable Location</string>
     <string name="label_need_location_info">You\'ll need to enable your location in order to use sign me</string>
     <string name="label_its_matches">It’s a Match!</string>
+    <string name="label_super_like_text">Super Like</string>
+    <string name="label_likes_text">Likes</string>
+    <string name="label_matches_text">Matches</string>
+    <string name="label_view_all_text">View All</string>
+    <string name="label_likes_desc_text">Upgrade your profile to view those who have liked you!</string>
     <string name="label_like_each_other">have liked each other.</string>
+    <string name="label_see_like_btn">See Who Likes You</string>
 
 
     //Text Label

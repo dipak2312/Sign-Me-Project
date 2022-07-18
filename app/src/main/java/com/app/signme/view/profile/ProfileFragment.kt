@@ -124,6 +124,10 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 hideProgressDialog()
                 binding.user = sharedPreference.userDetail
                 binding.executePendingBindings()
+                binding!!.shimmer.startShimmer()
+                binding!!.shimmer.visibility=View.VISIBLE
+                binding!!.scrollView.visibility=View.GONE
+                binding!!.imageView.visibility=View.GONE
                 getProfileData()
 
                 (activity?.application as AppineersApplication).isProfileUpdated.postValue(false)
