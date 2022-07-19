@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.app.signme.R
 import com.app.signme.databinding.ItemGalleryPagerBinding
 import com.bogdwellers.pinchtozoom.ImageMatrixTouchHandler
@@ -32,11 +33,19 @@ class GalleryPagerAdapter(private val mediaList: ArrayList<String>) : PagerAdapt
         container.addView(binding.root)
         Glide.with(container.context)
                 .load(mediaList[position])
-                .error(R.drawable.user_profile)
-                .placeholder(R.drawable.user_profile)
+                .error(R.drawable.ic_no_image)
+                .placeholder(R.drawable.ic_empty_img)
                 .into(binding.ivGalleryImage)
         val imageMatrixTouchHandler = ImageMatrixTouchHandler(container.context)
         binding.ivGalleryImage.setOnTouchListener(imageMatrixTouchHandler)
         return binding.root
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE;
+    }
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+        (container as ViewPager).removeView(`object` as View?)
     }
 }

@@ -17,8 +17,6 @@
     android:id="@+id/cardSwiperView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/selectableItemBackground"
-    android:foreground="?attr/selectableItemBackground"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
     app:cardCornerRadius="20dp"
@@ -29,6 +27,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/backgroundshadow">
+
+    </androidx.appcompat.widget.AppCompatImageView>
 
     <LinearLayout
         android:orientation="vertical"

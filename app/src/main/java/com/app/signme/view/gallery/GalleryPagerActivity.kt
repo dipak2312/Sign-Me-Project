@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -33,10 +34,12 @@ class GalleryPagerActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            window.attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
 
         binding = DataBindingUtil.setContentView(this@GalleryPagerActivity, R.layout.gallery_viewpager)
@@ -44,7 +47,13 @@ class GalleryPagerActivity : AppCompatActivity() {
         val pos = intent.getIntExtra("position", 0)
         binding.vpGallery.adapter = GalleryPagerAdapter(values ?: ArrayList())
         binding.vpGallery.currentItem = pos
+        binding.mTabLayout.touchables?.forEach { tabDots ->
+            tabDots.isEnabled = false
+        }
+        binding.mTabLayout.setupWithViewPager(binding.vpGallery)
         binding.btnClose.setOnClickListener { finish() }
+        binding.mTabLayout.visibility =
+            if (binding.mTabLayout.tabCount == 1) View.GONE else View.VISIBLE
 
     }
 

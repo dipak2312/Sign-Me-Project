@@ -1,6 +1,7 @@
 package com.app.signme.view.Matches
 
 import android.view.View
+import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
 import com.app.signme.adapter.LikesAdapter
@@ -12,6 +13,8 @@ import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
 import com.app.signme.databinding.FragmentMatchesBinding
+import com.app.signme.view.dialogs.MatchesDialog
+import com.app.signme.view.dialogs.UnMatchDialog
 import com.app.signme.view.enablePermission.PermissionEnableActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
@@ -23,6 +26,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
     private var likesAdapter:LikesAdapter?=null
     private var superLikesAdapter:SuperLikesAdapter?=null
     private var matchesAdapter:MatchesAdapter?=null
+
 
     override fun setDataBindingLayout() {}
 
@@ -59,6 +63,27 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
                     startActivity(SettingsActivity.getStartIntent(this@MatchesFragment.requireContext()))
                 }
+
+                textViewAll.setOnClickListener{
+
+                    startActivity(ShowLikesMatchesActivity.getStartIntent(this@MatchesFragment.requireContext()))
+                }
+
+                btnWhoLike.setOnClickListener{
+
+                    startActivity(ShowLikesMatchesActivity.getStartIntent(this@MatchesFragment.requireContext()))
+                }
+
+                textMatches.setOnClickListener{
+                    UnMatchDialog(mListener = object :
+                        UnMatchDialog.ClickListener {
+                        override fun onSuccess() {
+                        }
+                        override fun onCancel() {
+                        }
+
+                    }).show(requireFragmentManager(), "Tag")
+                }
             }
         }
     }
@@ -70,6 +95,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
             (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
         }
     }
+
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
         TODO("Not yet implemented")

@@ -80,7 +80,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         }).get(HomeViewModel::class.java)
 
     @Provides
-    fun provideTripsViewModel(
+    fun provideMatchesViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
         networkHelper: NetworkHelper,

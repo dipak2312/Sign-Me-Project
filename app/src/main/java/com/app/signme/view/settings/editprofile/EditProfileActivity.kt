@@ -625,6 +625,9 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             if (selectMyGender.equals(getString(R.string.label_non_binary))) {
                 selectMyGender = getString(R.string.non_binary)
             }
+            if (selectMyGender.equals(getString(R.string.label_not_respond))) {
+                selectMyGender = getString(R.string.not_to_respond)
+            }
 
             if (lookingForGender.equals(getString(R.string.label_not_respond))) {
                 lookingForGender = getString(R.string.not_to_respond)

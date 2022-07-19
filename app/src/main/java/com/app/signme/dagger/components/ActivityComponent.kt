@@ -5,6 +5,7 @@ import com.app.signme.view.authentication.signup.SignUpWithEmailSocialActivity
 import com.app.signme.dagger.ActivityScope
 import com.app.signme.dagger.modules.ActivityModule
 import com.app.signme.view.*
+import com.app.signme.view.Matches.ShowLikesMatchesActivity
 import com.app.signme.view.subscription.SubscribedUserActivity
 import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.view.settings.staticpages.StaticPagesMultipleActivity
@@ -52,5 +53,6 @@ interface ActivityComponent{
     fun inject(settingsActivity: SettingsActivity)
     fun inject(permissionEnableActivity: PermissionEnableActivity)
     fun inject(otherUserDetailsActivity: OtherUserDetailsActivity)
+    fun inject(showLikesMatchesActivity: ShowLikesMatchesActivity)
 
 }

@@ -167,6 +167,12 @@
             tools:ignore="LockedOrientationActivity" />
 
         <activity
+            android:name="com.app.signme.view.Matches.ShowLikesMatchesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity
             android:name="com.app.signme.view.settings.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"

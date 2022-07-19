@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_8dp"
+        android:layout_marginStart="@dimen/dimen_8dp"
+        android:layout_centerHorizontal="true">
     <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="@dimen/dimen_65dp"
-        android:layout_height="@dimen/dimen_65dp"
-       android:layout_marginStart="@dimen/dimen_14dp"
-        android:layout_marginEnd="@dimen/dimen_14dp"
+        android:layout_width="@dimen/dimen_60dp"
+        android:layout_height="@dimen/dimen_60dp"
         app:srcCompat="@drawable/test1"
         android:scaleType="centerCrop"
         app:shapeAppearance="@style/ShapeAppearance.CircleImageView">
-
     </com.google.android.material.imageview.ShapeableImageView>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -24,7 +28,7 @@
         tools:text="+22"
         android:textSize="@dimen/text_dimen_18sp"
         android:textColor="@color/white">
-
     </androidx.appcompat.widget.AppCompatTextView>
 
+    </RelativeLayout>
 </RelativeLayout>

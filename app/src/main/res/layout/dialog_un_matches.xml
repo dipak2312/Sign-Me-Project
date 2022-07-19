@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/mLayoutRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucent_black">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/_16sdp"
+            app:cardBackgroundColor="@color/screen_top_background"
+            app:cardCornerRadius="@dimen/_14sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dimen_16dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_20dp"
+                    android:src="@drawable/ic_unmatch"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/BoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:text="@string/label_unmatch"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_32sp">
+
+                </androidx.appcompat.widget.AppCompatTextView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textMatchDesc"
+                    style="@style/RegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="@string/label_unmatch_desc"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_15sp">
+
+                </androidx.appcompat.widget.AppCompatTextView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUnmatch"
+                    style="@style/ButtonMatchesStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:text="@string/label_yes_unmatch" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNevermind"
+                    style="@style/ButtonWithoutMatchesStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:text="@string/label_nevermind" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+</layout>

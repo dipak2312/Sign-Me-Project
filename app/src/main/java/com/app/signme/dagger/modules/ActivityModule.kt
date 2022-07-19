@@ -401,5 +401,22 @@ class ActivityModule(private val activity: BaseActivity<*>) {
         }).get(LandingViewMode::class.java)
 
 
-
+    @Provides
+    fun provideMatchesViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        matchesRepository: MatchesRepository
+    ): MatchesViewModel = ViewModelProviders.of(
+        activity, ViewModelProviderFactory(
+            MatchesViewModel::
+            class
+        ) {
+            MatchesViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                matchesRepository
+            )
+        }).get(MatchesViewModel::class.java)
 }

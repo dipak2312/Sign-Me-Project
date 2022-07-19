@@ -135,6 +135,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/super_like_count.xml" value="0.165" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/tab_dot.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/tab_dot_background.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/tab_dot_background_grey.xml" value="0.1015" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/transparent_cylendrical.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/user_profile.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/user_profile_add_btn.xml" value="0.1415" />
@@ -160,6 +161,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_seeker_home.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_send_feedback.xml" value="0.1" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_settings.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_show_likes_matches.xml" value="0.2006340579710145" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_sign_up.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_sign_up_with_email.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_splash.xml" value="0.22644927536231885" />
@@ -175,6 +177,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/cv_user_profile_item.xml" value="0.228125" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/dialog_custom.xml" value="0.2368659420289855" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/dialog_matches.xml" value="0.24048913043478262" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/dialog_un_matches.xml" value="0.2006340579710145" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_chat.xml" value="0.21875" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_home.xml" value="0.21875" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_matches.xml" value="0.21875" />
@@ -184,6 +187,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_seeker_explore.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_slideshow.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_trips.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/gallery_viewpager.xml" value="0.2006340579710145" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_likes_profile.xml" value="0.2006340579710145" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_matches.xml" value="0.2006340579710145" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_pager_image.xml" value="0.234375" />
