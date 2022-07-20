@@ -108,23 +108,23 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnClose"
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
                     android:layout_centerVertical="true"
                     android:layout_toStartOf="@+id/btnSuperLike"
                     android:src="@drawable/ic_home_close" />
 
                 <RelativeLayout
                     android:id="@+id/btnSuperLike"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="@dimen/dimen_65dp"
+                    android:layout_height="@dimen/dimen_65dp"
                     android:layout_centerInParent="true"
-                    android:layout_marginStart="@dimen/dimen_16dp"
-                    android:layout_marginEnd="@dimen/dimen_16dp">
+                    android:layout_marginStart="@dimen/dimen_25dp"
+                    android:layout_marginEnd="@dimen/dimen_25dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/dimen_50dp"
-                        android:layout_height="@dimen/dimen_50dp"
+                        android:layout_width="@dimen/dimen_60dp"
+                        android:layout_height="@dimen/dimen_60dp"
                         android:layout_centerInParent="true"
                         android:src="@drawable/ic_home_star" />
 
@@ -132,19 +132,19 @@
                         android:id="@+id/textSuperlikeCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:adjustViewBounds="true"
                         android:background="@drawable/super_like_count"
+                        android:gravity="center"
                         android:minWidth="17sp"
                         android:minHeight="17sp"
                         android:padding="2dp"
-                        android:gravity="center"
-                        android:layout_alignParentEnd="true"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
                         android:paddingBottom="1dp"
                         android:scaleType="fitStart"
                         android:text="5"
-                        android:textColor="@color/black"
+                        android:textColor="@color/white"
                         android:textSize="12sp"
                         android:visibility="visible" />
                 </RelativeLayout>
@@ -152,8 +152,8 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnLike"
-                    android:layout_width="@dimen/dimen_60dp"
-                    android:layout_height="@dimen/dimen_60dp"
+                    android:layout_width="@dimen/dimen_50dp"
+                    android:layout_height="@dimen/dimen_50dp"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@+id/btnSuperLike"
                     android:src="@drawable/ic_home_like" />

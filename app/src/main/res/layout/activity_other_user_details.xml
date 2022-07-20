@@ -97,18 +97,34 @@
                     android:orientation="horizontal"
                     android:weightSum="1">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvUserFullName"
-                        style="@style/BoldTextStyle"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.55"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@{response.getNameAndage()}"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_24sp"
-                        tools:text="Sagar 28" />
+                        android:orientation="horizontal">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvUserFullName"
+                            style="@style/BoldTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@{response.firstName}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_24sp"
+                            tools:text="Sagar" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/MediumTextStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dimen_8dp"
+                            android:text="@{response.age}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_24sp"
+                            tools:text="28" />
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -149,7 +165,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:layout_marginTop="@dimen/dimen_3dp"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -164,7 +180,7 @@
                         style="@style/LightTextStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_10dp"
+                        android:layout_marginStart="@dimen/dimen_6dp"
                         android:layout_weight="1"
                         android:text="@{response.signName}"
                         android:textColor="@color/profile_gray"
@@ -175,7 +191,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_location_profile"
-                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:drawablePadding="@dimen/dimen_6dp"
                         android:text="@{response.getCityAndState()}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
@@ -321,11 +337,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/dimen_10dp"
-                            android:text="@string/label_about_you"
+                            android:text="@{response.getAboutName()}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_12sp"
                             tools:text="@string/label_about_you" />
-
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -365,23 +380,23 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btnClose"
-                android:layout_width="@dimen/dimen_60dp"
-                android:layout_height="@dimen/dimen_60dp"
+                android:layout_width="@dimen/dimen_50dp"
+                android:layout_height="@dimen/dimen_50dp"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/btnSuperLike"
                 android:src="@drawable/ic_home_close" />
 
             <RelativeLayout
                 android:id="@+id/btnSuperLike"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="@dimen/dimen_16dp"
-                android:layout_marginEnd="@dimen/dimen_16dp">
+                android:layout_marginStart="@dimen/dimen_25dp"
+                android:layout_marginEnd="@dimen/dimen_25dp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/dimen_50dp"
-                    android:layout_height="@dimen/dimen_50dp"
+                    android:layout_width="@dimen/dimen_60dp"
+                    android:layout_height="@dimen/dimen_60dp"
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_home_star" />
 
@@ -400,7 +415,7 @@
                     android:paddingRight="4dp"
                     android:paddingBottom="1dp"
                     android:scaleType="fitStart"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="12sp"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -408,8 +423,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btnLike"
-                android:layout_width="60dp"
-                android:layout_height="@dimen/dimen_60dp"
+                android:layout_width="@dimen/dimen_50dp"
+                android:layout_height="@dimen/dimen_50dp"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/btnSuperLike"
                 android:src="@drawable/ic_home_like" />

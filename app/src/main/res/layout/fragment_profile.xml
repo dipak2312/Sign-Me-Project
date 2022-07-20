@@ -106,20 +106,37 @@
                 android:layout_margin="@dimen/dimen_16dp"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvUserFullName"
-                    style="@style/BoldTextStyle"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{user.getFullNameAndAge()}"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_24sp"
-                    tools:text="Sagar 28" />
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvUserFullName"
+                        style="@style/BoldTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{user.firstName}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_24sp"
+                        tools:text="Sagar" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/MediumTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:text="@{user.age}"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_24sp"
+                        tools:text="28" />
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:layout_marginTop="@dimen/dimen_4dp"
                     android:orientation="horizontal">
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/signLogo"
@@ -133,7 +150,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginStart="@dimen/dimen_10dp"
+                        android:layout_marginStart="@dimen/dimen_6dp"
                         android:text="@{user.signName}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"
@@ -143,7 +160,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_location_profile"
-                        android:drawablePadding="@dimen/dimen_10dp"
+                        android:drawablePadding="@dimen/dimen_6dp"
                         android:text="@{user.getCityAndStateName()}"
                         android:textColor="@color/profile_gray"
                         android:textSize="@dimen/text_dimen_14sp"

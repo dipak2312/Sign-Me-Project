@@ -194,6 +194,11 @@ data class LoginResponse(
         return !socialLoginId.isNullOrEmpty()
     }
 
+    fun getAboutU():String
+    {
+        return "About"+" "+firstName
+    }
+
     fun isNotificationOn(): Boolean {
         return notification.equals("Yes", true)
     }

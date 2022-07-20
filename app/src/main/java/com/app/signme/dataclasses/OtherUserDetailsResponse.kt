@@ -50,4 +50,9 @@ data class OtherUserDetailsResponse(
     {
         return city+" "+stateName
     }
+
+    fun getAboutName():String
+    {
+       return  "About"+" "+firstName
+    }
 }

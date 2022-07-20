@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.appineers.whitelabel",
+  "applicationId": "com.app.signme",
   "variantName": "productionRelease",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 8,
-      "versionName": "1.0.8",
-      "outputFile": "White_Label_v1.0.8(8)2021_09_09-production-release.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "Sign_Me_v1.0.0(1)2022_07_20-production-release.apk"
     }
   ]
 }

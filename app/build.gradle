@@ -12,9 +12,9 @@ android {
         config {
 
             storeFile file('D:\\SignMe\\SignMe_Android\\app\\release_key_alias.jks')
-            storePassword 'Today123'
+            storePassword 'Today@123'
             keyAlias 'key0'
-            keyPassword 'Today123'
+            keyPassword 'Today@123'
         }
     }
     compileSdkVersion 31
@@ -26,8 +26,8 @@ android {
         applicationId "com.app.signme"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 10
-        versionName "1.0.10"
+        versionCode 1
+        versionName "1.0.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
