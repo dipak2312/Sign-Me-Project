@@ -8,6 +8,39 @@
         android:layout_height="match_parent"
         android:background="@color/screenbackground">
 
+        <RelativeLayout
+            android:id="@+id/relEmptyMessage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/emptyMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_opps">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hint_white"
+                android:layout_below="@+id/emptyMessage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                style="@style/BoldTextStyle"
+                android:textSize="@dimen/text_dimen_16sp"
+                android:text="@string/lanel_no_matches_found">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+        </RelativeLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMatches"
             style="@style/MediumTextStyle"
@@ -50,17 +83,18 @@
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMatches">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/linLikeSupelike"
+                    android:id="@+id/linsuperlike"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -112,6 +146,7 @@
 
                             </androidx.recyclerview.widget.RecyclerView>
 
+
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
@@ -124,7 +159,16 @@
 
                     </View>
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linlike"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linsuperlike"
+                    android:orientation="vertical">
+
+                      <androidx.appcompat.widget.AppCompatTextView
                         style="@style/BoldTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -171,7 +215,7 @@
                         android:layout_width="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginStart="@dimen/_35sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/dimen_2dp"
                         android:layout_marginEnd="@dimen/_35sdp"
                         android:text="@string/label_see_like_btn" />
 
@@ -185,10 +229,12 @@
 
                 </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/linMatch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/linLikeSupelike">
+                    android:orientation="vertical"
+                    android:layout_below="@+id/linlike">
 
                     <RelativeLayout
                         android:id="@+id/textMatch"
@@ -223,7 +269,6 @@
                         android:id="@+id/mRecyclerMatches"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/textMatch"
                         android:layout_marginTop="@dimen/dimen_16dp"
                         android:layout_marginBottom="@dimen/dimen_16dp"
                         android:overScrollMode="never"
@@ -231,7 +276,8 @@
                         app:spanCount="2"
                         tools:itemCount="4"
                         tools:listitem="@layout/item_matches" />
-                </RelativeLayout>
+                </LinearLayout>
+
             </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
 

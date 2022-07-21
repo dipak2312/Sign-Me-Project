@@ -55,7 +55,7 @@ class LikesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(mOriginalData[position])
     }
 
     fun getItem(index: Int): LikesResponse {
@@ -65,7 +65,6 @@ class LikesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
     fun getAllItems(): ArrayList<LikesResponse> {
         return mOriginalData
     }
-
 
     fun addItem(data: LikesResponse) {
 
@@ -103,30 +102,26 @@ class LikesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
         notifyItemRemoved(index)
     }
 
-    override fun getItemCount() = 4
+    override fun getItemCount() = mOriginalData.size
 
     inner class ViewHolder(val binding: ItemLikesProfileBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            //binding.model=item
+        fun bind(item: LikesResponse) {
+            binding.response=item
 
-//            Glide.with(binding.root.context)
-//                .load(item.imageUri)
-//                .skipMemoryCache(false)
-//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-//                .centerCrop()
-//                .error(R.drawable.ic_feedback_bag)
-//                .placeholder(R.drawable.ic_feedback_bag)
-//                .into(binding.ivFeedbackImage)
 
-          //  binding.executePendingBindings()
+            Glide.with(binding.root.context)
+                .load(item.profileImage)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .centerCrop()
+                .error(R.drawable.ic_profile)
+                .placeholder(R.drawable.ic_profile)
+                .into(binding.prrofileImage)
 
-//            if (layoutPosition == (mOriginalData.size - 1) && mOriginalData.size < totalCount.toInt()) {
-//                mOnRecyclerClick.onLoadMore(
-//                    itemCount = mOriginalData.size,
-//                    nextPage = nextPage
-//                )
-//            }
+           binding.executePendingBindings()
+
+
         }
     }
 }

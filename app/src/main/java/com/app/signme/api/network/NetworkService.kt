@@ -186,4 +186,16 @@ interface NetworkService {
     @POST("connections")
     @FormUrlEncoded
     fun callLikeSuperlikeCancel(@FieldMap map: HashMap<String, String>): Single<TAListResponse<LikeUnLikeResponse>>
+
+
+    @GET("connection_list")
+    fun callGetLikeSuperlikeMatchesList(
+    ): Single<TAGenericResponse<LikeSuperlikeMatchesResponse>>
+
+    @GET("connection_details")
+    fun callViewAllList(
+        @Query("connection_type") connectionType: String?,
+        @Query("page_index") pageIndex: String?,
+        @Query("per_page_record") perPageRecord: String = IConstants.RESULT_PER_PAGE
+    ): Single<TAListResponse<LikesMatchesResponse>>
 }

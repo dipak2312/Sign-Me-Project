@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.app.signme.dataclasses.MatchesResponse" />
+            type="com.app.signme.dataclasses.LikesMatchesResponse" />
     </data>
 
     <RelativeLayout
@@ -29,9 +29,7 @@
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerCrop"
                 app:shapeAppearance="@style/ShapeAppearance.CircleImageView"
-                app:srcCompat="@drawable/test1">
-
-            </com.google.android.material.imageview.ShapeableImageView>
+                app:srcCompat="@drawable/test1"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -75,9 +73,7 @@
                     android:id="@+id/signLogo"
                     android:layout_width="@dimen/dimen_15dp"
                     android:layout_height="@dimen/dimen_15dp"
-                    android:layout_gravity="center_vertical">
-
-                </androidx.appcompat.widget.AppCompatImageView>
+                    android:layout_gravity="center_vertical"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/LightTextStyle"

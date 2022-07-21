@@ -92,8 +92,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         }
         addObservers()
         initListener()
-        //mAdapter!!.addAllItem(createswiperValue())
-       getSwiperList()
+        getSwiperList()
 
 
      }
@@ -147,6 +146,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             btnSetting.setOnClickListener{
                 startActivity(SettingsActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
+            btnNotification.setOnClickListener{
+
+                //removeByUserId("1")
+                mAdapter!!.removeItem(0)
+            }
 
             btnClose.setOnClickListener{
                 swapReject()
@@ -172,6 +176,16 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                    swapSuperLike()
                 }
             }
+        }
+    }
+
+    private fun removeByUserId(userId: String) {
+
+        val user=mAdapter!!.getAllItems().find { it.userId==userId }
+        if(user !=null)
+        {
+            val index=mAdapter!!.getAllItems().indexOf(user)
+            mAdapter!!.removeItem(index)
         }
     }
 
@@ -247,23 +261,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             }
         }
 
-    }
-
-
-    private fun createswiperValue(): List<SwiperViewResponse> {
-        val swiperValue = ArrayList<SwiperViewResponse>()
-
-        swiperValue.add(SwiperViewResponse(name = "Yasaka Shrine", signName = "Aquarius", profileImage = "https://appineers.s3.amazonaws.com/sign_me/image/3/1657019138744.png",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Yasaka Shrine", signName = "Aquarius", profileImage = "https://source.unsplash.com/Xq1ntWruZQI/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Poonam", signName = "Aquarius", profileImage = "https://source.unsplash.com/NYyCqdBOKwc/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Bamboo Forest", signName = "Aquarius", profileImage = "https://source.unsplash.com/buF62ewDLcQ/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Empire State", signName = "Aquarius", profileImage = "https://source.unsplash.com/USrZRcRS2Lw/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Sagar", signName = "Aquarius", profileImage = "https://source.unsplash.com/PeFk7fzxTdk/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Louvre Museum", signName = "Aquarius", profileImage = "https://source.unsplash.com/LrMWHKqilUw/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Eiffel Tower", signName = "Aquarius", profileImage = "https://source.unsplash.com/HN-5Z6AmxrM/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Big Ben", signName = "Aquarius", profileImage = "https://source.unsplash.com/CdVAUADdqEc/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        swiperValue.add(SwiperViewResponse(name = "Pravin", signName = "Aquarius", profileImage = "https://source.unsplash.com/AWh9C-QjhE4/600x800",signLogo="http://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png",relationshipPercent="20",age="29",relationshipDescription = "Similar minds"))
-        return swiperValue
     }
 
 
@@ -426,7 +423,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             .setInterpolator(AccelerateInterpolator())
             .build()
         manager!!.setSwipeAnimationSetting(like)
-        binding!!.cardStackView.swipe()
+        binding.cardStackView.swipe()
     }
 
     fun swapSuperLike()
@@ -437,7 +434,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             .setInterpolator(AccelerateInterpolator())
             .build()
         manager!!.setSwipeAnimationSetting(superlike)
-        binding!!.cardStackView.swipe()
+        binding.cardStackView.swipe()
     }
     fun swapReject()
     {
@@ -447,7 +444,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
             .setInterpolator(LinearInterpolator())
             .build()
         manager!!.setSwipeAnimationSetting(close)
-        binding!!.cardStackView.swipe()
+        binding.cardStackView.swipe()
     }
 }
 

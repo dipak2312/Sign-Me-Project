@@ -4,10 +4,12 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.signme.databinding.ItemLikesProfileBinding
+import com.app.signme.R
 import com.app.signme.databinding.ItemMatchesBinding
 import com.app.signme.dataclasses.MatchesResponse
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.hb.logger.Logger
 import java.util.ArrayList
 
@@ -50,7 +52,7 @@ class MatchesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(mOriginalData[position])
     }
 
     fun getItem(index: Int): MatchesResponse {
@@ -98,30 +100,33 @@ class MatchesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
         notifyItemRemoved(index)
     }
 
-    override fun getItemCount() =4
+    override fun getItemCount() =mOriginalData.size
 
     inner class ViewHolder(val binding: ItemMatchesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            //binding.model=item
+        fun bind(item: MatchesResponse) {
+            binding.model=item
 
-//            Glide.with(binding.root.context)
-//                .load(item.imageUri)
-//                .skipMemoryCache(false)
-//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-//                .centerCrop()
-//                .error(R.drawable.ic_feedback_bag)
-//                .placeholder(R.drawable.ic_feedback_bag)
-//                .into(binding.ivFeedbackImage)
+            Glide.with(binding.root.context)
+                .load("https://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png")
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .centerCrop()
+                .error(R.drawable.ic_feedback_bag)
+                .placeholder(R.drawable.ic_feedback_bag)
+                .into(binding.signLogo)
 
-            //  binding.executePendingBindings()
+            Glide.with(binding.root.context)
+                .load(item.profileImage)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .centerCrop()
+                .error(R.drawable.ic_profile)
+                .placeholder(R.drawable.ic_profile)
+                .into(binding.matchesProfile)
 
-//            if (layoutPosition == (mOriginalData.size - 1) && mOriginalData.size < totalCount.toInt()) {
-//                mOnRecyclerClick.onLoadMore(
-//                    itemCount = mOriginalData.size,
-//                    nextPage = nextPage
-//                )
-//            }
+                binding.executePendingBindings()
+
         }
     }
 }

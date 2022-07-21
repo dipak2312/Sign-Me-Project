@@ -100,7 +100,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.55"
+                        android:layout_weight="0.8"
                         android:orientation="horizontal">
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvUserFullName"
@@ -108,6 +108,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
+                            android:includeFontPadding="false"
                             android:maxLines="1"
                             android:text="@{response.firstName}"
                             android:textColor="@color/white"
@@ -119,6 +120,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dimen_8dp"
+                            android:maxLines="1"
+                            android:includeFontPadding="false"
+                            android:ellipsize="end"
                             android:text="@{response.age}"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_24sp"
@@ -129,43 +133,44 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.45"
-                        android:orientation="horizontal"
+                        android:layout_weight="0.2"
+                        android:orientation="vertical"
                         android:layout_gravity="center_vertical"
                         android:gravity="end">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@{higherData.relationshipTitle}"
-                            style="@style/LightTextStyle"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:textColor="@color/profile_gray"
-                            android:textSize="@dimen/text_dimen_14sp"
-                            tools:text="Similar Minds"/>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{higherData.relationPercent()}"
                             android:layout_marginStart="@dimen/_5sdp"
-                            style="@style/BoldTextStyle"
+                           style="@style/BoldTextStyle"
+                            android:includeFontPadding="false"
                             android:textColor="@color/app_color"
                             android:textSize="@dimen/text_dimen_21sp"
                             tools:text="20%"/>
+
                     </LinearLayout>
 
 
                 </LinearLayout>
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@{higherData.relationshipTitle}"
+                    style="@style/LightTextStyle"
+                    android:gravity="end"
+                    android:includeFontPadding="false"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/profile_gray"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    tools:text="Similar Minds"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dimen_3dp"
+                    android:layout_marginTop="@dimen/dimen_8dp"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatImageView

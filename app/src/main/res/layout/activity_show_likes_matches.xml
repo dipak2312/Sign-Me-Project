@@ -41,10 +41,47 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textTitle">
 
+            <LinearLayout
+                android:id="@+id/lin_tilte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/dimen_16dp"
+                android:layout_marginEnd="@dimen/dimen_16dp"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/dimen_30dp"
+                    android:layout_height="@dimen/dimen_30dp"
+                    android:src="@drawable/ic_superlike"/>
+
+                 <androidx.appcompat.widget.AppCompatTextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_vertical"
+                     android:layout_marginStart="@dimen/dimen_8dp"
+                     android:textColor="@color/white"
+                     style="@style/LightTextStyle"
+                     android:textSize="@dimen/text_dimen_15sp"
+                     android:text="21 People are super interested in you ">
+
+                 </androidx.appcompat.widget.AppCompatTextView>
+
+            </LinearLayout>
+
+             <View
+                 android:id="@+id/view"
+                 android:layout_width="match_parent"
+                 android:layout_height="@dimen/dimen_1dp"
+                 android:layout_marginTop="@dimen/dimen_16dp"
+                 android:background="@color/matches_devider"
+                 android:layout_below="@+id/lin_tilte"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/view"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:layout_marginBottom="@dimen/dimen_16dp"
                 android:overScrollMode="never"

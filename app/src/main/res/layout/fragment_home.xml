@@ -32,8 +32,7 @@
                 android:layout_marginTop="@dimen/dimen_10dp"
                 style="@style/BoldTextStyle"
                 android:textSize="@dimen/text_dimen_16sp"
-                android:text="@string/lanel_no_data_found"
-                >
+                android:text="@string/lanel_no_data_found">
 
             </androidx.appcompat.widget.AppCompatTextView>
 
@@ -74,7 +73,6 @@
 
         </androidx.appcompat.widget.AppCompatImageView>
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -89,9 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include layout="@layout/swiper_user_list">
-
-                </include>
+                <include layout="@layout/swiper_user_list"/>
 
             </com.facebook.shimmer.ShimmerFrameLayout>
 

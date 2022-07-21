@@ -326,7 +326,6 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
                         IConstants.SNAKBAR_TYPE_ERROR
                     )
                     goNext()
-
                 }
             }
         })

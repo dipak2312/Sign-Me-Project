@@ -35,6 +35,7 @@ interface IConstants {
         const val LIKE="Like"
         const val SUPERLIKE="Superlike"
         const val REJECT="Reject"
+        const val MATCH="Match"
         const val SP_NOTIFICATION_CHANNEL_DEFAULT = "sp_notification_channel_default"
         const val PARAM_NOTIFICATION_TYPE = "type"
         const val OTHERS:String="others"
@@ -103,6 +104,8 @@ interface IConstants {
         const val IS_ADDRESS_MANDATORY = "Yes"
         const val ACTIVE_LOG_STATUS = "active"
         const val INACTIVE_LOG_STATUS = "inactive"
+        const val TYPE = "type"
+
 
         const val DONE: String = "done"
         const val PENDING: String = "pending"

@@ -4,10 +4,14 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.app.signme.R
 import com.app.signme.databinding.ItemMatchesBinding
 import com.app.signme.databinding.ItemSuperLikesProfileBinding
+import com.app.signme.dataclasses.MatchesResponse
 import com.app.signme.dataclasses.SuperLikesResponse
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.hb.logger.Logger
 import java.util.ArrayList
 
@@ -50,7 +54,7 @@ class SuperLikesAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind()
+        holder.bind(mOriginalData[position])
     }
 
     fun getItem(index: Int): SuperLikesResponse {
@@ -98,30 +102,25 @@ class SuperLikesAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
         notifyItemRemoved(index)
     }
 
-    override fun getItemCount() = 4
+    override fun getItemCount() = mOriginalData.size
 
     inner class ViewHolder(val binding: ItemSuperLikesProfileBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            //binding.model=item
+        fun bind(item: SuperLikesResponse) {
+           // binding.model=item
 
-//            Glide.with(binding.root.context)
-//                .load(item.imageUri)
-//                .skipMemoryCache(false)
-//                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-//                .centerCrop()
-//                .error(R.drawable.ic_feedback_bag)
-//                .placeholder(R.drawable.ic_feedback_bag)
-//                .into(binding.ivFeedbackImage)
+            Glide.with(binding.root.context)
+                .load(item.profileImage)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .centerCrop()
+                .error(R.drawable.ic_profile)
+                .placeholder(R.drawable.ic_profile)
+                .into(binding.superlikeProfile)
 
-            //  binding.executePendingBindings()
+             binding.executePendingBindings()
 
-//            if (layoutPosition == (mOriginalData.size - 1) && mOriginalData.size < totalCount.toInt()) {
-//                mOnRecyclerClick.onLoadMore(
-//                    itemCount = mOriginalData.size,
-//                    nextPage = nextPage
-//                )
-//            }
+
         }
     }
 }

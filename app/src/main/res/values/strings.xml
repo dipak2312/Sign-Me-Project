@@ -209,6 +209,7 @@
     <string name="label_keep_swiping">Keep Swiping</string>
     <string name="label_nevermind">Nevermind</string>
     <string name="lanel_no_data_found">No users available.</string>
+    <string name="lanel_no_matches_found">No matches found.</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
 </string>
 

@@ -172,6 +172,10 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                     {
                         binding.mTabLayout.visibility = View.VISIBLE
                     }
+                    else
+                    {
+                        binding.mTabLayout.visibility = View.GONE
+                    }
 
                     Glide.with(this@ProfileFragment.requireContext())
                         .load(it.data!![0].logoFileName)
