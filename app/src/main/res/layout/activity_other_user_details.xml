@@ -436,6 +436,37 @@
 
         </RelativeLayout>
 
+
+        <RelativeLayout
+            android:id="@+id/buttonContainerMatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="@dimen/dimen_20dp"
+            android:clipChildren="false"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnMatchClose"
+                android:layout_width="@dimen/dimen_50dp"
+                android:layout_height="@dimen/dimen_50dp"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:src="@drawable/ic_home_close" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnMatchChat"
+                android:layout_width="@dimen/dimen_50dp"
+                android:layout_height="@dimen/dimen_50dp"
+                android:layout_marginStart="@dimen/dimen_10dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/btnMatchClose"
+                android:src="@drawable/ic_chat_details" />
+
+        </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

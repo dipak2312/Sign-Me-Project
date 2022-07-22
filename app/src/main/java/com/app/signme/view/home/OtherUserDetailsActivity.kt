@@ -15,6 +15,7 @@ import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityOtherUserDetailsBinding
+import com.app.signme.dataclasses.LikeSuperlikeCancelCallback
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.UserImage
 import com.app.signme.view.dialogs.MatchesDialog
@@ -28,7 +29,9 @@ import kotlinx.android.synthetic.main.activity_other_user_details.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.mTabLayout
 import kotlinx.android.synthetic.main.fragment_profile.viewPagerImages
+import java.lang.reflect.Type
 import java.util.HashMap
+import java.util.function.IntConsumer
 
 class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActionListener {
 
@@ -36,11 +39,13 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         fun getStartIntent(
             context: Context,
             userId:String?,
-            otherUserResponse:SwiperViewResponse
+            otherUserResponse:SwiperViewResponse,
+            type:String?
         ): Intent {
             return Intent(context, OtherUserDetailsActivity::class.java).apply {
                 putExtra(IConstants.USERID, userId)
                 putExtra(IConstants.USERDETAILS,otherUserResponse)
+                putExtra(IConstants.TYPE,type)
             }
         }
     }
@@ -48,6 +53,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     var lookingFor=ArrayList<String>()
     var userId:String?=""
     var status:String?=""
+    var type:String?=""
     var otherUserResponse:SwiperViewResponse?=null
     var mImageAdapter = PagerImageAdapter(false, this)
     override fun setDataBindingLayout() {
@@ -64,7 +70,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         addObservers()
         userId=intent.getStringExtra(IConstants.USERID)
         otherUserResponse=intent.getParcelableExtra(IConstants.USERDETAILS)
-
+        type=intent.getStringExtra(IConstants.TYPE)
         viewPagerImages.adapter = mImageAdapter
         viewPagerImages.currentItem = 0
         mTabLayout.touchables?.forEach { tabDots ->
@@ -154,8 +160,17 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             binding!!.shimmer.stopShimmer()
             binding!!.shimmer.visibility=View.GONE
             binding!!.scrollview.visibility=View.VISIBLE
-            binding!!.buttonContainer.visibility=View.VISIBLE
+
             binding!!.imageView.visibility=View.VISIBLE
+            if(type!!.equals(IConstants.MATCHES))
+            {
+                binding!!.buttonContainer.visibility=View.GONE
+                binding!!.buttonContainerMatch.visibility=View.VISIBLE
+            }else
+            {
+                binding!!.buttonContainer.visibility=View.VISIBLE
+                binding!!.buttonContainerMatch.visibility=View.GONE
+            }
 
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
@@ -213,7 +228,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                binding!!.buttonContainer.visibility=View.GONE
                 when (status) {
                     IConstants.LIKE -> {
-                        (application as AppineersApplication).isLike.postValue(true)
+                        addLikeSuperLikeCancelStatus(IConstants.LIKE)
                         var likeValue = sharedPreference.likeCount
                         sharedPreference.likeCount = likeValue + 1
                         if (otherUserResponse!!.isLike.equals("Yes")) {
@@ -228,8 +243,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                     }
                     IConstants.SUPERLIKE -> {
                         btnSuperLike.isFocusable = false
-                        (application as AppineersApplication).isSuperLike.postValue(true)
-
+                        addLikeSuperLikeCancelStatus(IConstants.SUPERLIKE)
                         var superLikeCountValue = sharedPreference.superLikeCount
                         sharedPreference.superLikeCount = superLikeCountValue + 1
 
@@ -245,7 +259,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                         }
                     }
                     IConstants.REJECT -> {
-                        (application as AppineersApplication).isReject.postValue(true)
+                        addLikeSuperLikeCancelStatus(IConstants.REJECT)
                         finish()
                     }
                 }
@@ -286,6 +300,17 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             chip.setTextAppearanceResource(R.style.mychipText);
             binding?.lookingForChipGroup?.addView(chip)
         }
+    }
+
+
+    fun addLikeSuperLikeCancelStatus(status:String)
+    {
+        (application as AppineersApplication).isMatchesUpdated.postValue(true)
+        var likeSuperlikerejectStatus = LikeSuperlikeCancelCallback()
+        likeSuperlikerejectStatus.userId=userId
+        likeSuperlikerejectStatus.status=status
+        likeSuperlikerejectStatus.type=type.toString()
+        (application as AppineersApplication).LikeSuperlikeCancelRequest.postValue(likeSuperlikerejectStatus)
     }
 
     private fun getColoredSpanned(text: String?, color: String?): String? {

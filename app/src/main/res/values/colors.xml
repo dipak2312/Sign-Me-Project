@@ -28,6 +28,7 @@
    <color name="app_gray">#ABFFFFFF</color>
     <color name="signup_title_gray">#B4B4B4</color>
     <color name="black">#000000</color>
+    <color name="black_image">#88707070</color>
     <color name="transparent">#00000000</color>
     <color name="colorBlue">#5e89f7</color>
     <color name="colorRed">#ff4141</color>

@@ -13,6 +13,7 @@ import com.app.signme.dataclasses.LikesResponse
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.hb.logger.Logger
 import java.util.ArrayList
 
@@ -109,17 +110,31 @@ class LikesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
         fun bind(item: LikesResponse) {
             binding.response=item
 
+            if(totalCount.toInt()>4 && adapterPosition==3)
+            {
+                binding.textPlusCount.visibility=View.VISIBLE
+                binding.textPlusCount.text="+"+totalCount.toInt().minus(4).toString()
+            }
+            else
+            {
+                binding.textPlusCount.visibility=View.GONE
+            }
 
             Glide.with(binding.root.context)
                 .load(item.profileImage)
                 .skipMemoryCache(false)
+                .override(15, 15)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .centerCrop()
                 .error(R.drawable.ic_profile)
                 .placeholder(R.drawable.ic_profile)
                 .into(binding.prrofileImage)
 
-           binding.executePendingBindings()
+               binding.imgLike.setOnClickListener{
+                mOnRecyclerClick.onItemClick(binding.imgLike.id, adapterPosition, null)
+                }
+
+            binding.executePendingBindings()
 
 
         }

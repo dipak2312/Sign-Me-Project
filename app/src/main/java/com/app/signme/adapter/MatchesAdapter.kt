@@ -121,11 +121,15 @@ class MatchesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .centerCrop()
-                .error(R.drawable.ic_profile)
-                .placeholder(R.drawable.ic_profile)
+                .error(R.drawable.ic_profile_img)
+                .placeholder(R.drawable.ic_profile_img)
                 .into(binding.matchesProfile)
 
-                binding.executePendingBindings()
+            binding.imgMatches.setOnClickListener{
+                mOnRecyclerClick.onItemClick(binding.imgMatches.id, adapterPosition, null)
+            }
+
+            binding.executePendingBindings()
 
         }
     }

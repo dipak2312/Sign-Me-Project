@@ -1,20 +1,16 @@
 package com.app.signme.view.home
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DiffUtil
 import com.app.signme.R
 import com.app.signme.adapter.SwiperViewAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
-import com.app.signme.commonUtils.utility.SwiperDiffCallback
 import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
@@ -28,22 +24,19 @@ import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.HomeViewModel
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 
 
-class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,CardStackListener {
+class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, CardStackListener {
 
-    private lateinit var binding:FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     var uploadedFiles = ArrayList<String>()
-    var mAdapter: SwiperViewAdapter? =null
-    var manager:CardStackLayoutManager?=null
-    var status:String?=""
-    var direction:String?=""
+    var mAdapter: SwiperViewAdapter? = null
+    var manager: CardStackLayoutManager? = null
+    var status: String? = ""
+    var direction: String? = ""
 
     override fun setDataBindingLayout() {}
 
@@ -59,16 +52,15 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = this
 
-        if(!sharedPreference.userProfileUrl.isNullOrEmpty())
-        {
-            uploadedFiles = sharedPreference.userProfileUrl!!.split(",").map { it.trim() } as ArrayList<String>
-            if(!uploadedFiles.isNullOrEmpty())
-            {
+        if (!sharedPreference.userProfileUrl.isNullOrEmpty()) {
+            uploadedFiles =
+                sharedPreference.userProfileUrl!!.split(",").map { it.trim() } as ArrayList<String>
+            if (!uploadedFiles.isNullOrEmpty()) {
                 deleteAllUploadedFiles()
             }
         }
 
-        manager= CardStackLayoutManager(this@HomeFragment.requireContext(),this)
+        manager = CardStackLayoutManager(this@HomeFragment.requireContext(), this)
         manager!!.setStackFrom(StackFrom.Bottom)
         manager!!.setVisibleCount(3)
         manager!!.setTranslationInterval(8.0f)
@@ -79,12 +71,18 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         manager!!.setDirections(Direction.VERTICAL)
         manager!!.setCanScrollHorizontal(true)
         manager!!.setCanScrollVertical(true)
-        manager!!.setDirections(arrayOf(Direction.Left,Direction.Right,Direction.Top).toMutableList())
+        manager!!.setDirections(
+            arrayOf(
+                Direction.Left,
+                Direction.Right,
+                Direction.Top
+            ).toMutableList()
+        )
         manager!!.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager!!.setOverlayInterpolator(LinearInterpolator())
-        mAdapter= SwiperViewAdapter(this,mBaseActivity!!)
+        mAdapter = SwiperViewAdapter(this, mBaseActivity!!)
         binding!!.cardStackView.layoutManager = manager
-        binding!!.cardStackView.adapter=mAdapter
+        binding!!.cardStackView.adapter = mAdapter
         binding!!.cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
                 supportsChangeAnimations = false
@@ -95,10 +93,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         getSwiperList()
 
 
-     }
+    }
 
-    fun getSwiperList()
-    {
+    fun getSwiperList() {
         when {
             checkInternet() -> {
 
@@ -110,8 +107,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     }
 
 
-    fun callLikeSuperlikeCancel(userId:String?,status:String)
-    {
+    fun callLikeSuperlikeCancel(userId: String?, status: String) {
         when {
             checkInternet() -> {
                 val map = HashMap<String, String>()
@@ -130,7 +126,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                     AwsService.deleteFile(image.substringAfter(".com/"))
                 }
                 uploadedFiles.clear()
-                sharedPreference.userProfileUrl=""
+                sharedPreference.userProfileUrl = ""
 
                 (activity?.application as AppineersApplication).awsFileUploader.postValue(
                     null
@@ -143,58 +139,61 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     private fun initListener() {
         binding?.apply {
 
-            btnSetting.setOnClickListener{
+            btnSetting.setOnClickListener {
                 startActivity(SettingsActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
-            btnNotification.setOnClickListener{
+            btnNotification.setOnClickListener {
 
                 //removeByUserId("1")
                 mAdapter!!.removeItem(0)
             }
 
-            btnClose.setOnClickListener{
+            btnClose.setOnClickListener {
                 swapReject()
             }
-            btnLike.setOnClickListener{
+            btnLike.setOnClickListener {
 
 
-                if(sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount)
-                {
-                    startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeFragment.requireContext(),"1"))
-                }
-                else{
+                if (sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount) {
+                    startActivity(
+                        SubscriptionPlansActivity.getStartIntent(
+                            this@HomeFragment.requireContext(),
+                            "1"
+                        )
+                    )
+                } else {
                     swapLike()
                 }
             }
-            btnSuperLike.setOnClickListener{
-                if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
-                {
-                    startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeFragment.requireContext(),"1"))
-                }
-                else
-                {
-                   swapSuperLike()
+            btnSuperLike.setOnClickListener {
+                if (sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount) {
+                    startActivity(
+                        SubscriptionPlansActivity.getStartIntent(
+                            this@HomeFragment.requireContext(),
+                            "1"
+                        )
+                    )
+                } else {
+                    swapSuperLike()
                 }
             }
         }
     }
 
     private fun removeByUserId(userId: String) {
-
-        val user=mAdapter!!.getAllItems().find { it.userId==userId }
-        if(user !=null)
-        {
-            val index=mAdapter!!.getAllItems().indexOf(user)
+        val user = mAdapter!!.getAllItems().find { it.userId == userId }
+        if (user != null) {
+            val index = mAdapter!!.getAllItems().indexOf(user)
             mAdapter!!.removeItem(index)
         }
     }
 
     private fun addObservers() {
 
-        viewModel.swiperListLiveData.observe(this){response->
+        viewModel.swiperListLiveData.observe(this) { response ->
             binding!!.shimmer.stopShimmer()
-            binding!!.shimmer.visibility=View.GONE
-            binding!!.buttonContainer.visibility=View.VISIBLE
+            binding!!.shimmer.visibility = View.GONE
+            binding!!.buttonContainer.visibility = View.VISIBLE
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
                     mAdapter!!.addAllItem(response.data!!)
@@ -202,19 +201,16 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
                 }
             }
         }
-        viewModel.userLikeSuperLikeLiveData.observe(this){response->
+        viewModel.userLikeSuperLikeLiveData.observe(this) { response ->
             hideProgressDialog()
         }
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             binding!!.shimmer.stopShimmer()
-            if(serverError.code==500)
-            {
-                binding!!.shimmer.visibility=View.GONE
-                binding!!.relEmptyMessage.visibility=View.VISIBLE
-            }
-            else
-            {
+            if (serverError.code == 500) {
+                binding!!.shimmer.visibility = View.GONE
+                binding!!.relEmptyMessage.visibility = View.VISIBLE
+            } else {
                 (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
             }
         }
@@ -223,109 +219,113 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
             if (isUpdate) {
                 mAdapter!!.removeAll()
-                binding!!.shimmer.visibility=View.VISIBLE
+                binding!!.shimmer.visibility = View.VISIBLE
                 binding!!.shimmer.startShimmer()
-                binding!!.buttonContainer.visibility=View.GONE
+                binding!!.buttonContainer.visibility = View.GONE
                 getSwiperList()
                 (activity?.application as AppineersApplication).isSwiperUpdated.postValue(false)
             }
         }
 
-        (activity?.application as AppineersApplication).isLike.observe(this)
-            {isLike->
-                if(isLike)
-                {
-                   status=IConstants.LIKE
-                    swapLike()
-                    (activity?.application as AppineersApplication).isLike.postValue(false)
+        (activity?.application as AppineersApplication).LikeSuperlikeCancelRequest.observe(this) { response ->
+            if (response != null) {
+                if (response.type == IConstants.EXPLORE) {
+                    status = response.status
+                    when (response.status) {
+                        IConstants.LIKE -> {
+                            swapLike()
+                        }
+                        IConstants.SUPERLIKE -> {
+                            swapSuperLike()
+                        }
+                        IConstants.REJECT -> {
+                            swapReject()
+                        }
+                    }
+                } else {
+                    removeByUserId(response.userId!!)
                 }
-           }
-
-        (activity?.application as AppineersApplication).isSuperLike.observe(this)
-        {isSuperLike->
-            if(isSuperLike)
-            {
-                status=IConstants.SUPERLIKE
-                swapSuperLike()
-                (activity?.application as AppineersApplication).isSuperLike.postValue(false)
+                (activity?.application as AppineersApplication).LikeSuperlikeCancelRequest.postValue(null)
             }
         }
-
-        (activity?.application as AppineersApplication).isReject.observe(this)
-        {isReject->
-            if(isReject)
-            {
-                status=IConstants.REJECT
-                swapReject()
-                (activity?.application as AppineersApplication).isReject.postValue(false)
-            }
-        }
-
     }
 
 
     override fun onCardDragging(mydirection: Direction, ratio: Float) {
 
-        direction=mydirection.name
+        direction = mydirection.name
 
     }
 
     override fun onCardSwiped(direction: Direction) {
 
-        when(direction.name)
-        {
-            "Left"->{
-                if(status.isNullOrEmpty())
-                { callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition-1].userId,IConstants.REJECT) }else { status="" }
+        when (direction.name) {
+            "Left" -> {
+                if (status.isNullOrEmpty()) {
+                    callLikeSuperlikeCancel(
+                        mAdapter!!.getAllItems()[manager!!.topPosition - 1].userId,
+                        IConstants.REJECT
+                    )
+                } else {
+                    status = ""
+                }
             }
-            "Right"->{
-                if(status.isNullOrEmpty())
-                { callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition-1].userId,IConstants.LIKE)
-                    if(mAdapter!!.getAllItems()[manager!!.topPosition-1].isLike.equals("Yes"))
-                    {
-                        showMatchPopup(mAdapter!!.getItem(manager!!.topPosition-1))
+            "Right" -> {
+                if (status.isNullOrEmpty()) {
+                    callLikeSuperlikeCancel(
+                        mAdapter!!.getAllItems()[manager!!.topPosition - 1].userId,
+                        IConstants.LIKE
+                    )
+                    if (mAdapter!!.getAllItems()[manager!!.topPosition - 1].isLike.equals("Yes")) {
+                        showMatchPopup(mAdapter!!.getItem(manager!!.topPosition - 1))
                     }
 
-                    var likeValue= sharedPreference.likeCount
-                    sharedPreference.likeCount=likeValue+1
+                    var likeValue = sharedPreference.likeCount
+                    sharedPreference.likeCount = likeValue + 1
                     likeHideShow()
-                }else { status="" }
+                } else {
+                    status = ""
+                }
             }
-            "Top"->{
-                if(status.isNullOrEmpty())
-                { callLikeSuperlikeCancel(mAdapter!!.getAllItems()[manager!!.topPosition-1].userId,IConstants.SUPERLIKE)
-                    if(mAdapter!!.getAllItems()[manager!!.topPosition-1].isLike.equals("Yes"))
-                    {
-                        showMatchPopup(mAdapter!!.getItem(manager!!.topPosition-1))
+            "Top" -> {
+                if (status.isNullOrEmpty()) {
+                    callLikeSuperlikeCancel(
+                        mAdapter!!.getAllItems()[manager!!.topPosition - 1].userId,
+                        IConstants.SUPERLIKE
+                    )
+                    if (mAdapter!!.getAllItems()[manager!!.topPosition - 1].isLike.equals("Yes")) {
+                        showMatchPopup(mAdapter!!.getItem(manager!!.topPosition - 1))
                     }
-                    var superLikeCountValue= sharedPreference.superLikeCount
-                    sharedPreference.superLikeCount=superLikeCountValue+1
+                    var superLikeCountValue = sharedPreference.superLikeCount
+                    sharedPreference.superLikeCount = superLikeCountValue + 1
                     likeHideShow()
-                }else { status="" }
+                } else {
+                    status = ""
+                }
             }
         }
 
-      //  if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
+        //  if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
 //            val old = mAdapter!!.getAllItems()
 //            val new = old.plus(createswiperValue())
 //            val callback = SwiperDiffCallback(old, new)
 //            val result = DiffUtil.calculateDiff(callback)
 //            mAdapter!!.addAllItem(new)
 //            result.dispatchUpdatesTo(mAdapter!!)
-      //  }
+        //  }
 
-        if(manager!!.topPosition==mAdapter!!.itemCount)
-        {
-            binding!!.relEmptyMessage.visibility=View.VISIBLE
-            binding!!.buttonContainer.visibility=View.GONE
+        if (manager!!.topPosition == mAdapter!!.itemCount) {
+            binding!!.relEmptyMessage.visibility = View.VISIBLE
+            binding!!.buttonContainer.visibility = View.GONE
         }
     }
 
     private fun showMatchPopup(item: SwiperViewResponse) {
-        MatchesDialog(item,mListener = object :
+        MatchesDialog(item, mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
             }
+
             override fun onCancel() {
             }
 
@@ -338,21 +338,26 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
 
 
     override fun onCardCanceled() {
-        when(direction)
-        {
-            "Right"->
-            {
-                if(sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount)
-                    {
-                        startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeFragment.requireContext(),"1"))
-                    }
+        when (direction) {
+            "Right" -> {
+                if (sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount) {
+                    startActivity(
+                        SubscriptionPlansActivity.getStartIntent(
+                            this@HomeFragment.requireContext(),
+                            "1"
+                        )
+                    )
+                }
             }
-            "Top"->
-            {
-                if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
-                    {
-                        startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeFragment.requireContext(),"1"))
-                    }
+            "Top" -> {
+                if (sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount) {
+                    startActivity(
+                        SubscriptionPlansActivity.getStartIntent(
+                            this@HomeFragment.requireContext(),
+                            "1"
+                        )
+                    )
+                }
             }
         }
     }
@@ -362,13 +367,20 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
-        Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}") }
+        Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}")
+    }
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
-        when(viewId)
-        {
-            R.id.cardSwiperView->{
-                startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeFragment.requireContext(),mAdapter!!.getItem(position).userId,mAdapter!!.getItem(position)))
+        when (viewId) {
+            R.id.cardSwiperView -> {
+                startActivity(
+                    OtherUserDetailsActivity.getStartIntent(
+                        this@HomeFragment.requireContext(),
+                        mAdapter!!.getItem(position).userId,
+                        mAdapter!!.getItem(position),
+                        IConstants.EXPLORE
+                    )
+                )
             }
         }
     }
@@ -382,41 +394,40 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         likeHideShow()
     }
 
-    private fun likeHideShow()
-    {
-        val likeLimitReached=(sharedPreference.configDetails!!.defaultLikeCount== sharedPreference.likeCount)
-        val superLikeLimitReached=(sharedPreference.configDetails!!.defaultSuperLikeCount== sharedPreference.superLikeCount)
-        when{
+    private fun likeHideShow() {
+        val likeLimitReached =
+            (sharedPreference.configDetails!!.defaultLikeCount == sharedPreference.likeCount)
+        val superLikeLimitReached =
+            (sharedPreference.configDetails!!.defaultSuperLikeCount == sharedPreference.superLikeCount)
+        when {
 
-            (likeLimitReached && superLikeLimitReached)->{
+            (likeLimitReached && superLikeLimitReached) -> {
                 manager!!.setDirections(arrayOf(Direction.Left).toMutableList())
                 binding.cardStackView.layoutManager = manager
             }
-            likeLimitReached ->{
-                manager!!.setDirections(arrayOf(Direction.Left,Direction.Top).toMutableList())
+            likeLimitReached -> {
+                manager!!.setDirections(arrayOf(Direction.Left, Direction.Top).toMutableList())
                 binding.cardStackView.layoutManager = manager
             }
 
-            superLikeLimitReached ->{
-                manager!!.setDirections(arrayOf(Direction.Left,Direction.Right).toMutableList())
+            superLikeLimitReached -> {
+                manager!!.setDirections(arrayOf(Direction.Left, Direction.Right).toMutableList())
                 binding.cardStackView.layoutManager = manager
             }
         }
 
-        val count=sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
-        if(count==0)
-        {
-            binding.textSuperlikeCount.visibility=View.GONE
-        }
-        else{
-            binding.textSuperlikeCount.text=count.toString()
+        val count =
+            sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
+        if (count == 0) {
+            binding.textSuperlikeCount.visibility = View.GONE
+        } else {
+            binding.textSuperlikeCount.text = count.toString()
         }
 
     }
 
 
-    fun swapLike()
-    {
+    fun swapLike() {
         val like = SwipeAnimationSetting.Builder()
             .setDirection(Direction.Right)
             .setDuration(Duration.Slow.duration)
@@ -426,8 +437,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         binding.cardStackView.swipe()
     }
 
-    fun swapSuperLike()
-    {
+    fun swapSuperLike() {
         val superlike = SwipeAnimationSetting.Builder()
             .setDirection(Direction.Top)
             .setDuration(Duration.Slow.duration)
@@ -436,8 +446,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(),RecyclerViewActionListener,Ca
         manager!!.setSwipeAnimationSetting(superlike)
         binding.cardStackView.swipe()
     }
-    fun swapReject()
-    {
+
+    fun swapReject() {
         val close = SwipeAnimationSetting.Builder()
             .setDirection(Direction.Left)
             .setDuration(Duration.Slow.duration)

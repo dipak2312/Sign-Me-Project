@@ -2,6 +2,7 @@ package com.app.signme.adapter
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.signme.R
@@ -109,6 +110,17 @@ class SuperLikesAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
         fun bind(item: SuperLikesResponse) {
            // binding.model=item
 
+            if(totalCount.toInt()>4 && adapterPosition==3)
+            {
+                binding.textsupelike.visibility= View.VISIBLE
+                binding.textsupelike.text="+"+totalCount.toInt().minus(4).toString()
+            }
+            else
+            {
+                binding.textsupelike.visibility= View.GONE
+            }
+
+
             Glide.with(binding.root.context)
                 .load(item.profileImage)
                 .skipMemoryCache(false)
@@ -117,6 +129,10 @@ class SuperLikesAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
                 .error(R.drawable.ic_profile)
                 .placeholder(R.drawable.ic_profile)
                 .into(binding.superlikeProfile)
+
+            binding.imgSuperlike.setOnClickListener{
+                mOnRecyclerClick.onItemClick(binding.imgSuperlike.id, adapterPosition, null)
+            }
 
              binding.executePendingBindings()
 

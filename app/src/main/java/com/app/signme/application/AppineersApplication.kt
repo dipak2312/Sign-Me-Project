@@ -23,6 +23,7 @@ import com.app.signme.db.AppPrefrrences
 import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseViewModel
+import com.app.signme.dataclasses.LikeSuperlikeCancelCallback
 import com.app.signme.dataclasses.RelationshipType
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.scheduler.ExportLogService
@@ -60,9 +61,8 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     val isProfileUpdated = MutableLiveData<Boolean>()
     val isSwiperUpdated=MutableLiveData<Boolean>()
     val isAdRemoved = MutableLiveData<Boolean>()
-    val isLike=MutableLiveData<Boolean>()
-    val isSuperLike=MutableLiveData<Boolean>()
-    val isReject=MutableLiveData<Boolean>()
+    val LikeSuperlikeCancelRequest=MutableLiveData<LikeSuperlikeCancelCallback>()
+    val isMatchesUpdated=MutableLiveData<Boolean>()
     var isSubscriptionTaken = MutableLiveData<Boolean>()
     var weakActivity: WeakReference<BaseActivity<BaseViewModel>>? = null
     val isMediaUploaded = MutableLiveData<MediaUpload?>()

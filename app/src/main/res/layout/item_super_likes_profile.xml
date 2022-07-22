@@ -9,6 +9,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:id="@+id/imgSuperlike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -26,6 +27,7 @@
             </com.google.android.material.imageview.ShapeableImageView>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textsupelike"
                 style="@style/BoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
