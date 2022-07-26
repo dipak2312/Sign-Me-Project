@@ -14,6 +14,7 @@ import com.app.signme.dataclasses.OtherUserDetailsResponse
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.repository.HomeRepository
 import com.app.signme.repository.inappbilling.BillingRepository
+import com.google.gson.JsonElement
 import io.reactivex.disposables.CompositeDisposable
 
 class HomeViewModel(
@@ -34,6 +35,7 @@ class HomeViewModel(
     val swiperListLiveData= MutableLiveData<TAListResponse<SwiperViewResponse>>()
     val otherUserDetailsLiveData= MutableLiveData<TAListResponse<OtherUserDetailsResponse>>()
     val userLikeSuperLikeLiveData= MutableLiveData<TAListResponse<LikeUnLikeResponse>>()
+    val unMatchUserLiveData= MutableLiveData<TAListResponse<JsonElement>>()
 
     override fun onCreate() {
         checkForInternetConnection()
@@ -119,6 +121,21 @@ class HomeViewModel(
                 .subscribe(
                     { response ->
                         userLikeSuperLikeLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun unMatchUser(userId:String) {
+        compositeDisposable.addAll(
+            homeRepository.unMatchUser(userId)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        unMatchUserLiveData.postValue(response)
                     },
                     { error ->
                         statusCodeLiveData.postValue(handleServerError(error))

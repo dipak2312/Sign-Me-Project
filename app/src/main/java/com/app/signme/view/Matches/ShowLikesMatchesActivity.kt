@@ -8,18 +8,23 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.app.signme.R
 import com.app.signme.adapter.ShowLikesMatchesAdapter
+import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityShowLikesMatchesBinding
 import com.app.signme.dataclasses.Social
+import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.view.home.HomeActivity
+import com.app.signme.view.home.OtherUserDetailsActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.MatchesViewModel
+import kotlinx.android.synthetic.main.activity_show_likes_matches.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.util.function.IntConsumer
 
 class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActionListener {
     private var binding:ActivityShowLikesMatchesBinding?=null
@@ -50,6 +55,7 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
         mAdapter= ShowLikesMatchesAdapter(this,this)
         binding!!.mRecycler.adapter=mAdapter
         binding!!.textTitle.text=type
+
 
         addObservers()
         initListener()
@@ -88,6 +94,33 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
                 {
                     mAdapter!!.addAllItem(response.data!!)
                 }
+
+                when(type)
+                {
+                    IConstants.MATCH->{
+                        binding!!.textShow.text=response.settings!!.count +" "+getString(R.string.label_matches_details)
+                        binding!!.imgShow.setImageResource(R.drawable.ic_match_details)
+                    }
+                    IConstants.LIKE->
+                    {
+                        binding!!.textShow.text=response.settings!!.count+" "+getString(R.string.label_like_details)
+                        binding!!.imgShow.setImageResource(R.drawable.ic_like_details)
+                    }
+                    IConstants.SUPERLIKE->{
+                        binding!!.textShow.text=response.settings!!.count+" "+getString(R.string.label_superlike_details)
+                        binding!!.imgShow.setImageResource(R.drawable.ic_superlike_details)
+                    }
+                }
+            }
+        }
+
+        (application as AppineersApplication).isMatchesUpdated.observe(this){ isMatches->
+
+            if(isMatches)
+            {
+                mAdapter!!.removeAll()
+                getAllList()
+                //(application as AppineersApplication).isMatchesUpdated.postValue(false)
             }
         }
 
@@ -98,10 +131,35 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
     }
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
-        TODO("Not yet implemented")
+
+        when(viewId)
+        {
+            R.id.relLikeSuperlikeMatch->
+            {
+                when(type)
+                {
+                    IConstants.MATCH->{
+                        callOtherDetails("No",position,IConstants.MATCHES)
+                    }
+                    IConstants.LIKE->
+                    {
+                        callOtherDetails("Yes",position,IConstants.LIKE)
+                    }
+                    IConstants.SUPERLIKE->{
+                        callOtherDetails("Yes",position,IConstants.SUPERLIKE)
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun callOtherDetails(isLike:String,position: Int,status:String){
+        var otherUserResponse= SwiperViewResponse(isLike = isLike,name = mAdapter!!.getItem(position).firstName,profileImage = mAdapter!!.getItem(position).profileImage)
+        startActivity(OtherUserDetailsActivity.getStartIntent(this@ShowLikesMatchesActivity,mAdapter!!.getItem(position).userId,otherUserResponse,status))
     }
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
-        TODO("Not yet implemented")
+
     }
 }

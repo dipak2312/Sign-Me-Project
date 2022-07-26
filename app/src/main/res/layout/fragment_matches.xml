@@ -13,10 +13,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/emptyMessage"
                 android:layout_width="wrap_content"
@@ -27,15 +28,15 @@
             </androidx.appcompat.widget.AppCompatImageView>
 
             <androidx.appcompat.widget.AppCompatTextView
+                style="@style/BoldTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/hint_white"
                 android:layout_below="@+id/emptyMessage"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_10dp"
-                style="@style/BoldTextStyle"
-                android:textSize="@dimen/text_dimen_16sp"
-                android:text="@string/lanel_no_matches_found">
+                android:text="@string/lanel_no_matches_found"
+                android:textColor="@color/hint_white"
+                android:textSize="@dimen/text_dimen_16sp">
 
             </androidx.appcompat.widget.AppCompatTextView>
 
@@ -79,210 +80,222 @@
 
         </androidx.appcompat.widget.AppCompatImageView>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollview"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvMatches">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/linsuperlike"
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/scrollview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                    <com.google.android.material.card.MaterialCardView
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/dimen_16dp"
-                        app:cardBackgroundColor="@color/card_superlike"
-                        app:cardCornerRadius="@dimen/dimen_15dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:src="@drawable/ic_superlike_star">
-
-                        </androidx.appcompat.widget.AppCompatImageView>
+                        android:layout_height="match_parent">
 
                         <LinearLayout
+                            android:id="@+id/linsuperlike"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dimen_16dp"
+                                app:cardBackgroundColor="@color/card_superlike"
+                                app:cardCornerRadius="@dimen/dimen_15dp">
+
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:src="@drawable/ic_superlike_star">
+
+                                </androidx.appcompat.widget.AppCompatImageView>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        style="@style/BoldTextStyle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dimen_16dp"
+                                        android:layout_marginTop="@dimen/dimen_16dp"
+                                        android:layout_marginEnd="@dimen/dimen_16dp"
+                                        android:layout_marginBottom="@dimen/dimen_8dp"
+                                        android:text="@string/label_super_like_text"
+                                        android:textColor="@color/superlike"
+                                        android:textSize="@dimen/text_dimen_20sp">
+
+                                    </androidx.appcompat.widget.AppCompatTextView>
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/mRecyclerSuperLikes"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dimen_8dp"
+                                        android:layout_marginEnd="@dimen/dimen_8dp"
+                                        android:layout_marginBottom="@dimen/dimen_16dp"
+                                        android:overScrollMode="never"
+                                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                        app:spanCount="4"
+                                        tools:itemCount="4"
+                                        tools:listitem="@layout/item_super_likes_profile">
+
+                                    </androidx.recyclerview.widget.RecyclerView>
+
+
+                                </LinearLayout>
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen_1dp"
+                                android:layout_marginTop="@dimen/dimen_5dp"
+                                android:background="@color/matches_devider">
+
+                            </View>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linlike"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/linsuperlike"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 style="@style/BoldTextStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/dimen_16dp"
                                 android:layout_marginStart="@dimen/dimen_16dp"
                                 android:layout_marginTop="@dimen/dimen_16dp"
-                                android:layout_marginBottom="@dimen/dimen_8dp"
-                                android:text="@string/label_super_like_text"
-                                android:textColor="@color/superlike"
+                                android:layout_marginEnd="@dimen/dimen_16dp"
+                                android:text="@string/label_likes_text"
+                                android:textColor="@color/app_color"
                                 android:textSize="@dimen/text_dimen_20sp">
 
                             </androidx.appcompat.widget.AppCompatTextView>
 
+                            <androidx.appcompat.widget.AppCompatTextView
+                                style="@style/LightTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen_16dp"
+                                android:layout_marginEnd="@dimen/dimen_16dp"
+                                android:text="@string/label_likes_desc_text"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_dimen_12sp">
+
+                            </androidx.appcompat.widget.AppCompatTextView>
+
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/mRecyclerSuperLikes"
+                                android:id="@+id/mRecyclerLikes"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen_8dp"
+                                android:layout_marginTop="@dimen/dimen_20dp"
+                                android:layout_marginEnd="@dimen/dimen_8dp"
                                 android:layout_marginBottom="@dimen/dimen_16dp"
                                 android:overScrollMode="never"
-                                android:layout_marginStart="@dimen/dimen_8dp"
-                                android:layout_marginEnd="@dimen/dimen_8dp"
                                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                                 app:spanCount="4"
                                 tools:itemCount="4"
-                                tools:listitem="@layout/item_super_likes_profile">
+                                tools:listitem="@layout/item_likes_profile">
 
                             </androidx.recyclerview.widget.RecyclerView>
 
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnWhoLike"
+                                style="@style/ButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginStart="@dimen/_35sdp"
+                                android:layout_marginTop="@dimen/dimen_2dp"
+                                android:layout_marginEnd="@dimen/_35sdp"
+                                android:text="@string/label_see_like_btn" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dimen_1dp"
+                                android:layout_marginTop="@dimen/dimen_5dp"
+                                android:background="@color/matches_devider">
+
+                            </View>
 
                         </LinearLayout>
 
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_1dp"
-                        android:layout_marginTop="@dimen/dimen_5dp"
-                        android:background="@color/matches_devider">
-
-                    </View>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linlike"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linsuperlike"
-                    android:orientation="vertical">
-
-                      <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/BoldTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_16dp"
-                        android:layout_marginTop="@dimen/dimen_16dp"
-                        android:layout_marginEnd="@dimen/dimen_16dp"
-                        android:text="@string/label_likes_text"
-                        android:textColor="@color/app_color"
-                        android:textSize="@dimen/text_dimen_20sp">
-
-                    </androidx.appcompat.widget.AppCompatTextView>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        style="@style/LightTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_16dp"
-                        android:layout_marginEnd="@dimen/dimen_16dp"
-                        android:text="@string/label_likes_desc_text"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_12sp">
-
-                    </androidx.appcompat.widget.AppCompatTextView>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/mRecyclerLikes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_20dp"
-                        android:layout_marginStart="@dimen/dimen_8dp"
-                        android:layout_marginEnd="@dimen/dimen_8dp"
-                        android:layout_marginBottom="@dimen/dimen_16dp"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        tools:itemCount="4"
-                        app:spanCount="4"
-                        tools:listitem="@layout/item_likes_profile">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnWhoLike"
-                        style="@style/ButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginStart="@dimen/_35sdp"
-                        android:layout_marginTop="@dimen/dimen_2dp"
-                        android:layout_marginEnd="@dimen/_35sdp"
-                        android:text="@string/label_see_like_btn" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_1dp"
-                        android:layout_marginTop="@dimen/dimen_5dp"
-                        android:background="@color/matches_devider">
-
-                    </View>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linMatch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_below="@+id/linlike">
-
-                    <RelativeLayout
-                        android:id="@+id/textMatch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dimen_16dp"
-                        android:layout_marginTop="@dimen/dimen_16dp"
-                        android:layout_marginEnd="@dimen/dimen_16dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/textMatches"
-                            style="@style/BoldTextStyle"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/linMatch"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_matches_text"
-                            android:textColor="@color/app_color"
-                            android:textSize="@dimen/text_dimen_20sp" />
+                            android:layout_below="@+id/linlike"
+                            android:orientation="vertical">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/textViewAll"
-                            style="@style/BoldTextStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:text="@string/label_view_all_text"
-                            android:textColor="@color/settingwhite"
-                            android:textSize="@dimen/text_dimen_14sp" />
+                            <RelativeLayout
+                                android:id="@+id/textMatch"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dimen_16dp"
+                                android:layout_marginTop="@dimen/dimen_16dp"
+                                android:layout_marginEnd="@dimen/dimen_16dp">
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/textMatches"
+                                    style="@style/BoldTextStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/label_matches_text"
+                                    android:textColor="@color/app_color"
+                                    android:textSize="@dimen/text_dimen_20sp" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/textViewAll"
+                                    style="@style/BoldTextStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:text="@string/label_view_all_text"
+                                    android:textColor="@color/settingwhite"
+                                    android:textSize="@dimen/text_dimen_14sp" />
+                            </RelativeLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/mRecyclerMatches"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dimen_16dp"
+                                android:layout_marginBottom="@dimen/dimen_16dp"
+                                android:overScrollMode="never"
+                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                                app:spanCount="2"
+                                tools:itemCount="4"
+                                tools:listitem="@layout/item_matches" />
+                        </LinearLayout>
+
                     </RelativeLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/mRecyclerMatches"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dimen_16dp"
-                        android:layout_marginBottom="@dimen/dimen_16dp"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="2"
-                        tools:itemCount="4"
-                        tools:listitem="@layout/item_matches" />
-                </LinearLayout>
-
+                </androidx.core.widget.NestedScrollView>
             </RelativeLayout>
-        </androidx.core.widget.NestedScrollView>
-
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

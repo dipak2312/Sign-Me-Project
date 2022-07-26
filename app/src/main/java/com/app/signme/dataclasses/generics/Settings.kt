@@ -37,7 +37,9 @@ data class Settings(
     var nextPage: String? = "0",
 
     @JsonProperty("access_token")
-    var accessToken: String? = ""
+    var accessToken: String? = "",
+    @JsonProperty("count")
+    var count: String? = "0",
 ) {
 
     val isSuccess: Boolean

@@ -12,5 +12,10 @@ class LikesMatchesResponse(
     @JsonProperty("last_name")
     val lastName: String? = "",
     @JsonProperty("profile_image")
-    val profileImage: String? = ""
+    val profileImage: String? = "",
+    @JsonProperty("sign_name")
+    val signName: String? = "",
+    @JsonProperty("sign_logo")
+    val signLogo: String? = ""
+
 )

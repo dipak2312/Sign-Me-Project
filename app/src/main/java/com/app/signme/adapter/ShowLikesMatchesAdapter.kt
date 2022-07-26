@@ -109,7 +109,7 @@ class ShowLikesMatchesAdapter(onClick: RecyclerViewActionListener, mActivity: Ac
             binding.model=item
 
             Glide.with(binding.root.context)
-                .load("https://appineers.s3.amazonaws.com/sign_me/astrology_sign/1/Aries.png")
+                .load(item.signLogo)
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .centerCrop()
@@ -125,6 +125,10 @@ class ShowLikesMatchesAdapter(onClick: RecyclerViewActionListener, mActivity: Ac
                 .error(R.drawable.ic_profile)
                 .placeholder(R.drawable.ic_profile)
                 .into(binding.matchesProfile)
+
+            binding.relLikeSuperlikeMatch.setOnClickListener{
+                mOnRecyclerClick.onItemClick(binding.relLikeSuperlikeMatch.id, adapterPosition, null)
+            }
 
             binding.executePendingBindings()
 

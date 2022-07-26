@@ -14,6 +14,7 @@ import com.hb.logger.Logger
 import kotlinx.android.synthetic.main.dialog_un_matches.*
 
 class UnMatchDialog (
+    userId:String?,
     mListener: ClickListener?
 ) : DialogFragment() {
     interface ClickListener {
@@ -49,13 +50,14 @@ class UnMatchDialog (
 
             btnNevermind.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Done Button Click")
-                listener?.onSuccess()
+                listener?.onCancel()
                 dismiss()
             }
             btnUnmatch.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Done Button Click")
                 listener?.onSuccess()
                 dismiss()
+
             }
         }
     }

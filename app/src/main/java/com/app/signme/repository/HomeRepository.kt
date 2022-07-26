@@ -7,6 +7,7 @@ import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.response.DeleteMediaResponse
 import com.app.signme.dataclasses.response.LoginResponse
+import com.google.gson.JsonElement
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -27,4 +28,7 @@ class HomeRepository @Inject constructor(
 
     fun callLikeSuperlikeCancel(map:HashMap<String,String>): Single<TAListResponse<LikeUnLikeResponse>> =
         networkService.callLikeSuperlikeCancel(map)
+
+    fun unMatchUser(userId:String): Single<TAListResponse<JsonElement>> =
+        networkService.unMatch(userId)
 }

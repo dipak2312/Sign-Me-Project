@@ -198,4 +198,8 @@ interface NetworkService {
         @Query("page_index") pageIndex: String?,
         @Query("per_page_record") perPageRecord: String = IConstants.RESULT_PER_PAGE
     ): Single<TAListResponse<LikesMatchesResponse>>
+
+    @POST("unmatch")
+    @FormUrlEncoded
+    fun unMatch(@Field("unmatch_user_id") userId:String): Single<TAListResponse<JsonElement>>
 }

@@ -15,7 +15,6 @@ import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentMatchesBinding
 import com.app.signme.dataclasses.OtherUserDetailsResponse
 import com.app.signme.dataclasses.SwiperViewResponse
-import com.app.signme.view.dialogs.UnMatchDialog
 import com.app.signme.view.home.OtherUserDetailsActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
@@ -54,19 +53,19 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
 
         initListeners()
         addObservers()
-        getLikeSuperlikeMatchesList()
+        getLikeSuperlikeMatchesList("showProgress")
     }
 
-
-    fun getLikeSuperlikeMatchesList() {
+    fun getLikeSuperlikeMatchesList(status:String) {
         when {
             checkInternet() -> {
-
+                if(status.equals("showProgress"))
+                {
                 showProgressDialog(
                     isCheckNetwork = true,
                     isSetTitle = false,
                     title = IConstants.EMPTY_LOADING_MSG
-                )
+                )}
 
                 viewModel.getLikeSuperlikeMatchesList()
             }
@@ -100,20 +99,13 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                             IConstants.LIKE
                         )
                     )
-
                 }
 
-                textMatches.setOnClickListener {
-                    UnMatchDialog(mListener = object :
-                        UnMatchDialog.ClickListener {
-                        override fun onSuccess() {
-                        }
+                refreshView.setOnRefreshListener {
 
-                        override fun onCancel() {
-                        }
-
-                    }).show(requireFragmentManager(), "Tag")
+                    getLikeSuperlikeMatchesList("hideProgress")
                 }
+
             }
         }
     }
@@ -122,10 +114,13 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
 
         viewModel.LikeSuperlikeMatchesLiveData.observe(this) { response ->
             hideProgressDialog()
+            binding!!.refreshView.isRefreshing=false
+
             if (response?.settings?.isSuccess == true) {
-
+                likesAdapter!!.removeAll()
+                superLikesAdapter!!.removeAll()
+                matchesAdapter!!.removeAll()
                 scrollview.visibility = View.VISIBLE
-
                 if (response.data!!.superlikeUserList.isNullOrEmpty() && response.data!!.likeUserList.isNullOrEmpty() && response.data!!.matchUserList.isNullOrEmpty()) {
                     relEmptyMessage.visibility = View.VISIBLE
                 } else {
@@ -170,13 +165,14 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                 likesAdapter!!.removeAll()
                 superLikesAdapter!!.removeAll()
                 matchesAdapter!!.removeAll()
-                getLikeSuperlikeMatchesList()
+                getLikeSuperlikeMatchesList("showProgress")
                 (activity?.application as AppineersApplication).isMatchesUpdated.postValue(false)
             }
         }
 
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
+            binding!!.refreshView.isRefreshing=false
             (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
         }
     }

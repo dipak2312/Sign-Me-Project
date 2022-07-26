@@ -51,11 +51,12 @@
                 android:layout_marginTop="@dimen/_15sdp">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/dimen_30dp"
-                    android:layout_height="@dimen/dimen_30dp"
-                    android:src="@drawable/ic_superlike"/>
+                    android:id="@+id/imgShow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                  <androidx.appcompat.widget.AppCompatTextView
+                     android:id="@+id/textShow"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:layout_gravity="center_vertical"
@@ -63,7 +64,7 @@
                      android:textColor="@color/white"
                      style="@style/LightTextStyle"
                      android:textSize="@dimen/text_dimen_15sp"
-                     android:text="21 People are super interested in you ">
+                     tools:text="21 People are super interested in you ">
 
                  </androidx.appcompat.widget.AppCompatTextView>
 

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/relLikeSuperlikeMatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_8dp"
@@ -81,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_6dp"
                     android:layout_weight="1"
-                    android:text="Aquarius"
+                    android:text="@{model.signName}"
                     android:textColor="@color/profile_gray"
                     android:textSize="@dimen/text_dimen_14sp"
                     tools:text="Aquarius" />

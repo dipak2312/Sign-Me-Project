@@ -3,15 +3,19 @@ package com.app.signme.view.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
+import com.app.signme.commonUtils.utility.extension.showCustomSnackBar
+import com.app.signme.commonUtils.utility.extension.showSnackBar
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityOtherUserDetailsBinding
@@ -19,6 +23,7 @@ import com.app.signme.dataclasses.LikeSuperlikeCancelCallback
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.UserImage
 import com.app.signme.view.dialogs.MatchesDialog
+import com.app.signme.view.dialogs.UnMatchDialog
 import com.app.signme.view.profile.PagerImageAdapter
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.view.subscription.SubscriptionPlansActivity
@@ -128,12 +133,23 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                         status=IConstants.LIKE
                         callLikeSuperlikeCancel(userId,IConstants.LIKE)
                     }
-
                 }
 
+                btnMatchClose.setOnClickListener{
+                    UnMatchDialog(userId!!,mListener = object :
+                        UnMatchDialog.ClickListener {
+                        override fun onSuccess() {
+
+                          unMatchDialog()
+                        }
+
+                        override fun onCancel() {
+                        }
+
+                    }).show(supportFragmentManager, "Tag")
+                }
             }
         }
-
     }
 
     fun callLikeSuperlikeCancel(userId:String?,status:String)
@@ -150,6 +166,22 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 map["connection_user_id"] = userId!!
 
                 viewModel.callLikeSuperLikeCancel(map)
+            }
+        }
+    }
+
+
+    fun unMatchDialog()
+    {
+        when {
+            checkInternet() -> {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
+
+                viewModel.unMatchUser(userId!!)
             }
         }
     }
@@ -266,6 +298,22 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             }
         }
 
+        viewModel.unMatchUserLiveData.observe(this){response->
+            hideProgressDialog()
+            if (response?.settings?.isSuccess == true) {
+                response.settings!!.message?.showSnackBar(this@OtherUserDetailsActivity,IConstants.SNAKBAR_TYPE_SUCCESS)
+                Handler(mainLooper).postDelayed(
+                    {
+                        (application as AppineersApplication).isMatchesUpdated.postValue(true)
+                        btnMatchClose.isClickable=false
+                        finish()
+                    },
+                    2000L
+                )
+            }
+
+        }
+
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             binding!!.shimmer.stopShimmer()
@@ -276,20 +324,15 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
 
 
     private fun showMatchPopup() {
-
         MatchesDialog(otherUserResponse!!,mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
-
                 finish()
             }
-
             override fun onCancel() {
-
             }
 
         }).show(supportFragmentManager, "Tag")
-
     }
 
     fun addLookingFor()
