@@ -179,6 +179,14 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    //For Firebase Chat
+    implementation "com.google.firebase:firebase-messaging:23.0.0"
+    implementation 'com.google.android.gms:play-services-basement:18.0.0'// Import the Firebase BoM
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.0.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+    implementation 'com.firebaseui:firebase-ui-firestore:6.1.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.3'
+
 
     //Rx java
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"

@@ -23,6 +23,7 @@ import com.app.signme.view.authentication.login.loginwithemailsocial.LoginWithEm
 
 import com.app.signme.view.authentication.otp.otpsignup.OTPSignUpActivity
 import com.app.signme.view.authentication.otp.otpforgotpassword.OTPForgotPasswordActivity
+import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.home.HomeActivity
 import com.app.signme.view.enablePermission.PermissionEnableActivity
 import com.app.signme.view.home.OtherUserDetailsActivity
@@ -54,5 +55,6 @@ interface ActivityComponent{
     fun inject(permissionEnableActivity: PermissionEnableActivity)
     fun inject(otherUserDetailsActivity: OtherUserDetailsActivity)
     fun inject(showLikesMatchesActivity: ShowLikesMatchesActivity)
+    fun inject(chatRoomActivity: ChatRoomActivity)
 
 }

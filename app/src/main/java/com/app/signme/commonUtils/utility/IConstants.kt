@@ -12,7 +12,9 @@ interface IConstants {
 
         const val CITY_SEARCH: Int=10
         const val ADDRESS_SEARCH: Int=11
-
+        const val BUNDLE_DATA_USER_2_ID = "data_user_2_id"
+        const val BUNDLE_DATA_USER_2_NAME = "data_user_2_name"
+        const val BUNDLE_DATA_USER_2_IMAGE = "data_user_2_image"
         const val SNAKBAR_TYPE_ERROR = 1
         const val SNAKBAR_TYPE_SUCCESS = 2
         const val SNAKBAR_TYPE_MESSAGE = 3
@@ -22,6 +24,8 @@ interface IConstants {
         const val APP_FORCE_UPDATE_REQUEST_CODE : Int = 6
         const val NOTIFICATION_PERMISSION_REQUEST_CODE : Int = 7
         const val REQUEST_CODE_LOCATION = 108
+        const val OTHER:String="other"
+        const val ME:String="me"
         const val MEDIA_TYPE_IMAGE = 1
         private val storageDir = Environment.getExternalStorageDirectory().toString() + "/TheAppineers/"
         val IMAGES_FOLDER_PATH = "$storageDir/Images"

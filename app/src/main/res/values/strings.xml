@@ -46,6 +46,7 @@
     <string name="hint_email_optional">Email(Optional)</string>
     <string name="hint_forgot_email">theapp@gmail.com</string>
     <string name="hint_address">Address</string>
+    <string name="hint_is_typing">is typing.....</string>
     <string name="hint_city">City</string>
     <string name="hint_state">State</string>
     <string name="hint_zip_code">Zip Code</string>
@@ -213,6 +214,8 @@
     <string name="label_superlike_details">People are super interested in you</string>
     <string name="label_matches_details">Matches with you</string>
     <string name="lanel_no_matches_found">No matches found.</string>
+    <string name="label_message_blocked_by_other">This person wishes no contact with you.</string>
+    <string name="label_message_blocked_by_me">You have blocked this user. Please unblock to chat.</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
 </string>
 
@@ -244,6 +247,9 @@
     <string name="alert_first_name_length">First name must contain 1 to 80 characters.</string>
     <string name="alert_last_name_length">Last name must contain 1 to 80 characters.</string>
     <string name="alert_phone_number_length">Phone Number must contain 10 to 14 characters.</string>
+    <string name="alert_no_message_found">No message found.</string>
+    <string name="hint_say_something">Say something</string>
+    <string name="alert_delete_message">Are you sure you want to delete this </string>
     <string name="alert_enter_dob">Please enter date of birth.</string>
     <string name="alert_select_street_address">Please select address.</string>
     <string name="alert_select_state">Please select state.</string>

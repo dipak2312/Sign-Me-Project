@@ -71,6 +71,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bg_edit_gray.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bg_subscription_select.xml" value="0.1485" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/bottom_navigation_selector.xml" value="0.159" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/chat_background.xml" value="0.141" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/color_cursor.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/divider_drawable.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/gradation_black.xml" value="0.165" />
@@ -92,6 +93,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_location_edit_profile.xml" value="0.165" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_location_profile.xml" value="0.165" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_matches_star.xml" value="0.1485" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_menu_icon.xml" value="0.141" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_my_chat.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_my_profile.xml" value="0.1415" />
@@ -111,6 +113,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_refresh.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_remove.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_right.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_send_chat.xml" value="0.141" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_session.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_setting.xml" value="0.159" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/ic_settings.xml" value="0.1415" />
@@ -131,6 +134,8 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/password_toggle_selector.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/selector_add_profile_pic.xml" value="0.1" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/selector_edit_profile_pic.xml" value="0.1415" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/shape_bubble_recieved.xml" value="0.141" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/shape_bubble_sent.xml" value="0.141" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/side_nav_bar.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/splash.xml" value="0.1415" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/drawable/super_like_count.xml" value="0.165" />
@@ -145,6 +150,7 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_change_password.xml" value="0.1" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_change_phone_number.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_change_phone_number_otp.xml" value="0.18342391304347827" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_chat_room.xml" value="0.22056159420289856" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_edit_profile.xml" value="0.2" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_forgot_password_with_email.xml" value="0.17552083333333332" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/activity_home.xml" value="0.12318840579710146" />
@@ -189,6 +195,8 @@
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_slideshow.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/fragment_trips.xml" value="0.18342391304347827" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/gallery_viewpager.xml" value="0.2006340579710145" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_chat_left.xml" value="0.22056159420289856" />
+        <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_chat_right.xml" value="0.22056159420289856" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_likes_profile.xml" value="0.2006340579710145" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_matches.xml" value="0.2006340579710145" />
         <entry key="..\:/SignMe/SignMe_Android/app/src/main/res/layout/item_pager_image.xml" value="0.234375" />

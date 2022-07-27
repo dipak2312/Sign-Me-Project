@@ -3,6 +3,7 @@
 package com.app.signme.commonUtils.utility.extension
 
 import android.annotation.SuppressLint
+import android.util.Log
 import java.text.DateFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -169,4 +170,26 @@ fun Long.timeToMinuteSecond(): String {
             Locale.getDefault(),
             "%02d", seconds
     )
+}
+
+fun Date.getFormattedDate(): String {
+    val smsTime = Calendar.getInstance()
+    smsTime.timeInMillis = this.time
+    val now = Calendar.getInstance()
+    val format = SimpleDateFormat("EEEE, dd MMM yyyy")
+    return try {
+        if (now[Calendar.DATE] === smsTime[Calendar.DATE]) {
+            "Today"
+        } else if (now[Calendar.DATE] - smsTime[Calendar.DATE] === 1) {
+            "Yesterday"
+        } else if (now[Calendar.YEAR] === smsTime[Calendar.YEAR]) {
+            format.format(this)
+        } else {
+            format.format(this)
+        }
+    } catch (e: java.lang.Exception) {
+        Log.e("TAG", "getFormattedDate: ", e)
+        ""
+    }
+
 }
