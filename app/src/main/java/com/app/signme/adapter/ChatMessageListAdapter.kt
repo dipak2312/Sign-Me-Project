@@ -33,25 +33,14 @@ class ChatMessageListAdapter(
 
             holder.message?.visibility = View.GONE
             holder.messageImage?.visibility = View.VISIBLE
-            holder.playButton!!.visibility = View.GONE
-            holder.btnVideoDownload!!.visibility = View.VISIBLE
 
         } else {
             holder.message?.text = chatMessagesList[position].content;
             holder.message?.visibility = View.VISIBLE
             holder.messageImage?.visibility = View.GONE
-            holder.playButton!!.visibility = View.GONE
-            holder.btnVideoDownload!!.visibility = View.GONE
+
         }
 
-        if (!chatMessagesList[position].url.isNullOrEmpty()) {
-            when (chatMessagesList[position].content) {
-                "Video" -> {
-                    holder.playButton!!.visibility = View.VISIBLE
-                    holder.btnVideoDownload!!.visibility = View.VISIBLE
-                }
-            }
-        }
 
         if (chatMessagesList[position].isShowTime) {
             holder.messageDate?.text = chatMessagesList[position].chatTimeStamp
@@ -74,9 +63,6 @@ class ChatMessageListAdapter(
         }
 
         holder.rlChat?.tag = chatMessagesList[position]
-        holder.btnVideoDownload?.tag = chatMessagesList[position]
-
-
 
         holder.rlChat?.setOnLongClickListener {
 
@@ -147,14 +133,11 @@ class ChatMessageListAdapter(
 
     inner class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        var senderImage: ShapeableImageView? = null
         var message: TextView? = null
         var messageImage: ShapeableImageView? = null
         var messageTime: TextView? = null
         var messageDate: TextView? = null
         var rlChat: LinearLayout? = null
-        var playButton: ImageView? = null
-        var btnVideoDownload: ImageView? = null
 
         init {
             message = itemView.findViewById(R.id.tvTextMessage)

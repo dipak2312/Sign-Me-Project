@@ -184,8 +184,8 @@
                         android:longClickable="false"
                         android:maxLines="6"
                         android:padding="@dimen/_8sdp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/colorGray"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/settingwhite"
                         android:textSize="@dimen/text_dimen_14sp" />
 
                     <androidx.appcompat.widget.AppCompatImageView

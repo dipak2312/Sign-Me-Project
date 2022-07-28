@@ -3,6 +3,7 @@ package com.app.signme.dagger.components
 import com.app.signme.dagger.FragmentScope
 import com.app.signme.dagger.modules.FragmentModule
 import com.app.signme.view.Matches.MatchesFragment
+import com.app.signme.view.bottomsheet.AbusiveReportBSD
 import com.app.signme.view.home.HomeFragment
 import com.app.signme.view.chat.ChatFragment
 import com.app.signme.view.profile.ProfileFragment
@@ -18,4 +19,5 @@ interface FragmentComponent{
     fun inject(HomeFragment: HomeFragment)
     fun inject(matchesFragment: MatchesFragment)
     fun inject(chatFragment: ChatFragment)
+    fun inject(abusiveReportBSD: AbusiveReportBSD)
 }

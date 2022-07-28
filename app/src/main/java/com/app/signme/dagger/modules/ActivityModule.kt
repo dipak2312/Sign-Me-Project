@@ -62,6 +62,26 @@ class ActivityModule(private val activity: BaseActivity<*>) {
 
         }).get(ForgotPasswordPhoneViewModel::class.java)
 
+
+    @Provides
+    fun provideChatViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        chatRepository: ChatRepository
+    ): ChatViewModel = ViewModelProviders.of(
+        activity, ViewModelProviderFactory(
+            ChatViewModel::
+            class
+        ) {
+            ChatViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                chatRepository
+            )
+        }).get(ChatViewModel::class.java)
+
     @Provides
     fun provideForgotPasswordWithEmailActivityViewModel(
         schedulerProvider: SchedulerProvider,

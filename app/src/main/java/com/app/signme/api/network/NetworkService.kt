@@ -202,4 +202,18 @@ interface NetworkService {
     @POST("unmatch")
     @FormUrlEncoded
     fun unMatch(@Field("unmatch_user_id") userId:String): Single<TAListResponse<JsonElement>>
+
+    @GET("reasons_list")
+    fun callGetReportReason(
+        @Query("reason_type") reasonType: String
+    ): Single<TAListResponse<Reason>>
+
+
+    @POST("report_abusive_user")
+    @FormUrlEncoded
+    fun callReportAbusiveUser(
+        @FieldMap map: java.util.HashMap<String, String>
+    ): Single<TAListResponse<JsonElement>>
+
+
 }

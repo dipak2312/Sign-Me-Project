@@ -22,7 +22,9 @@ import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityChatRoomBinding
 import com.app.signme.dataclasses.ChatMessage
 import com.app.signme.view.CustomDialog
+import com.app.signme.view.bottomsheet.AbusiveReportBSD
 import com.app.signme.viewModel.ChatViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -33,7 +35,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import kotlinx.android.synthetic.main.bottom_sheet_report_block_user.view.*
 import java.util.*
+import kotlin.math.log
 
 class ChatRoomActivity:BaseActivity<ChatViewModel>() {
     var binding:ActivityChatRoomBinding?=null
@@ -52,7 +56,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
         fun getStartIntent(
             context: Context,
             otherUserId: String,
-            otherUserName: String,
+            otherUserName: String?,
             otherUserImage: String?
         ): Intent {
             return Intent(context, ChatRoomActivity::class.java).apply {
@@ -311,6 +315,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                 binding!!.rvMessageList.adapter?.notifyDataSetChanged()
                 binding!!.rvMessageList.smoothScrollToPosition(chatMessageListAdapter!!.itemCount)
             }
+        Log.d(TAG, "loadChat:" + chatMessagesList.toString())
         chatMessageListAdapter?.chatMessagesList = chatMessagesList
         chatMessageListAdapter?.notifyDataSetChanged()
 
@@ -546,71 +551,71 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                 }
             }
 
-//            ivMoreOption.setOnClickListener {
-//                setFireBaseAnalyticsData("id-menu", "click_menu", "click_menu")
-//                val dialog = BottomSheetDialog(this@ChatRoomActivity)
-//                val bottomSheet =
-//                    layoutInflater.inflate(R.layout.bottom_sheet_report_block_user, null)
-//                //Just remove "blockedBy.equals(IConstants.ME)" if u want Unblock option Here.
-//
-//                bottomSheet.btnBlockUser.setText(if (blockedBy.equals(IConstants.ME)) R.string.unblock_user else R.string.block_user)
-//                bottomSheet.btnReportUser.setOnClickListener {
-//                    setFireBaseAnalyticsData(
-//                        "id-reportuser",
-//                        "click_reportuser",
-//                        "click_reportuser"
-//                    )
-//                    dialog.dismiss()
-//                    AbusiveReportBSD(
-//                        object : AbusiveReportBSD.ClickListener {
-//                            override fun onClick(viewId: Int?) {
-//
-//                            }
-//                        },
-//                        IConstants.REPORT_TYPE_USER,
-//                        "1"!!,
-//                        user2UserID,
-//                        this@ChatRoomActivity,
-//                        IConstants.REPORT_TYPE_USER
-//                    ).show(supportFragmentManager, "tag")
-//
-//                }
-//                bottomSheet.btnBlockUser.setOnClickListener {
-//                    setFireBaseAnalyticsData(
-//                        "id-blockuser",
-//                        "click_blockuser",
-//                        "click_blockuser"
-//                    )
-//
-//                    dialog.dismiss()
-//                    if (blockedBy.equals(IConstants.ME)) {
-//                        //callUnblockUserApi()
-//                    } else {
-//                        CustomDialog(
-//                            message = getString(R.string.block_user_alert,user2Name),
-//                            positiveButtonText = getString(R.string.label_yes_button),
-//                            negativeButtonText = getString(R.string.label_no_button),
-//                            cancellable = false,
-//                            mListener = object : CustomDialog.ClickListener {
-//                                override fun onSuccess() {
-//
-//                                    callBlockUserApi("user")
-//                                }
-//
-//                                override fun onCancel() {
-//
-//                                }
-//
-//                            }).show(supportFragmentManager, "tag")
-//                    }
-//                }
-//                bottomSheet.btnCancel.setOnClickListener{
-//                    dialog.dismiss()
-//                }
-//
-//                dialog.setContentView(bottomSheet)
-//                dialog.show()
-//            }
+            ivMoreOption.setOnClickListener {
+                setFireBaseAnalyticsData("id-menu", "click_menu", "click_menu")
+                val dialog = BottomSheetDialog(this@ChatRoomActivity)
+                val bottomSheet =
+                    layoutInflater.inflate(R.layout.bottom_sheet_report_block_user, null)
+                //Just remove "blockedBy.equals(IConstants.ME)" if u want Unblock option Here.
+
+                bottomSheet.btnBlockUser.setText(if (blockedBy.equals(IConstants.ME)) R.string.unblock_user else R.string.block_user)
+                bottomSheet.btnReportUser.setOnClickListener {
+                    setFireBaseAnalyticsData(
+                        "id-reportuser",
+                        "click_reportuser",
+                        "click_reportuser"
+                    )
+                    dialog.dismiss()
+                    AbusiveReportBSD(
+                        object : AbusiveReportBSD.ClickListener {
+                            override fun onClick(viewId: Int?) {
+
+                            }
+                        },
+
+                        "1"!!,
+                        user2UserID,
+                        this@ChatRoomActivity
+
+                    ).show(supportFragmentManager, "tag")
+
+                }
+                bottomSheet.btnBlockUser.setOnClickListener {
+                    setFireBaseAnalyticsData(
+                        "id-blockuser",
+                        "click_blockuser",
+                        "click_blockuser"
+                    )
+
+                    dialog.dismiss()
+                    if (blockedBy.equals(IConstants.ME)) {
+                        //callUnblockUserApi()
+                    } else {
+                        CustomDialog(
+                            message = getString(R.string.block_user_alert,user2Name),
+                            positiveButtonText = getString(R.string.label_yes_button),
+                            negativeButtonText = getString(R.string.label_no_button),
+                            cancellable = false,
+                            mListener = object : CustomDialog.ClickListener {
+                                override fun onSuccess() {
+
+                                    //callBlockUserApi("user")
+                                }
+
+                                override fun onCancel() {
+
+                                }
+
+                            }).show(supportFragmentManager, "tag")
+                    }
+                }
+                bottomSheet.btnCancel.setOnClickListener{
+                    dialog.dismiss()
+                }
+
+                dialog.setContentView(bottomSheet)
+                dialog.show()
+            }
 
 
 

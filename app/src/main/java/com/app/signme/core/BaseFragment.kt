@@ -68,7 +68,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         DaggerFragmentComponent
             .builder()
             .applicationComponent((context?.applicationContext as AppineersApplication).applicationComponent)
-            .fragmentModule(FragmentModule(this))
+            .fragmentModule(FragmentModule(this,null))
             .build()
 
 

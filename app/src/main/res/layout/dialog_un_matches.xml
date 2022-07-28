@@ -25,13 +25,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.airbnb.lottie.LottieAnimationView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:lottie_autoPlay="true"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dimen_20dp"
-                    android:src="@drawable/ic_unmatch"/>
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/unmatch"/>
+
+<!--                <androidx.appcompat.widget.AppCompatImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center_horizontal"-->
+<!--                    android:layout_marginTop="@dimen/dimen_20dp"-->
+<!--                    android:src="@drawable/ic_unmatch"/>-->
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/BoldTextStyle"
@@ -41,9 +49,7 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/label_unmatch"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_32sp">
-
-                </androidx.appcompat.widget.AppCompatTextView>
+                    android:textSize="@dimen/text_dimen_32sp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textMatchDesc"
@@ -54,9 +60,8 @@
                     android:gravity="center"
                     android:text="@string/label_unmatch_desc"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_15sp">
+                    android:textSize="@dimen/text_dimen_15sp"/>
 
-                </androidx.appcompat.widget.AppCompatTextView>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUnmatch"

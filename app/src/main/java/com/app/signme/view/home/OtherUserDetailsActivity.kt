@@ -22,6 +22,7 @@ import com.app.signme.databinding.ActivityOtherUserDetailsBinding
 import com.app.signme.dataclasses.LikeSuperlikeCancelCallback
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.UserImage
+import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.dialogs.MatchesDialog
 import com.app.signme.view.dialogs.UnMatchDialog
 import com.app.signme.view.profile.PagerImageAdapter
@@ -109,6 +110,11 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 btnClose.setOnClickListener{
                     status=IConstants.REJECT
                     callLikeSuperlikeCancel(userId,IConstants.REJECT)
+                }
+
+                btnMatchChat.setOnClickListener{
+                    startActivity(ChatRoomActivity.getStartIntent(this@OtherUserDetailsActivity,userId!!,otherUserResponse!!.name,otherUserResponse!!.profileImage))
+
                 }
 
                 btnSuperLike.setOnClickListener{

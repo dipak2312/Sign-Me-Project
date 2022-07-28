@@ -26,6 +26,7 @@ interface IConstants {
         const val REQUEST_CODE_LOCATION = 108
         const val OTHER:String="other"
         const val ME:String="me"
+        const val REPORT_TYPE_USER:String="user"
         const val MEDIA_TYPE_IMAGE = 1
         private val storageDir = Environment.getExternalStorageDirectory().toString() + "/TheAppineers/"
         val IMAGES_FOLDER_PATH = "$storageDir/Images"

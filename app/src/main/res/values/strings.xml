@@ -214,6 +214,16 @@
     <string name="label_superlike_details">People are super interested in you</string>
     <string name="label_matches_details">Matches with you</string>
     <string name="lanel_no_matches_found">No matches found.</string>
+    <string name="label_take_an_action_text">Take an action</string>
+    <string name="report_user">Report User</string>
+    <string name="block_user">Block User</string>
+    <string name="unblock_user">Unblock User</string>
+    <string name="please_enter_add_reason">Select Reason</string>
+    <string name="hint_add_reason"><i>Write Here...</i></string>
+    <string name="block_user_alert">Do you want to block %1$s?</string>
+    <string name="alert_add_reason">Please enter reason.</string>
+    <string name="reason_of_reporting">Reason for Reporting</string>
+    <string name="tell_us">Tell us your reasons to helps for better understanding terms and situations</string>
     <string name="label_message_blocked_by_other">This person wishes no contact with you.</string>
     <string name="label_message_blocked_by_me">You have blocked this user. Please unblock to chat.</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis

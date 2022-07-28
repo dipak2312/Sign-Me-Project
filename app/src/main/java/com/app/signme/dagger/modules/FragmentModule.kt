@@ -1,9 +1,11 @@
 package com.app.signme.dagger.modules
 
 import android.app.Application
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.app.signme.api.network.NetworkHelper
 import com.app.signme.commonUtils.rx.SchedulerProvider
+import com.app.signme.core.BaseBottomSheetDialog
 import com.app.signme.core.BaseFragment
 import com.app.signme.core.ViewModelProviderFactory
 import com.app.signme.repository.*
@@ -14,7 +16,11 @@ import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
 
 @Module
-class FragmentModule(private val fragment: BaseFragment<*>) {
+class FragmentModule(private val fragment: BaseFragment<*>?,
+                     private val fragmentDialog: BaseBottomSheetDialog<*>?) {
+
+    var mActivity: FragmentActivity? =
+        if (fragment != null) fragment.requireActivity() else   fragmentDialog!!.requireActivity()
 
     @Provides
     fun provideSettingsViewModel(
@@ -24,7 +30,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         billingRepository: BillingRepository,
         settingsRepository: SettingsRepository
     ): SettingsViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(
+        mActivity!!, ViewModelProviderFactory(
             SettingsViewModel::
             class
         ) {
@@ -45,7 +51,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         application: Application,
         userProfileRepository: UserProfileRepository
     ): UserProfileViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(
+        mActivity!!, ViewModelProviderFactory(
             UserProfileViewModel::
             class
         ) {
@@ -66,7 +72,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         billingRepository: BillingRepository,
         homeRepository: HomeRepository
     ): HomeViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(
+        mActivity!!, ViewModelProviderFactory(
             HomeViewModel::
             class
         ) {
@@ -86,7 +92,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         networkHelper: NetworkHelper,
         matchesRepository: MatchesRepository
     ): MatchesViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(
+        mActivity!!, ViewModelProviderFactory(
             MatchesViewModel::
             class
         ) {
@@ -105,7 +111,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         networkHelper: NetworkHelper,
         chatRepository: ChatRepository
     ): ChatViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(
+        mActivity!!, ViewModelProviderFactory(
             ChatViewModel::
             class
         ) {
@@ -125,7 +131,7 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
         application: Application,
         myActivityRepository: MyActivityRepository
     ): MyActivityViewModel = ViewModelProviders.of(
-        fragment, ViewModelProviderFactory(
+        mActivity!!, ViewModelProviderFactory(
             MyActivityViewModel::
             class
         ) {
@@ -137,4 +143,23 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
                 myActivityRepository
             )
         }).get(MyActivityViewModel::class.java)
+
+    @Provides
+    fun provideAbusiveReportViewModel(
+        schedulerProvider: SchedulerProvider,
+        compositeDisposable: CompositeDisposable,
+        networkHelper: NetworkHelper,
+        abusiveReportRepository: AbusiveReportRepository
+    ): AbusiveReportViewModel = ViewModelProviders.of(
+        mActivity!!, ViewModelProviderFactory(
+            AbusiveReportViewModel::
+            class
+        ) {
+            AbusiveReportViewModel(
+                schedulerProvider,
+                compositeDisposable,
+                networkHelper,
+                abusiveReportRepository
+            )
+        }).get(AbusiveReportViewModel::class.java)
 }
