@@ -215,5 +215,12 @@ interface NetworkService {
         @FieldMap map: java.util.HashMap<String, String>
     ): Single<TAListResponse<JsonElement>>
 
+    @POST("user_block")
+    @FormUrlEncoded
+    fun callBlockUnBlock(
+        @FieldMap map: java.util.HashMap<String, String>
+    ): Single<TAListResponse<BlockUnblockResponse>>
+    @GET("blocked_user_list")
+    fun callGetBlockedUser(): Single<TAListResponse<BlockedUser>>
 
 }

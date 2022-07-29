@@ -1,5 +1,7 @@
 package com.app.signme.view.dialogs
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.databinding.DialogMatchesBinding
 import com.app.signme.dataclasses.SwiperViewResponse
+import com.app.signme.view.chat.ChatRoomActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
@@ -82,7 +85,7 @@ class MatchesDialog(
             }
             btnKeepSwiping.setOnClickListener {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Done Button Click")
-                listener?.onSuccess()
+                listener?.onCancel()
                 dismiss()
             }
         }

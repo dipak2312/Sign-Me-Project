@@ -75,9 +75,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_4dp"
+                tools:itemCount="10"
+                tools:listitem="@layout/cv_chat_messages_item"
                 android:paddingBottom="?attr/actionBarSize"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relEmptyScreen1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img1"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:src="@mipmap/signme_logo">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_centerHorizontal="true"
+                android:letterSpacing="-0.01"
+                android:layout_below="@+id/img1"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:text="@string/no_data_show"
+                android:textColor="@color/settingwhite"
+                android:textSize="@dimen/text_dimen_13sp"
+                tools:text="@string/no_data_show" />
+        </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

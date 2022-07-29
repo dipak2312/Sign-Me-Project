@@ -333,9 +333,12 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         MatchesDialog(otherUserResponse!!,mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
-                finish()
+                startActivity(ChatRoomActivity.getStartIntent(this@OtherUserDetailsActivity,userId!!,otherUserResponse!!.name,otherUserResponse!!.profileImage))
+
             }
             override fun onCancel() {
+
+                finish()
             }
 
         }).show(supportFragmentManager, "Tag")

@@ -21,7 +21,6 @@ import com.app.signme.viewModel.AbusiveReportViewModel
 
 class AbusiveReportBSD(
     mListener: ClickListener?,
-    var postid: String="",
     var userid:String="",
     val mActivity: Activity
     ): BaseBottomSheetDialog<AbusiveReportViewModel>(), AdapterView.OnItemSelectedListener  {

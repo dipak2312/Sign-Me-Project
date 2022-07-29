@@ -1,7 +1,9 @@
 package com.app.signme.repository
 
 import com.app.signme.api.network.NetworkService
+import com.app.signme.dataclasses.BlockedUser
 import com.app.signme.dataclasses.generics.TAListResponse
+import com.app.signme.dataclasses.response.BlockUnblockResponse
 import com.app.signme.dataclasses.response.LoginResponse
 import com.google.gson.JsonElement
 import io.reactivex.Single
@@ -21,5 +23,11 @@ class SettingsRepository @Inject constructor(
 
     fun callBuySubscription(map: HashMap<String, RequestBody>): Single<TAListResponse<LoginResponse>> =
         networkService.callBuySubscription(map)
+    fun callGetBlockedUser(): Single<TAListResponse<BlockedUser>> =
+        networkService.callGetBlockedUser()
 
+    fun callBlockUser(
+        map: java.util.HashMap<String, String>
+    ): Single<TAListResponse<BlockUnblockResponse>> =
+        networkService.callBlockUnBlock(map)
 }

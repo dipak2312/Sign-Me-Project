@@ -27,6 +27,7 @@ import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.home.HomeActivity
 import com.app.signme.view.enablePermission.PermissionEnableActivity
 import com.app.signme.view.home.OtherUserDetailsActivity
+import com.app.signme.view.settings.BlokedUserActivity
 import com.app.signme.view.settings.SettingsActivity
 
 @ActivityScope
@@ -56,5 +57,6 @@ interface ActivityComponent{
     fun inject(otherUserDetailsActivity: OtherUserDetailsActivity)
     fun inject(showLikesMatchesActivity: ShowLikesMatchesActivity)
     fun inject(chatRoomActivity: ChatRoomActivity)
+    fun inject(blokedUserActivity: BlokedUserActivity)
 
 }

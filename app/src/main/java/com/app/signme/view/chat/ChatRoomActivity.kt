@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.signme.R
 import com.app.signme.adapter.ChatMessageListAdapter
+import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.getFormattedDate
 import com.app.signme.commonUtils.utility.extension.sharedPreference
+import com.app.signme.commonUtils.utility.extension.showSnackBar
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityChatRoomBinding
@@ -573,7 +575,6 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                             }
                         },
 
-                        "1"!!,
                         user2UserID,
                         this@ChatRoomActivity
 
@@ -589,7 +590,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
 
                     dialog.dismiss()
                     if (blockedBy.equals(IConstants.ME)) {
-                        //callUnblockUserApi()
+                        callUnblockUserApi()
                     } else {
                         CustomDialog(
                             message = getString(R.string.block_user_alert,user2Name),
@@ -599,7 +600,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                             mListener = object : CustomDialog.ClickListener {
                                 override fun onSuccess() {
 
-                                    //callBlockUserApi("user")
+                                    callBlockUserApi()
                                 }
 
                                 override fun onCancel() {
@@ -753,10 +754,73 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
     }
     private fun addObservers() {
 
+        viewModel.blockUnblockUserLiveData.observe(this) {
+            hideProgressDialog()
+            if (it?.settings?.isSuccess == true) {
+                if (action.equals("block")) {
+                    it?.settings?.message?.showSnackBar(
+                        this@ChatRoomActivity,
+                        IConstants.SNAKBAR_TYPE_SUCCESS
+                    )
+                    clearAllMessage(true)
+                    checkUserBlockedYou()
+                    //(application as AppineersApplication).isBlockUnblock.postValue(true)
+                    //finish()
+                } else {
+                    clearAllMessage(false)
+                    checkUserBlockedYou()
+                }
+            }
+        }
+
+
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             handleApiStatusCodeError(serverError)
         }
     }
+
+    private fun clearAllMessage(isBlocked: Boolean) {
+        val isTypeRef =
+            firebaseDatabase.getReference("users/$user1UID/$user2UserID/isTyping")
+        isTypeRef.setValue(false)
+        val isBlockedRef =
+            firebaseDatabase.getReference("users/$user1UID/$originalUser2Id/isBlocked")
+        isBlockedRef.setValue(isBlocked)
+    }
+
+
+    private fun callBlockUserApi() {
+        val map = HashMap<String, String>()
+        map["block_user_id"] = originalUser2Id
+        action = "block"
+        when {
+            checkInternet() -> {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
+                viewModel.callBlockUser(map)
+            }
+        }
+    }
+
+    private fun callUnblockUserApi() {
+        val map = HashMap<String, String>()
+        map["block_user_id"] = originalUser2Id
+        action = "unblock"
+        when {
+            checkInternet() -> {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
+                viewModel.callBlockUser(map)
+            }
+        }
+    }
+
 
 }

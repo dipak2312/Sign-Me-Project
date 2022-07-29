@@ -77,8 +77,8 @@ class SettingsActivity : BaseActivity<SettingsViewModel>() {
             }
 
             tvBlockedUser.setOnClickListener {
-//                setFireBaseAnalyticsData("id-blocklist", "click_blocklist", "click_blocklist")
-//                startActivity(Intent(this@SettingsActivity, BlokedUserActivity::class.java))
+                setFireBaseAnalyticsData("id-blocklist", "click_blocklist", "click_blocklist")
+                startActivity(Intent(this@SettingsActivity, BlokedUserActivity::class.java))
             }
 
 

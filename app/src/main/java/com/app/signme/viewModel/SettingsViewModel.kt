@@ -17,6 +17,8 @@ import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseViewModel
 import com.app.signme.repository.SettingsRepository
 import com.app.signme.core.SettingViewConfig
+import com.app.signme.dataclasses.BlockedUser
+import com.app.signme.dataclasses.response.BlockUnblockResponse
 import com.app.signme.repository.inappbilling.BillingRepository
 import com.google.gson.JsonElement
 import io.reactivex.disposables.CompositeDisposable
@@ -43,6 +45,8 @@ class SettingsViewModel(
     var orderReceiptJsonForSubscription = MutableLiveData<String>()
     var orderReceiptJsonForUpgradeDowngradeSubscription = MutableLiveData<String>()
     var buySubscriptionLiveData = MutableLiveData<TAListResponse<LoginResponse>>()
+    val blockedUserLiveData = MutableLiveData<TAListResponse<BlockedUser>>()
+    val unblockUserLiveData = MutableLiveData<TAListResponse<BlockUnblockResponse>>()
 
 
 
@@ -171,6 +175,43 @@ class SettingsViewModel(
      * @param receiptData In-App purchase receipt data
      */
 
+
+    fun callGetBlockedUser() {
+
+        compositeDisposable.addAll(
+            settingsRepository.callGetBlockedUser()
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+
+                        blockedUserLiveData.postValue(response)
+                    },
+                    { error ->
+
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun callBlockUser(block_id: String,block_type:String) {
+        val map = java.util.HashMap<String, String>()
+        map["block_user_id"] = block_id
+        compositeDisposable.addAll(
+            settingsRepository.callBlockUser(map)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+
+                        unblockUserLiveData.postValue(response)
+                    },
+                    { error ->
+
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
 
     fun callBuySubscription(receiptData: GoogleReceipt?) {
         val map = HashMap<String, RequestBody>()

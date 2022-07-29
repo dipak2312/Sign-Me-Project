@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <variable
+            name="chat"
+            type="com.app.signme.dataclasses.ChatRoom" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/mLayoutRoot"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,20 +51,21 @@
                android:layout_marginStart="@dimen/dimen_10dp"
                 android:layout_marginEnd="@dimen/dimen_10dp"
                 android:orientation="vertical">
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvPersonName"
+                    android:id="@+id/tvReceiverName"
+                    style="@style/SemiBoldTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:padding="0dp"
-                    style="@style/SemiBoldTextStyle"
-                    tools:text="Notification Name"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_16sp" />
+                    android:textSize="@dimen/text_dimen_16sp"
+                    tools:text="Notification Name" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvChatMessage"
+                    android:id="@+id/tvLastMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
@@ -59,6 +74,16 @@
                     android:textColor="@color/settingwhite"
                     android:textSize="@dimen/text_dimen_14sp"
                     style="@style/MediumTextStyle"/>
+
+                <TextView
+                    android:id="@+id/tvTyping"
+                    style="@style/NormalTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_typing"
+                    android:textColor="@color/app_color"
+                    android:textSize="@dimen/text_dimen_14sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
            <androidx.appcompat.widget.AppCompatImageView
@@ -82,3 +107,4 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

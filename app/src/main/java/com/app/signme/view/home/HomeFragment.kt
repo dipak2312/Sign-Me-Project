@@ -18,6 +18,7 @@ import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentHomeBinding
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.scheduler.aws.AwsService
+import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.dialogs.MatchesDialog
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
@@ -324,6 +325,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         MatchesDialog(item, mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
+                startActivity(ChatRoomActivity.getStartIntent(this@HomeFragment.requireContext(),item.userId!!,item!!.name,item!!.profileImage))
             }
 
             override fun onCancel() {
