@@ -311,6 +311,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 Handler(mainLooper).postDelayed(
                     {
                         (application as AppineersApplication).isMatchesUpdated.postValue(true)
+                        (application as AppineersApplication).isSwiperUpdated.postValue(true)
                         btnMatchClose.isClickable=false
                         finish()
                     },

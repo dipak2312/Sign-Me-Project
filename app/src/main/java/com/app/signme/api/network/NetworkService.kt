@@ -1,5 +1,7 @@
 package com.app.signme.api.network
 
+import com.app.quicklook.dataclasses.NotificationCount
+import com.app.quicklook.dataclasses.NotificationDel
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.dataclasses.*
 import com.app.signme.dataclasses.VersionConfigResponse
@@ -222,5 +224,23 @@ interface NetworkService {
     ): Single<TAListResponse<BlockUnblockResponse>>
     @GET("blocked_user_list")
     fun callGetBlockedUser(): Single<TAListResponse<BlockedUser>>
+
+    @GET("notification")
+    fun callGetNotification(): Single<TAListResponse<UserNotification>>
+
+    @GET("notification_count")
+    fun callGetNotificationCount(): Single<TAListResponse<NotificationCount>>
+
+
+    @Headers("Content-Type: application/json")
+    @HTTP(method = "DELETE", path = "notification", hasBody = true)
+    fun callDeleteNotification(
+        @Body body: RequestBody
+    ): Single<TAListResponse<JsonElement>>
+
+    @POST("notification_read")
+    @FormUrlEncoded
+    fun readNotificationCall(@FieldMap map: HashMap<String, String>): Single<TAListResponse<NotificationDel>>
+
 
 }

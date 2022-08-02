@@ -26,6 +26,8 @@ data class Settings(
 
     @JsonProperty("message")
     var message: String = "",
+    @JsonProperty("count")
+    var count: String?= "0",
 
     @JsonProperty("curr_page")
     var currPage: String? = "0",
@@ -37,9 +39,8 @@ data class Settings(
     var nextPage: String? = "0",
 
     @JsonProperty("access_token")
-    var accessToken: String? = "",
-    @JsonProperty("count")
-    var count: String? = "0",
+    var accessToken: String? = ""
+
 ) {
 
     val isSuccess: Boolean

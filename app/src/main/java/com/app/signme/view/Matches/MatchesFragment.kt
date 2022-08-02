@@ -16,6 +16,7 @@ import com.app.signme.databinding.FragmentMatchesBinding
 import com.app.signme.dataclasses.OtherUserDetailsResponse
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.view.home.OtherUserDetailsActivity
+import com.app.signme.view.notification.NotificationActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.MatchesViewModel
@@ -82,8 +83,11 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                     startActivity(SettingsActivity.getStartIntent(this@MatchesFragment.requireContext()))
                  }
 
-                textViewAll.setOnClickListener {
+                btnnotification.setOnClickListener{
+                    startActivity(NotificationActivity.getStartIntent(this@MatchesFragment.requireContext()))
+                }
 
+                textViewAll.setOnClickListener {
                     startActivity(
                         ShowLikesMatchesActivity.getStartIntent(
                             this@MatchesFragment.requireContext(),

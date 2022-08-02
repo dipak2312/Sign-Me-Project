@@ -308,6 +308,10 @@ dependencies {
 
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
+    //Swipeable Recyclerview delete
+    implementation 'com.github.tsuryo:Swipeable-RecyclerView:1.1'
+
+
 
 
 

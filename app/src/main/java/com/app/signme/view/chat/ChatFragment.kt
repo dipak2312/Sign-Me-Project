@@ -15,6 +15,7 @@ import com.app.signme.databinding.FragmentChatBinding
 import com.app.signme.dataclasses.ChatListData
 import com.app.signme.core.BaseFragment
 import com.app.signme.dataclasses.ChatRoom
+import com.app.signme.view.notification.NotificationActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.ChatViewModel
@@ -26,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.dialog_matches.*
 
 class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
 
@@ -68,10 +70,13 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
     private fun initListeners() {
         binding?.let {
             with(it) {
-
                 btnSettings.setOnClickListener {
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Setting Button Click")
                     startActivity(SettingsActivity.getStartIntent(this@ChatFragment.requireContext()))
+                }
+
+                btnNotification.setOnClickListener{
+                    startActivity(NotificationActivity.getStartIntent(this@ChatFragment.requireContext()))
                 }
             }
         }

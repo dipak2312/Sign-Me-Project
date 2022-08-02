@@ -20,6 +20,7 @@ import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.scheduler.aws.AwsService
 import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.dialogs.MatchesDialog
+import com.app.signme.view.notification.NotificationActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.view.subscription.SubscriptionPlansActivity
@@ -143,10 +144,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             btnSetting.setOnClickListener {
                 startActivity(SettingsActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
-            btnNotification.setOnClickListener {
 
-                //removeByUserId("1")
-                mAdapter!!.removeItem(0)
+            btnNotification.setOnClickListener{
+                startActivity(NotificationActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
 
             btnClose.setOnClickListener {

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="notification"
+            type="com.app.signme.dataclasses.UserNotification" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/mLayoutRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/dimen_8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/sivNotificationImage"
+                android:layout_width="@dimen/dimen_60dp"
+                android:layout_height="@dimen/dimen_60dp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/dimen_1dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/ShapeAppearance.CircleImageView"
+                app:srcCompat="@drawable/user_profile" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/storyDisplayNick"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:text="@{notification.notificationMessage}"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_14sp"
+                tools:text="" />
+
+            <TextView
+                android:id="@+id/textNotiDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/_5sdp"
+                style="@style/RegularTextStyle"
+                android:text=""
+                android:textColor="@color/settingwhite"
+                android:textSize="@dimen/text_dimen_13sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/mLayoutRoot"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/dimen_10dp"
+            android:alpha="0.2"
+            android:background="@color/white">
+
+        </View>
+    </RelativeLayout>
+</layout>
