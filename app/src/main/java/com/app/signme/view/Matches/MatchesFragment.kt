@@ -83,7 +83,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                     startActivity(SettingsActivity.getStartIntent(this@MatchesFragment.requireContext()))
                  }
 
-                btnnotification.setOnClickListener{
+                btnNotification.setOnClickListener{
                     startActivity(NotificationActivity.getStartIntent(this@MatchesFragment.requireContext()))
                 }
 
@@ -161,6 +161,16 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                 }
             }
         }
+
+        (activity?.application as AppineersApplication).notificationsCount.observe(
+            this, androidx.lifecycle.Observer {
+                if (it != null && it.isNotEmpty() && !it.equals("0")) {
+                    binding?.textNotificationCount!!.setText(it)
+                    binding?.textNotificationCount!!.visibility = View.VISIBLE
+                } else {
+                    binding?.textNotificationCount!!.visibility = View.INVISIBLE
+                }
+            })
 
         (activity?.application as AppineersApplication).isMatchesUpdated.observe(this){isMatches->
 

@@ -1,6 +1,7 @@
 package com.app.signme.viewModel
 
 import androidx.lifecycle.MutableLiveData
+import com.app.quicklook.dataclasses.NotificationCount
 import com.app.signme.api.network.NetworkHelper
 import com.app.signme.commonUtils.rx.SchedulerProvider
 import com.app.signme.commonUtils.utility.extension.getStringRequestBody
@@ -36,6 +37,7 @@ class HomeViewModel(
     val otherUserDetailsLiveData= MutableLiveData<TAListResponse<OtherUserDetailsResponse>>()
     val userLikeSuperLikeLiveData= MutableLiveData<TAListResponse<LikeUnLikeResponse>>()
     val unMatchUserLiveData= MutableLiveData<TAListResponse<JsonElement>>()
+    var notificationCountLiveData = MutableLiveData<TAListResponse<NotificationCount>>()
 
     override fun onCreate() {
         checkForInternetConnection()
@@ -76,6 +78,21 @@ class HomeViewModel(
                 .subscribe(
                     { response ->
                         buySubscriptionLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun callGetNotificationCount() {
+        compositeDisposable.addAll(
+            homeRepository.callGetNotificationCount()
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        notificationCountLiveData.postValue(response)
                     },
                     { error ->
                         statusCodeLiveData.postValue(handleServerError(error))

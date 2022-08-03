@@ -128,6 +128,16 @@ fun String?.toServerDateFormatString(): String {
 
 
 @SuppressLint("SimpleDateFormat")
+fun String.toMMDDYYYHHMMSSDate(): Date {
+    return try {
+        SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(this)
+    } catch (ex: Exception) {
+        Calendar.getInstance().time
+    }
+}
+
+
+@SuppressLint("SimpleDateFormat")
 fun covertTimeToText(dataDate: String?): String? {
     var convTime: String? = null
     val suffix = "Ago"

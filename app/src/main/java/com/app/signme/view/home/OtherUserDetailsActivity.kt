@@ -13,9 +13,7 @@ import androidx.fragment.app.FragmentManager
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
-import com.app.signme.commonUtils.utility.extension.sharedPreference
-import com.app.signme.commonUtils.utility.extension.showCustomSnackBar
-import com.app.signme.commonUtils.utility.extension.showSnackBar
+import com.app.signme.commonUtils.utility.extension.*
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityOtherUserDetailsBinding
@@ -36,8 +34,10 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.mTabLayout
 import kotlinx.android.synthetic.main.fragment_profile.viewPagerImages
 import java.lang.reflect.Type
-import java.util.HashMap
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.function.IntConsumer
+import kotlin.collections.ArrayList
 
 class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActionListener {
 
@@ -60,6 +60,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     var userId:String?=""
     var status:String?=""
     var type:String?=""
+    var matchDate:String?=""
     var otherUserResponse:SwiperViewResponse?=null
     var mImageAdapter = PagerImageAdapter(false, this)
     override fun setDataBindingLayout() {
@@ -113,7 +114,11 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 }
 
                 btnMatchChat.setOnClickListener{
-                    startActivity(ChatRoomActivity.getStartIntent(this@OtherUserDetailsActivity,userId!!,otherUserResponse!!.name,otherUserResponse!!.profileImage))
+                    if(!matchDate.isNullOrEmpty())
+                    {
+                        var matchdate=matchDate?.toMMDDYYYDate()
+                        startActivity(ChatRoomActivity.getStartIntent(this@OtherUserDetailsActivity,userId!!,otherUserResponse!!.name,otherUserResponse!!.profileImage,matchdate?.toMMDDYYYStr()))
+                    }
 
                 }
 
@@ -213,6 +218,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
 
+                    matchDate=response.data!![0].matchDate
                     for (lookfor in response.data!![0].lookingForRelationType!!) {
                         lookingFor.add(lookfor.relationshipStatus.toString())
                     }
@@ -334,7 +340,10 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         MatchesDialog(otherUserResponse!!,mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
-                startActivity(ChatRoomActivity.getStartIntent(this@OtherUserDetailsActivity,userId!!,otherUserResponse!!.name,otherUserResponse!!.profileImage))
+                var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                var date = dateFormat.format(Calendar.getInstance().getTime())
+                var showDob=date?.toMMDDYYYDate()
+                startActivity(ChatRoomActivity.getStartIntent(this@OtherUserDetailsActivity,userId!!,otherUserResponse!!.name,otherUserResponse!!.profileImage, showDob?.toMMDDYYYStr()))
 
             }
             override fun onCancel() {

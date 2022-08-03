@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.signme.R
+import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.RoundedCornersTransformation
 import com.app.signme.commonUtils.utility.extension.covertTimeToText
 import com.app.signme.databinding.ItemNotificationBinding
@@ -125,6 +126,12 @@ class UserNotificationAdapter(onClick: RecyclerViewActionListener, mActivity: Ac
                     )
                 )
                 .into(binding.sivNotificationImage)
+
+            binding.mLayoutRoot.setOnClickListener {
+                logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Root View Click")
+                mOnRecyclerClick.onItemClick(  binding.mLayoutRoot.id, adapterPosition, null)
+            }
+
 
             binding.textNotiDate.text=covertTimeToText(item.createdAt)
             binding.executePendingBindings()

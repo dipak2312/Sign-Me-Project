@@ -49,7 +49,9 @@ data class ChatRoom(
     @field:SerializedName("chatCount")
     var chatCount: Long? = null,
     @field:SerializedName("friendStatus")
-    var friendStatus: String? = ""
+    var friendStatus: String? = "",
+    @field:SerializedName("matchDate")
+    var matchDate: String? = ""
 
 ) : Parcelable {
     fun getMessageCreatedTime(): String? {

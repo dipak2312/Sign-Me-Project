@@ -15,17 +15,21 @@ interface IConstants {
         const val BUNDLE_DATA_USER_2_ID = "data_user_2_id"
         const val BUNDLE_DATA_USER_2_NAME = "data_user_2_name"
         const val BUNDLE_DATA_USER_2_IMAGE = "data_user_2_image"
+        const val MATCH_DATE = "match_date"
         const val SNAKBAR_TYPE_ERROR = 1
         const val SNAKBAR_TYPE_SUCCESS = 2
         const val SNAKBAR_TYPE_MESSAGE = 3
         const val REQUEST_STATIC_PAGE: Int = 4
         const val RESULT_PER_PAGE: String="15"
+        const val PARAM_NOTIFICATION_PAYLOAD = "data"
+        const val PARAM_NOTIFICATION_MASTER_ID = "master_id"
         const val APP_UPDATE_REQUEST_CODE : Int = 5
         const val APP_FORCE_UPDATE_REQUEST_CODE : Int = 6
         const val NOTIFICATION_PERMISSION_REQUEST_CODE : Int = 7
         const val REQUEST_CODE_LOCATION = 108
         const val OTHER:String="other"
         const val ME:String="me"
+        const val EVENT_PUT_DATA = "Event Put Data"
         const val REPORT_TYPE_USER:String="user"
         const val MEDIA_TYPE_IMAGE = 1
         private val storageDir = Environment.getExternalStorageDirectory().toString() + "/TheAppineers/"
@@ -68,6 +72,7 @@ interface IConstants {
         val STATIC_PAGE_TERMS_CONDITION: String = "termsconditions"
         val STATIC_PAGE_PRIVACY_POLICY: String = "privacypolicy"
         val STATIC_PAGE_EULA_POLICY: String = "eula"
+        const val EVENT_NOTIFICATION_PAYLOAD = "Push Notification Payload"
 
 
 
@@ -121,5 +126,13 @@ interface IConstants {
         const val PHOTO: String = "Photo"
         const val VIDEO: String = "Video"
         const val AUDIO: String = "Audio"
+
+
+    }
+    object NOTIFICATION_TYPES {
+        val Message = "Message"
+        val Like  = "Like"
+        val Superlike = "Superlike"
+        val Match = "Match"
     }
 }

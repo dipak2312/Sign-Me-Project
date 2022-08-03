@@ -38,12 +38,13 @@ import com.app.signme.R
 import com.app.signme.view.enablePermission.PermissionEnableActivity
 import com.app.signme.view.settings.editprofile.EditProfileActivity
 import com.app.signme.view.settings.staticpages.StaticPagesMultipleActivity
+import org.json.JSONObject
 
 
 @Suppress("DEPRECATION")
 class SplashActivity : BaseActivity<SplashViewModel>() {
     var dataBinding: ActivitySplashBinding? = null
-
+    var launchByNotification = false
     //To check need to show update dialog or not
     var isShown = false
     var isTaken = false
@@ -78,15 +79,44 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         /*  val test = ("0")
           println(test[1])*/
         //  throw RuntimeException("Test Crash") // Force a crash
+        if (intent != null && intent.extras != null  && intent.hasExtra(
+                IConstants.OTHERS
+            )
+        ){
+            Log.i(TAG, "setupView: " + intent.extras)
+            val data = intent.extras!!.getString(IConstants.OTHERS)
+            val jsonObject = JSONObject(data)
+            Log.i(TAG, "setupView: " + data)
+            Log.i(TAG, "setupView: " + jsonObject)
+            logger.dumpCustomEvent(
+                IConstants.EVENT_PUT_DATA,
+                "PUSH_NOTIFICATION_PAYLOAD " + data
+            )
 
-        when {
-            checkInternet() -> viewModel.callGetConfigParameters()
-            else -> Handler().postDelayed({
-                startActivity(Intent(this@SplashActivity, getLaunchClass()))
-                finish()
-            }, 1000)
+            /*
+                Log.i(TAG, "setupView: " + type)
+                // handleNotificationData(type, businessId)*/
+            launchByNotification = true
+            startLaunchActivity(data)
+        }else {
+            //startLaunchActivity(null)
+            viewModel.callGetConfigParameters()
         }
+    }
 
+    private fun startLaunchActivity(payload: String?) {
+
+        Handler().postDelayed({
+            if (launchByNotification) {
+                Log.i(TAG, "startLaunchActivity: Payload " + payload)
+                startActivity(
+                    HomeActivity.getStartIntent(this, payload)
+                )
+            } else {
+                startActivity(Intent(this@SplashActivity, getLaunchClass()))
+            }
+            finish()
+        }, 1000)
 
     }
 

@@ -17,7 +17,10 @@ import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityNotificationBinding
 import com.app.signme.dataclasses.Notification
 import com.app.signme.core.BaseActivity
+import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.view.CustomDialog
+import com.app.signme.view.chat.ChatRoomActivity
+import com.app.signme.view.home.OtherUserDetailsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.viewModel.NotificationViewModel
 import com.google.gson.Gson
@@ -237,10 +240,28 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
                 notificationPosition = position
                 notificationId = mAdapter!!.getAllItems()[position].notificationId!!
 
+                when (notification?.redirectionType) {
+                    IConstants.NOTIFICATION_TYPES.Like -> {
+                        callOtherDetails("Yes",position,IConstants.LIKE)
+                    }
 
+                    IConstants.NOTIFICATION_TYPES.Superlike -> {
+
+                        callOtherDetails("Yes",position,IConstants.SUPERLIKE)
+                    }
+                    IConstants.NOTIFICATION_TYPES.Match -> {
+                        callOtherDetails("No",position,IConstants.MATCHES)
+                    }
+                }
             }
         }
     }
+
+    fun callOtherDetails(isLike:String,position: Int,status:String){
+        var otherUserResponse= SwiperViewResponse(isLike = isLike,name = mAdapter!!.getItem(position).senderFirstName,profileImage = mAdapter!!.getItem(position).senderProfileImage)
+        startActivity(OtherUserDetailsActivity.getStartIntent(this@NotificationActivity,mAdapter!!.getItem(position).senderId,otherUserResponse,status))
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

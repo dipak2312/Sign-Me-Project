@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.signme.R
 import com.app.signme.adapter.ChatListAdapter
+import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.getJsonDataFromAsset
 import com.app.signme.commonUtils.utility.extension.sharedPreference
@@ -66,6 +67,7 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
             user1UserID = user.userId!!
         }
         initListeners()
+
     }
     private fun initListeners() {
         binding?.let {
@@ -82,9 +84,24 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
         }
 
         initRecycleView()
+        addObservers()
     }
 
-    override fun onDestroy() {
+
+    private fun addObservers() {
+        (activity?.application as AppineersApplication).notificationsCount.observe(
+            this, androidx.lifecycle.Observer {
+                if (it != null && it.isNotEmpty() && !it.equals("0")) {
+                    binding?.textNotificationCount!!.setText(it)
+                    binding?.textNotificationCount!!.visibility = View.VISIBLE
+                } else {
+                    binding?.textNotificationCount!!.visibility = View.INVISIBLE
+                }
+            })
+    }
+
+
+        override fun onDestroy() {
         super.onDestroy()
         chatRegistration?.remove()
         if (authUserGlobal != null) {
@@ -178,7 +195,8 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                                         senderFireBaseId = chatRoomDocument["senderFireBaseId"] as String?,
                                         chatID = chatRoomDocument["chatID"] as String?,
                                         chatCount = chatRoomDocument[myUserId+"_readCount"] as Long?,
-                                        friendStatus = chatRoomDocument["friendStatus"] as String?
+                                        friendStatus = chatRoomDocument["friendStatus"] as String?,
+                                        matchDate = chatRoomDocument["matchDate"] as String?
                                     )
                                 )
                             }
@@ -236,6 +254,7 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                         chatRoomModel.receiverId!!,
                         chatRoomModel.receiverName!!,
                         chatRoomModel.receiverProfileImage,
+                        chatRoomModel.matchDate
                         )
                 )
             } else {
@@ -244,7 +263,8 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                         this@ChatFragment.requireContext(),
                         chatRoomModel.senderID!!,
                         chatRoomModel.senderName!!,
-                        chatRoomModel.senderImage
+                        chatRoomModel.senderImage,
+                        chatRoomModel.matchDate
                     )
                 )
             }

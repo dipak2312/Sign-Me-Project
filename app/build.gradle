@@ -82,9 +82,9 @@ android {
 
         }
         stage {
-            applicationId "com.app.signme"
+            applicationId "com.app.signmestage"
             versionName defaultConfig.versionName
-            buildConfigField("String", "Base_Url", "\"http://54.80.150.240/Appineers_V4_Web/Appineers_V4/WS/\"")
+            buildConfigField("String", "Base_Url","\"https://signmemobileapp.com/signme/WS/\"")
             buildConfigField("String", "facebook_app_id", "\"728211564501944\"")
         }
         production {

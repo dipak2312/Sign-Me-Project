@@ -69,17 +69,45 @@
 
         </androidx.appcompat.widget.AppCompatImageView>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btnnotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dimen_16dp"
-            android:src="@drawable/ic_notification"
+        <RelativeLayout
+            android:id="@+id/ll_notification"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvMatches"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvMatches">
 
-        </androidx.appcompat.widget.AppCompatImageView>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:padding="2dp"
+                android:src="@drawable/ic_notification" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textNotificationCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/notification_item_count"
+                android:gravity="center"
+                android:minWidth="14sp"
+                android:minHeight="14sp"
+                android:padding="2dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="1dp"
+                android:scaleType="fitStart"
+                android:text="06"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refreshView"

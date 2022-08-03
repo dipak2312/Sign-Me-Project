@@ -74,6 +74,7 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     private var mIsLoadAdRequested: Boolean = false
     var isRemoved: Boolean = false
     var isSkipClicked: Boolean = false
+    var notificationsCount = MutableLiveData<String>()
     var isImageCout = 0
 
 

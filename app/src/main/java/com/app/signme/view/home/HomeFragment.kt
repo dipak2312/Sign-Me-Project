@@ -12,6 +12,8 @@ import com.app.signme.adapter.SwiperViewAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
+import com.app.signme.commonUtils.utility.extension.toMMDDYYYDate
+import com.app.signme.commonUtils.utility.extension.toMMDDYYYStr
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
 import com.app.signme.dagger.components.FragmentComponent
@@ -29,6 +31,10 @@ import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, CardStackListener {
@@ -202,6 +208,16 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
         }
+
+        (activity?.application as AppineersApplication).notificationsCount.observe(
+            this, androidx.lifecycle.Observer {
+                if (it != null && it.isNotEmpty() && !it.equals("0")) {
+                    binding?.textNotificationCount!!.setText(it)
+                    binding?.textNotificationCount!!.visibility = View.VISIBLE
+                } else {
+                    binding?.textNotificationCount!!.visibility = View.INVISIBLE
+                }
+            })
         viewModel.userLikeSuperLikeLiveData.observe(this) { response ->
             hideProgressDialog()
         }
@@ -325,7 +341,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         MatchesDialog(item, mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
-                startActivity(ChatRoomActivity.getStartIntent(this@HomeFragment.requireContext(),item.userId!!,item!!.name,item!!.profileImage))
+                var dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                var date = dateFormat.format(Calendar.getInstance().getTime())
+                var showDob=date?.toMMDDYYYDate()
+                startActivity(ChatRoomActivity.getStartIntent(this@HomeFragment.requireContext(),item.userId!!,item!!.name,item!!.profileImage, showDob?.toMMDDYYYStr()))
             }
 
             override fun onCancel() {

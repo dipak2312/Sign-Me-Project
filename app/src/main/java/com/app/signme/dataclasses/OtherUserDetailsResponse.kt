@@ -31,6 +31,8 @@ data class OtherUserDetailsResponse(
     val name: String?="",
     @JsonProperty("other_user_id")
     val otherUserId: String?="",
+    @JsonProperty("match_date")
+    val matchDate: String?="",
     @JsonProperty("sign_logo")
     val signLogo: String?="",
     @JsonProperty("sign_name")

@@ -59,15 +59,51 @@
 
         </androidx.appcompat.widget.AppCompatImageView>
 
+        <LinearLayout
+            android:id="@+id/linmatchDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUserName"
+            android:layout_marginStart="@dimen/dimen_16dp"
+            android:layout_marginEnd="@dimen/dimen_16dp"
+            android:layout_marginTop="@dimen/dimen_10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_match_details"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textMatch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/dimen_8dp"
+                android:textColor="@color/tab_gray"
+                android:maxLines="2"
+                android:ellipsize="end"
+                style="@style/LightTextStyle"
+                android:textSize="@dimen/text_dimen_15sp"
+                tools:text="21 People are super interested in you ">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+        </LinearLayout>
+
         <View
             android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:alpha="0.2"
             android:background="@color/white"
+            android:layout_marginTop="@dimen/dimen_15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUserName">
+            app:layout_constraintTop_toBottomOf="@+id/linmatchDate">
 
         </View>
 

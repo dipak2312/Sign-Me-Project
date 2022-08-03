@@ -268,6 +268,8 @@
     <string name="alert_enter_city">Please enter city.</string>
     <string name="is_typing">is typing.....</string>
     <string name="no_data_show">No data to show. </string>
+    <string name="you_and">You and</string>
+    <string name="matched_on">matched on</string>
     <string name="unblock_user_alert">Are you sure, you want to unblock this user?</string>
     <string name="alert_enter_zip_code">Please enter zip code.</string>
     <string name="alert_invalid_zip_code_character">Zip Code should contain number or characters.</string>

@@ -59,12 +59,14 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
             context: Context,
             otherUserId: String,
             otherUserName: String?,
-            otherUserImage: String?
+            otherUserImage: String?,
+            matchDate:String?
         ): Intent {
             return Intent(context, ChatRoomActivity::class.java).apply {
                 putExtra(IConstants.BUNDLE_DATA_USER_2_ID, otherUserId)
                 putExtra(IConstants.BUNDLE_DATA_USER_2_NAME, otherUserName)
                 putExtra(IConstants.BUNDLE_DATA_USER_2_IMAGE, otherUserImage)
+                putExtra(IConstants.MATCH_DATE,matchDate)
             }
         }
     }
@@ -97,6 +99,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
     private var authUserGlobal: FirebaseUser? = null
     private var chatRoomFound = false
     private var isUserOnChatScreen: Boolean = false
+    private var matchDate:String=""
 
     override fun setDataBindingLayout() {
 
@@ -116,8 +119,9 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
             user2UserID = getStringExtra(IConstants.BUNDLE_DATA_USER_2_ID) ?: ""
             user2ImgUrl = getStringExtra(IConstants.BUNDLE_DATA_USER_2_IMAGE) ?: ""
             originalUser2Id = getStringExtra(IConstants.BUNDLE_DATA_USER_2_ID) ?: ""
+            matchDate=getStringExtra(IConstants.MATCH_DATE)?: ""
             binding!!.tvUserName.text = user2Name
-
+            binding!!.textMatch.text=getString(R.string.you_and)+" "+user2Name+" "+getString(R.string.matched_on)+" "+matchDate
         }
 
         if (user2UserID == "") {
@@ -257,6 +261,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
         map["senderImage"] = user1ImgUrl
         map["senderName"] = user1Name
         map["isTyping"] = ""
+        map["matchDate"]=matchDate
         map["deletedBy"] = ""
         map["chatID"] = user2UserID
         map["isConnected"] = ""

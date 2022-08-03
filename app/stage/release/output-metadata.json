@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.appineers.whitelabel",
-  "variantName": "processStageReleaseResources",
+  "applicationId": "com.app.signmestage",
+  "variantName": "stageRelease",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 8,
-      "versionName": "1.0.8",
-      "outputFile": "White_Label_v1.3(3)2021_06_09-development-release.apk"
+      "versionCode": 1,
+      "versionName": "1.0.0",
+      "outputFile": "Sign_Me_v1.0.0(1)2022_08_03-stage-release.apk"
     }
   ]
 }

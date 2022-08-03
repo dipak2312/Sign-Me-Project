@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -20,9 +21,13 @@ import com.app.signme.dataclasses.Social
 import com.app.signme.dataclasses.response.GoogleReceipt
 import com.app.signme.view.chat.ChatFragment
 import com.app.signme.view.Matches.MatchesFragment
+import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.profile.ProfileFragment
 import com.app.signme.viewModel.HomeViewModel
 import com.google.gson.Gson
+import com.hb.logger.msc.MSCGenerator
+import com.hb.logger.msc.core.GenConstants
+import org.json.JSONObject
 
 
 class HomeActivity : BaseActivity<HomeViewModel>() {
@@ -37,9 +42,9 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     companion object {
         const val TAG = "HomeActivity"
 
-        fun getStartIntent(mContext: Context, social: Social): Intent {
+        fun getStartIntent(mContext: Context, payload: String?): Intent {
             return Intent(mContext, HomeActivity::class.java).apply {
-                putExtra("social", social)
+                putExtra(IConstants.PARAM_NOTIFICATION_PAYLOAD, payload)
             }
         }
     }
@@ -52,6 +57,7 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     val profileFragment: Fragment = ProfileFragment()
     var active: Fragment = homeFragment
     var isTabChanging = false
+    var payload: String? = null
     private var lastSelectedTab: Int? = null
 
     override fun setDataBindingLayout() {
@@ -71,10 +77,11 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
 
         if (intent != null && intent.extras != null) {
             Log.i(TAG, "setupView: " + Gson().toJson(intent.extras))
-            val data = intent.extras!!.getString(IConstants.OTHERS)
+            payload = intent.getStringExtra(IConstants.PARAM_NOTIFICATION_PAYLOAD)
             lastSelectedTab = intent.getIntExtra(IConstants.BUNDLE_TAB_ID, R.id.action_explore)
             //checkNotificationsData(data)
         }
+
 
 
         setFireBaseAnalyticsData("id-homeScreen", "view_homeScreen", "view_homeScreen")
@@ -95,11 +102,60 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
         }
         //(application as AppineersApplication).isActiveFilter.postValue(false)
         addObservers()
+        callGetNotificationCount()
+        checkNotificationsData()
+    }
 
-       // checkAdditionalInfo()
+    private fun checkNotificationsData() {
+        if (payload != null) {
+            val jsonObject = JSONObject(payload)
+            //Log.i(TAG, "checkNotificationsData:checkNotificationsData:checkNotificationsData:checkNotificationsData: " + jsonObject)
+            val notificationType = jsonObject.getString(IConstants.PARAM_NOTIFICATION_TYPE)
+            // Log.i(TAG, "checkNotificationsDatacheckNotificationsData: " + notificationType)
+            var masterId: String? = null
+            try {
+                masterId = jsonObject.getString(IConstants.PARAM_NOTIFICATION_MASTER_ID)
+            } catch (e: Exception) {
+
+            }
+            logger.dumpCustomEvent(
+                IConstants.EVENT_NOTIFICATION_PAYLOAD,
+                Gson().toJson(jsonObject)
+            )
+            Log.i(TAG, "checkNotificationsData: " + jsonObject)
+            when (notificationType) {
+
+                IConstants.NOTIFICATION_TYPES.Like -> {
+
+                }
+//                IConstants.NOTIFICATION_TYPES.Message -> {
+//                    startActivity(
+//                        ChatRoomActivity.getStartIntent(
+//                            this@HomeOpenCameraActivity,
+//                            sender_id,
+//                            name,
+//                            profile,
+//                            ""
+//                        )
+//                    )
+//                }
+
+                IConstants.NOTIFICATION_TYPES.Superlike -> {
+
+                }
+                IConstants.NOTIFICATION_TYPES.Match -> {
+
+
+                }
+            }
+        }
     }
 
 
+    fun callGetNotificationCount() {
+
+        viewModel.callGetNotificationCount()
+    }
 
     /**
      * Set the fragment in frame container by Id
@@ -152,6 +208,8 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     }
 
     private fun addObservers() {
+
+
         viewModel.orderReceiptJsonForSubscription.observe(this@HomeActivity) {
             if (it.isNotEmpty()) {
 
@@ -179,14 +237,28 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
                     }
                 }
 
-            } /*else {
-                it.settings?.message?.showSnackBar(
-                    this@HomeActivity,
-                    IConstants.SNAKBAR_TYPE_ERROR,
-                    duration = IConstants.SNAKE_BAR_SHOW_TIME_INT
-                )
-            }*/
+            }
         }
+
+        viewModel.notificationCountLiveData.observe(this, androidx.lifecycle.Observer { response ->
+            hideProgressDialog()
+            if (response.settings?.isSuccess == true) {
+                MSCGenerator.addAction(
+                    GenConstants.ENTITY_APP,
+                    GenConstants.ENTITY_USER,
+                    "count added success"
+                )
+                if (response.data!!.size > 0) {
+                    val notificationCount = response.data!![0].notifyCount
+                    (application as AppineersApplication).notificationsCount.postValue(
+                        notificationCount
+                    )
+                    sharedPreference.notifyCount = notificationCount
+                } else {
+                    sharedPreference.notifyCount = "0"
+                }
+            }
+        })
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             handleApiStatusCodeError(serverError)

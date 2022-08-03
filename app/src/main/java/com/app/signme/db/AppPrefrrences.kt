@@ -72,6 +72,15 @@ class AppPrefrrences(context: Context) {
         get() = pref.getBoolean("isSkip", false)
         set(value) = pref.edit().putBoolean("isSkip", value).apply()
 
+
+    /**
+     * Store and get notification count
+     */
+
+    var notifyCount: String?
+        get() = pref.getString("notification_count", "")
+        set(value) = pref.edit().putString("notification_count", value).apply()
+
     /**
      * Boolean value for is ad removed or not
      */

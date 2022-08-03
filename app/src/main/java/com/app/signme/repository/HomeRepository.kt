@@ -1,5 +1,6 @@
 package com.app.signme.repository
 
+import com.app.quicklook.dataclasses.NotificationCount
 import com.app.signme.api.network.NetworkService
 import com.app.signme.dataclasses.LikeUnLikeResponse
 import com.app.signme.dataclasses.OtherUserDetailsResponse
@@ -31,4 +32,7 @@ class HomeRepository @Inject constructor(
 
     fun unMatchUser(userId:String): Single<TAListResponse<JsonElement>> =
         networkService.unMatch(userId)
+
+    fun callGetNotificationCount(): Single<TAListResponse<NotificationCount>> =
+        networkService.callGetNotificationCount()
 }

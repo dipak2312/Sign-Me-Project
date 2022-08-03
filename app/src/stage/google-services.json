@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "626428000219",
-    "project_id": "sign-me-29ced",
-    "storage_bucket": "sign-me-29ced.appspot.com"
+    "project_number": "783817173140",
+    "firebase_url": "https://sign-me-11cef-default-rtdb.firebaseio.com",
+    "project_id": "sign-me-11cef",
+    "storage_bucket": "sign-me-11cef.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:626428000219:android:997c45b6a0ea2aebc699fe",
+        "mobilesdk_app_id": "1:783817173140:android:c7aafc185f3289ed706c81",
         "android_client_info": {
-          "package_name": "com.app.signme"
+          "package_name": "com.app.signmestage"
         }
       },
       "oauth_client": [
         {
-          "client_id": "626428000219-7srde4k92qrc8rmtmfaedp5grug6vrh0.apps.googleusercontent.com",
+          "client_id": "783817173140-t566sb9ohj4ebfv3i6ofgte3qkka0in8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD54xeuPIDinfz-BoAFOy_FDVs5KyCYrCE"
+          "current_key": "AIzaSyDnA9XeW9moBYw_65W3fSbtEXs0VGGbd2I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "626428000219-7srde4k92qrc8rmtmfaedp5grug6vrh0.apps.googleusercontent.com",
+              "client_id": "783817173140-t566sb9ohj4ebfv3i6ofgte3qkka0in8.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "783817173140-t75d2dkv7p00v4tgoqkv61a5akt5m5im.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.signmestage"
+              }
             }
           ]
         }
