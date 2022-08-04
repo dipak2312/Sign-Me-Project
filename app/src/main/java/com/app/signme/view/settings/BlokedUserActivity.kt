@@ -24,6 +24,7 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
     //Used for data binding
     private var binding: ActivityBlokedUserBinding? = null
     private val auth = FirebaseAuth.getInstance()
+
     //Use this adapter to hold the element i.e. restaurants in recyclerview
     val mAdapter: BlockedUsersAdapter = BlockedUsersAdapter(this, this)
     private val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -67,9 +68,11 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
     private fun callGetBlockedUser() {
         when {
             checkInternet() -> {
-                showProgressDialog(isCheckNetwork = true,
+                showProgressDialog(
+                    isCheckNetwork = true,
                     isSetTitle = false,
-                    title = IConstants.EMPTY_LOADING_MSG)
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
                 viewModel.callGetBlockedUser()
             }
         }
@@ -79,7 +82,11 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
         binding?.let {
             with(it) {
                 btnBack.setOnClickListener {
-                    setFireBaseAnalyticsData("id-blockUserscreen", "view-blockUserscreen", "view-blockUserscreen")
+                    setFireBaseAnalyticsData(
+                        "id-blockUserscreen",
+                        "view-blockUserscreen",
+                        "view-blockUserscreen"
+                    )
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
                     finish()
                 }
@@ -119,11 +126,9 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
                         mAdapter.addItem(item)
                     }
                 }
-                setMessage(it.settings!!.message)
-            }
-            else
-            {
-                binding!!.relEmptyScreen.visibility=View.VISIBLE
+                setMessage()
+            } else {
+                binding!!.relEmptyScreen.visibility = View.VISIBLE
             }
         })
 
@@ -139,9 +144,11 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
                 blockedUserID = ""
                 if (mAdapter.getAllItems().size == 0) {
                     mAdapter.nextPage = 1
-                    showProgressDialog(isCheckNetwork = true,
+                    showProgressDialog(
+                        isCheckNetwork = true,
                         isSetTitle = false,
-                        title = IConstants.EMPTY_LOADING_MSG)
+                        title = IConstants.EMPTY_LOADING_MSG
+                    )
 
                     callGetBlockedUser()
                 }
@@ -151,27 +158,31 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             binding!!.swipeContainer.isRefreshing = false
-            handleApiStatusCodeError(serverError)
+            if (serverError.code == 500 && serverError.success.equals("0")) {
+                setMessage()
+
+            } else {
+                handleApiStatusCodeError(serverError)
+            }
         }
-
-
     }
+
     /**
      * This method show the message
      * @param message to show message
      * @return null
      */
-    private fun setMessage(message: String?) {
-        if (message?.isNotEmpty()!! && mAdapter.getAllItems().size == 0) {
-            binding!!.textMessage.setText(message)
-            binding!!.textMessage.visibility = View.VISIBLE
+    private fun setMessage() {
+        if (mAdapter.getAllItems().size == 0) {
+            binding!!.relEmptyScreen.visibility = View.VISIBLE
         } else {
-            binding!!.textMessage.visibility = View.GONE
+            binding!!.relEmptyScreen.visibility = View.GONE
         }
 
         binding?.swipeContainer?.isRefreshing = false
         binding!!.progressBar.visibility = View.GONE
     }
+
     /**
      * This method is use for callback from recyclerview adapter
      * When user click on an view from list then this method call
@@ -196,9 +207,11 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
                         override fun onSuccess() {
                             lastClickedPosition = position
                             blockedUserID = mAdapter.getItem(position).userId!!
-                            showProgressDialog(isCheckNetwork = true,
+                            showProgressDialog(
+                                isCheckNetwork = true,
                                 isSetTitle = false,
-                                title = IConstants.EMPTY_LOADING_MSG)
+                                title = IConstants.EMPTY_LOADING_MSG
+                            )
                             when {
                                 checkInternet() -> {
                                     viewModel.callBlockUser(

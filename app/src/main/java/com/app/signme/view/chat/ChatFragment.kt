@@ -3,6 +3,7 @@ package com.app.signme.view.chat
 import android.content.Context
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.signme.R
@@ -16,6 +17,7 @@ import com.app.signme.databinding.FragmentChatBinding
 import com.app.signme.dataclasses.ChatListData
 import com.app.signme.core.BaseFragment
 import com.app.signme.dataclasses.ChatRoom
+import com.app.signme.view.CustomDialog
 import com.app.signme.view.notification.NotificationActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
@@ -28,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import kotlinx.android.synthetic.main.dialog_matches.*
 
 class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
@@ -67,6 +70,7 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
             user1UserID = user.userId!!
         }
         initListeners()
+        swipeDeleteOnLeftRight()
 
     }
     private fun initListeners() {
@@ -77,7 +81,7 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                     startActivity(SettingsActivity.getStartIntent(this@ChatFragment.requireContext()))
                 }
 
-                btnNotification.setOnClickListener{
+                btnNotificationCount.setOnClickListener{
                     startActivity(NotificationActivity.getStartIntent(this@ChatFragment.requireContext()))
                 }
             }
@@ -87,7 +91,92 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
         addObservers()
     }
 
+    private fun swipeDeleteOnLeftRight() {
+        binding!!.rcvChatList.setListener(object : SwipeLeftRightCallback.Listener {
+            override fun onSwipedLeft(position: Int) {
+                openDialogToDelete(position)
+                chatListAdapter!!.notifyDataSetChanged()
+            }
 
+            override fun onSwipedRight(position: Int) {
+
+            }
+        })
+    }
+
+    fun openDialogToDelete(position: Int) {
+        CustomDialog(
+            title = getString(R.string.app_name),
+            message = getString(R.string.alert_delete_message),
+            positiveButtonText = getString(R.string.logger_label_ok),
+            negativeButtonText = getString(R.string.label_no_button),
+            cancellable = true,
+            mListener = object : CustomDialog.ClickListener {
+
+                override fun onSuccess() {
+                    var deleteById: String? = ""
+                    val docId = chatListAdapter!!.getAllItems()[position].docId!!
+                    var deleteId = chatListAdapter!!.getAllItems()[position].deletedBy
+
+                    if (!deleteId.isNullOrEmpty()) {
+                        deleteDocument(docId, deleteId)
+                        //deleteById = deleteId + "," + sharedPreference.userDetail!!.userId
+                    } else {
+                        deleteById = sharedPreference.userDetail!!.userId
+                        deleteChateModule(docId, deleteById)
+                    }
+
+
+                }
+
+                override fun onCancel() {
+
+                }
+
+            }).show(requireFragmentManager(), "tag")
+    }
+
+    private fun deleteDocument(currentChatDocument: String, deleteId: String?) {
+        val docRef = firebaseFireStoreDB.collection(chatRoomId)
+            .document(currentChatDocument)
+        docRef.delete(
+
+        ).addOnSuccessListener {
+            getChatRooms()
+            Toast.makeText(
+                this@ChatFragment.requireContext(),
+                "Deleted sussesfully",
+                Toast.LENGTH_SHORT
+            )
+
+        }.addOnFailureListener { e ->
+
+           // Toast.makeText(this@StoriesWithChatListActivity, "Deleted failure", Toast.LENGTH_SHORT)
+        }
+    }
+
+    private fun deleteChateModule(currentChatDocument: String, deleteId: String?) {
+        val docRef = firebaseFireStoreDB.collection(chatRoomId)
+            .document(currentChatDocument)
+        docRef.update(
+            mapOf(
+                "deletedBy" to deleteId
+            )
+        ).addOnSuccessListener {
+            getChatRooms()
+            Toast.makeText(
+                this@ChatFragment.requireContext(),
+                "Deleted sussesfully",
+                Toast.LENGTH_SHORT
+            )
+
+        }.addOnFailureListener { e ->
+
+            Toast.makeText(this@ChatFragment.requireContext(), "Deleted failure", Toast.LENGTH_SHORT)
+        }
+
+
+    }
     private fun addObservers() {
         (activity?.application as AppineersApplication).notificationsCount.observe(
             this, androidx.lifecycle.Observer {
@@ -163,7 +252,6 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
         initRecycleView()
         getChatRooms()
     }
-
     private fun getChatRooms() {
         chatRegistration =
             firebaseFireStoreDB.collection(chatRoomId).whereArrayContains("users", user1UserID)
@@ -177,7 +265,13 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                     chatRoomList.clear()
                     val myUserId=sharedPreference.userDetail?.userId!!
                     for (chatRoomDocument in chatRoomSnapshot.documents) {
-                        if ((chatRoomDocument.data?.get("lastMessage") as String).isNotEmpty()) {
+
+                        if (!(chatRoomDocument.data?.get("deletedBy") as String).split(",")
+                                .toTypedArray().contains(
+                                    myUserId
+                                )
+                        ) {
+                            if ((chatRoomDocument.data?.get("lastMessage") as String).isNotEmpty()) {
                                 chatRoomList.add(
                                     ChatRoom(
                                         id = chatRoomDocument["id"] as String?,
@@ -200,7 +294,7 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                                     )
                                 )
                             }
-
+                        }
                     }
                     chatRoomList.sortByDescending { it.created }
                     //chatRoomList.sortedWith(compareBy { it.created })
@@ -208,6 +302,8 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                 }
         loadData()
     }
+
+
 
     private fun loadData() {
         chatListAdapter!!.removeAll()
@@ -232,12 +328,10 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
      * Function to init recyclerview
      */
     private fun initRecycleView() {
+        val user = sharedPreference.userDetail
         chatListAdapter = ChatListAdapter(this)
-        val layoutManager = LinearLayoutManager(this@ChatFragment.requireContext())
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
-        binding.rcvChatList.setHasFixedSize(true)
-        binding.rcvChatList.layoutManager = layoutManager
         binding.rcvChatList.adapter = chatListAdapter
+        chatListAdapter!!.userId = user?.userId!!
     }
 
 

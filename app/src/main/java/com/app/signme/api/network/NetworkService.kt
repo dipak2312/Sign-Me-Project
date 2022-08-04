@@ -242,5 +242,9 @@ interface NetworkService {
     @FormUrlEncoded
     fun readNotificationCall(@FieldMap map: HashMap<String, String>): Single<TAListResponse<NotificationDel>>
 
-
+    @POST("send_message")
+    @FormUrlEncoded
+    fun callSendChatNotificationApi(
+        @FieldMap map: java.util.HashMap<String, String>
+    ): Single<TAListResponse<JsonElement>>
 }

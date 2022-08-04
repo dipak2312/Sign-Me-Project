@@ -76,15 +76,6 @@
                         tools:visibility="visible" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textMessage"
-                    android:textColor="@color/white"
-                   android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/message"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -97,8 +88,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:src="@drawable/splash_signme_logo">
@@ -107,6 +98,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/RegularTextStyle"
+                android:id="@+id/textMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img"

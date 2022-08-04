@@ -17,5 +17,6 @@ class ChatRepository @Inject constructor(
     ): Single<TAListResponse<BlockUnblockResponse>> =
         networkService.callBlockUnBlock(map)
 
-
+    fun callSendChatNotificationApi(map: HashMap<String, String>): Single<TAListResponse<JsonElement>> =
+        networkService.callSendChatNotificationApi(map)
 }

@@ -695,6 +695,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                     ).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             if (task.result != null) {
+                                deleteChatModule(currentChatDocument, "")
                                 if (isUserOnChatScreen) {
                                     msgCount = 0L
                                 } else {
@@ -732,9 +733,9 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                                     if (!isUser2Active) {
                                         val map = HashMap<String, String>()
                                         map["receiver_id"] = originalUser2Id
-                                        map["m_message_id"] = docRef.id
+                                        map["firebase_id"] = docRef.id
                                         map["message"] = message
-                                        //viewModel.callSendChatNotificationApi(map = map)
+                                        viewModel.callSendChatNotificationApi(map = map)
                                     }
                                 }
                                     .addOnFailureListener { e ->
@@ -757,6 +758,22 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
             }
         }
     }
+
+    private fun deleteChatModule(currentChatDocument: String, deleteId: String?) {
+        val docRef = firebaseFireStoreDB.collection(chatRoomId)
+            .document(currentChatDocument)
+        docRef.update(
+            mapOf(
+                "deletedBy" to deleteId
+            )
+        ).addOnSuccessListener {
+
+
+        }.addOnFailureListener { e ->
+
+        }
+    }
+
     private fun addObservers() {
 
         viewModel.blockUnblockUserLiveData.observe(this) {

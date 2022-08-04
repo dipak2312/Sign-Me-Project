@@ -48,7 +48,7 @@
         </androidx.appcompat.widget.AppCompatImageView>
 
         <RelativeLayout
-            android:id="@+id/ll_notification"
+            android:id="@+id/btnNotificationCount"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvChat"
@@ -99,13 +99,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvChat">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.tsuryo.swipeablerv.SwipeableRecyclerView
                 android:id="@+id/rcv_chat_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_4dp"
                 tools:itemCount="10"
+                app:rightBgColor="@color/red"
+                app:rightImage="@drawable/ic_delete"
+                android:overScrollMode="never"
                 tools:listitem="@layout/cv_chat_messages_item"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:paddingBottom="?attr/actionBarSize"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </LinearLayout>

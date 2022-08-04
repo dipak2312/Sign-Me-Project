@@ -13,6 +13,7 @@ import com.app.signme.adapter.UserNotificationAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.getJsonDataFromAsset
+import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityNotificationBinding
 import com.app.signme.dataclasses.Notification
@@ -50,8 +51,6 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
             }
         }
     }
-
-
 
     override fun setDataBindingLayout() {
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_notification)
@@ -159,16 +158,14 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
                 )
                 if (response.data!!.size > 0) {
                     val notificationCount = response.data!![0].notifyCount
-//                    (application as AppineersApplication).notificationsCount.postValue(
-//                        notificationCount
-//                    )
-                    //sharedPreference.notifyCount = notificationCount
+                    (application as AppineersApplication).notificationsCount.postValue(
+                        notificationCount
+                    )
+                    sharedPreference.notifyCount = notificationCount
                 } else {
-                    //sharedPreference.notifyCount = "0"
+                    sharedPreference.notifyCount = "0"
                 }
             }
-
-
         })
 
         viewModel.deleteUserNotificationLiveData.observe(this, Observer {
@@ -239,6 +236,13 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
                 val notification = mAdapter?.getItem(position)
                 notificationPosition = position
                 notificationId = mAdapter!!.getAllItems()[position].notificationId!!
+
+                if (!mAdapter!!.getAllItems()[position].notificationStatus.equals("Read")) {
+                    val map = HashMap<String, String>()
+                    map["notification_id"] = notificationId.toString()
+                    map["status"] = "read"
+                    viewModel.readNotification(map)
+                }
 
                 when (notification?.redirectionType) {
                     IConstants.NOTIFICATION_TYPES.Like -> {

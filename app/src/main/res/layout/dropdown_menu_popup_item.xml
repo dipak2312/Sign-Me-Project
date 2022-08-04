@@ -5,8 +5,9 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:ellipsize="end"
+    android:background="@color/screen_top_background"
     android:textSize="@dimen/text_dimen_14sp"
-    android:textColor="@color/black"
+    android:textColor="@color/white"
     style="@style/RegularTextStyle"
     android:maxLines="1"
     android:textAppearance="?attr/textAppearanceSubtitle1"/>

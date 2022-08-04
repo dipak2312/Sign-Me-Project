@@ -18,6 +18,7 @@ import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityHomeBinding
 import com.app.signme.dataclasses.Social
+import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.response.GoogleReceipt
 import com.app.signme.view.chat.ChatFragment
 import com.app.signme.view.Matches.MatchesFragment
@@ -111,13 +112,9 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             val jsonObject = JSONObject(payload)
             //Log.i(TAG, "checkNotificationsData:checkNotificationsData:checkNotificationsData:checkNotificationsData: " + jsonObject)
             val notificationType = jsonObject.getString(IConstants.PARAM_NOTIFICATION_TYPE)
-            // Log.i(TAG, "checkNotificationsDatacheckNotificationsData: " + notificationType)
-            var masterId: String? = null
-            try {
-                masterId = jsonObject.getString(IConstants.PARAM_NOTIFICATION_MASTER_ID)
-            } catch (e: Exception) {
-
-            }
+            val name = jsonObject.getString(IConstants.PARAM_SENDER_NAME)
+            val sender_id = jsonObject.getString(IConstants.PARAM_SENDER_ID)
+            val profile = jsonObject.getString(IConstants.PARAM_SENDER_PROFILE)
             logger.dumpCustomEvent(
                 IConstants.EVENT_NOTIFICATION_PAYLOAD,
                 Gson().toJson(jsonObject)
@@ -126,30 +123,36 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             when (notificationType) {
 
                 IConstants.NOTIFICATION_TYPES.Like -> {
-
+                    callOtherDetails("Yes",IConstants.LIKE,name,profile,sender_id)
                 }
-//                IConstants.NOTIFICATION_TYPES.Message -> {
-//                    startActivity(
-//                        ChatRoomActivity.getStartIntent(
-//                            this@HomeOpenCameraActivity,
-//                            sender_id,
-//                            name,
-//                            profile,
-//                            ""
-//                        )
-//                    )
-//                }
+                IConstants.NOTIFICATION_TYPES.Message -> {
+                    startActivity(
+                        ChatRoomActivity.getStartIntent(
+                            this@HomeActivity,
+                            sender_id,
+                            name,
+                            profile,
+                            ""
+                        )
+                    )
+                }
 
                 IConstants.NOTIFICATION_TYPES.Superlike -> {
-
+                    callOtherDetails("Yes",IConstants.SUPERLIKE,name,profile,sender_id)
                 }
                 IConstants.NOTIFICATION_TYPES.Match -> {
-
-
+                    callOtherDetails("No",IConstants.MATCHES,name,profile,sender_id)
                 }
             }
         }
     }
+
+
+    fun callOtherDetails(isLike:String,status:String,userName:String,profileImage:String,userId:String){
+        var otherUserResponse= SwiperViewResponse(isLike = isLike,name = userName,profileImage =profileImage)
+        startActivity(OtherUserDetailsActivity.getStartIntent(this@HomeActivity,userId,otherUserResponse,status))
+    }
+
 
 
     fun callGetNotificationCount() {

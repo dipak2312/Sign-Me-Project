@@ -35,22 +35,22 @@ class ChatViewModel(
     /**
      * Api call for send push if receiver offline
      */
-//    fun callSendChatNotificationApi(map: HashMap<String, String>) {
-//        compositeDisposable.addAll(
-//            chatRepository.callSendChatNotificationApi(
-//                map
-//            )
-//                .subscribeOn(schedulerProvider.io())
-//                .subscribe(
-//                    { response ->
-//                        //  notificationLiveData.postValue(response)
-//                    },
-//                    { error ->
-//                        //   statusCodeLiveData.postValue(handleServerError(error))
-//                    }
-//                )
-//        )
-//    }
+    fun callSendChatNotificationApi(map: HashMap<String, String>) {
+        compositeDisposable.addAll(
+            chatRepository.callSendChatNotificationApi(
+                map
+            )
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        //  notificationLiveData.postValue(response)
+                    },
+                    { error ->
+                        //   statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
 
     fun callBlockUser(map: HashMap<String, String>) {
         compositeDisposable.addAll(

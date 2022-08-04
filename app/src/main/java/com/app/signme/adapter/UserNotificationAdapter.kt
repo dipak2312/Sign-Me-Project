@@ -114,6 +114,18 @@ class UserNotificationAdapter(onClick: RecyclerViewActionListener, mActivity: Ac
         fun bind(item: UserNotification) {
 
             binding.notification = item
+
+            if (item.notificationStatus.equals("Read"))
+            {
+                binding.storyDisplayNick.setTextColor(mActivity.resources.getColor(R.color.app_color_line))
+                binding.textNotiDate.setTextColor(mActivity.resources.getColor(R.color.app_color_line))
+            }
+            else
+            {
+                binding.storyDisplayNick.setTextColor(mActivity.resources.getColor(R.color.white))
+                binding.textNotiDate.setTextColor(mActivity.resources.getColor(R.color.white))
+            }
+
             Glide.with(binding.root.context)
                 .load(item.senderProfileImage)
                 .skipMemoryCache(false)
@@ -128,6 +140,8 @@ class UserNotificationAdapter(onClick: RecyclerViewActionListener, mActivity: Ac
                 .into(binding.sivNotificationImage)
 
             binding.mLayoutRoot.setOnClickListener {
+                binding.storyDisplayNick.setTextColor(mActivity.resources.getColor(R.color.app_color_line))
+                binding.textNotiDate.setTextColor(mActivity.resources.getColor(R.color.app_color_line))
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Root View Click")
                 mOnRecyclerClick.onItemClick(  binding.mLayoutRoot.id, adapterPosition, null)
             }

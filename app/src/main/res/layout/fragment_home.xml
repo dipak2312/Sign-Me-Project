@@ -62,7 +62,7 @@
         </androidx.appcompat.widget.AppCompatImageView>
 
         <RelativeLayout
-            android:id="@+id/ll_notification"
+            android:id="@+id/btnNotificationCount"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:layout_constraintBottom_toBottomOf="@+id/tvHome"

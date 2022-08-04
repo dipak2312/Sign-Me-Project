@@ -119,6 +119,7 @@ class ChatListAdapter(onRecyclerClick: RecyclerViewActionListener) :
         fun bind(item: ChatRoom) {
             with(binding) {
                 binding.chat = item
+
                 binding.tvReceiverName.text =
                     if (userId != item.receiverId) item.receiverName else item.senderName
 

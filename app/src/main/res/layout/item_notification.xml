@@ -59,7 +59,7 @@
                 android:layout_margin="@dimen/_5sdp"
                 style="@style/RegularTextStyle"
                 android:text=""
-                android:textColor="@color/settingwhite"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_13sp" />
 
         </LinearLayout>

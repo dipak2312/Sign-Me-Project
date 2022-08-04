@@ -83,7 +83,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                     startActivity(SettingsActivity.getStartIntent(this@MatchesFragment.requireContext()))
                  }
 
-                btnNotification.setOnClickListener{
+                btnNotificationCount.setOnClickListener{
                     startActivity(NotificationActivity.getStartIntent(this@MatchesFragment.requireContext()))
                 }
 

@@ -151,7 +151,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 startActivity(SettingsActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
 
-            btnNotification.setOnClickListener{
+            btnNotificationCount.setOnClickListener{
                 startActivity(NotificationActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
 
