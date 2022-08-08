@@ -227,6 +227,7 @@
     <string name="reason_of_reporting">Reason for Reporting</string>
     <string name="tell_us">Tell us your reasons to helps for better understanding terms and situations</string>
     <string name="label_message_blocked_by_other">This person wishes no contact with you.</string>
+    <string name="label_message_unfriend_by_other">You are no longer with this person.</string>
     <string name="label_message_blocked_by_me">You have blocked this user. Please unblock to chat.</string>
     <string name="label_notifications_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit sem sed facilisis
 </string>
@@ -260,6 +261,7 @@
     <string name="alert_last_name_length">Last name must contain 1 to 80 characters.</string>
     <string name="alert_phone_number_length">Phone Number must contain 10 to 14 characters.</string>
     <string name="alert_no_message_found">No message found.</string>
+    <string name="alert_no_data_found">No data found.</string>
     <string name="hint_say_something">Say something</string>
     <string name="alert_delete_message">Are you sure you want to delete this </string>
     <string name="alert_enter_dob">Please enter date of birth.</string>

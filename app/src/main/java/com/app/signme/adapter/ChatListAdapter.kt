@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener
 import com.hb.logger.Logger
 import java.util.*
 
-class ChatListAdapter(onRecyclerClick: RecyclerViewActionListener) :
+class ChatListAdapter(onRecyclerClick: RecyclerViewActionListener,mActivity: Activity) :
     RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
     //Initialize the logger library to take logs from user actions.
     val logger by lazy {
@@ -44,7 +44,7 @@ class ChatListAdapter(onRecyclerClick: RecyclerViewActionListener) :
     var nextPage: Int = 1
 
     var userId: String? = null
-    //val mActivity = mActivity
+    val mActivity = mActivity
     private val mFilter = ItemFilter()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -123,6 +123,7 @@ class ChatListAdapter(onRecyclerClick: RecyclerViewActionListener) :
                 binding.tvReceiverName.text =
                     if (userId != item.receiverId) item.receiverName else item.senderName
 
+
                 Glide.with(binding.root.context)
                     .load(if (userId != item.receiverId) item.receiverProfileImage else item.senderImage)
                     .error(R.drawable.ic_profile_img)
@@ -133,6 +134,17 @@ class ChatListAdapter(onRecyclerClick: RecyclerViewActionListener) :
                         )
                     )
                     .into(binding.sivChatImage)
+
+                if (item.matchStatus.equals("Match"))
+                {
+                    binding.tvReceiverName.setTextColor(mActivity.resources.getColor(R.color.white))
+                    binding.tvLastMessage.setTextColor(mActivity.resources.getColor(R.color.white))
+                }
+                else
+                { binding.tvReceiverName.setTextColor(mActivity.resources.getColor(R.color.app_color_line))
+                    binding.tvLastMessage.setTextColor(mActivity.resources.getColor(R.color.app_color_line))
+
+                }
 
                 binding.tvLastMessage.text = item.lastMessage
                 val database = FirebaseDatabase.getInstance()

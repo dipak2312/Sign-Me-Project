@@ -11,6 +11,7 @@ import com.app.signme.commonUtils.utility.extension.toFieldRequestBodyMap
 import com.app.signme.commonUtils.utility.getDeviceName
 import com.app.signme.commonUtils.utility.getDeviceOSVersion
 import com.app.signme.core.BaseViewModel
+import com.app.signme.dataclasses.Social
 import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.dataclasses.request.SignUpRequestModel
@@ -78,8 +79,11 @@ class LoginWithEmailSocialViewModel(
     /**
      * Api call for login using phone number
      */
-    fun callLoginWithEmailSocial(socialType: String, socialId: String) {
+    fun callLoginWithEmailSocial(social: Social, socialType: String, socialId: String) {
         val map = HashMap<String, RequestBody>()
+        map["first_name"]=getStringRequestBody(social.firstName.toString())
+        map["last_name"]=getStringRequestBody(social.lastName.toString())
+        map["email"]=getStringRequestBody(social.emailId.toString())
         map["social_login_type"] = getStringRequestBody(socialType)
         map["social_login_id"] = getStringRequestBody(socialId)
         map["device_type"] = getStringRequestBody(IConstants.DEVICE_TYPE_ANDROID)

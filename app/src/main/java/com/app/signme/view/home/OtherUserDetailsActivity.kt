@@ -29,6 +29,7 @@ import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.HomeViewModel
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_other_user_details.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.mTabLayout
@@ -61,6 +62,8 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     var status:String?=""
     var type:String?=""
     var matchDate:String?=""
+    private val firebaseFireStoreDB = FirebaseFirestore.getInstance()
+    private var chatRoomId: String = "Chats"
     var otherUserResponse:SwiperViewResponse?=null
     var mImageAdapter = PagerImageAdapter(false, this)
     override fun setDataBindingLayout() {
@@ -314,6 +317,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             hideProgressDialog()
             if (response?.settings?.isSuccess == true) {
                 response.settings!!.message?.showSnackBar(this@OtherUserDetailsActivity,IConstants.SNAKBAR_TYPE_SUCCESS)
+                removeFromFirebase(userId)
                 Handler(mainLooper).postDelayed(
                     {
                         (application as AppineersApplication).isMatchesUpdated.postValue(true)
@@ -336,10 +340,37 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     }
 
 
+    private fun removeFromFirebase(userId: String?) {
+        firebaseFireStoreDB.collection(chatRoomId)
+            .whereArrayContains("users", sharedPreference.userDetail?.userId!!).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (task.result != null) {
+                        if (task.result!!.size() > 0) {
+                            for (document in task.result!!.documents) {
+                                if (document["receiverId"] == userId || document["senderId"] == userId) {
+                                    firebaseFireStoreDB.collection(chatRoomId)
+                                        .document(document.id).update(
+                                            mapOf(
+                                                "matchStatus" to "Unmatch",
+                                            )
+                                        )
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
+
     private fun showMatchPopup() {
+        addFromFirebase(userId)
         MatchesDialog(otherUserResponse!!,mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
+                addFromFirebase(userId)
                 var dateFormat = SimpleDateFormat("yyyy-MM-dd")
                 var date = dateFormat.format(Calendar.getInstance().getTime())
                 var showDob=date?.toMMDDYYYDate()
@@ -353,6 +384,31 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
 
         }).show(supportFragmentManager, "Tag")
     }
+
+    private fun addFromFirebase(userId: String?) {
+        firebaseFireStoreDB.collection(chatRoomId)
+            .whereArrayContains("users", sharedPreference.userDetail?.userId!!).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (task.result != null) {
+                        if (task.result!!.size() > 0) {
+                            for (document in task.result!!.documents) {
+                                if (document["receiverId"] == userId || document["senderId"] == userId) {
+                                    firebaseFireStoreDB.collection(chatRoomId)
+                                        .document(document.id).update(
+                                            mapOf(
+                                                "matchStatus" to "Match",
+                                            )
+                                        )
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
 
     fun addLookingFor()
     {

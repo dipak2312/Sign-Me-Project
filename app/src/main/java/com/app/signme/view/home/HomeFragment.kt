@@ -27,6 +27,7 @@ import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
 import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.HomeViewModel
+import com.google.firebase.firestore.FirebaseFirestore
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +46,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
     var manager: CardStackLayoutManager? = null
     var status: String? = ""
     var direction: String? = ""
+    private val firebaseFireStoreDB = FirebaseFirestore.getInstance()
+    private var chatRoomId: String = "Chats"
 
     override fun setDataBindingLayout() {}
 
@@ -227,7 +230,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             if (serverError.code == 500) {
                 binding!!.shimmer.visibility = View.GONE
                 binding!!.relEmptyMessage.visibility = View.VISIBLE
-            } else {
+            }
+            else if (serverError.code == 404) {
+                binding!!.shimmer.visibility = View.GONE
+                binding!!.relEmptyMessage.visibility = View.VISIBLE
+            }else {
                 (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
             }
         }
@@ -338,9 +345,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
     }
 
     private fun showMatchPopup(item: SwiperViewResponse) {
+        addFromFirebase(item.userId)
         MatchesDialog(item, mListener = object :
             MatchesDialog.ClickListener {
             override fun onSuccess() {
+                addFromFirebase(item.userId)
                 var dateFormat = SimpleDateFormat("yyyy-MM-dd")
                 var date = dateFormat.format(Calendar.getInstance().getTime())
                 var showDob=date?.toMMDDYYYDate()
@@ -352,6 +361,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
 
         }).show(requireFragmentManager(), "Tag")
     }
+
+
 
     override fun onCardRewound() {
         Log.d("CardStackView", "onCardRewound: ${manager!!.topPosition}")
@@ -446,6 +457,31 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         }
 
     }
+
+    private fun addFromFirebase(userId: String?) {
+        firebaseFireStoreDB.collection(chatRoomId)
+            .whereArrayContains("users", sharedPreference.userDetail?.userId!!).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (task.result != null) {
+                        if (task.result!!.size() > 0) {
+                            for (document in task.result!!.documents) {
+                                if (document["receiverId"] == userId || document["senderId"] == userId) {
+                                    firebaseFireStoreDB.collection(chatRoomId)
+                                        .document(document.id).update(
+                                            mapOf(
+                                                "matchStatus" to "Match",
+                                            )
+                                        )
+                                    break
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
 
 
     fun swapLike() {

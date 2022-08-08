@@ -48,8 +48,8 @@ data class ChatRoom(
     var chatID: String? = "",
     @field:SerializedName("chatCount")
     var chatCount: Long? = null,
-    @field:SerializedName("friendStatus")
-    var friendStatus: String? = "",
+    @field:SerializedName("matchStatus")
+    var matchStatus: String? = "",
     @field:SerializedName("matchDate")
     var matchDate: String? = ""
 

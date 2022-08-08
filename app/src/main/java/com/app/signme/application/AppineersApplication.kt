@@ -61,6 +61,7 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     val isProfileUpdated = MutableLiveData<Boolean>()
     val isSwiperUpdated=MutableLiveData<Boolean>()
     val isAdRemoved = MutableLiveData<Boolean>()
+    val isBlockUnblock = MutableLiveData<Boolean>()
     val LikeSuperlikeCancelRequest=MutableLiveData<LikeSuperlikeCancelCallback>()
     val isMatchesUpdated=MutableLiveData<Boolean>()
     var isSubscriptionTaken = MutableLiveData<Boolean>()

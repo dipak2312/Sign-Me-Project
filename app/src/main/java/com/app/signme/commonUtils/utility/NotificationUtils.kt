@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
@@ -69,33 +71,43 @@ class NotificationUtils {
             notificationHelper: NotificationHelper?,
             data: Map<String, String>
         ) {
+
             try {
                 val jsonObject = JSONObject(data["others"])
                 LOGApp.e(jsonObject.toString())
                 // Create an Intent for the activity you want to start
+
                 val resultIntent = Intent(mContext, getLaunchClass()).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    action = System.currentTimeMillis().toString()
+                    putExtra(IConstants.OTHERS, jsonObject.toString())
                 }
 
                 // Create the TaskStackBuilder and add the intent, which inflates the back stack
                 val stackBuilder = TaskStackBuilder.create(mContext)
                 stackBuilder.addNextIntentWithParentStack(resultIntent)
+                val flags = when {
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
+                    else -> FLAG_UPDATE_CURRENT
+                }
+
+
                 val pendingIntent: PendingIntent?
                 pendingIntent =
                     if ((application.getCurrentActivity() == null) || (application.getCurrentActivity()?.isDestroyed == true)) {
                         stackBuilder.getPendingIntent(
                             Random().nextInt(50),
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                           flags
                         )
                     } else {
                         PendingIntent.getActivity(
                             mContext,
                             Random().nextInt(50)/* Request code */,
                             resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
+                           flags
                         )
                     }
-
+0
                 createNotification(
                     mContext,
                     application,

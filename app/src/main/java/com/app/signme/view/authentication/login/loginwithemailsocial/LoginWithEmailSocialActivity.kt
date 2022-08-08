@@ -288,6 +288,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                             title = IConstants.EMPTY_LOADING_MSG
                         )
                         viewModel.callLoginWithEmailSocial(
+                            social,
                             socialType = IConstants.SOCIAL_TYPE_FB,
                             socialId = social.socialId ?: ""
                         )
@@ -308,6 +309,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                             title = IConstants.EMPTY_LOADING_MSG
                         )
                         viewModel.callLoginWithEmailSocial(
+                            social,
                             socialType = IConstants.SOCIAL_TYPE_GOOGLE,
                             socialId = social.socialId ?: ""
                         )
@@ -328,6 +330,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                             title = IConstants.EMPTY_LOADING_MSG
                         )
                         viewModel.callLoginWithEmailSocial(
+                            social,
                             socialType = IConstants.SOCIAL_TYPE_APPLE,
                             socialId = social.socialId ?: ""
                         )
@@ -472,7 +475,8 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                     IConstants.SNAKBAR_TYPE_SUCCESS
                 )
                 viewModel.saveUserDetails(response.data!![0])
-                callEmailSocialSignUp(social)
+                viewModel.callGetConfigParameters()
+                //callEmailSocialSignUp(social)
 
             }
 

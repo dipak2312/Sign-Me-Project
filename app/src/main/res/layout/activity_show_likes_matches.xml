@@ -8,6 +8,40 @@
         android:layout_height="match_parent"
         android:background="@color/screenbackground">
 
+        <RelativeLayout
+            android:id="@+id/relEmptyMessage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/emptyMessage"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/splash_signme_logo">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/emptyMessage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_10dp"
+                android:text="@string/alert_no_data_found"
+                android:textColor="@color/hint_white"
+                android:textSize="@dimen/text_dimen_16sp">
+
+            </androidx.appcompat.widget.AppCompatTextView>
+
+        </RelativeLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textTitle"
             style="@style/MediumTextStyle"
@@ -70,13 +104,13 @@
 
             </LinearLayout>
 
-             <View
-                 android:id="@+id/view"
-                 android:layout_width="match_parent"
-                 android:layout_height="@dimen/dimen_1dp"
-                 android:layout_marginTop="@dimen/dimen_16dp"
-                 android:background="@color/matches_devider"
-                 android:layout_below="@+id/lin_tilte"/>
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_1dp"
+                android:layout_below="@+id/lin_tilte"
+                android:layout_marginTop="@dimen/dimen_16dp"
+                android:background="@color/matches_devider" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mRecycler"

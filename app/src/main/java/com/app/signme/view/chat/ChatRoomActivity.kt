@@ -81,6 +81,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
     private var user1Name: String = ""
     private var user1ImgUrl: String = ""
     var user1UserID: String = ""
+    var matchStatus = ""
     private var user1UID: String = ""
     private var user2Name: String = ""
     private var user2ImgUrl: String = ""
@@ -248,7 +249,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
         val map = HashMap<String, Any>()
         val array = arrayOf(user1UserID, user2UserID)
         map["users"] = Arrays.asList(*array)
-        map["friendStatus"] = "Friend"
+        map["matchStatus"] = "Match"
         map["lastMessage"] = ""
         map["created"] = Timestamp.now()
         map["docId"] = ""
@@ -290,6 +291,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
     private fun loadChat(documentReference: DocumentReference) {
         hideProgressDialog()
         currentChatDocument = documentReference.id
+        clearNewMessageCount(true)
         chatRegistration = firebaseFireStoreDB.collection(chatRoomId).document(currentChatDocument)
             .collection("thread").orderBy("created")
             .addSnapshotListener { messageSnapshot, _ ->
@@ -492,7 +494,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                     isBlocked = snapshot.value as Boolean
                 }
 
-                if (!isBlocked) {
+                if (!isBlocked && matchStatus.equals("Match")) {
                     binding!!.llBlockedUserLayout.visibility = View.GONE
                     binding!!.linSendChat.visibility = View.VISIBLE
                     blockedBy = if (blockedBy.equals(IConstants.ME)) blockedBy else ""
@@ -500,6 +502,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
 
 
                 } else {
+                    binding!!.textBlockedAlert.setText(if (matchStatus.equals("Unmatch")) R.string.label_message_unfriend_by_other else R.string.label_message_blocked_by_other)
                     binding!!.linSendChat.visibility = View.GONE
                     binding!!.llBlockedUserLayout.visibility = View.VISIBLE
                     blockedBy = IConstants.OTHER
@@ -759,6 +762,34 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
         }
     }
 
+
+    private fun clearNewMessageCount(isOnline: Boolean) {
+        if (currentChatDocument.isNotEmpty()) {
+
+            val docRef = firebaseFireStoreDB.collection(chatRoomId)
+                .document(currentChatDocument)
+
+            docRef.addSnapshotListener { messageSnapshot, _ ->
+                Log.i(TAG, "clearNewMessageCount: " + (messageSnapshot?.get("friendStatus") ?: ""))
+                if (messageSnapshot != null) {
+                    matchStatus = (messageSnapshot.get("matchStatus") ?: "") as String
+                }
+
+                if (!isBlocked && matchStatus.equals("Match")) {
+                    binding!!.linSendChat.visibility = View.VISIBLE
+                    binding!!.llBlockedUserLayout.visibility = View.GONE
+                } else {
+                    binding!!.linSendChat.visibility = View.GONE
+                    binding!!.llBlockedUserLayout.visibility = View.VISIBLE
+                    binding!!.textBlockedAlert.setText(if (matchStatus.equals("Unmatch")) R.string.label_message_unfriend_by_other else R.string.label_message_blocked_by_other)
+                }
+            }
+
+
+        }
+    }
+
+
     private fun deleteChatModule(currentChatDocument: String, deleteId: String?) {
         val docRef = firebaseFireStoreDB.collection(chatRoomId)
             .document(currentChatDocument)
@@ -786,10 +817,11 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                     )
                     clearAllMessage(true)
                     checkUserBlockedYou()
-                    //(application as AppineersApplication).isBlockUnblock.postValue(true)
+                    (application as AppineersApplication).isBlockUnblock.postValue(true)
                     //finish()
                 } else {
                     clearAllMessage(false)
+                    (application as AppineersApplication).isBlockUnblock.postValue(true)
                     checkUserBlockedYou()
                 }
             }

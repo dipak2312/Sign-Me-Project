@@ -184,6 +184,18 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
             }
         }
 
+        (activity?.application as AppineersApplication).isBlockUnblock.observe(this) { blockunblock ->
+
+            if (blockunblock) {
+                likesAdapter!!.removeAll()
+                superLikesAdapter!!.removeAll()
+                matchesAdapter!!.removeAll()
+                getLikeSuperlikeMatchesList("showProgress")
+                (activity?.application as AppineersApplication).isBlockUnblock.postValue(false)
+            }
+
+        }
+
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             binding!!.refreshView.isRefreshing=false

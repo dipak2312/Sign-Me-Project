@@ -115,7 +115,6 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
         }
 
         (application as AppineersApplication).isMatchesUpdated.observe(this){ isMatches->
-
             if(isMatches)
             {
                 mAdapter!!.removeAll()
@@ -124,9 +123,25 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
             }
         }
 
+        (application as AppineersApplication).isBlockUnblock.observe(this) { blockunblock ->
+            if (blockunblock) {
+                mAdapter!!.removeAll()
+                getAllList()
+            }
+        }
+
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
-            handleApiStatusCodeError(serverError)
+            if (serverError.code == 500) {
+                binding!!.relEmptyMessage.visibility = View.VISIBLE
+                binding!!.linTilte.visibility=View.GONE
+            }
+            else if (serverError.code == 404) {
+                binding!!.relEmptyMessage.visibility = View.VISIBLE
+                binding!!.linTilte.visibility=View.GONE
+            }else {
+                handleApiStatusCodeError(serverError)
+            }
         }
     }
 

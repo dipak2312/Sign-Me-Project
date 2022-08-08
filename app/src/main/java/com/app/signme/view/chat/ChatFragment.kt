@@ -1,21 +1,18 @@
 package com.app.signme.view.chat
 
-import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.signme.R
 import com.app.signme.adapter.ChatListAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
-import com.app.signme.commonUtils.utility.extension.getJsonDataFromAsset
 import com.app.signme.commonUtils.utility.extension.sharedPreference
+import com.app.signme.core.BaseFragment
 import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentChatBinding
 import com.app.signme.dataclasses.ChatListData
-import com.app.signme.core.BaseFragment
 import com.app.signme.dataclasses.ChatRoom
 import com.app.signme.view.CustomDialog
 import com.app.signme.view.notification.NotificationActivity
@@ -28,10 +25,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
-import kotlinx.android.synthetic.main.dialog_matches.*
 
 class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
 
@@ -72,6 +66,12 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
         initListeners()
         swipeDeleteOnLeftRight()
 
+        initChat()
+        if (authUserGlobal != null) {
+            setUserOnlineOffline(true)
+        }
+        Log.d("FRAGMENT_CHAT", "ON_RESUME_CALLED")
+
     }
     private fun initListeners() {
         binding?.let {
@@ -86,7 +86,6 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                 }
             }
         }
-
         initRecycleView()
         addObservers()
     }
@@ -209,14 +208,21 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        initChat()
-        if (authUserGlobal != null) {
-            setUserOnlineOffline(true)
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            if (authUserGlobal != null) {
+                setUserOnlineOffline(false)
+            }
+        }else {
+            if (authUserGlobal != null) {
+                setUserOnlineOffline(true)
+            }
+            Log.d("FRAGMENT_CHAT", "ON_RESUME_CALLED")
         }
-        Log.d("FRAGMENT_CHAT", "ON_RESUME_CALLED")
     }
+
 
     private fun setUserOnlineOffline(isOnline: Boolean = false) {
         val database = FirebaseDatabase.getInstance()
@@ -289,7 +295,7 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
                                         senderFireBaseId = chatRoomDocument["senderFireBaseId"] as String?,
                                         chatID = chatRoomDocument["chatID"] as String?,
                                         chatCount = chatRoomDocument[myUserId+"_readCount"] as Long?,
-                                        friendStatus = chatRoomDocument["friendStatus"] as String?,
+                                        matchStatus = chatRoomDocument["matchStatus"] as String?,
                                         matchDate = chatRoomDocument["matchDate"] as String?
                                     )
                                 )
@@ -329,7 +335,7 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
      */
     private fun initRecycleView() {
         val user = sharedPreference.userDetail
-        chatListAdapter = ChatListAdapter(this)
+        chatListAdapter = ChatListAdapter(this,this@ChatFragment.requireActivity())
         binding.rcvChatList.adapter = chatListAdapter
         chatListAdapter!!.userId = user?.userId!!
     }

@@ -79,6 +79,8 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         /*  val test = ("0")
           println(test[1])*/
         //  throw RuntimeException("Test Crash") // Force a crash
+        Log.i(TAG, "setupView: " + intent.extras)
+        Log.i(TAG, "setupView: " + intent.extras)
         if (intent != null && intent.extras != null  && intent.hasExtra(
                 IConstants.OTHERS
             )
@@ -105,6 +107,8 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
     }
 
     private fun startLaunchActivity(payload: String?) {
+
+        var pa=payload
 
         Handler().postDelayed({
             if (launchByNotification) {
