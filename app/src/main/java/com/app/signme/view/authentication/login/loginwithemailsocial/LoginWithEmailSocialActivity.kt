@@ -488,6 +488,8 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 if (!it.data.isNullOrEmpty()) {
                     AppineersApplication.sharedPreference.configDetails =
                         it.data!!.get(0)
+                    var configDefaultDetails: VersionConfigResponse? = AppineersApplication.sharedPreference.configDetails
+                    AppineersApplication.sharedPreference.isSubscription=configDefaultDetails!!.isSubscriptionTaken()
                     AppineersApplication.sharedPreference.likeCount= it.data!!.get(0).likeUserCount!!
                     AppineersApplication.sharedPreference.superLikeCount= it.data!!.get(0).superLikeUserCount!!
                     handleDefaultConfigDetails(it.data!!.get(0))
@@ -584,7 +586,6 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
              }*/
 
         }
-
 
     }
 

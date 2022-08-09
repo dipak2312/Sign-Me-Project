@@ -33,6 +33,7 @@
             app:srcCompat="@drawable/test1"/>
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageShadow"
             android:layout_width="@dimen/dimen_60dp"
             android:layout_height="@dimen/dimen_60dp"
             android:scaleType="centerCrop"

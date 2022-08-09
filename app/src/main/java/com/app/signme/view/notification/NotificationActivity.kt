@@ -23,6 +23,7 @@ import com.app.signme.view.CustomDialog
 import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.home.OtherUserDetailsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
+import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.NotificationViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -128,6 +129,18 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
     }
 
     private fun addObservers() {
+
+        (application as AppineersApplication).isSubscriptionTaken.observe(this,Observer{isSubscribe->
+            if(isSubscribe)
+            {
+                mAdapter!!.removeAll()
+                callGetNotification()
+                callGetNotificationCount()
+            }
+
+        })
+
+
         viewModel.NotificationLiveData.observe(this, Observer { it ->
             hideProgressBar()
             hideProgressDialog()
@@ -243,15 +256,25 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
                     map["status"] = "read"
                     viewModel.readNotification(map)
                 }
+                mAdapter!!.getAllItems()[position].notificationStatus = "Read"
 
                 when (notification?.redirectionType) {
                     IConstants.NOTIFICATION_TYPES.Like -> {
-                        callOtherDetails("Yes",position,IConstants.LIKE)
+                        if(sharedPreference.isSubscription)
+                        {
+                            callOtherDetails("Yes",position,IConstants.LIKE)
+                        }
+                        else
+                        {
+                            startActivity(SubscriptionPlansActivity.getStartIntent(this@NotificationActivity,"1"))
+
+                        }
                     }
 
                     IConstants.NOTIFICATION_TYPES.Superlike -> {
 
                         callOtherDetails("Yes",position,IConstants.SUPERLIKE)
+
                     }
                     IConstants.NOTIFICATION_TYPES.Match -> {
                         callOtherDetails("No",position,IConstants.MATCHES)

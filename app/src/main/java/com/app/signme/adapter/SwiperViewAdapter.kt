@@ -125,7 +125,6 @@ class SwiperViewAdapter (onClick: RecyclerViewActionListener, mActivity: Activit
             }
 
               binding.executePendingBindings()
-
         }
     }
 

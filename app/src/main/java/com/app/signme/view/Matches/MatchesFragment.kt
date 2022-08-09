@@ -9,6 +9,7 @@ import com.app.signme.adapter.MatchesAdapter
 import com.app.signme.adapter.SuperLikesAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
 import com.app.signme.dagger.components.FragmentComponent
@@ -19,6 +20,7 @@ import com.app.signme.view.home.OtherUserDetailsActivity
 import com.app.signme.view.notification.NotificationActivity
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.editprofile.RecyclerViewActionListener
+import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.MatchesViewModel
 import kotlinx.android.synthetic.main.fragment_home.relEmptyMessage
 import kotlinx.android.synthetic.main.fragment_matches.*
@@ -55,6 +57,19 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
         initListeners()
         addObservers()
         getLikeSuperlikeMatchesList("showProgress")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(sharedPreference.isSubscription)
+        {
+            binding.btnWhoLike.visibility=View.GONE
+        }
+        else
+        {
+            binding.btnWhoLike.visibility=View.VISIBLE
+        }
     }
 
     fun getLikeSuperlikeMatchesList(status:String) {
@@ -97,19 +112,12 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                 }
 
                 btnWhoLike.setOnClickListener {
-                    startActivity(
-                        ShowLikesMatchesActivity.getStartIntent(
-                            this@MatchesFragment.requireContext(),
-                            IConstants.LIKE
-                        )
-                    )
+                    startActivity(SubscriptionPlansActivity.getStartIntent(this@MatchesFragment.requireContext(),"1"))
                 }
 
                 refreshView.setOnRefreshListener {
-
                     getLikeSuperlikeMatchesList("hideProgress")
                 }
-
             }
         }
     }
@@ -184,6 +192,17 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
             }
         }
 
+        (activity?.application as AppineersApplication).isSubscriptionTaken.observe(this){isSubscribe->
+            if(isSubscribe)
+            {
+                likesAdapter!!.removeAll()
+                superLikesAdapter!!.removeAll()
+                matchesAdapter!!.removeAll()
+                getLikeSuperlikeMatchesList("showProgress")
+            }
+
+        }
+
         (activity?.application as AppineersApplication).isBlockUnblock.observe(this) { blockunblock ->
 
             if (blockunblock) {
@@ -207,11 +226,19 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
         when (viewId) {
             R.id.imgLike -> {
-//                if (position == 3) {
-//                    // startActivity(ShowLikesMatchesActivity.getStartIntent(this@MatchesFragment.requireContext(),IConstants.LIKE))
-//                } else {
-//                    //startActivity(SubscriptionPlansActivity.getStartIntent(this@MatchesFragment.requireContext(),"1"))
-//                }
+
+                if(sharedPreference.isSubscription)
+                {
+                if (position == 3) {
+                    startActivity(ShowLikesMatchesActivity.getStartIntent(this@MatchesFragment.requireContext(),IConstants.LIKE))
+                } else {
+                    var otherUserResponse=SwiperViewResponse(isLike = "Yes",name = likesAdapter!!.getItem(position).firstName,profileImage = likesAdapter!!.getItem(position).profileImage)
+                    startActivity(OtherUserDetailsActivity.getStartIntent(this@MatchesFragment.requireContext(),likesAdapter!!.getItem(position).userId,otherUserResponse,IConstants.EXPLORE))
+                }
+                }else
+                {
+                    startActivity(SubscriptionPlansActivity.getStartIntent(this@MatchesFragment.requireContext(),"1"))
+                }
             }
 
             R.id.imgSuperlike -> {

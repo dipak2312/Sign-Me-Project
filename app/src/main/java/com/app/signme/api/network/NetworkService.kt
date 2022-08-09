@@ -148,7 +148,12 @@ interface NetworkService {
 
     @POST("subscription_purchase")
     @Multipart
-    fun callBuySubscription(@PartMap map: HashMap<String, RequestBody>): Single<TAListResponse<LoginResponse>>
+    fun callBuyRegularSubscription(@PartMap map: HashMap<String, RequestBody>): Single<TAListResponse<LoginResponse>>
+
+    @POST("subscription_purchase_golden")
+    @Multipart
+    fun callBuyGoldenSubscription(@PartMap map: HashMap<String, RequestBody>): Single<TAListResponse<LoginResponse>>
+
 
     @POST("upload_multimedia")
     @Multipart

@@ -89,6 +89,13 @@ class AppPrefrrences(context: Context) {
         set(value) = pref.edit().putBoolean("isAdRemoved", value).apply()
 
     /**
+     * Boolean value for is ad removed or not
+     */
+    var isSubscription: Boolean
+        get() = pref.getBoolean("isSubscription", false)
+        set(value) = pref.edit().putBoolean("isSubscription", value).apply()
+
+    /**
      * Store and get config parameters
      */
     var configDetails: VersionConfigResponse?

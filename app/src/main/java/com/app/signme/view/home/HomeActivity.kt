@@ -24,6 +24,7 @@ import com.app.signme.view.chat.ChatFragment
 import com.app.signme.view.Matches.MatchesFragment
 import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.profile.ProfileFragment
+import com.app.signme.view.subscription.SubscriptionPlansActivity
 import com.app.signme.viewModel.HomeViewModel
 import com.google.gson.Gson
 import com.hb.logger.msc.MSCGenerator
@@ -123,7 +124,16 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             when (notificationType) {
 
                 IConstants.NOTIFICATION_TYPES.Like -> {
-                    callOtherDetails("Yes",IConstants.LIKE,name,profile,sender_id)
+                    if(sharedPreference.isSubscription)
+                    {
+                        callOtherDetails("Yes",IConstants.LIKE,name,profile,sender_id)
+                    }
+                    else
+                    {
+                        startActivity(SubscriptionPlansActivity.getStartIntent(this@HomeActivity,"1"))
+
+                    }
+
                 }
                 IConstants.NOTIFICATION_TYPES.Message -> {
                     startActivity(
@@ -211,37 +221,6 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     }
 
     private fun addObservers() {
-
-
-        viewModel.orderReceiptJsonForSubscription.observe(this@HomeActivity) {
-            if (it.isNotEmpty()) {
-
-                val receiptData = Gson().fromJson(it, GoogleReceipt::class.java)
-                logger.dumpCustomEvent(IConstants.EVENT_PURCHASED, "Order Receipt: $it")
-                when {
-                    checkInternet() -> {
-                        viewModel.callBuySubscription(receiptData)
-                    }
-                }
-
-            }
-        }
-        viewModel.buySubscriptionLiveData.observe(this@HomeActivity) {
-            if (it.settings?.isSuccess == true) {
-                if (it.data != null) {
-                    val subscription = it.data?.get(0)?.subscription
-                    (application as AppineersApplication).isSubscriptionTaken.value =
-                        it.data!![0].isSubscriptionTaken()
-                    val userDetails = sharedPreference.userDetail
-                    if (userDetails != null && subscription != null && subscription.size >= 0) {
-                        userDetails.subscription = subscription
-                        sharedPreference.userDetail = userDetails
-
-                    }
-                }
-
-            }
-        }
 
         viewModel.notificationCountLiveData.observe(this, androidx.lifecycle.Observer { response ->
             hideProgressDialog()

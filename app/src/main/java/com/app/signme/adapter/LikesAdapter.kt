@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.signme.R
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.databinding.ItemLikesProfileBinding
 import com.app.signme.databinding.ItemUserProfileBinding
 import com.app.signme.dataclasses.LikesResponse
@@ -120,19 +121,34 @@ class LikesAdapter(onClick: RecyclerViewActionListener, mActivity: Activity) :
                 binding.textPlusCount.visibility=View.GONE
             }
 
-            Glide.with(binding.root.context)
-                .load(item.profileImage)
-                .skipMemoryCache(false)
-                .override(15, 15)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .centerCrop()
-                .error(R.drawable.ic_profile)
-                .placeholder(R.drawable.ic_profile)
-                .into(binding.prrofileImage)
-
-               binding.imgLike.setOnClickListener{
-                mOnRecyclerClick.onItemClick(binding.imgLike.id, adapterPosition, null)
+              if(sharedPreference.isSubscription)
+                {
+                    Glide.with(binding.root.context)
+                        .load(item.profileImage)
+                        .skipMemoryCache(false)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .centerCrop()
+                        .error(R.drawable.ic_profile)
+                        .placeholder(R.drawable.ic_profile)
+                        .into(binding.prrofileImage)
+                    binding.imageShadow.visibility=View.GONE
+                    binding.imgLike.setOnClickListener{
+                        mOnRecyclerClick.onItemClick(binding.imgLike.id, adapterPosition, null)
+                    }
+                }else
+                {
+                    binding.imageShadow.visibility=View.VISIBLE
+                    Glide.with(binding.root.context)
+                        .load(item.profileImage)
+                        .skipMemoryCache(false)
+                        .override(15, 15)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .centerCrop()
+                        .error(R.drawable.ic_profile)
+                        .placeholder(R.drawable.ic_profile)
+                        .into(binding.prrofileImage)
                 }
+
 
             binding.executePendingBindings()
 

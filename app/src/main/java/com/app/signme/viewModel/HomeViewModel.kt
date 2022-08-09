@@ -63,28 +63,7 @@ class HomeViewModel(
      */
 
 
-    fun callBuySubscription(receiptData: GoogleReceipt?) {
-        val map = HashMap<String, okhttp3.RequestBody>()
-        if (receiptData != null) {
 
-            map["subscription_id"] = getStringRequestBody(receiptData.productId)
-            map["receipt_type"] = getStringRequestBody(receiptData.receiptType)
-            map["purchase_token"] = getStringRequestBody(receiptData.purchaseToken)
-            map["PACKAGE_NAME"] = getStringRequestBody(receiptData.packageName)
-        }
-        compositeDisposable.addAll(
-            homeRepository.callBuySubscription(map)
-                .subscribeOn(schedulerProvider.io())
-                .subscribe(
-                    { response ->
-                        buySubscriptionLiveData.postValue(response)
-                    },
-                    { error ->
-                        statusCodeLiveData.postValue(handleServerError(error))
-                    }
-                )
-        )
-    }
 
     fun callGetNotificationCount() {
         compositeDisposable.addAll(

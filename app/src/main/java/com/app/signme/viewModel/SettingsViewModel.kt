@@ -18,6 +18,7 @@ import com.app.signme.core.BaseViewModel
 import com.app.signme.repository.SettingsRepository
 import com.app.signme.core.SettingViewConfig
 import com.app.signme.dataclasses.BlockedUser
+import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.dataclasses.response.BlockUnblockResponse
 import com.app.signme.repository.inappbilling.BillingRepository
 import com.google.gson.JsonElement
@@ -38,6 +39,7 @@ class SettingsViewModel(
     val checkForInternetConnectionLiveData = MutableLiveData<Boolean>()
     var goAdFreeLiveData = MutableLiveData<TAListResponse<JsonElement>>()
     var addFreeSKU = MutableLiveData<SkuDetails>()
+    val configParamsLiveData = MutableLiveData<TAListResponse<VersionConfigResponse>>()
     var orderReceiptJson = MutableLiveData<String>()
     var settingConfig: SettingViewConfig
     var inAppSKUList = MutableLiveData<List<SkuDetails>>()
@@ -95,6 +97,26 @@ class SettingsViewModel(
                 .subscribe(
                     { response ->
                         deleteAccountLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+
+    /**
+     * Api call for getting config parameters
+     */
+    fun callGetConfigParameters() {
+
+        compositeDisposable.addAll(
+            settingsRepository.callConfigParameters()
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        configParamsLiveData.postValue(response)
                     },
                     { error ->
                         statusCodeLiveData.postValue(handleServerError(error))
@@ -213,7 +235,7 @@ class SettingsViewModel(
         )
     }
 
-    fun callBuySubscription(receiptData: GoogleReceipt?) {
+    fun callBuyRegulerSubscription(receiptData: GoogleReceipt?) {
         val map = HashMap<String, RequestBody>()
         if (receiptData != null) {
 
@@ -221,9 +243,34 @@ class SettingsViewModel(
             map["receipt_type"] = getStringRequestBody(receiptData.receiptType)
             map["purchase_token"] = getStringRequestBody(receiptData.purchaseToken)
             map["PACKAGE_NAME"] = getStringRequestBody(receiptData.packageName)
+            map["subscription_type"] = getStringRequestBody(IConstants.REGULER)
         }
         compositeDisposable.addAll(
-            settingsRepository.callBuySubscription(map)
+            settingsRepository.callBuyRegulerSubscription(map)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        buySubscriptionLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun callBuyGoldenSubscription(receiptData: GoogleReceipt?) {
+        val map = HashMap<String, RequestBody>()
+        if (receiptData != null) {
+
+            map["subscription_id"] = getStringRequestBody(receiptData.productId)
+            map["receipt_type"] = getStringRequestBody(receiptData.receiptType)
+            map["purchase_token"] = getStringRequestBody(receiptData.purchaseToken)
+            map["PACKAGE_NAME"] = getStringRequestBody(receiptData.packageName)
+            map["subscription_type"] = getStringRequestBody(IConstants.GOLDEN)
+        }
+        compositeDisposable.addAll(
+            settingsRepository.callBuyGoldenSubscription(map)
                 .subscribeOn(schedulerProvider.io())
                 .subscribe(
                     { response ->

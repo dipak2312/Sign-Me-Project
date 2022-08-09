@@ -107,9 +107,6 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
     }
 
     private fun startLaunchActivity(payload: String?) {
-
-        var pa=payload
-
         Handler().postDelayed({
             if (launchByNotification) {
                 Log.i(TAG, "startLaunchActivity: Payload " + payload)
@@ -121,7 +118,6 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             }
             finish()
         }, 1000)
-
     }
 
 /*    @RequiresApi(Build.VERSION_CODES.M)
@@ -155,10 +151,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         dataBinding?.progressSplash?.visibility = View.GONE
         updateUserSubscriptionData(configDefaultDetails)
         (application as AppineersApplication).isAdRemoved.value = configDefaultDetails?.isAdsFree()
-        (application as AppineersApplication).isSubscriptionTaken.value =
-            configDefaultDetails?.isSubscriptionTaken()
-
-
+        sharedPreference.isSubscription=configDefaultDetails!!.isSubscriptionTaken()
         sharedPreference.isAdRemoved = configDefaultDetails!!.isAdsFree()
         updateAdConfiguration(configDefaultDetails)
         val config = configDefaultDetails

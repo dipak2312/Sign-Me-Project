@@ -239,6 +239,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             }
         }
 
+        (activity?.application as AppineersApplication).isSubscriptionTaken.observe(this){isSubscribe->
+            if(isSubscribe)
+            {
+              likeHideShow()
+            }
+
+        }
+
         (activity?.application as AppineersApplication).isSwiperUpdated.observe(this) { isUpdate ->
 
             if (isUpdate) {
@@ -455,7 +463,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         } else {
             binding.textSuperlikeCount.text = count.toString()
         }
-
     }
 
     private fun addFromFirebase(userId: String?) {

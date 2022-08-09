@@ -22,6 +22,7 @@ import androidx.annotation.Nullable
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.billingclient.api.SkuDetails
@@ -40,6 +41,7 @@ import com.app.signme.dataclasses.SubscriptionPlan
 import com.app.signme.dataclasses.response.GoogleReceipt
 import com.app.signme.dataclasses.response.StaticPage
 import com.app.signme.core.BaseActivity
+import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.staticpages.StaticPagesMultipleActivity
 import com.app.signme.viewModel.SettingsViewModel
@@ -58,11 +60,11 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
     private lateinit var subscriptionPlanListAdapter: SubscriptionViewAdapter
     private var subscriptionSKUList: List<SkuDetails> = arrayListOf()
     private var inAppSKUList: List<SkuDetails> = arrayListOf()
-    private var selectedSubscriptionPlan: SubscriptionPlan? = null
     private val user = sharedPreference.userDetail
     private var flag_upgrade_downgrade = "0"
     private var purchaseToken = ""
     private var oldSku = ""
+    var subscriptionType:String=IConstants.REGULER
     private var selectedSubscriptionPosition = 0
 
 
@@ -259,9 +261,16 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
                                 isSetTitle = false,
                                 title = IConstants.EMPTY_LOADING_MSG
                             )
-                            viewModel.callBuySubscription(receiptData)
-                        }
 
+                            if(subscriptionType.equals(IConstants.REGULER))
+                            {
+                                viewModel.callBuyRegulerSubscription(receiptData)
+                            }
+                            else
+                            {
+                                viewModel.callBuyGoldenSubscription(receiptData)
+                            }
+                        }
                     }
 
                 } else {
@@ -283,23 +292,16 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
         }
         viewModel.buySubscriptionLiveData.observe(this@SubscriptionPlansActivity) {
-            hideProgressDialog()
+           // hideProgressDialog()
             if (it.settings?.isSuccess == true) {
                 if (it.data != null) {
-                    val subscription = it.data?.get(0)?.subscription
-                    (application as AppineersApplication).isSubscriptionTaken.value =
-                        it.data!![0].isSubscriptionTaken()
-                    val userDetails = AppineersApplication.sharedPreference.userDetail
-                    if (userDetails != null && subscription != null && subscription.size >= 0) {
-                        userDetails.subscription = subscription
-                        sharedPreference.userDetail = userDetails
 
-                    }
+                    viewModel.callGetConfigParameters()
 
                 }
 
                 sharedPreference.subscriptionItemSelected = selectedSubscriptionPosition
-                navigateToHomeScreen()
+
             } else {
                 it.settings?.message?.showSnackBar(
                     this@SubscriptionPlansActivity,
@@ -309,6 +311,24 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
 
             }
         }
+
+        viewModel.configParamsLiveData.observe(this, Observer { it ->
+            hideProgressDialog()
+            if (it.settings?.isSuccess == true) {
+                if (!it.data.isNullOrEmpty()) {
+                    AppineersApplication.sharedPreference.configDetails =
+                        it.data!!.get(0)
+                    var configDefaultDetails: VersionConfigResponse? = AppineersApplication.sharedPreference.configDetails
+                    AppineersApplication.sharedPreference.isSubscription=configDefaultDetails!!.isSubscriptionTaken()
+                    AppineersApplication.sharedPreference.likeCount= it.data!!.get(0).likeUserCount!!
+                    AppineersApplication.sharedPreference.superLikeCount= it.data!!.get(0).superLikeUserCount!!
+                    (application as AppineersApplication).isSubscriptionTaken.value =
+                        it.data!![0].isSubscriptionTaken()
+
+                    finish()
+                }
+            }
+        })
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             handleApiStatusCodeError(serverError)
             hideProgressDialog()
@@ -329,6 +349,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
 
             linRegularSubscription.setOnClickListener{
+                subscriptionType=IConstants.REGULER
                 linRegularSubscription.setBackgroundResource(R.drawable.bg_subscription_select)
                 linGoldenSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
                 textUpgradeProfile.text=getString(R.string.label_Regular_subscription_text)
@@ -347,6 +368,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
 
             linGoldenSubscription.setOnClickListener{
+                subscriptionType=IConstants.GOLDEN
                 linGoldenSubscription.setBackgroundResource(R.drawable.bg_subscription_select)
                 linRegularSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
                 textUpgradeProfile.text=getString(R.string.label_golden_subscription_text)
