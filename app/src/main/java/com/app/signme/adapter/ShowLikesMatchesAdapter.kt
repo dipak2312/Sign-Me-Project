@@ -132,12 +132,12 @@ class ShowLikesMatchesAdapter(onClick: RecyclerViewActionListener, mActivity: Ac
 
             binding.executePendingBindings()
 
-//            if (layoutPosition == (mOriginalData.size - 1) && mOriginalData.size < totalCount.toInt()) {
-//                mOnRecyclerClick.onLoadMore(
-//                    itemCount = mOriginalData.size,
-//                    nextPage = nextPage
-//                )
-//            }
+            if (layoutPosition == (mOriginalData.size - 1) && mOriginalData.size < totalCount.toInt()) {
+                mOnRecyclerClick.onLoadMore(
+                    itemCount = mOriginalData.size,
+                    nextPage = nextPage
+                )
+            }
         }
     }
 }

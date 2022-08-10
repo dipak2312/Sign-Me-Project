@@ -18,11 +18,8 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -38,7 +35,10 @@ import com.app.signme.commonUtils.utility.extension.*
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityEditProfileBinding
-import com.app.signme.dataclasses.*
+import com.app.signme.dataclasses.DeleteUserProfile
+import com.app.signme.dataclasses.RelationshipType
+import com.app.signme.dataclasses.UserImage
+import com.app.signme.dataclasses.UserMediaList
 import com.app.signme.scheduler.aws.AwsService
 import com.app.signme.view.enablePermission.PermissionEnableActivity
 import com.app.signme.viewModel.UserProfileViewModel
@@ -65,8 +65,6 @@ import java.net.URL
 import java.net.URLDecoder
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
 class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewActionListener {
@@ -90,23 +88,25 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     var lookingForGender: String? = ""
     var relationship: String? = ""
     var lookingForRelation: ArrayList<String>? = null
+    var deleteProfile: ArrayList<String>? = ArrayList<String>()
+    var deleteProfileUrl: ArrayList<String>? = ArrayList<String>()
     var userProfile = ArrayList<UserImage>()
     var lookingFor: ArrayList<String>? = null
     var selectedGender = ""
     var selectedLookingFor = ""
     var genders: Array<String>? = null
     var uploadedFiles = ArrayList<String>()
-    var deleteUserProfile=ArrayList<DeleteUserProfile>()
+    var deleteUserProfile = ArrayList<DeleteUserProfile>()
     var isImageUploading: Boolean = false
-    var latitude:String?=""
-    var longitude:String?=""
+    var latitude: String? = ""
+    var longitude: String? = ""
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     private lateinit var locationCallback: LocationCallback
     var lastKnownLocation: Location? = null
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null
     var locationPermissionGranted: Boolean? = false
     var uploadedFileIndex = 0
-    var selectedPosition=0
+    var selectedPosition = 0
 
     companion object {
         const val TAG = "EditProfileActivity"
@@ -164,10 +164,10 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             binding!!.tvEditProfile.text = getString(R.string.label_edit_profile_toolbar_text)
             binding!!.btnUpdate.text = getString(R.string.label_save_profile)
             binding!!.linFirstLastName.visibility = View.VISIBLE
-            binding!!.btnSelectCity.isClickable=true
-            binding!!.btnSetAddress.visibility=View.VISIBLE
-            latitude= sharedPreference.userDetail!!.latitude
-            longitude= sharedPreference.userDetail!!.longitude
+            binding!!.btnSelectCity.isClickable = true
+            binding!!.btnSetAddress.visibility = View.VISIBLE
+            latitude = sharedPreference.userDetail!!.latitude
+            longitude = sharedPreference.userDetail!!.longitude
             editProfile()
         } else {
             AddGender(genders!!)
@@ -175,41 +175,38 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             binding!!.tvEditProfile.text = getString(R.string.label_complete_profile_toolbar_text)
             binding!!.btnUpdate.text = getString(R.string.label_get_started_profile)
             binding!!.linFirstLastName.visibility = View.GONE
-            binding!!.btnSelectCity.isClickable=false
-            binding!!.btnSetAddress.visibility=View.GONE
-            latitude= sharedPreference.latitude
-            longitude= sharedPreference.longitude
-            getCityAndState(latitude,longitude)
+            binding!!.btnSelectCity.isClickable = false
+            binding!!.btnSetAddress.visibility = View.GONE
+            latitude = sharedPreference.latitude
+            longitude = sharedPreference.longitude
+            getCityAndState(latitude, longitude)
         }
 
 
-        if((application as AppineersApplication).relationshipStatus.isNullOrEmpty())
-        {
+        if ((application as AppineersApplication).relationshipStatus.isNullOrEmpty()) {
             getRelationshipStatus()
-        }else {
+        } else {
 
             addLookingFor((application as AppineersApplication).relationshipStatus)
-            binding!!.btnRefreshRelationship.visibility=View.GONE
+            binding!!.btnRefreshRelationship.visibility = View.GONE
         }
     }
 
     fun editProfile() {
 
-        Log.i(TAG, "editProfile:"+sharedPreference.userDetail?.UserMedia)
-        if(!sharedPreference.userDetail?.UserMedia.isNullOrEmpty())
-        {
-           for((index,response)  in sharedPreference.userDetail?.UserMedia!!.withIndex())
-           {
-               mAdapter!!.replaceItem(
-                   index, UserImage(
-                       imageId = response.mediaId,
-                       localImageId = "",
-                       imageUrl = response.imageUrl,
-                       imageUri = response.imageUrl,
-                       uploadStatus = IConstants.DONE
-                   )
-               )
-           }
+        Log.i(TAG, "editProfile:" + sharedPreference.userDetail?.UserMedia)
+        if (!sharedPreference.userDetail?.UserMedia.isNullOrEmpty()) {
+            for ((index, response) in sharedPreference.userDetail?.UserMedia!!.withIndex()) {
+                mAdapter!!.replaceItem(
+                    index, UserImage(
+                        imageId = response.mediaId,
+                        localImageId = "",
+                        imageUrl = response.imageUrl,
+                        imageUri = response.imageUrl,
+                        uploadStatus = IConstants.DONE
+                    )
+                )
+            }
         }
 
         selectedGender = sharedPreference.userDetail?.gender.toString()
@@ -223,12 +220,13 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
         DOB = sharedPreference.userDetail!!.dob
 
-        var showDob=DOB?.toMMDDYYYDate()
+        var showDob = DOB?.toMMDDYYYDate()
         binding!!.textDOB.text = showDob?.toMMDDYYYStr()
         binding!!.textDOB.setTextColor(Color.parseColor("#ffffff"))
         binding!!.editAboutYou.setText(sharedPreference.userDetail!!.aboutMe)
         binding!!.distanceSlider.value = sharedPreference.userDetail!!.maxDistance!!.toFloat()
-        binding!!.textDistanceSlider.text = sharedPreference.userDetail!!.maxDistance +" "+ getString(R.string.label_km)
+        binding!!.textDistanceSlider.text =
+            sharedPreference.userDetail!!.maxDistance + " " + getString(R.string.label_km)
         selectedLookingFor = sharedPreference.userDetail?.lookingForGender.toString()
         city = sharedPreference.userDetail!!.city
         state = sharedPreference.userDetail!!.stateName
@@ -266,7 +264,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         }
     }
 
-    fun getCityAndState(latitude:String?,longitude:String?) {
+    fun getCityAndState(latitude: String?, longitude: String?) {
         val geocoder = Geocoder(this@EditProfileActivity, Locale.getDefault())
 
         if (!latitude.isNullOrEmpty() && !longitude.isNullOrEmpty()) {
@@ -367,18 +365,18 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
             distanceSlider.addOnChangeListener { slider, value, fromUser ->
                 var distance: Int = value.toInt()
-                textDistanceSlider.text = distance.toString()+" " + getString(R.string.label_km)
+                textDistanceSlider.text = distance.toString() + " " + getString(R.string.label_km)
             }
 
 
-            btnSelectCity.setOnClickListener{
+            btnSelectCity.setOnClickListener {
                 openPlacePicker()
             }
 
-           btnRefreshRelationship.setOnClickListener{
-               getRelationshipStatus()
-           }
-            btnSetAddress.setOnClickListener{
+            btnRefreshRelationship.setOnClickListener {
+                getRelationshipStatus()
+            }
+            btnSetAddress.setOnClickListener {
                 getCurrentLocation()
             }
 
@@ -423,12 +421,13 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                         // Display Selected date in textbox
                         var selectMonth = monthOfYear.toInt() + 1
                         textDOB.setTextColor(Color.parseColor("#ffffff"))
-                        DOB = year1.toString() + "-" + selectMonth.toString() + "-" + dayOfMonth.toString()
+                        DOB =
+                            year1.toString() + "-" + selectMonth.toString() + "-" + dayOfMonth.toString()
                         try {
                             var dateFormat = SimpleDateFormat("yyy-MM-dd")
                             var ageDate = dateFormat.parse(DOB)
                             DOB = dateFormat.format(ageDate)
-                            var showDob=DOB?.toMMDDYYYDate()
+                            var showDob = DOB?.toMMDDYYYDate()
                             binding!!.textDOB.text = showDob?.toMMDDYYYStr()
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -449,8 +448,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
     }
 
-    fun locationEnableOrNot():Boolean
-    {
+    fun locationEnableOrNot(): Boolean {
         val hasPermission = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -461,23 +459,24 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
     }
 
-    fun getCurrentLocation()
-    {
-        val locationStatus=locationEnableOrNot()
-        if(locationStatus)
-        {
+    fun getCurrentLocation() {
+        val locationStatus = locationEnableOrNot()
+        if (locationStatus) {
             showProgressDialog(
                 isCheckNetwork = true,
                 isSetTitle = false,
                 title = IConstants.EMPTY_LOADING_MSG
             )
-            locationPermissionGranted=true
+            locationPermissionGranted = true
             getDeviceLocation()
 
-        }
-        else
-        {
-            startActivity(PermissionEnableActivity.getStartIntent(this@EditProfileActivity,getString(R.string.label_edit)))
+        } else {
+            startActivity(
+                PermissionEnableActivity.getStartIntent(
+                    this@EditProfileActivity,
+                    getString(R.string.label_edit)
+                )
+            )
         }
     }
 
@@ -519,12 +518,14 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                             lastKnownLocation = locationResult.locations[0]
                             mFusedLocationProviderClient?.removeLocationUpdates(this)
 
-                            latitude= lastKnownLocation?.latitude!!.toString()
-                            longitude=lastKnownLocation?.longitude!!.toString()
+                            latitude = lastKnownLocation?.latitude!!.toString()
+                            longitude = lastKnownLocation?.longitude!!.toString()
 
-                            com.app.signme.commonUtils.utility.extension.sharedPreference.latitude=latitude
-                            com.app.signme.commonUtils.utility.extension.sharedPreference.longitude=longitude
-                            getCityAndState(latitude,longitude)
+                            com.app.signme.commonUtils.utility.extension.sharedPreference.latitude =
+                                latitude
+                            com.app.signme.commonUtils.utility.extension.sharedPreference.longitude =
+                                longitude
+                            getCityAndState(latitude, longitude)
                         }
                     }
                 }
@@ -596,32 +597,40 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         var ageStart: String? = binding!!.ageRangeSlider.values[0].toInt().toString()
         var ageEnd: String? = binding!!.ageRangeSlider.values[1].toInt().toString()
 
-        if((binding!!.tietFirstName.text.toString().isNullOrEmpty()))
-        { showMessage(getString(R.string.alert_enter_first_name), IConstants.SNAKBAR_TYPE_ERROR) }
-        else if(!isOnlyAlphabateAndSpace(binding!!.tietFirstName.text.toString()))
-        { showMessage(getString(R.string.alert_invalid_first_name_character), IConstants.SNAKBAR_TYPE_ERROR) }
-        else if((binding!!.tietLastName.text.toString().isNullOrEmpty()))
-        { showMessage(getString(R.string.alert_enter_last_name), IConstants.SNAKBAR_TYPE_ERROR) }
-        else if(!isOnlyAlphabateAndSpace(binding!!.tietLastName.text.toString()))
-        { showMessage(getString(R.string.alert_invalid_last_name_character), IConstants.SNAKBAR_TYPE_ERROR) }
-        else if (selectMyGender.isNullOrEmpty()) {
+        if ((binding!!.tietFirstName.text.toString().isNullOrEmpty())) {
+            showMessage(getString(R.string.alert_enter_first_name), IConstants.SNAKBAR_TYPE_ERROR)
+        } else if (!isOnlyAlphabateAndSpace(binding!!.tietFirstName.text.toString())) {
+            showMessage(
+                getString(R.string.alert_invalid_first_name_character),
+                IConstants.SNAKBAR_TYPE_ERROR
+            )
+        } else if ((binding!!.tietLastName.text.toString().isNullOrEmpty())) {
+            showMessage(getString(R.string.alert_enter_last_name), IConstants.SNAKBAR_TYPE_ERROR)
+        } else if (!isOnlyAlphabateAndSpace(binding!!.tietLastName.text.toString())) {
+            showMessage(
+                getString(R.string.alert_invalid_last_name_character),
+                IConstants.SNAKBAR_TYPE_ERROR
+            )
+        } else if (selectMyGender.isNullOrEmpty()) {
             showMessage(getString(R.string.alert_select_gender), IConstants.SNAKBAR_TYPE_ERROR)
         } else if (DOB.isNullOrEmpty()) {
             showMessage(getString(R.string.alert_select_dob), IConstants.SNAKBAR_TYPE_ERROR)
-        } else if(mAdapter!!.getItem(0).imageUrl.isNullOrEmpty())
-        {
+        } else if (mAdapter!!.getItem(0).imageUrl.isNullOrEmpty()) {
             showMessage(getString(R.string.alert_empty_profile), IConstants.SNAKBAR_TYPE_ERROR)
         } else if (binding!!.editAboutYou.text.toString().isNullOrEmpty()) {
             showMessage(getString(R.string.alert_add_about_you), IConstants.SNAKBAR_TYPE_ERROR)
         } else if (lookingForGender.isNullOrEmpty()) {
             showMessage(getString(R.string.alert_looking_for_gender), IConstants.SNAKBAR_TYPE_ERROR)
         } else if (lookingForRelation.isNullOrEmpty()) {
-            showMessage(getString(R.string.alert_select_relationship), IConstants.SNAKBAR_TYPE_ERROR)
+            showMessage(
+                getString(R.string.alert_select_relationship),
+                IConstants.SNAKBAR_TYPE_ERROR
+            )
         } else if (distance.equals("0")) {
             showMessage(getString(R.string.alert_select_distance), IConstants.SNAKBAR_TYPE_ERROR)
         } else {
 
-            var userMedia:UserMediaList?=null
+            var userMedia: UserMediaList? = null
             if (selectMyGender.equals(getString(R.string.label_non_binary))) {
                 selectMyGender = getString(R.string.non_binary)
             }
@@ -637,7 +646,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 relationship = lookingForRelation!!.joinToString(separator = ",")
             }
 
-            Log.i(TAG, "onItemClick: "+uploadedFiles)
+            Log.i(TAG, "onItemClick: " + uploadedFiles)
             val signUpRequest = viewModel.getEditProfileRequest(
                 //  userProfileImage = getProfileImageUrl(), //imagePath,
                 firstName = binding?.tietFirstName!!.getTrimText(),
@@ -648,7 +657,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 state = state ?: "",
                 dob = DOB!!,
                 deleteImageProfile = currentProfilePathToDelete.toString(),   //currentProfilePathToDelete.toString()
-                deleteImageIds = deletedImageId!!,
+                deleteImageIds = deleteProfile!!.joinToString(separator = ","),
                 gender = selectMyGender!!,
                 aboutMe = binding!!.editAboutYou.text.toString(),
                 lookingForGender = lookingForGender!!,
@@ -686,13 +695,15 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 showMessage(it.settings!!.message, IConstants.SNAKBAR_TYPE_SUCCESS)
                 binding!!.btnUpdate.isClickable = false
 
+                deleteFromAws()
+
                 sharedPreference.userDetail = it.data!![0]
                 uploadedFiles.clear()
-                sharedPreference.userProfileUrl=""
+                sharedPreference.userProfileUrl = ""
                 Handler(mainLooper).postDelayed(
                     {
                         if (status.equals(getString(R.string.label_edit))) {
-                           (application as AppineersApplication).isProfileUpdated.value = true
+                            (application as AppineersApplication).isProfileUpdated.value = true
                             (application as AppineersApplication).isSwiperUpdated.value = true
                             finish()
                         } else {
@@ -704,7 +715,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             }
         }
 
-        viewModel.deleteUserMediaProfileLiveData.observe(this){response->
+        viewModel.deleteUserMediaProfileLiveData.observe(this) { response ->
             hideProgressDialog()
             if (response?.settings?.isSuccess == true) {
                 MSCGenerator.addAction(
@@ -724,11 +735,10 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             }
         }
 
-        (application as AppineersApplication).isCurrentLocationUpdated.observe(this){isUpdate->
-            if(isUpdate)
-            {
-                latitude= sharedPreference.latitude
-                longitude= sharedPreference.longitude
+        (application as AppineersApplication).isCurrentLocationUpdated.observe(this) { isUpdate ->
+            if (isUpdate) {
+                latitude = sharedPreference.latitude
+                longitude = sharedPreference.longitude
                 getCityAndState(sharedPreference.latitude, sharedPreference.longitude)
                 (application as AppineersApplication).isCurrentLocationUpdated.postValue(false)
 
@@ -748,12 +758,11 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
                     addLookingFor(response.data!!)
                     (application as AppineersApplication).relationshipStatus.clear()
-                    for(i in response.data!!)
-                    {
+                    for (i in response.data!!) {
                         (application as AppineersApplication).relationshipStatus.add(i)
                     }
 
-                    binding!!.btnRefreshRelationship.visibility=View.GONE
+                    binding!!.btnRefreshRelationship.visibility = View.GONE
                 }
             }
         }
@@ -767,11 +776,11 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                         val url = URL(URLDecoder.decode(it.callbackKey, "UTF-8"))
                         Log.i("TAG", "addObservers: location " + url)
                         uploadedFiles.add(url.toString())
-                        if(!uploadedFiles.isNullOrEmpty())
-                        {
-                            sharedPreference.userProfileUrl= uploadedFiles!!.joinToString(separator = ",")
+                        if (!uploadedFiles.isNullOrEmpty()) {
+                            sharedPreference.userProfileUrl =
+                                uploadedFiles!!.joinToString(separator = ",")
                         }
-                        handleResponse(it.position, IConstants.DONE, 0,url.toString())
+                        handleResponse(it.position, IConstants.DONE, 0, url.toString())
                         (application as AppineersApplication).awsFileUploader.postValue(null)
                         enableDisableView(binding?.btnUpdate!!, true)
                     }
@@ -800,7 +809,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         }
 
         viewModel.statusRelationshipCodeLiveData.observe(this) { serverError ->
-            binding!!.btnRefreshRelationship.visibility=View.VISIBLE
+            binding!!.btnRefreshRelationship.visibility = View.VISIBLE
             hideProgressDialog()
             handleApiStatusCodeError(serverError)
         }
@@ -811,11 +820,30 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 focusInvalidInput(it.failType!!)
         }
 
+    }
 
+    private fun deleteFromAws() {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (!deleteProfileUrl.isNullOrEmpty()) {
+                deleteProfileUrl!!.forEach { image ->
+                    AwsService.deleteFile(image.substringAfter(".com/"))
+                }
+                deleteProfileUrl!!.clear()
+                (application as AppineersApplication).awsFileUploader.postValue(
+                    null
+                )
+                sendBroadcast(Intent(AwsService.UPLOAD_CANCELLED_ACTION))
+            }
+        }
     }
 
 
-    private fun handleResponse(index: Int, uploadingStatus: String, percent: Int,url:String="") {
+    private fun handleResponse(
+        index: Int,
+        uploadingStatus: String,
+        percent: Int,
+        url: String = ""
+    ) {
 
         var position = index
         if (index >= 6) {
@@ -828,7 +856,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 UserImage(
                     imageId = "",
                     localImageId = "",
-                    imageUrl = if(url.isEmpty())localItem.imageUrl else url,
+                    imageUrl = if (url.isEmpty()) localItem.imageUrl else url,
                     imageUri = localItem.imageUri,
                     uploadStatus = if (percent == 100) IConstants.DONE else uploadingStatus,
                     progress = percent
@@ -910,17 +938,16 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         val locationAddress =
             place.addressComponents?.let { super.getParseAddressComponents(addressComponents = it) }
 
-         latitude=place.latLng.latitude.toString()
-         longitude=place.latLng.longitude.toString()
-         city=locationAddress?.city
-         state=locationAddress?.state
+        latitude = place.latLng.latitude.toString()
+        longitude = place.latLng.longitude.toString()
+        city = locationAddress?.city
+        state = locationAddress?.state
 
         val cityState = city + "," + " " + state
         binding!!.textCityState.setText(cityState)
 
         logger.debugEvent("Place Result", place.address ?: "")
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1051,7 +1078,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
 
-        selectedPosition=position
+        selectedPosition = position
         when (viewId) {
             R.id.ibtnAddImage -> {
                 checkPermission()
@@ -1099,41 +1126,34 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                         try {
 
                             val uploadedFile = mAdapter!!.getItem(position).imageUrl
-                            if (AwsService.deleteFile(uploadedFile!!.substringAfter(".com/"))) {
 
-                                if(mAdapter!!.getItem(selectedPosition).imageId.isNullOrEmpty())
-                                {
-                                    hideProgressDialog()
-                                    mAdapter!!.removeItem(selectedPosition)
-                                    mAdapter!!.addItem(UserImage("", "", "", ""))
-                                    Log.i("TAG", "myfile" + uploadedFiles)
-                                }else
-                                {
-                                    deleteProfile()
-                                }
-
-                                Log.i(TAG, "onItemClick: "+uploadedFiles)
-                                Log.i(TAG, "onItemClick: "+uploadedFile)
-
-                                if(!uploadedFiles.isNullOrEmpty() && uploadedFiles.contains(uploadedFile))
-                                {
-                                    uploadedFiles.remove(uploadedFile)
-                                }
-
-
-                                if(!uploadedFiles.isNullOrEmpty())
-                                {
-                                    sharedPreference.userProfileUrl= uploadedFiles!!.joinToString(separator = ",")
-                                }
-                                else
-                                {
-                                    sharedPreference.userProfileUrl=""
-                                }
-
-                            } else {
+                            if (mAdapter!!.getItem(selectedPosition).imageId.isNullOrEmpty()) {
                                 hideProgressDialog()
-                                "Failed to delete".showSnackBar(this@EditProfileActivity)
+                                mAdapter!!.removeItem(selectedPosition)
+                                mAdapter!!.addItem(UserImage("", "", "", ""))
+                                Log.i("TAG", "myfile" + uploadedFiles)
+                            } else {
+                                deleteProfile()
                             }
+
+                            Log.i(TAG, "onItemClick: " + uploadedFiles)
+                            Log.i(TAG, "onItemClick: " + uploadedFile)
+
+                            if (!uploadedFiles.isNullOrEmpty() && uploadedFiles.contains(
+                                    uploadedFile
+                                )
+                            ) {
+                                uploadedFiles.remove(uploadedFile)
+                            }
+
+
+                            if (!uploadedFiles.isNullOrEmpty()) {
+                                sharedPreference.userProfileUrl =
+                                    uploadedFiles!!.joinToString(separator = ",")
+                            } else {
+                                sharedPreference.userProfileUrl = ""
+                            }
+
 
                         } catch (e: Exception) {
                             hideProgressDialog()
@@ -1142,7 +1162,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                     }
                     return
                 } else {
-                   // mAdapter!!.replaceItem(position, UserImage("", "", "", ""))
+                    // mAdapter!!.replaceItem(position, UserImage("", "", "", ""))
                     mAdapter!!.removeItem(position)
                     mAdapter!!.addItem(UserImage("", "", "", ""))
 
@@ -1153,16 +1173,22 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
     }
 
 
-    fun deleteProfile()
-    {
-        val map = HashMap<String, String>()
-        map["media_id"] = mAdapter!!.getItem(selectedPosition).imageId!!
-        viewModel.CallDeleteMediaProfile(map)
+    fun deleteProfile() {
+
+        deleteProfile?.add(mAdapter!!.getItem(selectedPosition).imageId!!)
+        deleteProfileUrl?.add(mAdapter!!.getItem(selectedPosition).imageUrl!!)
+
+        hideProgressDialog()
+        mAdapter!!.removeItem(selectedPosition)
+        mAdapter!!.addItem(UserImage("", "", "", ""))
+
+    //        val map = HashMap<String, String>()
+//        map["media_id"] = mAdapter!!.getItem(selectedPosition).imageId!!
+//        viewModel.CallDeleteMediaProfile(map)
     }
 
 
-    override fun onLoadMore(itemCount: Int, nextPage: Int)
-    {
+    override fun onLoadMore(itemCount: Int, nextPage: Int) {
 
     }
 

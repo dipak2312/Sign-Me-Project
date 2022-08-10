@@ -7,10 +7,12 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DiffUtil
 import com.app.signme.R
 import com.app.signme.adapter.SwiperViewAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.SwiperDiffCallback
 import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.commonUtils.utility.extension.toMMDDYYYDate
 import com.app.signme.commonUtils.utility.extension.toMMDDYYYStr
@@ -46,6 +48,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
     var manager: CardStackLayoutManager? = null
     var status: String? = ""
     var direction: String? = ""
+    var pageIndex=1
     private val firebaseFireStoreDB = FirebaseFirestore.getInstance()
     private var chatRoomId: String = "Chats"
 
@@ -112,10 +115,20 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
 
                 binding!!.shimmer.startShimmer()
 
-                viewModel.getSwiperList("1", sharedPreference.userDetail!!.astrologySignId)
+                viewModel.getSwiperList(pageIndex.toString(), sharedPreference.userDetail!!.astrologySignId)
             }
         }
     }
+
+    fun paginateSwiperList()
+    {
+        when {
+            checkInternet() -> {
+
+                viewModel.getSwiperList(pageIndex.toString(), sharedPreference.userDetail!!.astrologySignId)
+            }
+        }
+   }
 
 
     fun callLikeSuperlikeCancel(userId: String?, status: String) {
@@ -162,8 +175,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 swapReject()
             }
             btnLike.setOnClickListener {
-
-
                 if (sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount) {
                     startActivity(
                         SubscriptionPlansActivity.getStartIntent(
@@ -206,8 +217,21 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             binding!!.buttonContainer.visibility = View.VISIBLE
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
-                    mAdapter!!.addAllItem(response.data!!)
-                    mAdapter!!.notifyDataSetChanged()
+                    val old = mAdapter!!.getAllItems()
+                    if(old.isNullOrEmpty())
+                    {
+                        mAdapter!!.addAllItem(response.data!!)
+                        mAdapter!!.notifyDataSetChanged()
+                    }
+                    else
+                    {
+                        val new = old.plus(response.data!!)
+                        val callback = SwiperDiffCallback(old, new)
+                        val result = DiffUtil.calculateDiff(callback)
+                        mAdapter!!.addAllItem(response.data!!)
+                        result.dispatchUpdatesTo(mAdapter!!)
+                    }
+
                 }
             }
         }
@@ -227,14 +251,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             binding!!.shimmer.stopShimmer()
-            if (serverError.code == 500) {
+            if (serverError.code == 500 || serverError.code == 404) {
                 binding!!.shimmer.visibility = View.GONE
                 binding!!.relEmptyMessage.visibility = View.VISIBLE
             }
-            else if (serverError.code == 404) {
-                binding!!.shimmer.visibility = View.GONE
-                binding!!.relEmptyMessage.visibility = View.VISIBLE
-            }else {
+           else {
                 (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
             }
         }
@@ -254,6 +275,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 binding!!.shimmer.visibility = View.VISIBLE
                 binding!!.shimmer.startShimmer()
                 binding!!.buttonContainer.visibility = View.GONE
+                pageIndex=1
                 getSwiperList()
                 (activity?.application as AppineersApplication).isSwiperUpdated.postValue(false)
             }
@@ -280,6 +302,24 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 (activity?.application as AppineersApplication).LikeSuperlikeCancelRequest.postValue(null)
             }
         }
+
+        (activity?.application as AppineersApplication).LikeUserIdRequest.observe(this) { response ->
+            if (response != null) {
+                replaceUserIdStatus(response.userId)
+
+            }
+        }
+    }
+
+    private fun replaceUserIdStatus(userId: String?) {
+        val user = mAdapter!!.getAllItems().find { it.userId == userId }
+        if (user != null) {
+            val index = mAdapter!!.getAllItems().indexOf(user)
+            var mylist=mAdapter!!.getItem(index)
+            mylist.isLike="Yes"
+            mAdapter!!.replaceItem(index,mylist)
+        }
+        (activity?.application as AppineersApplication).LikeSuperlikeCancelRequest.postValue(null)
     }
 
 
@@ -337,14 +377,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             }
         }
 
-        //  if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
-//            val old = mAdapter!!.getAllItems()
-//            val new = old.plus(createswiperValue())
-//            val callback = SwiperDiffCallback(old, new)
-//            val result = DiffUtil.calculateDiff(callback)
-//            mAdapter!!.addAllItem(new)
-//            result.dispatchUpdatesTo(mAdapter!!)
-        //  }
+          if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
+              pageIndex++
+              paginateSwiperList()
+          }
 
         if (manager!!.topPosition == mAdapter!!.itemCount) {
             binding!!.relEmptyMessage.visibility = View.VISIBLE

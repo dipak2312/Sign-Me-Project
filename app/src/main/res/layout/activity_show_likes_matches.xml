@@ -117,6 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view"
+                android:layout_above="@+id/progressBar"
                 android:layout_marginTop="@dimen/dimen_16dp"
                 android:layout_marginBottom="@dimen/dimen_16dp"
                 android:overScrollMode="never"
@@ -124,6 +125,17 @@
                 app:spanCount="2"
                 tools:itemCount="10"
                 tools:listitem="@layout/item_matches" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/ProgressDialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </RelativeLayout>
 

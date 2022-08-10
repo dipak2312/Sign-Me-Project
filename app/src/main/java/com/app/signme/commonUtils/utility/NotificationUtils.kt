@@ -21,6 +21,8 @@ import androidx.core.content.ContextCompat
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.helper.LOGApp
+import com.app.signme.dataclasses.LikeSuperlikeCancelCallback
+import com.app.signme.dataclasses.LikeUserIdCallback
 import com.app.signme.view.SplashActivity
 import com.google.firebase.messaging.RemoteMessage
 import org.json.JSONObject
@@ -82,6 +84,11 @@ class NotificationUtils {
                     action = System.currentTimeMillis().toString()
                     putExtra(IConstants.OTHERS, jsonObject.toString())
                 }
+
+                val sender_id = jsonObject.getString(IConstants.PARAM_SENDER_ID)
+                var LikeUserIdCallback = LikeUserIdCallback()
+                LikeUserIdCallback.userId=sender_id
+                (application as AppineersApplication).LikeUserIdRequest.postValue(LikeUserIdCallback)
 
                 // Create the TaskStackBuilder and add the intent, which inflates the back stack
                 val stackBuilder = TaskStackBuilder.create(mContext)

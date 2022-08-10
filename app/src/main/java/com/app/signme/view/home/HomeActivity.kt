@@ -243,7 +243,12 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
         })
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
-            handleApiStatusCodeError(serverError)
+
+            if (serverError.code == 500 || serverError.code == 404) {
+            }
+            else {
+                handleApiStatusCodeError(serverError)
+            }
         }
 
     }

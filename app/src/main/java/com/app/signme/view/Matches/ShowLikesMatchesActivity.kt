@@ -70,7 +70,7 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
                     isSetTitle = false,
                     title = IConstants.EMPTY_LOADING_MSG
                 )
-                viewModel.getViewAllList("1",type)
+                viewModel.getViewAllList(mAdapter!!.nextPage.toString(),type)
             }
         }
     }
@@ -88,10 +88,13 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
 
         viewModel.viewLikeSuperlikeMatchesLiveData.observe(this) { response ->
             hideProgressDialog()
+            hideProgressBar()
             if (response?.settings?.isSuccess == true) {
 
                 if(!response.data.isNullOrEmpty())
                 {
+                    mAdapter!!.totalCount = response.settings?.count!!
+                    mAdapter!!.nextPage = mAdapter!!.nextPage + 1
                     mAdapter!!.addAllItem(response.data!!)
                 }
 
@@ -168,6 +171,13 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
         }
     }
 
+    private fun showProgressBar() {
+        binding!!.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding!!.progressBar.visibility = View.GONE
+    }
 
     fun callOtherDetails(isLike:String,position: Int,status:String){
         var otherUserResponse= SwiperViewResponse(isLike = isLike,name = mAdapter!!.getItem(position).firstName,profileImage = mAdapter!!.getItem(position).profileImage)
@@ -175,6 +185,7 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
     }
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
-
+        showProgressBar()
+        viewModel.getViewAllList(mAdapter!!.nextPage.toString(),type)
     }
 }
