@@ -8,5 +8,7 @@ data class PurchasedSubscription(
     @JsonProperty("subscription_status")
     val subscriptionStatus: String? = null,
     @JsonProperty("purchase_token")
-    val purchaseToken: String? = null
+    val purchaseToken: String? = null,
+    @JsonProperty("subscription_type")
+    val subscriptionType: String? = null
 )

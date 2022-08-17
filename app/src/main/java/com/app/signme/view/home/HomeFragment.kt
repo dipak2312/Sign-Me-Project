@@ -263,7 +263,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         (activity?.application as AppineersApplication).isSubscriptionTaken.observe(this){isSubscribe->
             if(isSubscribe)
             {
-              likeHideShow()
+              likeHideShow("No")
             }
 
         }
@@ -352,9 +352,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                         showMatchPopup(mAdapter!!.getItem(manager!!.topPosition - 1))
                     }
 
-                    var likeValue = sharedPreference.likeCount
-                    sharedPreference.likeCount = likeValue + 1
-                    likeHideShow()
+                    likeHideShow("Right")
                 } else {
                     status = ""
                 }
@@ -368,9 +366,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                     if (mAdapter!!.getAllItems()[manager!!.topPosition - 1].isLike.equals("Yes")) {
                         showMatchPopup(mAdapter!!.getItem(manager!!.topPosition - 1))
                     }
-                    var superLikeCountValue = sharedPreference.superLikeCount
-                    sharedPreference.superLikeCount = superLikeCountValue + 1
-                    likeHideShow()
+                    likeHideShow("Top")
                 } else {
                     status = ""
                 }
@@ -467,37 +463,57 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
     override fun onResume() {
         super.onResume()
 
-        likeHideShow()
+        likeHideShow("No")
     }
 
-    private fun likeHideShow() {
-        val likeLimitReached =
-            (sharedPreference.configDetails!!.defaultLikeCount == sharedPreference.likeCount)
-        val superLikeLimitReached =
-            (sharedPreference.configDetails!!.defaultSuperLikeCount == sharedPreference.superLikeCount)
-        when {
+    private fun likeHideShow(status:String) {
 
-            (likeLimitReached && superLikeLimitReached) -> {
-                manager!!.setDirections(arrayOf(Direction.Left).toMutableList())
-                binding.cardStackView.layoutManager = manager
-            }
-            likeLimitReached -> {
-                manager!!.setDirections(arrayOf(Direction.Left, Direction.Top).toMutableList())
-                binding.cardStackView.layoutManager = manager
+        var subscription=sharedPreference.configDetails!!.subscription
+        if(subscription.isNullOrEmpty() || subscription[0].subscriptionType.equals(IConstants.REGULAR) ||
+            (subscription[0].subscriptionType.equals(IConstants.GOLDEN)) && subscription[0].subscriptionStatus.equals("0") ) {
+
+            if (status.equals("Top")) {
+                var superLikeCountValue = sharedPreference.superLikeCount
+                sharedPreference.superLikeCount = superLikeCountValue + 1
+            } else if (status.equals("Right")) {
+                var likeValue = sharedPreference.likeCount
+                sharedPreference.likeCount = likeValue + 1
             }
 
-            superLikeLimitReached -> {
-                manager!!.setDirections(arrayOf(Direction.Left, Direction.Right).toMutableList())
-                binding.cardStackView.layoutManager = manager
-            }
-        }
+            val likeLimitReached =
+                (sharedPreference.configDetails!!.defaultLikeCount == sharedPreference.likeCount)
+            val superLikeLimitReached =
+                (sharedPreference.configDetails!!.defaultSuperLikeCount == sharedPreference.superLikeCount)
+            when {
 
-        val count =
-            sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
-        if (count == 0) {
-            binding.textSuperlikeCount.visibility = View.GONE
-        } else {
-            binding.textSuperlikeCount.text = count.toString()
+                (likeLimitReached && superLikeLimitReached) -> {
+                    manager!!.setDirections(arrayOf(Direction.Left).toMutableList())
+                    binding.cardStackView.layoutManager = manager
+                }
+                likeLimitReached -> {
+                    manager!!.setDirections(arrayOf(Direction.Left, Direction.Top).toMutableList())
+                    binding.cardStackView.layoutManager = manager
+                }
+                superLikeLimitReached -> {
+                    manager!!.setDirections(
+                        arrayOf(
+                            Direction.Left,
+                            Direction.Right
+                        ).toMutableList()
+                    )
+                    binding.cardStackView.layoutManager = manager
+                }
+            }
+
+            val count =
+                sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
+            if (count == 0) {
+                binding.textSuperlikeCount.visibility = View.GONE
+            } else {
+                binding.textSuperlikeCount.visibility = View.VISIBLE
+                binding.textSuperlikeCount.text = count.toString()
+            }
+
         }
     }
 

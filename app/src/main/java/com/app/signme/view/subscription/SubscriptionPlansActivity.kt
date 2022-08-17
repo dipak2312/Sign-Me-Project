@@ -64,7 +64,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
     private var flag_upgrade_downgrade = "0"
     private var purchaseToken = ""
     private var oldSku = ""
-    var subscriptionType:String=IConstants.REGULER
+    var subscriptionType:String=IConstants.REGULAR
     private var selectedSubscriptionPosition = 0
 
 
@@ -262,7 +262,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
                                 title = IConstants.EMPTY_LOADING_MSG
                             )
 
-                            if(subscriptionType.equals(IConstants.REGULER))
+                            if(subscriptionType.equals(IConstants.REGULAR))
                             {
                                 viewModel.callBuyRegulerSubscription(receiptData)
                             }
@@ -349,7 +349,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
 
             linRegularSubscription.setOnClickListener{
-                subscriptionType=IConstants.REGULER
+                subscriptionType=IConstants.REGULAR
                 linRegularSubscription.setBackgroundResource(R.drawable.bg_subscription_select)
                 linGoldenSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
                 textUpgradeProfile.text=getString(R.string.label_Regular_subscription_text)

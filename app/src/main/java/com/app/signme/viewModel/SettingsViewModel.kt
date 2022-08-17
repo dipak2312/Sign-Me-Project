@@ -243,7 +243,7 @@ class SettingsViewModel(
             map["receipt_type"] = getStringRequestBody(receiptData.receiptType)
             map["purchase_token"] = getStringRequestBody(receiptData.purchaseToken)
             map["PACKAGE_NAME"] = getStringRequestBody(receiptData.packageName)
-            map["subscription_type"] = getStringRequestBody(IConstants.REGULER)
+            map["subscription_type"] = getStringRequestBody(IConstants.REGULAR)
         }
         compositeDisposable.addAll(
             settingsRepository.callBuyRegulerSubscription(map)

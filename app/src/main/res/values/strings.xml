@@ -401,7 +401,7 @@
     <string name="_15_off">$15 off</string>
     <string name="admob_native_unit_id_test" translatable="false">/6499/example/native</string>
     <string name="label_regular_month_price">$4.99</string>
-    <string name="label_regular_subscription">Reguler Subscription</string>
+    <string name="label_regular_subscription">Regular Subscription</string>
     <string name="label_montyly_subscription">MONTHLY</string>
     <string name="label_golden_subscription">Golden Subscription</string>
     <string name="label_golden_month_price">$9.99</string>

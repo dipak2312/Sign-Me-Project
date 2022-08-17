@@ -156,7 +156,6 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         updateAdConfiguration(configDefaultDetails)
         val config = configDefaultDetails
 
-
         checkUpdateAndTC(config)
 //        if (config.address.equals("")
 //            && !sharedPreference.isDoNotShowMeAgainClicked
@@ -224,7 +223,6 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             isShown = true
             updateVersion = configDetails
             callAgreePrivacyPolicyTermsConditions(updateVersion)
-
 
         } else if (!configDetails.termsConditionsVersion.equals(configDetails.termsConditionsVersionApplication)
             && !configDetails.privacyPolicyVersion.equals(configDetails.privacyPolicyVersionApplication)
@@ -437,7 +435,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             {
                 if(sharedPreference.configDetails!!.isUpdated.equals("0"))
                 {
-                 startActivity(EditProfileActivity.getStartIntent(this@SplashActivity,IConstants.ADD))
+                    startActivity(EditProfileActivity.getStartIntent(this@SplashActivity,IConstants.ADD))
                     finish()
                 }
                 else
@@ -471,11 +469,11 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             }
             IConstants.APP_UPDATE_REQUEST_CODE -> {
                 goNext()
-                Toast.makeText(this@SplashActivity, "Optional", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this@SplashActivity, "Optional", Toast.LENGTH_LONG).show()
             }
             IConstants.APP_FORCE_UPDATE_REQUEST_CODE -> {
                 recreate()
-                Toast.makeText(this@SplashActivity, "Force", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this@SplashActivity, "Force", Toast.LENGTH_LONG).show()
             }
 
         }

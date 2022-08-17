@@ -121,7 +121,7 @@ interface IConstants {
         const val ACTIVE_LOG_STATUS = "active"
         const val INACTIVE_LOG_STATUS = "inactive"
         const val TYPE = "type"
-        const val REGULER="Reguler"
+        const val REGULAR="Regular"
         const val GOLDEN="Golden"
 
 
