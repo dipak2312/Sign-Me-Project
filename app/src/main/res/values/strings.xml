@@ -389,6 +389,7 @@
     <string name="eula_policy">Eula Policy</string>
     <string name="update_subscription">Update Subscription</string>
     <string name="upgrade_and_downgrade">Upgrade and Downgrade</string>
+    <string name="subscription_limit_over">You purchased reguler subscription but your daily superlike limit is over, to get more superlikes need to subscribe golden subscription.</string>
     <string name="ONE">one</string>
     <string name="TWO">two</string>
     <string name="THREE">two</string>

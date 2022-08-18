@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.app.job.JobScheduler
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
@@ -173,6 +174,12 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
             }
         }
         return hasBeenScheduled
+    }
+
+
+    fun enableDisableButton(view: View, enabled: Boolean) {
+        view.isEnabled = enabled
+        view.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(if (enabled) R.color.app_color else R.color.warm_grey)))
     }
 
     /**

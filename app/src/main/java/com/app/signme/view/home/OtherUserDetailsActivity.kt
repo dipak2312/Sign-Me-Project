@@ -20,6 +20,7 @@ import com.app.signme.databinding.ActivityOtherUserDetailsBinding
 import com.app.signme.dataclasses.LikeSuperlikeCancelCallback
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.dataclasses.UserImage
+import com.app.signme.view.CustomDialog
 import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.dialogs.MatchesDialog
 import com.app.signme.view.dialogs.UnMatchDialog
@@ -126,27 +127,55 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 }
 
                 btnSuperLike.setOnClickListener{
-                    if(sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount)
-                    {
-                        startActivity(SubscriptionPlansActivity.getStartIntent(this@OtherUserDetailsActivity,"1"))
-                    }
-                    else
+                    if (sharedPreference.configDetails!!.defaultSuperLikeCount!!.toInt() <= sharedPreference.superLikeCount) {
+                        if (sharedPreference.configDetails!!.subscription.isNullOrEmpty()) {
+                            startActivity(
+                                SubscriptionPlansActivity.getStartIntent(
+                                    this@OtherUserDetailsActivity,
+                                    "1"
+                                )
+                            )
+                        } else {
+                            if (sharedPreference.configDetails!!.subscription!![0].subscriptionType.equals(
+                                    IConstants.REGULAR
+                                ) && sharedPreference.configDetails!!.subscription!![0].subscriptionStatus.equals(
+                                    "1"
+                                )
+                            ) {
+                                openDialogSubscriptionOver()
+                            } else {
+                                startActivity(
+                                    SubscriptionPlansActivity.getStartIntent(
+                                        this@OtherUserDetailsActivity,
+                                        "1"
+                                    )
+                                )
+                            }
+                        }
+
+                    }else
                     {
                         status=IConstants.SUPERLIKE
                         callLikeSuperlikeCancel(userId,IConstants.SUPERLIKE)
                     }
+
+
                 }
 
                 btnLike.setOnClickListener{
-                    if(sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount)
-                    {
-                        startActivity(SubscriptionPlansActivity.getStartIntent(this@OtherUserDetailsActivity,"1"))
-                    }
-                    else
+                    if (sharedPreference.configDetails!!.defaultLikeCount!!.toInt()<= sharedPreference.likeCount) {
+                        startActivity(
+                            SubscriptionPlansActivity.getStartIntent(
+                                this@OtherUserDetailsActivity,
+                                "1"
+                            )
+                        )
+                    }else
                     {
                         status=IConstants.LIKE
                         callLikeSuperlikeCancel(userId,IConstants.LIKE)
                     }
+
                 }
 
                 btnMatchClose.setOnClickListener{
@@ -182,6 +211,32 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 viewModel.callLikeSuperLikeCancel(map)
             }
         }
+    }
+
+
+    fun openDialogSubscriptionOver() {
+        CustomDialog(
+            title = getString(R.string.app_name),
+            message = getString(R.string.subscription_limit_over),
+            positiveButtonText = getString(R.string.logger_label_ok),
+            negativeButtonText = getString(R.string.logger_label_cancel),
+            cancellable = true,
+            mListener = object : CustomDialog.ClickListener {
+
+                override fun onSuccess() {
+                    startActivity(
+                        SubscriptionPlansActivity.getStartIntent(
+                            this@OtherUserDetailsActivity,
+                            "1"
+                        )
+                    )
+                }
+
+                override fun onCancel() {
+
+                }
+
+            }).show(supportFragmentManager, "tag")
     }
 
 
@@ -445,9 +500,11 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
 
     fun getSupeLikeCount()
     {
-        var count = sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(
-            sharedPreference.superLikeCount
-        )
+        var count =0
+        if(sharedPreference.configDetails!!.defaultSuperLikeCount!!.toInt() >= sharedPreference.superLikeCount)
+        {
+            count= sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)!!
+        }
         if (count == 0) {
             binding!!.textSuperLikeCount.visibility = View.GONE
         } else {

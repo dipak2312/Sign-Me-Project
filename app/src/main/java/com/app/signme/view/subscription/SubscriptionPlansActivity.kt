@@ -1,6 +1,6 @@
 package com.app.signme.view.subscription
 
-import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -24,10 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.billingclient.api.SkuDetails
-
-
 import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
@@ -35,22 +32,18 @@ import com.app.signme.commonUtils.utility.RemoteIdlingResource
 import com.app.signme.commonUtils.utility.extension.getJsonDataFromAsset
 import com.app.signme.commonUtils.utility.extension.sharedPreference
 import com.app.signme.commonUtils.utility.extension.showSnackBar
+import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivitySubscriptionPlansBinding
 import com.app.signme.dataclasses.SubscriptionPlan
+import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.dataclasses.response.GoogleReceipt
 import com.app.signme.dataclasses.response.StaticPage
-import com.app.signme.core.BaseActivity
-import com.app.signme.dataclasses.VersionConfigResponse
 import com.app.signme.view.settings.SettingsActivity
 import com.app.signme.view.settings.staticpages.StaticPagesMultipleActivity
 import com.app.signme.viewModel.SettingsViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.android.synthetic.main.activity_subscription_plans.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
@@ -64,7 +57,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
     private var flag_upgrade_downgrade = "0"
     private var purchaseToken = ""
     private var oldSku = ""
-    var subscriptionType:String=IConstants.REGULAR
+    var subscriptionType: String = IConstants.REGULAR
     private var selectedSubscriptionPosition = 0
 
 
@@ -75,6 +68,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
         }
     }
+
     override fun setDataBindingLayout() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_subscription_plans)
         binding.lifecycleOwner = this
@@ -108,9 +102,47 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
 
         initView()
         initListeners()
+        enableDisableUpgradeSubscription(IConstants.REGULAR)
+
+
     }
 
+    fun enableDisableUpgradeSubscription(status: String) {
+        if (sharedPreference.configDetails!!.subscription.isNullOrEmpty()) {
+            enableDisableButton(binding!!.btnSubscribe, true)
+        } else {
+            when (status) {
+                IConstants.REGULAR -> {
 
+                    if (sharedPreference.configDetails!!.subscription!![0].subscriptionType.equals(
+                            IConstants.REGULAR
+                        ) && sharedPreference.configDetails!!.subscription!![0].subscriptionStatus.equals(
+                            "1"
+                        )
+                    ) {
+                        enableDisableButton(binding!!.btnSubscribe, false)
+                    } else {
+                        enableDisableButton(binding!!.btnSubscribe, true)
+                    }
+                }
+
+                IConstants.GOLDEN -> {
+
+                    if (sharedPreference.configDetails!!.subscription!![0].subscriptionType.equals(
+                            IConstants.GOLDEN
+                        ) && sharedPreference.configDetails!!.subscription!![0].subscriptionStatus.equals(
+                            "1"
+                        )
+                    ) {
+
+                        enableDisableButton(binding!!.btnSubscribe, false)
+                    } else {
+                        enableDisableButton(binding!!.btnSubscribe, true)
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Initialize view
@@ -144,7 +176,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
         } else {
             viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
-           // initRecycleView()
+            // initRecycleView()
             addObserver()
             loadSubscriptionPlans()
             binding.btnSubscribe.visibility = View.VISIBLE
@@ -166,7 +198,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
         var subscriptionPlanList: ArrayList<SubscriptionPlan> = ArrayList()
         subscriptionPlanList =
             getJsonListDataFromAsset(this@SubscriptionPlansActivity, "subscription_plan_list.json")
-       // setSubscriptionListData(subscriptionPlanList)
+        // setSubscriptionListData(subscriptionPlanList)
     }
 
     /**
@@ -262,12 +294,9 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
                                 title = IConstants.EMPTY_LOADING_MSG
                             )
 
-                            if(subscriptionType.equals(IConstants.REGULAR))
-                            {
+                            if (subscriptionType.equals(IConstants.REGULAR)) {
                                 viewModel.callBuyRegulerSubscription(receiptData)
-                            }
-                            else
-                            {
+                            } else {
                                 viewModel.callBuyGoldenSubscription(receiptData)
                             }
                         }
@@ -292,7 +321,7 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
         }
         viewModel.buySubscriptionLiveData.observe(this@SubscriptionPlansActivity) {
-           // hideProgressDialog()
+            // hideProgressDialog()
             if (it.settings?.isSuccess == true) {
                 if (it.data != null) {
 
@@ -318,10 +347,14 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
                 if (!it.data.isNullOrEmpty()) {
                     AppineersApplication.sharedPreference.configDetails =
                         it.data!!.get(0)
-                    var configDefaultDetails: VersionConfigResponse? = AppineersApplication.sharedPreference.configDetails
-                    AppineersApplication.sharedPreference.isSubscription=configDefaultDetails!!.isSubscriptionTaken()
-                    AppineersApplication.sharedPreference.likeCount= it.data!!.get(0).likeUserCount!!
-                    AppineersApplication.sharedPreference.superLikeCount= it.data!!.get(0).superLikeUserCount!!
+                    var configDefaultDetails: VersionConfigResponse? =
+                        AppineersApplication.sharedPreference.configDetails
+                    AppineersApplication.sharedPreference.isSubscription =
+                        configDefaultDetails!!.isSubscriptionTaken()
+                    AppineersApplication.sharedPreference.likeCount =
+                        it.data!!.get(0).likeUserCount!!
+                    AppineersApplication.sharedPreference.superLikeCount =
+                        it.data!!.get(0).superLikeUserCount!!
                     (application as AppineersApplication).isSubscriptionTaken.value =
                         it.data!![0].isSubscriptionTaken()
 
@@ -337,7 +370,6 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
     }
 
 
-
     /**
      * Initialise listeners to listen all click and other actions performed by user
      */
@@ -348,42 +380,124 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
                 finish()
             }
 
-            linRegularSubscription.setOnClickListener{
-                subscriptionType=IConstants.REGULAR
+            linRegularSubscription.setOnClickListener {
+                subscriptionType = IConstants.REGULAR
+                enableDisableUpgradeSubscription(IConstants.REGULAR)
                 linRegularSubscription.setBackgroundResource(R.drawable.bg_subscription_select)
                 linGoldenSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
-                textUpgradeProfile.text=getString(R.string.label_Regular_subscription_text)
-                textRegularPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
-                textRegularMothly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
-                textRegularSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
-                textGoldenPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
-                textGoldenMonthly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
-                textGoldenSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
-                checkRegularTick.visibility=View.VISIBLE
-                checkGoldenTick.visibility=View.INVISIBLE
+                textUpgradeProfile.text = getString(R.string.label_Regular_subscription_text)
+                textRegularPrice.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
+                textRegularMothly.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
+                textRegularSubscription.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
+                textGoldenPrice.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
+                textGoldenMonthly.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
+                textGoldenSubscription.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
+                checkRegularTick.visibility = View.VISIBLE
+                checkGoldenTick.visibility = View.INVISIBLE
                 tick.setImageResource(R.drawable.ic_subscription_green_tick)
                 tick1.setImageResource(R.drawable.ic_subscription_green_tick)
-                textSubDesc.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
-                textUpgradeProfile.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
+                textSubDesc.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
+                textUpgradeProfile.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
             }
 
-            linGoldenSubscription.setOnClickListener{
-                subscriptionType=IConstants.GOLDEN
+            linGoldenSubscription.setOnClickListener {
+                subscriptionType = IConstants.GOLDEN
+                enableDisableUpgradeSubscription(IConstants.GOLDEN)
                 linGoldenSubscription.setBackgroundResource(R.drawable.bg_subscription_select)
                 linRegularSubscription.setBackgroundResource(R.drawable.bg_button_blak_unselect)
-                textUpgradeProfile.text=getString(R.string.label_golden_subscription_text)
-                textRegularPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
-                textRegularMothly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
-                textRegularSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.white))
-                textGoldenPrice.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
-                textGoldenMonthly.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
-                textGoldenSubscription.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
-                checkRegularTick.visibility=View.INVISIBLE
-                checkGoldenTick.visibility=View.VISIBLE
+                textUpgradeProfile.text = getString(R.string.label_golden_subscription_text)
+                textRegularPrice.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
+                textRegularMothly.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
+                textRegularSubscription.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.white
+                    )
+                )
+                textGoldenPrice.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
+                textGoldenMonthly.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
+                textGoldenSubscription.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
+                checkRegularTick.visibility = View.INVISIBLE
+                checkGoldenTick.visibility = View.VISIBLE
                 tick.setImageResource(R.drawable.ic_subscription_light_orange_tick)
                 tick1.setImageResource(R.drawable.ic_subscription_light_orange_tick)
-                textSubDesc.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
-                textUpgradeProfile.setTextColor(ContextCompat.getColor(this@SubscriptionPlansActivity, R.color.golden))
+                textSubDesc.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
+                textUpgradeProfile.setTextColor(
+                    ContextCompat.getColor(
+                        this@SubscriptionPlansActivity,
+                        R.color.golden
+                    )
+                )
             }
 
             btnSubscribe.setOnClickListener {

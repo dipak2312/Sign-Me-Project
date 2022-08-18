@@ -22,6 +22,7 @@ import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentHomeBinding
 import com.app.signme.dataclasses.SwiperViewResponse
 import com.app.signme.scheduler.aws.AwsService
+import com.app.signme.view.CustomDialog
 import com.app.signme.view.chat.ChatRoomActivity
 import com.app.signme.view.dialogs.MatchesDialog
 import com.app.signme.view.notification.NotificationActivity
@@ -36,8 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, CardStackListener {
@@ -48,7 +47,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
     var manager: CardStackLayoutManager? = null
     var status: String? = ""
     var direction: String? = ""
-    var pageIndex=1
+    var pageIndex = 1
     private val firebaseFireStoreDB = FirebaseFirestore.getInstance()
     private var chatRoomId: String = "Chats"
 
@@ -115,20 +114,25 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
 
                 binding!!.shimmer.startShimmer()
 
-                viewModel.getSwiperList(pageIndex.toString(), sharedPreference.userDetail!!.astrologySignId)
+                viewModel.getSwiperList(
+                    pageIndex.toString(),
+                    sharedPreference.userDetail!!.astrologySignId
+                )
             }
         }
     }
 
-    fun paginateSwiperList()
-    {
+    fun paginateSwiperList() {
         when {
             checkInternet() -> {
 
-                viewModel.getSwiperList(pageIndex.toString(), sharedPreference.userDetail!!.astrologySignId)
+                viewModel.getSwiperList(
+                    pageIndex.toString(),
+                    sharedPreference.userDetail!!.astrologySignId
+                )
             }
         }
-   }
+    }
 
 
     fun callLikeSuperlikeCancel(userId: String?, status: String) {
@@ -167,7 +171,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 startActivity(SettingsActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
 
-            btnNotificationCount.setOnClickListener{
+            btnNotificationCount.setOnClickListener {
                 startActivity(NotificationActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
 
@@ -175,7 +179,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 swapReject()
             }
             btnLike.setOnClickListener {
-                if (sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount) {
+                if (sharedPreference.configDetails!!.defaultLikeCount!!.toInt()<= sharedPreference.likeCount) {
                     startActivity(
                         SubscriptionPlansActivity.getStartIntent(
                             this@HomeFragment.requireContext(),
@@ -187,13 +191,8 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
             btnSuperLike.setOnClickListener {
-                if (sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount) {
-                    startActivity(
-                        SubscriptionPlansActivity.getStartIntent(
-                            this@HomeFragment.requireContext(),
-                            "1"
-                        )
-                    )
+                if (sharedPreference.configDetails!!.defaultSuperLikeCount!!.toInt() <= sharedPreference.superLikeCount) {
+                    callLikeToSubscribe()
                 } else {
                     swapSuperLike()
                 }
@@ -209,6 +208,32 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         }
     }
 
+
+    fun openDialogSubscriptionOver() {
+        CustomDialog(
+            title = getString(R.string.app_name),
+            message = getString(R.string.subscription_limit_over),
+            positiveButtonText = getString(R.string.logger_label_ok),
+            negativeButtonText = getString(R.string.logger_label_cancel),
+            cancellable = true,
+            mListener = object : CustomDialog.ClickListener {
+
+                override fun onSuccess() {
+                    startActivity(
+                        SubscriptionPlansActivity.getStartIntent(
+                            this@HomeFragment.requireContext(),
+                            "1"
+                        )
+                    )
+                }
+
+                override fun onCancel() {
+
+                }
+
+            }).show(requireFragmentManager(), "tag")
+    }
+
     private fun addObservers() {
 
         viewModel.swiperListLiveData.observe(this) { response ->
@@ -218,13 +243,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
                     val old = mAdapter!!.getAllItems()
-                    if(old.isNullOrEmpty())
-                    {
+                    if (old.isNullOrEmpty()) {
                         mAdapter!!.addAllItem(response.data!!)
                         mAdapter!!.notifyDataSetChanged()
-                    }
-                    else
-                    {
+                    } else {
                         val new = old.plus(response.data!!)
                         val callback = SwiperDiffCallback(old, new)
                         val result = DiffUtil.calculateDiff(callback)
@@ -254,16 +276,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             if (serverError.code == 500 || serverError.code == 404) {
                 binding!!.shimmer.visibility = View.GONE
                 binding!!.relEmptyMessage.visibility = View.VISIBLE
-            }
-           else {
+            } else {
                 (activity as BaseActivity<*>).handleApiStatusCodeError(serverError)
             }
         }
 
-        (activity?.application as AppineersApplication).isSubscriptionTaken.observe(this){isSubscribe->
-            if(isSubscribe)
-            {
-              likeHideShow("No")
+        (activity?.application as AppineersApplication).isSubscriptionTaken.observe(this) { isSubscribe ->
+            if (isSubscribe) {
+                likeHideShow("No")
             }
 
         }
@@ -275,7 +295,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 binding!!.shimmer.visibility = View.VISIBLE
                 binding!!.shimmer.startShimmer()
                 binding!!.buttonContainer.visibility = View.GONE
-                pageIndex=1
+                pageIndex = 1
                 getSwiperList()
                 (activity?.application as AppineersApplication).isSwiperUpdated.postValue(false)
             }
@@ -299,7 +319,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 } else {
                     removeByUserId(response.userId!!)
                 }
-                (activity?.application as AppineersApplication).LikeSuperlikeCancelRequest.postValue(null)
+                (activity?.application as AppineersApplication).LikeSuperlikeCancelRequest.postValue(
+                    null
+                )
             }
         }
 
@@ -315,9 +337,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         val user = mAdapter!!.getAllItems().find { it.userId == userId }
         if (user != null) {
             val index = mAdapter!!.getAllItems().indexOf(user)
-            var mylist=mAdapter!!.getItem(index)
-            mylist.isLike="Yes"
-            mAdapter!!.replaceItem(index,mylist)
+            var mylist = mAdapter!!.getItem(index)
+            mylist.isLike = "Yes"
+            mAdapter!!.replaceItem(index, mylist)
         }
         (activity?.application as AppineersApplication).LikeSuperlikeCancelRequest.postValue(null)
     }
@@ -373,10 +395,10 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             }
         }
 
-          if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
-              pageIndex++
-              paginateSwiperList()
-          }
+        if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
+            pageIndex++
+            paginateSwiperList()
+        }
 
         if (manager!!.topPosition == mAdapter!!.itemCount) {
             binding!!.relEmptyMessage.visibility = View.VISIBLE
@@ -392,8 +414,16 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 addFromFirebase(item.userId)
                 var dateFormat = SimpleDateFormat("yyyy-MM-dd")
                 var date = dateFormat.format(Calendar.getInstance().getTime())
-                var showDob=date?.toMMDDYYYDate()
-                startActivity(ChatRoomActivity.getStartIntent(this@HomeFragment.requireContext(),item.userId!!,item!!.name,item!!.profileImage, showDob?.toMMDDYYYStr()))
+                var showDob = date?.toMMDDYYYDate()
+                startActivity(
+                    ChatRoomActivity.getStartIntent(
+                        this@HomeFragment.requireContext(),
+                        item.userId!!,
+                        item!!.name,
+                        item!!.profileImage,
+                        showDob?.toMMDDYYYStr()
+                    )
+                )
             }
 
             override fun onCancel() {
@@ -401,7 +431,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
 
         }).show(requireFragmentManager(), "Tag")
     }
-
 
 
     override fun onCardRewound() {
@@ -412,7 +441,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
     override fun onCardCanceled() {
         when (direction) {
             "Right" -> {
-                if (sharedPreference.likeCount == sharedPreference.configDetails!!.defaultLikeCount) {
+                if (sharedPreference.configDetails!!.defaultLikeCount!!.toInt()<= sharedPreference.likeCount) {
                     startActivity(
                         SubscriptionPlansActivity.getStartIntent(
                             this@HomeFragment.requireContext(),
@@ -422,14 +451,38 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
             "Top" -> {
-                if (sharedPreference.superLikeCount == sharedPreference.configDetails!!.defaultSuperLikeCount) {
-                    startActivity(
-                        SubscriptionPlansActivity.getStartIntent(
-                            this@HomeFragment.requireContext(),
-                            "1"
-                        )
-                    )
+                if (sharedPreference.configDetails!!.defaultSuperLikeCount!!.toInt() <= sharedPreference.superLikeCount) {
+
+                 callLikeToSubscribe()
+
                 }
+            }
+        }
+    }
+
+    private fun callLikeToSubscribe() {
+        if (sharedPreference.configDetails!!.subscription.isNullOrEmpty()) {
+            startActivity(
+                SubscriptionPlansActivity.getStartIntent(
+                    this@HomeFragment.requireContext(),
+                    "1"
+                )
+            )
+        } else {
+            if (sharedPreference.configDetails!!.subscription!![0].subscriptionType.equals(
+                    IConstants.REGULAR
+                ) && sharedPreference.configDetails!!.subscription!![0].subscriptionStatus.equals(
+                    "1"
+                )
+            ) {
+                openDialogSubscriptionOver()
+            } else {
+                startActivity(
+                    SubscriptionPlansActivity.getStartIntent(
+                        this@HomeFragment.requireContext(),
+                        "1"
+                    )
+                )
             }
         }
     }
@@ -466,11 +519,14 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         likeHideShow("No")
     }
 
-    private fun likeHideShow(status:String) {
+    private fun likeHideShow(status: String) {
 
-        var subscription=sharedPreference.configDetails!!.subscription
-        if(subscription.isNullOrEmpty() || subscription[0].subscriptionType.equals(IConstants.REGULAR) ||
-            (subscription[0].subscriptionType.equals(IConstants.GOLDEN)) && subscription[0].subscriptionStatus.equals("0") ) {
+        var subscription = sharedPreference.configDetails!!.subscription
+        if (subscription.isNullOrEmpty() || subscription[0].subscriptionType.equals(IConstants.REGULAR) ||
+            (subscription[0].subscriptionType.equals(IConstants.GOLDEN)) && subscription[0].subscriptionStatus.equals(
+                "0"
+            )
+        ) {
 
             if (status.equals("Top")) {
                 var superLikeCountValue = sharedPreference.superLikeCount
@@ -481,9 +537,9 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
             }
 
             val likeLimitReached =
-                (sharedPreference.configDetails!!.defaultLikeCount == sharedPreference.likeCount)
+                (sharedPreference.configDetails!!.defaultLikeCount!!.toInt()<= sharedPreference.likeCount)
             val superLikeLimitReached =
-                (sharedPreference.configDetails!!.defaultSuperLikeCount == sharedPreference.superLikeCount)
+                (sharedPreference.configDetails!!.defaultSuperLikeCount!!.toInt() <= sharedPreference.superLikeCount)
             when {
 
                 (likeLimitReached && superLikeLimitReached) -> {
@@ -505,8 +561,12 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
 
-            val count =
-                sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)
+             var count =0
+             if(sharedPreference.configDetails!!.defaultSuperLikeCount!!.toInt() >= sharedPreference.superLikeCount)
+             {
+               count= sharedPreference.configDetails!!.defaultSuperLikeCount?.minus(sharedPreference.superLikeCount)!!
+             }
+
             if (count == 0) {
                 binding.textSuperlikeCount.visibility = View.GONE
             } else {
@@ -540,7 +600,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
     }
-
 
 
     fun swapLike() {
