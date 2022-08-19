@@ -20,6 +20,8 @@
         <attr format="reference" name="otpViewStyle"/>
     </declare-styleable>
 
+    <dimen name="banner_height">50dp</dimen>
+
     <declare-styleable name="OtpView">
         <attr format="integer" name="itemCount"/>
         <attr format="dimension" name="itemWidth"/>

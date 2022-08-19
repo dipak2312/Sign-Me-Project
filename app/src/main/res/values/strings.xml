@@ -61,7 +61,7 @@
 
     //Button Label
     <string name="label_login_button">Sign In</string>
-    <string name="label_upgrade_button">Upgrade</string>
+    <string name="label_subscribe_now_button">Subscribe Now</string>
     <string name="label_save_button">Save</string>
     <string name="label_clear_button">Clear</string>
     <string name="label_next_button">Next</string>

@@ -9,6 +9,7 @@ import com.app.signme.adapter.ChatListAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
+import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseFragment
 import com.app.signme.dagger.components.FragmentComponent
 import com.app.signme.databinding.FragmentChatBinding
@@ -69,6 +70,10 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
         initChat()
         if (authUserGlobal != null) {
             setUserOnlineOffline(true)
+        }
+
+        if (AppConfig.AdProvider_MoPub) {
+            showAppLovinBannerAd(this@ChatFragment.requireContext(), binding!!.maxAdView)
         }
         Log.d("FRAGMENT_CHAT", "ON_RESUME_CALLED")
 

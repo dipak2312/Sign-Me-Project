@@ -89,6 +89,8 @@ data class VersionConfigResponse(
     val likeUserCount: Int? =0,
     @JsonProperty("superlike_user_count")
     val superLikeUserCount: Int? = 0,
+    @JsonProperty("go_add_free")
+    val goAddFree: String? = ""
     )
 {
     fun shouldShowVersionDialog(context: Context) =

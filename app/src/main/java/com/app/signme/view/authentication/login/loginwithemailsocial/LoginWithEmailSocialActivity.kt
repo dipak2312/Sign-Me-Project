@@ -796,13 +796,6 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
             AppineersApplication.sharedPreference.androidMopubInterstitialId =
                 data.androidMopubInterstitialId
 
-            if (AppConfig.AdProvider_ADMob) {
-                (application as AppineersApplication).initGoogleAdMobSDK()
-
-            } else if (AppConfig.AdProvider_MoPub) {
-                (application as AppineersApplication).initMoPubSDK(data.isAppInDevelopment())
-            }
-
             val adConfig = StringBuilder()
             adConfig.append("projectDebugLevel= " + data.projectDebugLevel)
             adConfig.append(", androidBannerId= " + data.androidBannerId)

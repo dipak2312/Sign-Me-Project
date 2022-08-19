@@ -116,6 +116,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/maxAdView"
             app:layout_constraintTop_toBottomOf="@+id/tvMatches">
 
             <RelativeLayout
@@ -325,6 +326,19 @@
                 </androidx.core.widget.NestedScrollView>
             </RelativeLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.applovin.mediation.ads.MaxAdView
+            xmlns:maxads="http://schemas.applovin.com/android/1.0"
+            android:id="@+id/maxAdView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            maxads:adUnitId="f86b122ef8910bd4">
+
+        </com.applovin.mediation.ads.MaxAdView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

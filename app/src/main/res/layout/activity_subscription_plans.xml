@@ -292,7 +292,7 @@
                     android:layout_marginEnd="@dimen/dimen_20dp"
                     android:layout_marginStart="@dimen/dimen_20dp"
                     android:layout_marginTop="@dimen/_25sdp"
-                    android:text="@string/label_upgrade_button" />
+                    android:text="@string/label_subscribe_now_button" />
 
 <!--                <androidx.appcompat.widget.AppCompatTextView-->
 <!--                    android:id="@+id/tvSubscriptionMessage"-->

@@ -8,6 +8,7 @@ import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
+import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
 import com.app.signme.dagger.components.FragmentComponent
@@ -68,6 +69,9 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
 
         binding.user = sharedPreference.userDetail
         mediaFileRepository = MediaFileRepository.getInstance(this.activity!!)
+        if (AppConfig.AdProvider_MoPub) {
+            showAppLovinBannerAd(this@ProfileFragment.requireContext(), binding!!.maxAdView)
+        }
         initListeners()
         getProfileData()
 

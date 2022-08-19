@@ -334,6 +334,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
                     sharedPreference.configDetails = it.data!!.get(0)
                     sharedPreference.likeCount= it.data!!.get(0).likeUserCount!!
                     sharedPreference.superLikeCount= it.data!!.get(0).superLikeUserCount!!
+                    sharedPreference.goAdFree = it.data!!.get(0).goAddFree.equals("Yes")
 
                     handleDefaultConfigDetails()
                 }
@@ -387,12 +388,6 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             sharedPreference.androidMoPubBannerId = data.androidMoPubBannerId
             sharedPreference.androidMopubInterstitialId = data.androidMopubInterstitialId
 
-            if (AppConfig.AdProvider_ADMob) {
-                (application as AppineersApplication).initGoogleAdMobSDK()
-
-            } else if (AppConfig.AdProvider_MoPub) {
-                (application as AppineersApplication).initMoPubSDK(data.isAppInDevelopment())
-            }
 
             val adConfig = StringBuilder()
             adConfig.append("projectDebugLevel= " + data.projectDebugLevel)

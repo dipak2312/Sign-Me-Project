@@ -20,37 +20,21 @@ import com.app.signme.dagger.components.DaggerApplicationComponent
 import com.app.signme.dagger.modules.ApplicationModule
 import com.app.signme.dataclasses.MediaUpload
 import com.app.signme.db.AppPrefrrences
-import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseViewModel
 import com.app.signme.dataclasses.LikeSuperlikeCancelCallback
 import com.app.signme.dataclasses.LikeUserIdCallback
 import com.app.signme.dataclasses.RelationshipType
-import com.app.signme.dataclasses.generics.TAListResponse
 import com.app.signme.scheduler.ExportLogService
 import com.app.signme.view.authentication.login.loginwithemailsocial.LoginWithEmailSocialActivity
 import com.app.signme.scheduler.aws.cacheUtils.UploadSuccessCallback
+import com.applovin.sdk.AppLovinSdk
+import com.applovin.sdk.AppLovinSdkConfiguration
 import com.facebook.FacebookSdk
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.hb.logger.Logger
-import com.hb.logger.msc.MSCGenerator
-import com.hb.logger.msc.core.GenConstants
-import com.mopub.common.MoPub
-import com.mopub.common.SdkConfiguration
-import com.mopub.common.SdkInitializationListener
-import com.mopub.common.logging.MoPubLog
-import com.mopub.common.privacy.ConsentDialogListener
-import com.mopub.common.privacy.PersonalInfoManager
-import com.mopub.mobileads.MoPubErrorCode
 import java.io.File
 import java.lang.ref.WeakReference
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -73,7 +57,7 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
     val awsFileUploader = MutableLiveData<UploadSuccessCallback>()
     val isMediaUpdated = MutableLiveData<Boolean>()
     var counterInterstitialAdd: Int = 0// Show interstitial add after 4 count
-    var mInterstitialAd: InterstitialAd? = null
+    //var mInterstitialAd: InterstitialAd? = null
     private var mIsLoadAdRequested: Boolean = false
     var isRemoved: Boolean = false
     var isSkipClicked: Boolean = false
@@ -101,7 +85,6 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
             .build()
         applicationComponent.inject(this)
 
-        MobileAds.initialize(this)
         FacebookSdk.sdkInitialize(applicationContext)
 
         Logger.initializeSession(this, object : Logger.UploadFileListener {
@@ -137,6 +120,23 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
         } else {
             Logger.clearAllLogs()
             Logger.disableLogger()
+        }
+
+        AppLovinSdk.getInstance(this).mediationProvider = "max"
+        AppLovinSdk.getInstance(this).initializeSdk { configuration ->
+            // AppLovin SDK is initialized, start loading ads
+            when (configuration.consentDialogState) {
+                AppLovinSdkConfiguration.ConsentDialogState.APPLIES -> {
+                    // Show user consent dialog
+                }
+                AppLovinSdkConfiguration.ConsentDialogState.DOES_NOT_APPLY -> {
+                    // No need to show consent dialog, proceed with initialization
+                }
+                else -> {
+                    // Consent dialog state is unknown. Proceed with initialization, but check if the consent
+                    // dialog should be shown on the next application initialization
+                }
+            }
         }
     }
 
@@ -192,174 +192,4 @@ class AppineersApplication : MultiDexApplication(), Application.ActivityLifecycl
       //  return LoginWithPhoneNumberSocialActivity::class.java
     }
 
-    // Initialize the Mobile Ads SDK.
-    fun initGoogleAdMobSDK() {
-        if (!sharedPreference.isAdRemoved && (AppConfig.BANNER_AD || AppConfig.INTERSTITIAL_AD)) {
-            if (sharedPreference.projectDebugLevel.equals(
-                    "development",
-                    true
-                ) || BuildConfig.DEBUG
-            ) {
-                val testDeviceIds = Arrays.asList("7F93ADFB8F20D3B4FFA56582EC478DBD")
-               // val testDeviceIds = Arrays.asList("")
-                val configuration =
-                    RequestConfiguration.Builder().setTestDeviceIds(testDeviceIds).build()
-                MobileAds.setRequestConfiguration(configuration)
-            }
-            MobileAds.initialize(this) { status ->
-                logger.dumpCustomEvent(
-                    "AdMob Init",
-                    status.adapterStatusMap.entries.joinToString { it.value.initializationState.name })
-            }
-        }
-        initAd()
-    }
-
-    // Request a new ad if one isn't already loaded.
-    fun initAd() {
-        if (!sharedPreference.isAdRemoved || AppConfig.INTERSTITIAL_AD && !mIsLoadAdRequested && mInterstitialAd == null) {
-            mIsLoadAdRequested = true
-            loadAd()
-        }
-    }
-
-    /**
-     * Initialize interstitial ads
-     */
-    fun loadAd() {
-        InterstitialAd.load(
-            this, getInterstitialAdId(), AdRequest.Builder().build(),
-            object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    val error = "domain: ${adError.domain}, code: ${adError.code}, " +
-                            "message: ${adError.message}"
-                    logger.debugEvent("Int Ads onAdFailedToLoad(): ", "with error $error")
-                    MSCGenerator.addAction(
-                        GenConstants.ENTITY_USER,
-                        GenConstants.ENTITY_APP,
-                        "onAdFailedToLoad() with error $error"
-                    )
-                    mInterstitialAd = null
-                    mIsLoadAdRequested = false
-                }
-
-                override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                    logger.debugEvent("Int Ads onAdLoaded: ", "Ad successfully loaded.")
-                    MSCGenerator.addAction(
-                        GenConstants.ENTITY_USER,
-                        GenConstants.ENTITY_APP,
-                        "onAdLoaded: Ad successfully loaded."
-                    )
-                    mInterstitialAd = interstitialAd
-                    mIsLoadAdRequested = false
-                }
-            }
-        )
-    }
-
-    /**
-     * get Interstitial id according to project debug level (api get config param)
-     * */
-    private fun getInterstitialAdId(): String {
-        return when {
-            sharedPreference.projectDebugLevel.equals("development", true) -> {
-                logger.dumpCustomEvent(
-                    "Interstitial Ad Test Unit Id ",
-                    sharedPreference.androidInterstitialId!!
-                    //getString(R.string.admob_interstitial_unit_id_test).substringAfter('/')
-                )
-                sharedPreference.androidInterstitialId!!
-            }
-            sharedPreference.androidInterstitialId.isNullOrEmpty() -> {
-                logger.dumpCustomEvent(
-                    "Interstitial Ad Init",
-                    "Empty Interstitial Admob id from backend"
-                )
-                ""
-            }
-            else -> {
-                logger.dumpCustomEvent(
-                    "Interstitial Ad Server Unit Id ",
-                    sharedPreference.androidInterstitialId!!.substringAfter('/')
-                )
-                sharedPreference.androidInterstitialId!!
-            }
-        }
-    }
-
-
-    private fun initSdkListener(): SdkInitializationListener? {
-        return SdkInitializationListener {
-
-            logger.dumpCustomEvent(
-                "MoPUb SDK",
-                "MoPub SDK initialized Successfully."
-            )
-            /* MoPub SDK initialized.
-               Check if you should show the consent dialog here, and make your ad requests. */
-            showMoPubConsentDialog()
-
-        }
-    }
-
-    private fun showMoPubConsentDialog() {
-
-        // Get a PersonalInformationManager instance, used to query the consent dialog
-        val mPersonalInfoManager: PersonalInfoManager? = MoPub.getPersonalInformationManager()
-
-        // Check if you must show the consent dialog
-        mPersonalInfoManager?.shouldShowConsentDialog()
-
-        // Start loading the consent dialog. This call fails if the user has opted out of ad personalization.
-        mPersonalInfoManager?.loadConsentDialog(object : ConsentDialogListener {
-            override fun onConsentDialogLoaded() {
-                mPersonalInfoManager.showConsentDialog()
-            }
-
-            override fun onConsentDialogLoadFailed(moPubErrorCode: MoPubErrorCode) {
-                logger.dumpCustomEvent(
-                    "MoPUb SDK",
-                    "Consent dialog failed to load." + moPubErrorCode.name
-                )
-
-            }
-
-        })
-
-
-    }
-
-    fun initMoPubSDK(appInDevelopment: Boolean) {
-        /**
-         * Call the MoPub.initializeSdk() once per app’s lifecycle, typically on app launch,
-         * using any valid ad unit ID that belongs to the specific app you’re initializing with MoPub.
-         * Using a valid ad unit ID from the correct app improves the accuracy of the DAU metric
-         * tracking for your app. Make no ad requests until the SDK initialization has completed.
-         */
-
-        var moPubAdUnitId = ""
-        if (!appInDevelopment) {
-            moPubAdUnitId = sharedPreference.androidMoPubBannerId!!
-        }
-        if (moPubAdUnitId.isNullOrEmpty()) {
-            moPubAdUnitId = sharedPreference.androidMoPubBannerId!!
-            logger.dumpCustomEvent(
-                "MoPub SDK",
-                "Empty MoPub id from backend loading with test ids"
-            )
-        }
-        val sdkConfigurationBuilder =
-            SdkConfiguration.Builder(moPubAdUnitId)
-        if (BuildConfig.DEBUG) {
-            sdkConfigurationBuilder.withLogLevel(MoPubLog.LogLevel.DEBUG);
-        } else {
-            sdkConfigurationBuilder.withLogLevel(MoPubLog.LogLevel.NONE);
-        }
-        sdkConfigurationBuilder.withLegitimateInterestAllowed(false)
-        val sdkConfigurationBannerAd: SdkConfiguration? = sdkConfigurationBuilder.build()
-        if (sdkConfigurationBannerAd != null) {
-            MoPub.initializeSdk(this, sdkConfigurationBannerAd, initSdkListener())
-        }
-
-    }
 }

@@ -12,9 +12,11 @@ import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.StringRes
@@ -32,30 +34,22 @@ import com.app.signme.dagger.modules.ActivityModule
 import com.app.signme.databinding.DialogLoadingBinding
 import com.app.signme.dataclasses.LocationAddressModel
 import com.app.signme.view.home.HomeActivity
+import com.applovin.mediation.MaxAd
+import com.applovin.mediation.MaxAdViewAdListener
+import com.applovin.mediation.MaxError
+import com.applovin.mediation.ads.MaxAdView
+import com.applovin.mediation.ads.MaxInterstitialAd
 import com.google.android.gms.ads.*
-import com.google.android.gms.ads.doubleclick.PublisherAdRequest
-import com.google.android.gms.ads.formats.MediaView
-import com.google.android.gms.ads.formats.NativeCustomTemplateAd
-import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import com.google.android.libraries.places.api.model.AddressComponents
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.hb.logger.Logger
 import com.hb.logger.msc.MSCGenerator
-import com.hb.logger.msc.core.GenConstants
-import com.mopub.mobileads.MoPubErrorCode
-import com.mopub.mobileads.MoPubInterstitial
-import com.mopub.mobileads.MoPubView
-import kotlinx.android.synthetic.main.ad_unified.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.pow
 
 
-const val AD_MANAGER_AD_UNIT_ID = "/6499/example/native"
-const val SIMPLE_TEMPLATE_ID = "10104090"
-
-var currentUnifiedNativeAd: UnifiedNativeAd? = null
-var currentCustomTemplateAd: NativeCustomTemplateAd? = null
 
 
 abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
@@ -68,9 +62,9 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
         Logger(this::class.java.simpleName)
     }
 
-    var adView: AdView? = null
-    var moPubBannerView: MoPubView? = null
-    var moPubInterstitial: MoPubInterstitial? = null
+    var adView: MaxAdView? = null
+    private var retryAttempt = 0.0
+    private lateinit var interstitialAd: MaxInterstitialAd
 
      private var progressDialog: Dialog? = null
     //private var progressDialog: ACProgressFlower? = null
@@ -398,11 +392,6 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
      */
     override fun onResume() {
         super.onResume()
-        if (adView != null) {
-            adView!!.resume()
-        }
-
-
         logger.debugEvent("onResume called", "Activity resumed")
     }
 
@@ -410,9 +399,6 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
      * Called Ads function when leaving the activity
      */
     override fun onPause() {
-        if (adView != null) {
-            adView!!.pause()
-        }
         super.onPause()
         logger.debugEvent("onPause called", "Activity paused")
         Log.i(this@BaseActivity::class.java.simpleName, "onPause: ")
@@ -431,143 +417,161 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     }
 
 
-    fun showBannerAd(context: Context, containerView: MoPubView) {
-        moPubBannerView = containerView
-        if (moPubBannerView != null) {
-            moPubBannerView!!.setAdUnitId(getMoPubBannerAdId())
-            moPubBannerView!!.bannerAdListener = object : MoPubView.BannerAdListener {
-                override fun onBannerExpanded(banner: MoPubView?) {
-                    logger.debugEvent(this::class.java.simpleName, "banner ad is expanded")
-                }
-
-                override fun onBannerLoaded(banner: MoPubView) {
-                    logger.debugEvent(this::class.java.simpleName, "banner ad is loaded")
-                }
-
-                override fun onBannerCollapsed(banner: MoPubView?) {
-                    logger.debugEvent(this::class.java.simpleName, "banner ad is collapsed")
-                }
-
-                override fun onBannerFailed(banner: MoPubView?, errorCode: MoPubErrorCode?) {
-                    logger.debugEvent(
-                        this::class.java.simpleName,
-                        "banner has failed to retrieve an ad " + errorCode.toString()
-                    )
-                }
-
-                override fun onBannerClicked(banner: MoPubView?) {
-                    logger.debugEvent(this::class.java.simpleName, "banner ad is clicked by user.")
-                }
-            }
-            moPubBannerView!!.loadAd(MoPubView.MoPubAdSize.HEIGHT_50)
+    fun showAppLovinBannerAd(context: Context, view: MaxAdView) {
+        if(sharedPreference.goAdFree)
+        {
+            return
         }
+        if (getAppLovinBannerAdId().isEmpty()) {
+            view.visibility = View.GONE
+            return
+        }
+        adView = MaxAdView(getAppLovinBannerAdId(), context)
+
+        val maxBannerAdListener = object : MaxAdViewAdListener {
+            override fun onAdLoaded(ad: MaxAd?) {
+                Log.d("App Lovin banner ads", "onAdLoaded")
+                logger.debugEvent(this::class.java.simpleName, "banner ad is loaded")
+            }
+
+            override fun onAdDisplayed(ad: MaxAd?) {
+                Log.d("App Lovin banner ads", "onAdDisplayed")
+                logger.debugEvent(this::class.java.simpleName, "banner ad is displayed")
+            }
+
+            override fun onAdHidden(ad: MaxAd?) {
+                Log.d("App Lovin banner ads", "onAdHidden")
+                logger.debugEvent(this::class.java.simpleName, "banner ad is hidden")
+            }
+
+            override fun onAdClicked(ad: MaxAd?) {
+                Log.d("App Lovin banner ads", "onAdClicked")
+                logger.debugEvent(this::class.java.simpleName, "banner ad clicked")
+            }
+
+            override fun onAdLoadFailed(adUnitId: String?, error: MaxError?) {
+                Log.d("add load failed unit id", adUnitId!!)
+                Log.d("add load failed unit id", error!!.message)
+                logger.debugEvent(this::class.java.simpleName, "banner ad load failed")
+            }
+
+            override fun onAdDisplayFailed(ad: MaxAd?, error: MaxError?) {
+                Log.d("App Lovin banner ads", "onAdDisplayFailed")
+                logger.debugEvent(this::class.java.simpleName, "banner ad display failed")
+            }
+
+            override fun onAdExpanded(ad: MaxAd?) {
+                Log.d("App Lovin banner ads", "onAdExpanded")
+                logger.debugEvent(this::class.java.simpleName, "banner ad expanded")
+            }
+
+            override fun onAdCollapsed(ad: MaxAd?) {
+                Log.d("App Lovin banner ads", "onAdCollapsed")
+                logger.debugEvent(this::class.java.simpleName, "banner ad collapsed")
+            }
+        }
+
+        adView!!.setListener(maxBannerAdListener)
+
+        // Stretch to the width of the screen for banners to be fully functional
+        val width = ViewGroup.LayoutParams.MATCH_PARENT
+
+        // Banner height on phones and tablets is 50 and 90, respectively
+        val heightPx = resources.getDimensionPixelSize(R.dimen.banner_height)
+
+        adView!!.layoutParams = FrameLayout.LayoutParams(width, heightPx)
+        // Set background or background color for banners to be fully functional
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            adView!!.setBackgroundColor(getColor(R.color.transparent))
+        }
+
+        view.addView(adView)
+
+        // Load the ad
+        adView!!.loadAd()
     }
 
-
-    /**
-     * This method will show banner ads
-     * @param adView AdView
-     */
-    fun showBannerAd(context: Context, container: RelativeLayout) {
-        adView = AdView(context)
-        adView!!.adUnitId = getAdMobBannerAdId()
-        adView!!.adSize = AdSize.BANNER
-        if (sharedPreference.isAdRemoved || AppineersApplication.sharedPreference.androidBannerId.equals(
-                ""
-            ) || !AppConfig.BANNER_AD
-        ) {
-            container.removeAllViews()
-            container.visibility = View.GONE
-        } else {
-            container.addView(adView)
-            val adRequest = AdRequest.Builder().build()
-            adView!!.adListener = object : AdListener() {
-                override fun onAdLoaded() {
-                    // Code to be executed when an ad finishes loading.
-                    logger.dumpCustomEvent("Banner Ad Loaded", "Ad load successful")
-                    Log.d(this@BaseActivity::class.java.simpleName, "Ad Loaded")
-                }
-
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    // Code to be executed when an ad request fails.
-                    val error = "domain: ${adError.domain}, code: ${adError.code}, " +
-                            "message: ${adError.message}"
-                    logger.dumpCustomEvent("Banner onAdFailedToLoad", "with error $error")
-                    Log.d(
-                        this@BaseActivity::class.java.simpleName,
-                        "onAdFailedToLoad: " + "with error $error"
-                    )
-                }
-
-                override fun onAdOpened() {
-                    // Code to be executed when an ad opens an overlay that
-                    // covers the screen.
-                    logger.dumpCustomEvent("Banner Ad Opened", "Ad Open event")
-                    Log.d(this@BaseActivity::class.java.simpleName, "Ad Opened")
-                }
-
-                override fun onAdClicked() {
-                    // Code to be executed when the user clicks on an ad.
-                    logger.dumpCustomEvent("Banner Ad Clicked", "Ad Click event")
-                    Log.d(this@BaseActivity::class.java.simpleName, "Ad Clicked")
-                }
-
-                override fun onAdClosed() {
-                    // Code to be executed when the user is about to return
-                    // to the app after tapping on an ad.
-                    logger.dumpCustomEvent("Banner Ad Closed", "Ad Close event")
-                    Log.d(this@BaseActivity::class.java.simpleName, "Ad Closed")
-                }
-            }
-            adView!!.loadAd(adRequest)
-            container.visibility = View.VISIBLE
-            logger.debugEvent("Banner Ad Request", "Banner Ad Requested")
+    fun showAppLovinInterstitialAdAd(activity: Activity) {
+        if(sharedPreference.goAdFree)
+        {
+            return
         }
+        if (getAppLovinInterstitialAdId().isEmpty()) {
+            return
+        }
+        interstitialAd = MaxInterstitialAd(getAppLovinInterstitialAdId(), activity)
+
+        val maxInterstitialAdListener = object : MaxAdViewAdListener {
+            override fun onAdLoaded(ad: MaxAd?) {
+                retryAttempt = 0.0
+                Log.d("ApLovin interstitial ad", "onAdLoaded")
+                logger.debugEvent(this::class.java.simpleName, "banner ad is loaded")
+                interstitialAd.showAd()
+            }
+
+            override fun onAdDisplayed(ad: MaxAd?) {
+                Log.d("ApLovin interstitial ad", "onAdDisplayed")
+                logger.debugEvent(this::class.java.simpleName, "banner ad is displayed")
+            }
+
+            override fun onAdHidden(ad: MaxAd?) {
+                Log.d("ApLovin interstitial ad", "onAdHidden")
+                logger.debugEvent(this::class.java.simpleName, "banner ad is hidden")
+            }
+
+            override fun onAdClicked(ad: MaxAd?) {
+                Log.d("ApLovin interstitial ad", "onAdClicked")
+                logger.debugEvent(this::class.java.simpleName, "banner ad clicked")
+            }
+
+            override fun onAdLoadFailed(adUnitId: String?, error: MaxError?) {
+                Log.d("add load failed unit id", adUnitId!!)
+                Log.d("add load failed unit id", error!!.message)
+                logger.debugEvent(this::class.java.simpleName, "banner ad load failed")
+                // Interstitial ad failed to load
+                // AppLovin recommends that you retry with exponentially higher delays up to a maximum delay (in this case 64 seconds)
+                retryAttempt++
+                val delayMillis =
+                    TimeUnit.SECONDS.toMillis(2.0.pow(6.0.coerceAtMost(retryAttempt)).toLong())
+                Handler(mainLooper).postDelayed({ interstitialAd.loadAd() }, delayMillis)
+            }
+
+            override fun onAdDisplayFailed(ad: MaxAd?, error: MaxError?) {
+                Log.d("ApLovin interstitial ad", "onAdDisplayFailed")
+                logger.debugEvent(this::class.java.simpleName, "banner ad display failed")
+                // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
+                interstitialAd.loadAd()
+            }
+
+            override fun onAdExpanded(ad: MaxAd?) {
+                Log.d("ApLovin interstitial ad", "onAdExpanded")
+                logger.debugEvent(this::class.java.simpleName, "banner ad expanded")
+            }
+
+            override fun onAdCollapsed(ad: MaxAd?) {
+                Log.d("ApLovin interstitial ad", "onAdCollapsed")
+                logger.debugEvent(this::class.java.simpleName, "banner ad collapsed")
+            }
+        }
+
+        interstitialAd.setListener(maxInterstitialAdListener)
+
+        // Load the ad
+        interstitialAd.loadAd()
     }
 
     /**
      * get banner id according to project debug level (api get config param)
      * */
-    private fun getAdMobBannerAdId(): String {
+    private fun getAppLovinBannerAdId(): String {
         return when {
             AppineersApplication.sharedPreference.projectDebugLevel.equals("development", true) -> {
-                logger.dumpCustomEvent(
-                    "Banner Ad Test Unit Id ",
-                    getString(R.string.admob_banner_unit_id_test).substringAfter('/')
-                )
-                AppineersApplication.sharedPreference.androidBannerId!!
-            }
-            AppineersApplication.sharedPreference.androidBannerId.isNullOrEmpty() -> {
-                logger.dumpCustomEvent("Banner Ad Init", "Empty Banner Admob id from backend")
-                ""
-            }
-            else -> {
-                logger.dumpCustomEvent(
-                    "Banner Ad Server Unit Id ",
-                    AppineersApplication.sharedPreference.androidBannerId!!.substringAfter('/')
-                )
-                AppineersApplication.sharedPreference.androidBannerId!!
-            }
-        }
-    }
-
-    /**
-     * get banner id according to project debug level (api get config param)
-     * */
-    private fun getMoPubBannerAdId(): String {
-        return when {
-            AppineersApplication.sharedPreference.projectDebugLevel.equals("development", true) -> {
-                logger.dumpCustomEvent(
-                    "MO PUB Banner Ad ID",
-                    "Using Banner Ad Test Unit Id"
-                )
-                //getString(R.string.mopub_banner_unit_id_test)
                 AppineersApplication.sharedPreference.androidMoPubBannerId!!
             }
             AppineersApplication.sharedPreference.androidMoPubBannerId.isNullOrEmpty() -> {
                 logger.dumpCustomEvent(
-                    "MO PUB Banner Ad Init",
-                    "Empty Banner MO PUB Ad Unit id from backend"
+                    "App Lovin Banner Ad Init",
+                    "Empty Banner App Lovin Ad Unit id from backend"
                 )
                 ""
             }
@@ -580,169 +584,25 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     /**
      * get Interstitial id according to project debug level (api get config param)
      * */
-    private fun getMoPubInterstitialAdId(): String {
+    private fun getAppLovinInterstitialAdId(): String {
         return when {
             AppineersApplication.sharedPreference.projectDebugLevel.equals("development", true) -> {
-                logger.dumpCustomEvent("MO PUB Interstitial Ad Test Unit Id ", "Using Test Unit ID")
-                //getString(R.string.mopub_full_screen_unit_id_test)
                 sharedPreference.androidMopubInterstitialId!!
             }
             AppineersApplication.sharedPreference.androidMopubInterstitialId.isNullOrEmpty() -> {
                 logger.dumpCustomEvent(
-                    "MO PUB Interstitial Ad Init",
-                    "Empty Interstitial MO PUB Ad Unit id from backend"
+                    "App Lovin Interstitial Ad Init",
+                    "Empty Interstitial App Lovin Ad Unit id from backend"
                 )
                 ""
             }
             else -> {
                 logger.dumpCustomEvent(
-                    "MO PUB Interstitial Ad Server Unit Id ",
-                    AppineersApplication.sharedPreference.androidMopubInterstitialId!!.substringAfter(
-                        '/'
-                    )
+                    "App Lovin Interstitial Ad Server Unit Id ",
+                    AppineersApplication.sharedPreference.androidMopubInterstitialId!!
                 )
                 AppineersApplication.sharedPreference.androidMopubInterstitialId!!
             }
-        }
-    }
-
-    /**
-     * This method will show mopub interstitial ads
-     * @return Boolean
-     */
-    fun showInterstitial(context: Context) {
-        moPubInterstitial =
-            MoPubInterstitial(
-                context as Activity,
-                getMoPubInterstitialAdId()
-            )
-        moPubInterstitial!!.interstitialAdListener =
-            object : MoPubInterstitial.InterstitialAdListener {
-                override fun onInterstitialLoaded(interstitial: MoPubInterstitial?) {
-                    if (moPubInterstitial!!.isReady) {
-                        moPubInterstitial!!.show()
-                    }
-                    logger.debugEvent(
-                        this@BaseActivity::class.java.simpleName,
-                        "interstitial ad has been cached and is ready to be shown."
-                    )
-                }
-
-                override fun onInterstitialShown(interstitial: MoPubInterstitial?) {
-                    logger.debugEvent(
-                        this@BaseActivity::class.java.simpleName,
-                        "interstitial ad has been shown."
-                    )
-                }
-
-                override fun onInterstitialFailed(
-                    interstitial: MoPubInterstitial?,
-                    errorCode: MoPubErrorCode?
-                ) {
-                    logger.debugEvent(
-                        this@BaseActivity::class.java.simpleName,
-                        "interstitial ad has failed to load. " + errorCode.toString()
-                    )
-                }
-
-                override fun onInterstitialDismissed(interstitial: MoPubInterstitial?) {
-                    logger.debugEvent(
-                        this@BaseActivity::class.java.simpleName,
-                        "interstitial ad  has being dismissed."
-                    )
-                }
-
-                override fun onInterstitialClicked(interstitial: MoPubInterstitial?) {
-                    logger.debugEvent(
-                        this@BaseActivity::class.java.simpleName,
-                        "interstitial ad is clicked by user."
-                    )
-                }
-            }
-        moPubInterstitial!!.load()
-    }
-
-    /**
-     * This method will show interstitial adds after every 1 event
-     * @return Boolean
-     */
-    fun showInterstitial(): Boolean {
-        // Show the ad if it is ready. Otherwise toast and reload the ad.
-        if (!sharedPreference.isAdRemoved || AppConfig.INTERSTITIAL_AD && (application as AppineersApplication).mInterstitialAd != null) {
-            (application as AppineersApplication).mInterstitialAd?.fullScreenContentCallback =
-                object : FullScreenContentCallback() {
-                    override fun onAdDismissedFullScreenContent() {
-                        logger.debugEvent(
-                            "Int Ads onAdDismissedFullScreenContent: ",
-                            "Ad was dismissed."
-                        )
-                        MSCGenerator.addAction(
-                            GenConstants.ENTITY_USER,
-                            GenConstants.ENTITY_APP,
-                            "onAdDismissedFullScreenContent: Ad was dismissed."
-                        )
-                        Log.d("BaseActivity", "Ad was dismissed.")
-                        // Don't forget to set the ad reference to null so you
-                        // don't show the ad a second time.
-                        (application as AppineersApplication).mInterstitialAd = null
-                        (application as AppineersApplication).loadAd()
-                    }
-
-                    override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-                        logger.debugEvent(
-                            "Int Ads onAdFailedToShowFullScreenContent: ",
-                            "Ad failed to show."
-                        )
-                        MSCGenerator.addAction(
-                            GenConstants.ENTITY_USER,
-                            GenConstants.ENTITY_APP,
-                            "onAdFailedToShowFullScreenContent: Ad failed to show."
-                        )
-                        Log.d(
-                            "BaseActivity",
-                            "onAdFailedToShowFullScreenContent: Ad failed to show."
-                        )
-                        // Don't forget to set the ad reference to null so you
-                        // don't show the ad a second time.
-                        (application as AppineersApplication).mInterstitialAd = null
-                    }
-
-                    // Called when ad is dismissed.
-                    override fun onAdShowedFullScreenContent() {
-                        logger.debugEvent(
-                            "Int Ads onAdShowedFullScreenContent: ",
-                            "Ad showed fullscreen content."
-                        )
-                        MSCGenerator.addAction(
-                            GenConstants.ENTITY_USER,
-                            GenConstants.ENTITY_APP,
-                            "onAdShowedFullScreenContent: Ad showed fullscreen content."
-                        )
-                        Log.d(
-                            "BaseActivity",
-                            "onAdShowedFullScreenContent: Ad showed fullscreen content."
-                        )
-
-                    }
-                }
-
-            //This will show interstitial adds after every 4 event
-            return if (++(application as AppineersApplication).counterInterstitialAdd % 1 == 0) {
-                (application as AppineersApplication).mInterstitialAd?.show(this)
-                true
-            } else {
-                false
-            }
-
-        } else {
-            logger.debugEvent("Int Ads: ", "Ad wasn't loaded.")
-            MSCGenerator.addAction(
-                GenConstants.ENTITY_USER,
-                GenConstants.ENTITY_APP,
-                "Ad wasn't loaded."
-            )
-            (application as AppineersApplication).initAd()
-            return false
         }
     }
 
@@ -883,298 +743,298 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
      * @param nativeAd the object containing the ad's assets
      * @param adView the view to be populated
      */
-    private fun populateUnifiedNativeAdView(
-        nativeAd: UnifiedNativeAd,
-        adView: UnifiedNativeAdView
-    ) {
-
-        logger.dumpCustomEvent("NativeAd", "UnifiedNative Ads loaded")
-
-        // Set the media view.
-        adView.mediaView = adView.findViewById<MediaView>(R.id.ad_media)
-
-        // Set other ad assets.
-        adView.headlineView = adView.findViewById(R.id.ad_headline)
-        adView.bodyView = adView.findViewById(R.id.ad_body)
-        adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
-        adView.iconView = adView.findViewById(R.id.ad_app_icon)
-        adView.priceView = adView.findViewById(R.id.ad_price)
-        adView.starRatingView = adView.findViewById(R.id.ad_stars)
-        adView.storeView = adView.findViewById(R.id.ad_store)
-        adView.advertiserView = adView.findViewById(R.id.ad_advertiser)
-
-        // The headline and media content are guaranteed to be in every UnifiedNativeAd.
-        (adView.headlineView as TextView).text = nativeAd.headline
-        adView.mediaView.setMediaContent(nativeAd.mediaContent)
-
-        // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
-        // check before trying to display them.
-        if (nativeAd.body == null) {
-            adView.bodyView.visibility = View.INVISIBLE
-        } else {
-            adView.bodyView.visibility = View.VISIBLE
-            (adView.bodyView as TextView).text = nativeAd.body
-        }
-
-        if (nativeAd.callToAction == null) {
-            adView.callToActionView.visibility = View.INVISIBLE
-        } else {
-            adView.callToActionView.visibility = View.VISIBLE
-            (adView.callToActionView as Button).text = nativeAd.callToAction
-        }
-
-        if (nativeAd.icon == null) {
-            adView.iconView.visibility = View.GONE
-        } else {
-            (adView.iconView as ImageView).setImageDrawable(
-                nativeAd.icon.drawable
-            )
-            adView.iconView.visibility = View.VISIBLE
-        }
-
-        if (nativeAd.price == null) {
-            adView.priceView.visibility = View.INVISIBLE
-        } else {
-            adView.priceView.visibility = View.VISIBLE
-            (adView.priceView as TextView).text = nativeAd.price
-        }
-
-        if (nativeAd.store == null) {
-            adView.storeView.visibility = View.INVISIBLE
-        } else {
-            adView.storeView.visibility = View.VISIBLE
-            (adView.storeView as TextView).text = nativeAd.store
-        }
-
-        if (nativeAd.starRating == null) {
-            adView.starRatingView.visibility = View.INVISIBLE
-        } else {
-            (adView.starRatingView as RatingBar).rating = nativeAd.starRating!!.toFloat()
-            adView.starRatingView.visibility = View.VISIBLE
-        }
-
-        if (nativeAd.advertiser == null) {
-            adView.advertiserView.visibility = View.INVISIBLE
-        } else {
-            (adView.advertiserView as TextView).text = nativeAd.advertiser
-            adView.advertiserView.visibility = View.VISIBLE
-        }
-
-        // This method tells the Google Mobile Ads SDK that you have finished populating your
-        // native ad view with this native ad.
-        adView.setNativeAd(nativeAd)
-
-        // Get the video controller for the ad. One will always be provided, even if the ad doesn't
-        // have a video asset.
-        val vc = nativeAd.videoController
-
-        // Updates the UI to say whether or not this ad has a video asset.
-        if (vc.hasVideoContent()) {
-
-            // Create a new VideoLifecycleCallbacks object and pass it to the VideoController. The
-            // VideoController will call methods on this object when events occur in the video
-            // lifecycle.
-            vc.videoLifecycleCallbacks = object : VideoController.VideoLifecycleCallbacks() {
-                override fun onVideoEnd() {
-                    // Publishers should allow native ads to complete video playback before
-                    // refreshing or replacing them with another ad in the same UI location.
-
-                    super.onVideoEnd()
-                }
-            }
-        } else {
-            //videostatus_text.text = "Video status: Ad does not contain a video asset."
-            //refresh_button.isEnabled = true
-            logger.dumpCustomEvent("NativeAd", "Video status: Ad does not contain a video asset.")
-
-        }
-    }
-
-    /**
-     * Populates a [View] object with data from a [NativeCustomTemplateAd]. This method
-     * handles a particular "simple" custom native ad format.
-     *
-     * @param nativeCustomTemplateAd the object containing the ad's assets
-     *
-     * @param adView the view to be populated
-     */
-    private fun populateSimpleTemplateAdView(
-        nativeCustomTemplateAd: NativeCustomTemplateAd,
-        adView: View
-    ) {
-        val headlineView = adView.findViewById<TextView>(R.id.simplecustom_headline)
-        val captionView = adView.findViewById<TextView>(R.id.simplecustom_caption)
-
-        headlineView.text = nativeCustomTemplateAd.getText("Headline")
-        captionView.text = nativeCustomTemplateAd.getText("Caption")
-
-        val mediaPlaceholder = adView.findViewById<FrameLayout>(R.id.simplecustom_media_placeholder)
-
-        // Get the video controller for the ad. One will always be provided, even if the ad doesn't
-        // have a video asset.
-        val vc = nativeCustomTemplateAd.videoController
-
-        // Create a new VideoLifecycleCallbacks object and pass it to the VideoController. The
-        // VideoController will call methods on this object when events occur in the video
-        // lifecycle.
-        vc.videoLifecycleCallbacks = object : VideoController.VideoLifecycleCallbacks() {
-            override fun onVideoEnd() {
-                // Publishers should allow native ads to complete video playback before refreshing
-                // or replacing them with another ad in the same UI location.
-                //refresh_button.isEnabled = true
-                //videostatus_text.text = "Video status: Video playback has ended."
-                logger.dumpCustomEvent("NativeAd", "Video status: Video playback has ended.")
-
-                super.onVideoEnd()
-            }
-        }
-
-        // Apps can check the VideoController's hasVideoContent property to determine if the
-        // NativeCustomTemplateAd has a video asset.
-        if (vc.hasVideoContent()) {
-            mediaPlaceholder.addView(nativeCustomTemplateAd.getVideoMediaView())
-            // Kotlin doesn't include decimal-place formatting in its string interpolation, but
-            // good ol' String.format works fine.
-            /* videostatus_text.text = String.format(
-                 Locale.getDefault(),
-                 "Video status: Ad contains a %.2f:1 video asset.",
-                 vc.aspectRatio
-             )*/
-        } else {
-            val mainImage = ImageView(this)
-            mainImage.adjustViewBounds = true
-            mainImage.setImageDrawable(nativeCustomTemplateAd.getImage("MainImage").drawable)
-
-            mainImage.setOnClickListener { nativeCustomTemplateAd.performClick("MainImage") }
-            mediaPlaceholder.addView(mainImage)
-            //refresh_button.isEnabled = true
-            //videostatus_text.text = "Video status: Ad does not contain a video asset."
-        }
-    }
-
-    /**
-     * Creates a request for a new native ad based on the boolean parameters and calls the
-     * corresponding "populate" method when one is successfully returned.
-     *
-     * @param requestUnifiedNativeAds indicates whether unified native ads should be requested
-     *
-     * @param requestCustomTemplateAds indicates whether custom template ads should be requested
-     */
-    fun refreshAd(
-        requestUnifiedNativeAds: Boolean,
-        requestCustomTemplateAds: Boolean,
-        startMutedCheck: Boolean = false,
-        adFrame: FrameLayout
-    ) {
-        if (!requestUnifiedNativeAds && !requestCustomTemplateAds) {
-            logger.dumpCustomEvent(
-                "NativeAd",
-                "At least one ad format must be checked to request an ad."
-            )
-            Toast.makeText(
-                this, "At least one ad format must be checked to request an ad.",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        //refresh_button.isEnabled = true
-        logger.dumpCustomEvent("NativeAd", "Ad Loaded.")
-        val builder = AdLoader.Builder(this, getString(R.string.admob_native_unit_id_test))
-
-        if (requestUnifiedNativeAds) {
-            builder.forUnifiedNativeAd { unifiedNativeAd ->
-                // If this callback occurs after the activity is destroyed, you must call
-                // destroy and return or you may get a memory leak.
-                var activityDestroyed = false
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    activityDestroyed = isDestroyed
-                }
-                if (activityDestroyed || isFinishing || isChangingConfigurations) {
-                    unifiedNativeAd.destroy()
-                    return@forUnifiedNativeAd
-                }
-                // You must call destroy on old ads when you are done with them,
-                // otherwise you will have a memory leak.
-                currentUnifiedNativeAd?.destroy()
-                currentUnifiedNativeAd = unifiedNativeAd
-                val adView = layoutInflater
-                    .inflate(R.layout.ad_unified, null) as UnifiedNativeAdView
-                populateUnifiedNativeAdView(unifiedNativeAd, adView)
-                adFrame.removeAllViews()
-                adFrame.addView(adView)
-            }
-        }
-
-        if (requestCustomTemplateAds) {
-            builder.forCustomTemplateAd(
-                SIMPLE_TEMPLATE_ID,
-                { ad: NativeCustomTemplateAd ->
-                    // If this callback occurs after the activity is destroyed, you must call
-                    // destroy and return or you may get a memory leak.
-                    var activityDestroyed = false
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        activityDestroyed = isDestroyed
-                    }
-                    if (activityDestroyed || isFinishing || isChangingConfigurations) {
-                        ad.destroy()
-                        return@forCustomTemplateAd
-                    }
-                    // You must call destroy on old ads when you are done with them,
-                    // otherwise you will have a memory leak.
-                    currentCustomTemplateAd?.destroy()
-                    currentCustomTemplateAd = ad
-                    val frameLayout = adFrame
-                    val adView = layoutInflater
-                        .inflate(R.layout.ad_simple_custom_template, null)
-                    populateSimpleTemplateAdView(ad, adView)
-                    frameLayout.removeAllViews()
-                    frameLayout.addView(adView)
-                },
-                { ad: NativeCustomTemplateAd, s: String ->
-                    logger.dumpCustomEvent(
-                        "NativeAd",
-                        "A custom click has occurred in the simple template"
-                    )
-
-                    Toast.makeText(
-                        this,
-                        "A custom click has occurred in the simple template",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            )
-        }
-
-        val videoOptions = VideoOptions.Builder()
-            .setStartMuted(startMutedCheck)
-            .build()
-
-        val adOptions = com.google.android.gms.ads.formats.NativeAdOptions.Builder()
-            .setVideoOptions(videoOptions)
-            .build()
-
-        builder.withNativeAdOptions(adOptions)
-
-        val adLoader = builder.withAdListener(object : AdListener() {
-            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                //refresh_button.isEnabled = true
-                val error =
-                    """"
-            domain: ${loadAdError.domain}, code: ${loadAdError.code}, message: ${loadAdError.message}
-          """
-                logger.dumpCustomEvent("NativeAd", "Failed to load native ad with error $error")
-
-                Toast.makeText(
-                    this@BaseActivity, "Failed to load native ad with error $error",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }).build()
-
-        adLoader.loadAd(PublisherAdRequest.Builder().build())
-
-        // videostatus_text.text = ""
-    }
+//    private fun populateUnifiedNativeAdView(
+//        nativeAd: UnifiedNativeAd,
+//        adView: UnifiedNativeAdView
+//    ) {
+//
+//        logger.dumpCustomEvent("NativeAd", "UnifiedNative Ads loaded")
+//
+//        // Set the media view.
+//        adView.mediaView = adView.findViewById<MediaView>(R.id.ad_media)
+//
+//        // Set other ad assets.
+//        adView.headlineView = adView.findViewById(R.id.ad_headline)
+//        adView.bodyView = adView.findViewById(R.id.ad_body)
+//        adView.callToActionView = adView.findViewById(R.id.ad_call_to_action)
+//        adView.iconView = adView.findViewById(R.id.ad_app_icon)
+//        adView.priceView = adView.findViewById(R.id.ad_price)
+//        adView.starRatingView = adView.findViewById(R.id.ad_stars)
+//        adView.storeView = adView.findViewById(R.id.ad_store)
+//        adView.advertiserView = adView.findViewById(R.id.ad_advertiser)
+//
+//        // The headline and media content are guaranteed to be in every UnifiedNativeAd.
+//        (adView.headlineView as TextView).text = nativeAd.headline
+//        adView.mediaView.setMediaContent(nativeAd.mediaContent)
+//
+//        // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
+//        // check before trying to display them.
+//        if (nativeAd.body == null) {
+//            adView.bodyView.visibility = View.INVISIBLE
+//        } else {
+//            adView.bodyView.visibility = View.VISIBLE
+//            (adView.bodyView as TextView).text = nativeAd.body
+//        }
+//
+//        if (nativeAd.callToAction == null) {
+//            adView.callToActionView.visibility = View.INVISIBLE
+//        } else {
+//            adView.callToActionView.visibility = View.VISIBLE
+//            (adView.callToActionView as Button).text = nativeAd.callToAction
+//        }
+//
+//        if (nativeAd.icon == null) {
+//            adView.iconView.visibility = View.GONE
+//        } else {
+//            (adView.iconView as ImageView).setImageDrawable(
+//                nativeAd.icon.drawable
+//            )
+//            adView.iconView.visibility = View.VISIBLE
+//        }
+//
+//        if (nativeAd.price == null) {
+//            adView.priceView.visibility = View.INVISIBLE
+//        } else {
+//            adView.priceView.visibility = View.VISIBLE
+//            (adView.priceView as TextView).text = nativeAd.price
+//        }
+//
+//        if (nativeAd.store == null) {
+//            adView.storeView.visibility = View.INVISIBLE
+//        } else {
+//            adView.storeView.visibility = View.VISIBLE
+//            (adView.storeView as TextView).text = nativeAd.store
+//        }
+//
+//        if (nativeAd.starRating == null) {
+//            adView.starRatingView.visibility = View.INVISIBLE
+//        } else {
+//            (adView.starRatingView as RatingBar).rating = nativeAd.starRating!!.toFloat()
+//            adView.starRatingView.visibility = View.VISIBLE
+//        }
+//
+//        if (nativeAd.advertiser == null) {
+//            adView.advertiserView.visibility = View.INVISIBLE
+//        } else {
+//            (adView.advertiserView as TextView).text = nativeAd.advertiser
+//            adView.advertiserView.visibility = View.VISIBLE
+//        }
+//
+//        // This method tells the Google Mobile Ads SDK that you have finished populating your
+//        // native ad view with this native ad.
+//        adView.setNativeAd(nativeAd)
+//
+//        // Get the video controller for the ad. One will always be provided, even if the ad doesn't
+//        // have a video asset.
+//        val vc = nativeAd.videoController
+//
+//        // Updates the UI to say whether or not this ad has a video asset.
+//        if (vc.hasVideoContent()) {
+//
+//            // Create a new VideoLifecycleCallbacks object and pass it to the VideoController. The
+//            // VideoController will call methods on this object when events occur in the video
+//            // lifecycle.
+//            vc.videoLifecycleCallbacks = object : VideoController.VideoLifecycleCallbacks() {
+//                override fun onVideoEnd() {
+//                    // Publishers should allow native ads to complete video playback before
+//                    // refreshing or replacing them with another ad in the same UI location.
+//
+//                    super.onVideoEnd()
+//                }
+//            }
+//        } else {
+//            //videostatus_text.text = "Video status: Ad does not contain a video asset."
+//            //refresh_button.isEnabled = true
+//            logger.dumpCustomEvent("NativeAd", "Video status: Ad does not contain a video asset.")
+//
+//        }
+//    }
+//
+//    /**
+//     * Populates a [View] object with data from a [NativeCustomTemplateAd]. This method
+//     * handles a particular "simple" custom native ad format.
+//     *
+//     * @param nativeCustomTemplateAd the object containing the ad's assets
+//     *
+//     * @param adView the view to be populated
+//     */
+//    private fun populateSimpleTemplateAdView(
+//        nativeCustomTemplateAd: NativeCustomTemplateAd,
+//        adView: View
+//    ) {
+//        val headlineView = adView.findViewById<TextView>(R.id.simplecustom_headline)
+//        val captionView = adView.findViewById<TextView>(R.id.simplecustom_caption)
+//
+//        headlineView.text = nativeCustomTemplateAd.getText("Headline")
+//        captionView.text = nativeCustomTemplateAd.getText("Caption")
+//
+//        val mediaPlaceholder = adView.findViewById<FrameLayout>(R.id.simplecustom_media_placeholder)
+//
+//        // Get the video controller for the ad. One will always be provided, even if the ad doesn't
+//        // have a video asset.
+//        val vc = nativeCustomTemplateAd.videoController
+//
+//        // Create a new VideoLifecycleCallbacks object and pass it to the VideoController. The
+//        // VideoController will call methods on this object when events occur in the video
+//        // lifecycle.
+//        vc.videoLifecycleCallbacks = object : VideoController.VideoLifecycleCallbacks() {
+//            override fun onVideoEnd() {
+//                // Publishers should allow native ads to complete video playback before refreshing
+//                // or replacing them with another ad in the same UI location.
+//                //refresh_button.isEnabled = true
+//                //videostatus_text.text = "Video status: Video playback has ended."
+//                logger.dumpCustomEvent("NativeAd", "Video status: Video playback has ended.")
+//
+//                super.onVideoEnd()
+//            }
+//        }
+//
+//        // Apps can check the VideoController's hasVideoContent property to determine if the
+//        // NativeCustomTemplateAd has a video asset.
+//        if (vc.hasVideoContent()) {
+//            mediaPlaceholder.addView(nativeCustomTemplateAd.getVideoMediaView())
+//            // Kotlin doesn't include decimal-place formatting in its string interpolation, but
+//            // good ol' String.format works fine.
+//            /* videostatus_text.text = String.format(
+//                 Locale.getDefault(),
+//                 "Video status: Ad contains a %.2f:1 video asset.",
+//                 vc.aspectRatio
+//             )*/
+//        } else {
+//            val mainImage = ImageView(this)
+//            mainImage.adjustViewBounds = true
+//            mainImage.setImageDrawable(nativeCustomTemplateAd.getImage("MainImage").drawable)
+//
+//            mainImage.setOnClickListener { nativeCustomTemplateAd.performClick("MainImage") }
+//            mediaPlaceholder.addView(mainImage)
+//            //refresh_button.isEnabled = true
+//            //videostatus_text.text = "Video status: Ad does not contain a video asset."
+//        }
+//    }
+//
+//    /**
+//     * Creates a request for a new native ad based on the boolean parameters and calls the
+//     * corresponding "populate" method when one is successfully returned.
+//     *
+//     * @param requestUnifiedNativeAds indicates whether unified native ads should be requested
+//     *
+//     * @param requestCustomTemplateAds indicates whether custom template ads should be requested
+//     */
+//    fun refreshAd(
+//        requestUnifiedNativeAds: Boolean,
+//        requestCustomTemplateAds: Boolean,
+//        startMutedCheck: Boolean = false,
+//        adFrame: FrameLayout
+//    ) {
+//        if (!requestUnifiedNativeAds && !requestCustomTemplateAds) {
+//            logger.dumpCustomEvent(
+//                "NativeAd",
+//                "At least one ad format must be checked to request an ad."
+//            )
+//            Toast.makeText(
+//                this, "At least one ad format must be checked to request an ad.",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//            return
+//        }
+//
+//        //refresh_button.isEnabled = true
+//        logger.dumpCustomEvent("NativeAd", "Ad Loaded.")
+//        val builder = AdLoader.Builder(this, getString(R.string.admob_native_unit_id_test))
+//
+//        if (requestUnifiedNativeAds) {
+//            builder.forUnifiedNativeAd { unifiedNativeAd ->
+//                // If this callback occurs after the activity is destroyed, you must call
+//                // destroy and return or you may get a memory leak.
+//                var activityDestroyed = false
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                    activityDestroyed = isDestroyed
+//                }
+//                if (activityDestroyed || isFinishing || isChangingConfigurations) {
+//                    unifiedNativeAd.destroy()
+//                    return@forUnifiedNativeAd
+//                }
+//                // You must call destroy on old ads when you are done with them,
+//                // otherwise you will have a memory leak.
+//                currentUnifiedNativeAd?.destroy()
+//                currentUnifiedNativeAd = unifiedNativeAd
+//                val adView = layoutInflater
+//                    .inflate(R.layout.ad_unified, null) as UnifiedNativeAdView
+//                populateUnifiedNativeAdView(unifiedNativeAd, adView)
+//                adFrame.removeAllViews()
+//                adFrame.addView(adView)
+//            }
+//        }
+//
+//        if (requestCustomTemplateAds) {
+//            builder.forCustomTemplateAd(
+//                SIMPLE_TEMPLATE_ID,
+//                { ad: NativeCustomTemplateAd ->
+//                    // If this callback occurs after the activity is destroyed, you must call
+//                    // destroy and return or you may get a memory leak.
+//                    var activityDestroyed = false
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                        activityDestroyed = isDestroyed
+//                    }
+//                    if (activityDestroyed || isFinishing || isChangingConfigurations) {
+//                        ad.destroy()
+//                        return@forCustomTemplateAd
+//                    }
+//                    // You must call destroy on old ads when you are done with them,
+//                    // otherwise you will have a memory leak.
+//                    currentCustomTemplateAd?.destroy()
+//                    currentCustomTemplateAd = ad
+//                    val frameLayout = adFrame
+//                    val adView = layoutInflater
+//                        .inflate(R.layout.ad_simple_custom_template, null)
+//                    populateSimpleTemplateAdView(ad, adView)
+//                    frameLayout.removeAllViews()
+//                    frameLayout.addView(adView)
+//                },
+//                { ad: NativeCustomTemplateAd, s: String ->
+//                    logger.dumpCustomEvent(
+//                        "NativeAd",
+//                        "A custom click has occurred in the simple template"
+//                    )
+//
+//                    Toast.makeText(
+//                        this,
+//                        "A custom click has occurred in the simple template",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            )
+//        }
+//
+//        val videoOptions = VideoOptions.Builder()
+//            .setStartMuted(startMutedCheck)
+//            .build()
+//
+//        val adOptions = com.google.android.gms.ads.formats.NativeAdOptions.Builder()
+//            .setVideoOptions(videoOptions)
+//            .build()
+//
+//        builder.withNativeAdOptions(adOptions)
+//
+//        val adLoader = builder.withAdListener(object : AdListener() {
+//            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+//                //refresh_button.isEnabled = true
+//                val error =
+//                    """"
+//            domain: ${loadAdError.domain}, code: ${loadAdError.code}, message: ${loadAdError.message}
+//          """
+//                logger.dumpCustomEvent("NativeAd", "Failed to load native ad with error $error")
+//
+//                Toast.makeText(
+//                    this@BaseActivity, "Failed to load native ad with error $error",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }).build()
+//
+//        adLoader.loadAd(PublisherAdRequest.Builder().build())
+//
+//        // videostatus_text.text = ""
+//    }
 
 }

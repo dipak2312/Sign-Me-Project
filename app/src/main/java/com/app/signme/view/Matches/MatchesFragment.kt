@@ -10,6 +10,7 @@ import com.app.signme.adapter.SuperLikesAdapter
 import com.app.signme.application.AppineersApplication
 import com.app.signme.commonUtils.utility.IConstants
 import com.app.signme.commonUtils.utility.extension.sharedPreference
+import com.app.signme.core.AppConfig
 import com.app.signme.core.BaseActivity
 import com.app.signme.core.BaseFragment
 import com.app.signme.dagger.components.FragmentComponent
@@ -53,6 +54,9 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
         binding!!.mRecyclerSuperLikes.adapter = superLikesAdapter
         matchesAdapter = MatchesAdapter(this, mBaseActivity!!)
         binding!!.mRecyclerMatches.adapter = matchesAdapter
+        if (AppConfig.AdProvider_MoPub) {
+            showAppLovinBannerAd(this@MatchesFragment.requireContext(), binding!!.maxAdView)
+        }
 
         initListeners()
         addObservers()

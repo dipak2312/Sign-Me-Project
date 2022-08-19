@@ -81,6 +81,16 @@ class AppPrefrrences(context: Context) {
         get() = pref.getString("notification_count", "")
         set(value) = pref.edit().putString("notification_count", value).apply()
 
+
+    /**
+     * Boolean value for is ad free or not
+     */
+    var goAdFree: Boolean
+        get() = pref.getBoolean("goAdFree", false)
+        set(value) = pref.edit().putBoolean("goAdFree", value).apply()
+
+
+
     /**
      * Boolean value for is ad removed or not
      */
