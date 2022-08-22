@@ -113,8 +113,16 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                     finish()
                 }
                 btnClose.setOnClickListener{
-                    status=IConstants.REJECT
-                    callLikeSuperlikeCancel(userId,IConstants.REJECT)
+                    if(type!!.equals(IConstants.EXPLORE))
+                    {
+                        status=IConstants.REJECT
+                        callLikeSuperlikeCancel(userId,IConstants.REJECT)
+                    }else
+                    {
+                        status=type
+                        callUnlikeUnsuperlike(userId,type!!)
+                    }
+
                 }
 
                 btnMatchChat.setOnClickListener{
@@ -211,6 +219,24 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 viewModel.callLikeSuperLikeCancel(map)
             }
         }
+    }
+
+    fun callUnlikeUnsuperlike(userId:String?,status:String)
+    {
+//        when {
+//            checkInternet() -> {
+//                showProgressDialog(
+//                    isCheckNetwork = true,
+//                    isSetTitle = false,
+//                    title = IConstants.EMPTY_LOADING_MSG
+//                )
+//                val map = HashMap<String, String>()
+//                map["like_type"] = status
+//                map["dislike_user_id"] = userId!!
+//
+//                viewModel.callLikeSuperLikeCancel(map)
+//            }
+//        }
     }
 
 

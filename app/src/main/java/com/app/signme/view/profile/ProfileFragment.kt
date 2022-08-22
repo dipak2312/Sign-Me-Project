@@ -71,6 +71,10 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
         mediaFileRepository = MediaFileRepository.getInstance(this.activity!!)
         if (AppConfig.AdProvider_MoPub) {
             showAppLovinBannerAd(this@ProfileFragment.requireContext(), binding!!.maxAdView)
+            binding!!.maxAdView.visibility=View.VISIBLE
+        }else
+        {
+            binding!!.maxAdView.visibility=View.GONE
         }
         initListeners()
         getProfileData()

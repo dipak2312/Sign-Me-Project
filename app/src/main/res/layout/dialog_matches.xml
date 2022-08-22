@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
 
     <RelativeLayout
         android:id="@+id/mLayoutRoot"
@@ -94,7 +95,10 @@
                             android:layout_width="@dimen/dimen_120dp"
                             android:layout_height="@dimen/dimen_140dp"
                             android:layout_alignParentBottom="true"
+                            app:strokeColor="@color/app_color"
+                            app:strokeWidth="1dp"
                             android:scaleType="centerCrop"
+
                             app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.MediumComponent">
 
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -104,6 +108,8 @@
                             android:layout_width="@dimen/dimen_120dp"
                             android:layout_height="@dimen/dimen_140dp"
                             android:layout_alignParentEnd="true"
+                            app:strokeColor="@color/app_color"
+                            app:strokeWidth="1dp"
                             android:scaleType="centerCrop"
                             app:shapeAppearance="@style/ShapeAppearance.MaterialComponents.MediumComponent">
 
@@ -117,8 +123,7 @@
                     style="@style/ButtonMatchesStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_60dp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="@string/label_send_message" />
+                    android:layout_marginTop="@dimen/_10sdp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_keep_swiping"

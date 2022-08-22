@@ -74,6 +74,10 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
 
         if (AppConfig.AdProvider_MoPub) {
             showAppLovinBannerAd(this@ChatFragment.requireContext(), binding!!.maxAdView)
+            binding!!.maxAdView.visibility=View.VISIBLE
+        }else
+        {
+            binding!!.maxAdView.visibility=View.GONE
         }
         Log.d("FRAGMENT_CHAT", "ON_RESUME_CALLED")
 

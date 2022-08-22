@@ -56,6 +56,10 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
         binding!!.mRecyclerMatches.adapter = matchesAdapter
         if (AppConfig.AdProvider_MoPub) {
             showAppLovinBannerAd(this@MatchesFragment.requireContext(), binding!!.maxAdView)
+            binding!!.maxAdView.visibility=View.VISIBLE
+        }else
+        {
+            binding!!.maxAdView.visibility=View.GONE
         }
 
         initListeners()
@@ -237,7 +241,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                     startActivity(ShowLikesMatchesActivity.getStartIntent(this@MatchesFragment.requireContext(),IConstants.LIKE))
                 } else {
                     var otherUserResponse=SwiperViewResponse(isLike = "Yes",name = likesAdapter!!.getItem(position).firstName,profileImage = likesAdapter!!.getItem(position).profileImage)
-                    startActivity(OtherUserDetailsActivity.getStartIntent(this@MatchesFragment.requireContext(),likesAdapter!!.getItem(position).userId,otherUserResponse,IConstants.EXPLORE))
+                    startActivity(OtherUserDetailsActivity.getStartIntent(this@MatchesFragment.requireContext(),likesAdapter!!.getItem(position).userId,otherUserResponse,IConstants.LIKE))
                 }
                 }else
                 {
@@ -252,7 +256,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                 else
                 {
                     var otherUserResponse=SwiperViewResponse(isLike = "Yes",name = superLikesAdapter!!.getItem(position).firstName,profileImage = superLikesAdapter!!.getItem(position).profileImage)
-                    startActivity(OtherUserDetailsActivity.getStartIntent(this@MatchesFragment.requireContext(),superLikesAdapter!!.getItem(position).userId,otherUserResponse,IConstants.EXPLORE))
+                    startActivity(OtherUserDetailsActivity.getStartIntent(this@MatchesFragment.requireContext(),superLikesAdapter!!.getItem(position).userId,otherUserResponse,IConstants.SUPERLIKE))
                 }
             }
 
@@ -262,6 +266,7 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
             }
         }
     }
+
 
     override fun onLoadMore(itemCount: Int, nextPage: Int) {
 

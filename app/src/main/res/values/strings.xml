@@ -206,7 +206,7 @@
     <string name="label_add">add</string>
     <string name="non_binary">Non_binary</string>
     <string name="not_to_respond">Not_to_respond</string>
-    <string name="label_send_message">Send Chris a Message</string>
+    <string name="label_send_message">a Message</string>
     <string name="label_yes_unmatch">Yes, Unmatch</string>
     <string name="label_keep_swiping">Keep Swiping</string>
     <string name="label_nevermind">Nevermind</string>

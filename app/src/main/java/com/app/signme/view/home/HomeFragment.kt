@@ -104,8 +104,6 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         addObservers()
         initListener()
         getSwiperList()
-
-
     }
 
     fun getSwiperList() {
@@ -488,11 +486,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
     }
 
     override fun onCardAppeared(view: View, position: Int) {
-        Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}")
+       // Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}")
     }
 
     override fun onCardDisappeared(view: View, position: Int) {
-        Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}")
+        //Log.d("CardStackView", "onCardCanceled: ${manager!!.topPosition}")
     }
 
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
