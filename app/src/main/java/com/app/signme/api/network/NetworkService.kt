@@ -180,7 +180,7 @@ interface NetworkService {
 
     @GET("user_list")
     fun callGetSwiperList(
-        @Query("page_index") pageIndex: String?,
+        @Query("pending_user_ids") availableIds: String?,
         @Query("user_astrology_sign_id") signId: String?,
         @Query("per_page_record") perPageRecord: String = IConstants.RESULT_PER_PAGE
     ): Single<TAListResponse<SwiperViewResponse>>
@@ -193,6 +193,11 @@ interface NetworkService {
     @POST("connections")
     @FormUrlEncoded
     fun callLikeSuperlikeCancel(@FieldMap map: HashMap<String, String>): Single<TAListResponse<LikeUnLikeResponse>>
+
+    @POST("dislike")
+    @FormUrlEncoded
+    fun callUnlikeUnsuperlike(@FieldMap map: HashMap<String, String>): Single<TAListResponse<JsonElement>>
+
 
 
     @GET("connection_list")

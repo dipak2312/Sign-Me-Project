@@ -173,7 +173,7 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     fun enableDisableButton(view: View, enabled: Boolean) {
         view.isEnabled = enabled
-        view.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(if (enabled) R.color.app_color else R.color.warm_grey)))
+        view.setBackgroundTintList(ColorStateList.valueOf(resources.getColor(if (enabled) R.color.app_color else R.color.location_gray)))
     }
 
     /**

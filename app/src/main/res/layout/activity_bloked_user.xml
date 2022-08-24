@@ -88,16 +88,16 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:src="@drawable/splash_signme_logo">
+                android:src="@drawable/ic_opps">
 
             </androidx.appcompat.widget.AppCompatImageView>
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/RegularTextStyle"
+                style="@style/MediumTextStyle"
                 android:id="@+id/textMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,12 +106,12 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:letterSpacing="-0.01"
-                android:text="No block user available to show you."
+                android:text="No block user to show ."
                 android:textColor="@color/settingwhite"
-                android:textSize="@dimen/text_dimen_13sp"
+                android:textSize="@dimen/text_dimen_16sp"
                 tools:text="121 Fiiends added" />
         </RelativeLayout>
 
-
     </RelativeLayout>
+
 </layout>

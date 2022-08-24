@@ -187,7 +187,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 }
 
                 btnMatchClose.setOnClickListener{
-                    UnMatchDialog(userId!!,mListener = object :
+                    UnMatchDialog(otherUserResponse!!.name,mListener = object :
                         UnMatchDialog.ClickListener {
                         override fun onSuccess() {
 
@@ -215,6 +215,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                 val map = HashMap<String, String>()
                 map["connection_type"] = status
                 map["connection_user_id"] = userId!!
+                Log.i("TAG", "LikeId: $userId")
 
                 viewModel.callLikeSuperLikeCancel(map)
             }
@@ -223,20 +224,19 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
 
     fun callUnlikeUnsuperlike(userId:String?,status:String)
     {
-//        when {
-//            checkInternet() -> {
-//                showProgressDialog(
-//                    isCheckNetwork = true,
-//                    isSetTitle = false,
-//                    title = IConstants.EMPTY_LOADING_MSG
-//                )
-//                val map = HashMap<String, String>()
-//                map["like_type"] = status
-//                map["dislike_user_id"] = userId!!
-//
-//                viewModel.callLikeSuperLikeCancel(map)
-//            }
-//        }
+        when {
+            checkInternet() -> {
+                showProgressDialog(
+                    isCheckNetwork = true,
+                    isSetTitle = false,
+                    title = IConstants.EMPTY_LOADING_MSG
+                )
+                val map = HashMap<String, String>()
+                map["like_type"] = status
+                map["dislike_user_id"] = userId!!
+                viewModel.callunLikeunSuperlike(map)
+            }
+        }
     }
 
 
@@ -350,6 +350,23 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             }
         }
 
+        viewModel.userUnlikeUnsuperlike.observe(this){response->
+
+            hideProgressDialog()
+            if (response?.settings?.isSuccess == true) {
+
+
+                showMessage(
+                    response.settings!!.message,
+                    IConstants.SNAKBAR_TYPE_SUCCESS
+                )
+
+                (application as AppineersApplication).isMatchesUpdated.postValue(true)
+                finish()
+            }
+
+        }
+
         viewModel.userLikeSuperLikeLiveData.observe(this){response->
             hideProgressDialog()
             if (response?.settings?.isSuccess == true) {
@@ -374,7 +391,6 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                         addLikeSuperLikeCancelStatus(IConstants.SUPERLIKE)
                         var superLikeCountValue = sharedPreference.superLikeCount
                         sharedPreference.superLikeCount = superLikeCountValue + 1
-
                         getSupeLikeCount()
 
                         if (otherUserResponse!!.isLike.equals("Yes")) {
@@ -387,6 +403,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                         }
                     }
                     IConstants.REJECT -> {
+
                         addLikeSuperLikeCancelStatus(IConstants.REJECT)
                         finish()
                     }

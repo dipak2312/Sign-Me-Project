@@ -14,6 +14,8 @@ import com.app.signme.R
 import com.app.signme.application.AppineersApplication
 import com.app.signme.application.AppineersApplication.Companion.sharedPreference
 import com.app.signme.commonUtils.utility.IConstants
+import com.app.signme.commonUtils.utility.extension.toMMDDYYYDate
+import com.app.signme.commonUtils.utility.extension.toMMDDYYYStr
 import com.app.signme.core.BaseActivity
 import com.app.signme.dagger.components.ActivityComponent
 import com.app.signme.databinding.ActivityHomeBinding
@@ -116,6 +118,7 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             val name = jsonObject.getString(IConstants.PARAM_SENDER_NAME)
             val sender_id = jsonObject.getString(IConstants.PARAM_SENDER_ID)
             val profile = jsonObject.getString(IConstants.PARAM_SENDER_PROFILE)
+            val matchDate = jsonObject.getString(IConstants.MATCH_DATE)
             logger.dumpCustomEvent(
                 IConstants.EVENT_NOTIFICATION_PAYLOAD,
                 Gson().toJson(jsonObject)
@@ -136,13 +139,14 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
 
                 }
                 IConstants.NOTIFICATION_TYPES.Message -> {
+                    var matchdate=matchDate?.toMMDDYYYDate()
                     startActivity(
                         ChatRoomActivity.getStartIntent(
                             this@HomeActivity,
                             sender_id,
                             name,
                             profile,
-                            ""
+                            matchdate?.toMMDDYYYStr()
                         )
                     )
                 }

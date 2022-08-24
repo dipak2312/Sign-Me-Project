@@ -14,7 +14,7 @@ import com.hb.logger.Logger
 import kotlinx.android.synthetic.main.dialog_un_matches.*
 
 class UnMatchDialog (
-    userId:String?,
+    name:String?,
     mListener: ClickListener?
 ) : DialogFragment() {
     interface ClickListener {
@@ -27,6 +27,7 @@ class UnMatchDialog (
     }
     private var listener: ClickListener? = mListener
     private var binding: DialogUnMatchesBinding? = null
+    var userName:String?=name
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +46,8 @@ class UnMatchDialog (
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)!!
+
+        binding!!.textUnmatchUser.text=getString(R.string.label_unmatch)+" "+userName
 
         binding?.apply {
 

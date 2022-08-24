@@ -206,15 +206,15 @@
     <string name="label_add">add</string>
     <string name="non_binary">Non_binary</string>
     <string name="not_to_respond">Not_to_respond</string>
-    <string name="label_send_message">a Message</string>
+    <string name="label_send_message">Send Message</string>
     <string name="label_yes_unmatch">Yes, Unmatch</string>
     <string name="label_keep_swiping">Keep Swiping</string>
     <string name="label_nevermind">Nevermind</string>
-    <string name="lanel_no_data_found">No users available.</string>
+    <string name="lanel_no_data_found">No users to show.</string>
     <string name="label_like_details">People are interested in you</string>
     <string name="label_superlike_details">People are super interested in you</string>
     <string name="label_matches_details">Matches with you</string>
-    <string name="lanel_no_matches_found">No matches found.</string>
+    <string name="lanel_no_matches_found">No matches to show.</string>
     <string name="label_take_an_action_text">Take an action</string>
     <string name="report_user">Report User</string>
     <string name="block_user">Block User</string>
@@ -270,6 +270,7 @@
     <string name="alert_enter_city">Please enter city.</string>
     <string name="is_typing">is typing.....</string>
     <string name="no_data_show">No data to show. </string>
+    <string name="no_chat_to_show">No chat to show. </string>
     <string name="you_and">You and</string>
     <string name="matched_on">matched on</string>
     <string name="unblock_user_alert">Are you sure, you want to unblock this user?</string>
@@ -397,7 +398,7 @@
     <string name="label_upgrade_profile_text">UPGRADE YOUR PROFILE!</string>
     <string name="label_upgrade_profile_desc">Upgrade your profile and Get 2x chance of new match</string>
     <string name="label_liked_profile_text">See everyone who has liked your profile</string>
-    <string name="label_Regular_subscription_text">Unlimited likes and 5 Super likes per week</string>
+    <string name="label_Regular_subscription_text">Unlimited likes and 5 Super likes per day</string>
     <string name="label_golden_subscription_text">Unlimited likes and Unlimited super likes</string>
     <string name="_15_off">$15 off</string>
     <string name="admob_native_unit_id_test" translatable="false">/6499/example/native</string>

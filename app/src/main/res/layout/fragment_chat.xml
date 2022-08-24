@@ -124,17 +124,17 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img1"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:src="@mipmap/signme_logo">
+                android:src="@drawable/ic_opps">
 
             </androidx.appcompat.widget.AppCompatImageView>
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/RegularTextStyle"
+                style="@style/MediumTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
@@ -142,10 +142,10 @@
                 android:letterSpacing="-0.01"
                 android:layout_below="@+id/img1"
                 android:layout_marginBottom="@dimen/_20sdp"
-                android:text="@string/no_data_show"
+                android:text="@string/no_chat_to_show"
                 android:textColor="@color/settingwhite"
-                android:textSize="@dimen/text_dimen_13sp"
-                tools:text="@string/no_data_show" />
+                android:textSize="@dimen/text_dimen_16sp"
+                tools:text="@string/no_chat_to_show" />
         </RelativeLayout>
 
 

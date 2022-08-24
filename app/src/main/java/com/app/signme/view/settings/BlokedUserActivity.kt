@@ -158,7 +158,7 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
         viewModel.statusCodeLiveData.observe(this) { serverError ->
             hideProgressDialog()
             binding!!.swipeContainer.isRefreshing = false
-            if (serverError.code == 500 && serverError.success.equals("0")) {
+            if (serverError.code == 404 && serverError.success.equals("0")) {
                 setMessage()
 
             } else {

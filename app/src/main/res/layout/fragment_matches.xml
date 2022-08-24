@@ -28,7 +28,7 @@
             </androidx.appcompat.widget.AppCompatImageView>
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/BoldTextStyle"
+                style="@style/MediumTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/emptyMessage"

@@ -95,7 +95,7 @@
                 android:layout_marginEnd="@dimen/dimen_5dp"
                 android:drawablePadding="@dimen/dimen_10dp"
                 android:text="@{response.signName}"
-                android:textColor="@color/profile_gray"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_14sp"
                 tools:text="Aquarius" />
 
@@ -106,7 +106,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="@{response.relationshipDescription}"
-                android:textColor="@color/profile_gray"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_14sp" />
 
         </LinearLayout>

@@ -2,6 +2,7 @@ package com.app.signme.repository
 
 import com.app.quicklook.dataclasses.NotificationCount
 import com.app.signme.api.network.NetworkService
+import com.app.signme.application.AppineersApplication
 import com.app.signme.dataclasses.LikeUnLikeResponse
 import com.app.signme.dataclasses.OtherUserDetailsResponse
 import com.app.signme.dataclasses.SwiperViewResponse
@@ -18,14 +19,17 @@ class HomeRepository @Inject constructor(
    /* fun callConfigParameters(): Single<TAListResponse<VersionConfigResponse>> =
         networkService.callConfigParameters()*/
 
-    fun getSwiperList(pageIndex:String?,signId:String?): Single<TAListResponse<SwiperViewResponse>> =
-        networkService.callGetSwiperList(pageIndex,signId)
+    fun getSwiperList(availableIds:String?,signId:String?): Single<TAListResponse<SwiperViewResponse>> =
+        networkService.callGetSwiperList(availableIds,signId)
 
     fun callGetOtherUserDetailsList(otherUserId:String?): Single<TAListResponse<OtherUserDetailsResponse>> =
         networkService.callGetOtherUserDetails(otherUserId)
 
     fun callLikeSuperlikeCancel(map:HashMap<String,String>): Single<TAListResponse<LikeUnLikeResponse>> =
         networkService.callLikeSuperlikeCancel(map)
+
+    fun callUnlikeUnsuperlike(map:HashMap<String,String>): Single<TAListResponse<JsonElement>> =
+        networkService.callUnlikeUnsuperlike(map)
 
     fun unMatchUser(userId:String): Single<TAListResponse<JsonElement>> =
         networkService.unMatch(userId)

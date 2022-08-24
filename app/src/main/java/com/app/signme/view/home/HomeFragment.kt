@@ -37,6 +37,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, CardStackListener {
@@ -113,19 +114,19 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 binding!!.shimmer.startShimmer()
 
                 viewModel.getSwiperList(
-                    pageIndex.toString(),
+                    "",
                     sharedPreference.userDetail!!.astrologySignId
                 )
             }
         }
     }
 
-    fun paginateSwiperList() {
+    private fun paginateSwiperList(availableIds:String) {
+        Log.i("TAG", "paginateSwiperList: $availableIds")
         when {
             checkInternet() -> {
-
                 viewModel.getSwiperList(
-                    pageIndex.toString(),
+                    availableIds,
                     sharedPreference.userDetail!!.astrologySignId
                 )
             }
@@ -395,7 +396,12 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
 
         if (manager!!.topPosition == mAdapter!!.itemCount - 5) {
             pageIndex++
-            paginateSwiperList()
+            val ids=ArrayList<String>()
+            for(index in (manager!!.topPosition-1) until (mAdapter!!.itemCount)){
+                Log.i("TAG", "onCardSwiped: $index")
+                ids.add(mAdapter?.getItem(index)?.userId!!)
+            }
+            paginateSwiperList(ids.joinToString(separator = ","))
         }
 
         if (manager!!.topPosition == mAdapter!!.itemCount) {

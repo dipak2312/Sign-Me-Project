@@ -42,6 +42,7 @@
 <!--                    android:src="@drawable/ic_unmatch"/>-->
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textUnmatchUser"
                     style="@style/BoldTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -49,7 +50,7 @@
                     android:layout_marginTop="@dimen/_15sdp"
                     android:text="@string/label_unmatch"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_32sp"/>
+                    android:textSize="@dimen/text_dimen_26sp"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textMatchDesc"
@@ -59,7 +60,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/label_unmatch_desc"
-                    android:textColor="@color/white"
+                    android:textColor="@color/settingwhite"
                     android:textSize="@dimen/text_dimen_15sp"/>
 
 

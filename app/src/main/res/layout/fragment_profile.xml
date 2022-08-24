@@ -267,7 +267,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#0CFFFFFF" />
+                            android:background="@color/color_text_cursor" />
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"
@@ -314,7 +314,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="#0CFFFFFF" />
+                            android:background="@color/color_text_cursor" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             style="@style/RegularTextStyle"

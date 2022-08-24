@@ -36,6 +36,7 @@ class HomeViewModel(
     val swiperListLiveData= MutableLiveData<TAListResponse<SwiperViewResponse>>()
     val otherUserDetailsLiveData= MutableLiveData<TAListResponse<OtherUserDetailsResponse>>()
     val userLikeSuperLikeLiveData= MutableLiveData<TAListResponse<LikeUnLikeResponse>>()
+    val userUnlikeUnsuperlike= MutableLiveData<TAListResponse<JsonElement>>()
     val unMatchUserLiveData= MutableLiveData<TAListResponse<JsonElement>>()
     var notificationCountLiveData = MutableLiveData<TAListResponse<NotificationCount>>()
 
@@ -80,9 +81,9 @@ class HomeViewModel(
         )
     }
 
-    fun getSwiperList(pageIndex: String?,signId:String?) {
+    fun getSwiperList(availableIds: String?,signId:String?) {
         compositeDisposable.addAll(
-            homeRepository.getSwiperList(pageIndex,signId)
+            homeRepository.getSwiperList(availableIds,signId)
                 .subscribeOn(schedulerProvider.io())
                 .subscribe(
                     { response ->
@@ -117,6 +118,21 @@ class HomeViewModel(
                 .subscribe(
                     { response ->
                         userLikeSuperLikeLiveData.postValue(response)
+                    },
+                    { error ->
+                        statusCodeLiveData.postValue(handleServerError(error))
+                    }
+                )
+        )
+    }
+
+    fun callunLikeunSuperlike(map:HashMap<String,String>) {
+        compositeDisposable.addAll(
+            homeRepository.callUnlikeUnsuperlike(map)
+                .subscribeOn(schedulerProvider.io())
+                .subscribe(
+                    { response ->
+                        userUnlikeUnsuperlike.postValue(response)
                     },
                     { error ->
                         statusCodeLiveData.postValue(handleServerError(error))

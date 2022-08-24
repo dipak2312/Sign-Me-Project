@@ -507,7 +507,7 @@
         <item name="android:textAppearance">@style/chipText</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_dimen_15sp</item>
-        <item name="android:paddingLeft">@dimen/_6sdp</item>
+        <item name="android:paddingLeft">@dimen/_5sdp</item>
         <item name="android:fontFamily">@font/poppins_medium</item>
     </style>
 

@@ -34,7 +34,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/_8sdp"
                 android:src="@drawable/ic_feedback_bag"
-                android:tint="#8e8e8e"
+                android:tint="#707070"
                 android:visibility="@{model.showAddButton() ? View.VISIBLE: View.GONE}"/>
 
             <androidx.appcompat.widget.AppCompatImageView
