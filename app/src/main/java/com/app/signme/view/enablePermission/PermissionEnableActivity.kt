@@ -65,9 +65,9 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
 
         binding!!.rippleBackground.startRippleAnimation()
         setFireBaseAnalyticsData(
-            "id-locationPermissionScreen",
-            "view_locationPermissionScreen",
-            "view_locationPermissionScreen"
+            "id-locationscreen",
+            "view-locationscreen",
+            "view-locationscreen"
         )
 
         mFusedLocationProviderClient =
@@ -84,9 +84,9 @@ class PermissionEnableActivity : BaseActivity<LandingViewMode>() {
 
                 btnAllow.setOnClickListener {
                     setFireBaseAnalyticsData(
-                        "id-allowLocationClick",
-                        "click_allowLocationClick",
-                        "click_allowLocationClick"
+                        "id_locationallow",
+                        "click_locationallow",
+                        "click_locationallow"
                     )
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Allow Button Click")
                     getDeviceLocation()

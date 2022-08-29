@@ -56,6 +56,8 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
     }
 
     override fun setupView(view: View) {
+
+        setFireBaseAnalyticsData("id-chatlistscreen", "view-chatlistscreen", "view-chatlistscreen")
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = this
         val user = sharedPreference.userDetail
@@ -86,11 +88,21 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
         binding?.let {
             with(it) {
                 btnSettings.setOnClickListener {
+                    setFireBaseAnalyticsData(
+                        "id-settings",
+                        "click_settings",
+                        "click_settings"
+                    )
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Setting Button Click")
                     startActivity(SettingsActivity.getStartIntent(this@ChatFragment.requireContext()))
                 }
 
                 btnNotificationCount.setOnClickListener{
+                    setFireBaseAnalyticsData(
+                        "id-notification",
+                        "click_notification",
+                        "click_notification"
+                    )
                     startActivity(NotificationActivity.getStartIntent(this@ChatFragment.requireContext()))
                 }
             }
@@ -354,7 +366,8 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
         when(viewId){
             R.id.mLayoutRoot -> {
-            setFireBaseAnalyticsData("id_btnback", "click_btnback", "click_btnback")
+
+            setFireBaseAnalyticsData("id_chatItem", "click_chatItem", "click_chatItem")
             val chatRoomModel = chatListAdapter!!.getItem(position)
             if (sharedPreference.userDetail?.userId!! != chatRoomModel.receiverId) {
                 startActivity(

@@ -167,17 +167,37 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
         binding?.apply {
 
             btnSetting.setOnClickListener {
+                    setFireBaseAnalyticsData(
+                        "id-settings",
+                        "click_settings",
+                        "click_settings"
+                    )
                 startActivity(SettingsActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
 
             btnNotificationCount.setOnClickListener {
+                setFireBaseAnalyticsData(
+                    "id-notification",
+                    "click_notification",
+                    "click_notification"
+                )
                 startActivity(NotificationActivity.getStartIntent(this@HomeFragment.requireContext()))
             }
 
             btnClose.setOnClickListener {
+                setFireBaseAnalyticsData(
+                    "id_cancelotheruserclick",
+                    "click_cancelotheruserclick",
+                    "click_cancelotheruserclick"
+                )
                 swapReject()
             }
             btnLike.setOnClickListener {
+                setFireBaseAnalyticsData(
+                    "id_likeotheruserclick",
+                    "click_likeotheruserclick",
+                    "click_likeotheruserclick"
+                )
                 if (sharedPreference.configDetails!!.defaultLikeCount!!.toInt()<= sharedPreference.likeCount) {
                     startActivity(
                         SubscriptionPlansActivity.getStartIntent(
@@ -190,6 +210,11 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
             btnSuperLike.setOnClickListener {
+                setFireBaseAnalyticsData(
+                    "click_superlikeotheruserclick",
+                    "click_superlikeotheruserclick",
+                    "click_superlikeotheruserclick"
+                )
                 if (sharedPreference.configDetails!!.defaultSuperLikeCount!!.toInt() <= sharedPreference.superLikeCount) {
                     callLikeToSubscribe()
                 } else {
@@ -354,6 +379,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
 
         when (direction.name) {
             "Left" -> {
+                setFireBaseAnalyticsData("id_leftswipeclick", "click_leftswipeclick", "click_leftswipeclick")
                 if (status.isNullOrEmpty()) {
                     callLikeSuperlikeCancel(
                         mAdapter!!.getAllItems()[manager!!.topPosition - 1].userId,
@@ -364,6 +390,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
             "Right" -> {
+                setFireBaseAnalyticsData("id_righttswipeclick", "click_righttswipeclick", "click_righttswipeclick")
                 if (status.isNullOrEmpty()) {
                     callLikeSuperlikeCancel(
                         mAdapter!!.getAllItems()[manager!!.topPosition - 1].userId,
@@ -379,6 +406,7 @@ class HomeFragment : BaseFragment<HomeViewModel>(), RecyclerViewActionListener, 
                 }
             }
             "Top" -> {
+                setFireBaseAnalyticsData("id_upswipeclick", "click_upswipeclick", "click_upswipeclick")
                 if (status.isNullOrEmpty()) {
                     callLikeSuperlikeCancel(
                         mAdapter!!.getAllItems()[manager!!.topPosition - 1].userId,

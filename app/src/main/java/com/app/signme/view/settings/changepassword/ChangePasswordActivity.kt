@@ -32,9 +32,9 @@ class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel>() {
 
     override fun setupView(savedInstanceState: Bundle?) {
         setFireBaseAnalyticsData(
-            "id-changePasswordScreen",
-            "view_changePasswordScreen",
-            "view_changePasswordScreen"
+            "id-changepasswordscreen",
+            "view-changepasswordscreen",
+            "view-changepasswordscreen"
         )
         binding.apply {
             ibtnBack.setOnClickListener {
@@ -42,6 +42,11 @@ class ChangePasswordActivity : BaseActivity<ChangePasswordViewModel>() {
                 finish()
             }
             btnUpdate.setOnClickListener {
+                setFireBaseAnalyticsData(
+                    "id-changepassword",
+                    "click_changepassword",
+                    "click_changepassword"
+                )
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Update Button Click")
                 MSCGenerator.addAction(
                     GenConstants.ENTITY_USER,

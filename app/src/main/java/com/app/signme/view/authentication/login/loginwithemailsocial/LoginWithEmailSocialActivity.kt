@@ -85,6 +85,8 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
+        setFireBaseAnalyticsData("id-loginscreen", "view-loginscreen", "view-loginscreen")
+
         (application as AppineersApplication).setApplicationLoginType(IConstants.LOGIN_TYPE_EMAIL_SOCIAL)
 
         initListeners()
@@ -114,6 +116,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
         binding?.let {
             with(it) {
                 mbtnLogin.setOnClickListener {
+                    setFireBaseAnalyticsData("id-loginscreen", "view-loginscreen", "view-loginscreen")
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Login Button Click")
                     MSCGenerator.addAction(
                         GenConstants.ENTITY_USER,
@@ -136,6 +139,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 }
 
                 ibtnFacebook.setOnClickListener {
+                    setFireBaseAnalyticsData("id_facebookclick", "click_facebookclick", "click_facebookclick")
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Facebook Login Button Click")
                     MSCGenerator.addAction(
                         GenConstants.ENTITY_USER,
@@ -151,6 +155,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 }
 
                 ibtnGoogle.setOnClickListener {
+                    setFireBaseAnalyticsData("id_googleclick", "click_googleclick", "click_googleclick")
                     MSCGenerator.addAction(
                         GenConstants.ENTITY_USER,
                         GenConstants.ENTITY_APP,
@@ -165,6 +170,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
                 }
 
                 ibtnApple.setOnClickListener {
+                    setFireBaseAnalyticsData("id_appleclick", "click_appleclick", "click_appleclick")
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Apple Login Button Click")
                     MSCGenerator.addAction(
                         GenConstants.ENTITY_USER,
@@ -183,6 +189,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
 
 
                 tvCreateNewAccount.setOnClickListener {
+                    setFireBaseAnalyticsData("id_createnewaccount", "click_createnewaccount", "click_createnewaccount")
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Sign up Button Click")
                     MSCGenerator.addAction(
                         GenConstants.ENTITY_USER,
@@ -202,6 +209,7 @@ class LoginWithEmailSocialActivity : BaseActivity<LoginWithEmailSocialViewModel>
 
 
                 tvForgotPassword.setOnClickListener {
+                    setFireBaseAnalyticsData("id_forgotclick", "click_forgotclick", "click_forgotclick")
                     hideKeyboard()
                     MSCGenerator.addAction(
                         GenConstants.ENTITY_USER,

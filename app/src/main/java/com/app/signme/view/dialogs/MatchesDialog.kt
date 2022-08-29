@@ -56,6 +56,7 @@ class MatchesDialog(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = DataBindingUtil.bind(view)!!
        // binding!!.btnSendMessage.text="Send"+" "+res.name+" "+getString(R.string.label_send_message)
         binding!!.textMatchDesc.text="You and"+" "+res.name+" "+getString(R.string.label_like_each_other)

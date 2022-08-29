@@ -57,9 +57,9 @@ class ResetPasswordActivity : BaseActivity<ResetPasswordViewModel>() {
 
     override fun setupView(savedInstanceState: Bundle?) {
         setFireBaseAnalyticsData(
-            "id-resetPasswordScreen",
-            "view_resetPasswordScreen",
-            "view_resetPasswordScreen"
+            "id-resetpasswordscreen",
+            "view-resetpasswordscreen",
+            "view-resetpasswordscreen"
         )
         binding?.let {
             with(it) {

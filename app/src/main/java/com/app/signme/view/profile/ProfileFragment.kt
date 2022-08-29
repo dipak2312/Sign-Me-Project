@@ -54,7 +54,7 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
     @SuppressLint("UseRequireInsteadOfGet")
     override fun setupView(view: View) {
         getContext()?.getTheme()?.applyStyle(R.style.ProfileTheme, true)
-        setFireBaseAnalyticsData("id-profileScreen", "view_profileScreen", "view_profileScreen")
+        setFireBaseAnalyticsData("id-profileScreen", "view-profileScreen", "view-profileScreen")
         binding = DataBindingUtil.bind(view)!!
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -84,6 +84,11 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
     fun initListeners() {
         binding.apply {
             btnEditProfile.setOnClickListener {
+                setFireBaseAnalyticsData(
+                    "id_editprofile",
+                    "click_editprofile",
+                    "click_editprofile"
+                )
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Edit Button Click")
                 startActivity(
                     EditProfileActivity.getStartIntent(
@@ -93,6 +98,11 @@ class ProfileFragment : BaseFragment<UserProfileViewModel>(), RecyclerViewAction
                 )
             }
             btnsetting.setOnClickListener {
+                setFireBaseAnalyticsData(
+                    "id-settings",
+                    "click_settings",
+                    "click_settings"
+                )
                 startActivity(SettingsActivity.getStartIntent(this@ProfileFragment.requireContext()))
             }
         }

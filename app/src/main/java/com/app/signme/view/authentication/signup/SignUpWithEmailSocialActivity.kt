@@ -108,7 +108,7 @@ class SignUpWithEmailSocialActivity : BaseActivity<SignUpWithEmailViewModel>() {
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
-        setFireBaseAnalyticsData("id-signUpScreen", "view_signUpScreen", "view_signUpScreen")
+        setFireBaseAnalyticsData("id-signupscreen", "view-signupscreen", "view-signupscreen")
         social = intent.getParcelableExtra("social")
 
         (application as AppineersApplication).isRemoved = true

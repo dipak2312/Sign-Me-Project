@@ -58,7 +58,6 @@
                 android:weightSum="1">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvUserFullName"
                     style="@style/BoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_20dp"

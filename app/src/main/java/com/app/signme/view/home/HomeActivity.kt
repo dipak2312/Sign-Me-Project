@@ -74,6 +74,7 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
+        setFireBaseAnalyticsData("id-homescreen", "view-homescreen", "view-homescreen")
         social = intent.getParcelableExtra("social")
         if (social != null) {
             sharedPreference.socialUserDetails = social
@@ -86,9 +87,6 @@ class HomeActivity : BaseActivity<HomeViewModel>() {
             //checkNotificationsData(data)
         }
 
-
-
-        setFireBaseAnalyticsData("id-homeScreen", "view_homeScreen", "view_homeScreen")
         binding.apply {
             bottomNavigation.setOnNavigationItemSelectedListener {
                 if (isTabChanging) {

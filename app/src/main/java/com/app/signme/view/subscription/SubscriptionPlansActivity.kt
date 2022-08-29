@@ -501,6 +501,9 @@ class SubscriptionPlansActivity : BaseActivity<SettingsViewModel>() {
             }
 
             btnSubscribe.setOnClickListener {
+
+                    setFireBaseAnalyticsData(
+                        "id_subscribeBtn", "click_subscribeBtn", "click_subscribeBtn")
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Subscribe Button Click")
 
                 if (inAppSKUList.isNotEmpty()) {

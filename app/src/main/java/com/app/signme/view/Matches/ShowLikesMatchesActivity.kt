@@ -51,6 +51,7 @@ class ShowLikesMatchesActivity:BaseActivity<MatchesViewModel>(),RecyclerViewActi
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
+        setFireBaseAnalyticsData("id-matcheslistscreen", "view-matcheslistscreen", "view-matcheslistscreen")
 
         mAdapter= ShowLikesMatchesAdapter(this,this)
         binding!!.mRecycler.adapter=mAdapter

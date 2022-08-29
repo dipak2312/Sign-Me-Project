@@ -45,6 +45,8 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
     }
 
     override fun setupView(view: View) {
+        setFireBaseAnalyticsData("id-matchesscreen", "view-matchesscreen", "view-matchesscreen")
+
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = this
 
@@ -102,15 +104,31 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
             with(it) {
 
                 btnsetting.setOnClickListener {
+
+                        setFireBaseAnalyticsData(
+                            "id-settings",
+                            "click_settings",
+                            "click_settings"
+                        )
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Back Button Click")
                     startActivity(SettingsActivity.getStartIntent(this@MatchesFragment.requireContext()))
                  }
 
                 btnNotificationCount.setOnClickListener{
+                    setFireBaseAnalyticsData(
+                        "id-notification",
+                        "click_notification",
+                        "click_notification"
+                    )
                     startActivity(NotificationActivity.getStartIntent(this@MatchesFragment.requireContext()))
                 }
 
                 textViewAll.setOnClickListener {
+                    setFireBaseAnalyticsData(
+                        "id_viewallmatchclick",
+                        "click_viewallmatchclick",
+                        "click_viewallmatchclick"
+                    )
                     startActivity(
                         ShowLikesMatchesActivity.getStartIntent(
                             this@MatchesFragment.requireContext(),
@@ -120,6 +138,11 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
                 }
 
                 btnWhoLike.setOnClickListener {
+                    setFireBaseAnalyticsData(
+                            "id_seelikesyouclick",
+                            "click_seelikesyouclick",
+                            "click_seelikesyouclick"
+                        )
                     startActivity(SubscriptionPlansActivity.getStartIntent(this@MatchesFragment.requireContext(),"1"))
                 }
 
@@ -235,6 +258,11 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
         when (viewId) {
             R.id.imgLike -> {
 
+                    setFireBaseAnalyticsData(
+                        "id_likeotheruserclick",
+                        "click_likeotheruserclick",
+                        "click_likeotheruserclick"
+                    )
                 if(sharedPreference.isSubscription)
                 {
                 if (position == 3) {
@@ -250,6 +278,11 @@ class MatchesFragment : BaseFragment<MatchesViewModel>(), RecyclerViewActionList
             }
 
             R.id.imgSuperlike -> {
+                setFireBaseAnalyticsData(
+                    "click_superlikeotheruserclick",
+                    "click_superlikeotheruserclick",
+                    "click_superlikeotheruserclick"
+                )
                 if (position == 3) {
                     startActivity(ShowLikesMatchesActivity.getStartIntent(this@MatchesFragment.requireContext(),IConstants.SUPERLIKE))
                 }

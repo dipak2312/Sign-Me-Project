@@ -52,6 +52,8 @@ class StaticPagesMultipleActivity : BaseActivity<StaticPagesViewModel>() {
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
+        setFireBaseAnalyticsData("id-staticscreen", "view-staticscreen", "view-staticscreen")
+
         addObserver()
         pageCodeList =
             intent?.getParcelableArrayListExtra<StaticPage>("page_code_list")

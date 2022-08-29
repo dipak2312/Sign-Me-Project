@@ -77,6 +77,8 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
+        setFireBaseAnalyticsData("id-otheruserscreen", "view-otheruserscreen", "view-otheruserscreen")
+
         initListeners()
         addObservers()
         userId=intent.getStringExtra(IConstants.USERID)

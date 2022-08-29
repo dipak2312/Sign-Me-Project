@@ -81,9 +81,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tietReason"
-                    style="@style/InputAllStyle"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bg_spinner"
                     android:hint="@string/hint_add_reason"
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences|textMultiLine"

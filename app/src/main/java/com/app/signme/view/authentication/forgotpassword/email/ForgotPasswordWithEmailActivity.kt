@@ -36,9 +36,9 @@ class ForgotPasswordWithEmailActivity : BaseActivity<ForgotPasswordEmailViewMode
 
     override fun setupView(savedInstanceState: Bundle?) {
         setFireBaseAnalyticsData(
-            "id-forgotPasswordWithEmailScreen",
-            "view_forgotPasswordWithEmailScreen",
-            "view_forgotPasswordWithEmailScreen"
+            "id-forgotpasswordscreen",
+            "view-forgotpasswordscreen",
+            "view-forgotpasswordscreen"
         )
         binding?.let {
             with(it) {
@@ -48,6 +48,7 @@ class ForgotPasswordWithEmailActivity : BaseActivity<ForgotPasswordEmailViewMode
                 }
 
                 mbtnSendResetLink.setOnClickListener {
+                    setFireBaseAnalyticsData("id_forgotclick", "click_forgotclick", "click_forgotclick")
                     logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Send Reset Link Button Click")
                     MSCGenerator.addAction(
                         GenConstants.ENTITY_USER,

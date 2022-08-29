@@ -75,6 +75,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
     override fun setupView(savedInstanceState: Bundle?) {
         addObservers()
         dataBinding?.progressSplash?.visibility = View.VISIBLE
+        setFireBaseAnalyticsData("id-splashscreen", "view-splashscreen", "view-splashscreen")
         //checkNotificationPermission()
         /*  val test = ("0")
           println(test[1])*/

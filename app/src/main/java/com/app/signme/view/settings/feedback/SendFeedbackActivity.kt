@@ -58,9 +58,9 @@ class SendFeedbackActivity : BaseActivity<FeedbackViewModel>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun setupView(savedInstanceState: Bundle?) {
         setFireBaseAnalyticsData(
-            "id-sendFeedbackScreen",
-            "view_sendFeedBackScreen",
-            "view_sendFeedBackScreen"
+            "id-sendfeedbackscreen",
+            "view-sendfeedbackscreen",
+            "view-sendfeedbackscreen"
         )
         binding.apply {
             binding.inputBrief.setOnTouchListener { _, _ ->

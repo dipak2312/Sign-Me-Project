@@ -95,8 +95,8 @@ class SettingsActivity : BaseActivity<SettingsViewModel>() {
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Add Free Button Click")
                 setFireBaseAnalyticsData(
                     "id-goadfree",
-                    "click_goadfreeclick",
-                    "click_goadfreeclick"
+                    "click_goadfree",
+                    "click_goadfree"
                 )
                 when {
                     checkInternet() -> viewModel.makePurchase(

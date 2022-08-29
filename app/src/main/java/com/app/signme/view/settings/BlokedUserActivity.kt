@@ -53,8 +53,8 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
     override fun setupView(savedInstanceState: Bundle?) {
         setFireBaseAnalyticsData(
             "id-blockedUserScreen",
-            "view_blockedUserScreen",
-            "view_blockedUserScreen"
+            "view-blockedUserScreen",
+            "view-blockedUserScreen"
         )
 
         binding?.apply {
@@ -197,7 +197,7 @@ class BlokedUserActivity : BaseActivity<SettingsViewModel>(), RecyclerViewAction
             }
 
             R.id.btnUnblockUser -> {
-                setFireBaseAnalyticsData("id-unblockuser", "click_unblockuser", "click_unblockuser")
+                setFireBaseAnalyticsData("id-unblockUserBtn", "click_unblockUserBtn", "click_unblockUserBtn")
                 CustomDialog(
                     message = getString(R.string.unblock_user_alert),
                     positiveButtonText = getString(R.string.label_yes_button),

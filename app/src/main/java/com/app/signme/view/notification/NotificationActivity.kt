@@ -246,6 +246,11 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
     override fun onItemClick(viewId: Int, position: Int, childPosition: Int?) {
         when (viewId) {
             R.id.mLayoutRoot -> {
+                setFireBaseAnalyticsData(
+                    "id_notificationlistclick",
+                    "click_notificationlistclick",
+                    "click_notificationlistclick"
+                )
                 val notification = mAdapter?.getItem(position)
                 notificationPosition = position
                 notificationId = mAdapter!!.getAllItems()[position].notificationId!!
@@ -310,6 +315,11 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
             override fun onSwipedLeft(position: Int) {
                 deletenotifyPosition = position
                 openDialogToDelete(position)
+                setFireBaseAnalyticsData(
+                    "id_notificationDeleteClick",
+                    "click_notificationDeleteClick",
+                    "click_notificationDeleteClick"
+                )
                 mAdapter!!.notifyDataSetChanged()
             }
 

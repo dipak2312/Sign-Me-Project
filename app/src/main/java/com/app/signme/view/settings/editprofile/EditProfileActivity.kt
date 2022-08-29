@@ -374,6 +374,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             }
 
             btnRefreshRelationship.setOnClickListener {
+                setFireBaseAnalyticsData("id_retryrelationshipclick","click_retryrelationshipclick","click_retryrelationshipclick")
                 getRelationshipStatus()
             }
             btnSetAddress.setOnClickListener {
@@ -1081,9 +1082,11 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
         selectedPosition = position
         when (viewId) {
             R.id.ibtnAddImage -> {
+                setFireBaseAnalyticsData("id_addphotoclick","click_addphotoclick","click_addphotoclick")
                 checkPermission()
             }
             R.id.ivRetry -> {
+                setFireBaseAnalyticsData("id_retryrelationshipclick","click_retryrelationshipclick","click_retryrelationshipclick")
                 val image = mAdapter!!.getItem(position)
                 startService(
                     AwsService.getStartIntent(
@@ -1095,6 +1098,7 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             }
 
             R.id.ibtnRemoveImage -> {
+                setFireBaseAnalyticsData("id_deletephotoclick","click_deletephotoclick","click_deletephotoclick")
 
                 if (isImageUploading) {
                     "Image uploading in-progress wait a moment".showSnackBar(this@EditProfileActivity)

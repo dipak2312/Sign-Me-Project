@@ -52,6 +52,7 @@ class UnMatchDialog (
         binding?.apply {
 
             btnNevermind.setOnClickListener {
+
                 logger.dumpCustomEvent(IConstants.EVENT_CLICK, "Done Button Click")
                 listener?.onCancel()
                 dismiss()
