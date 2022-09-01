@@ -230,6 +230,8 @@ class ChatFragment : BaseFragment<ChatViewModel>(), RecyclerViewActionListener {
     }
 
 
+
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (hidden) {

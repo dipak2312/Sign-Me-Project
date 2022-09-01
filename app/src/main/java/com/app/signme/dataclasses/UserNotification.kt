@@ -26,5 +26,8 @@ data class UserNotification(
     @JsonProperty("sender_profile_image")
     val senderProfileImage: String?="",
     @JsonProperty("status")
-    var notificationStatus: String?=""
+    var notificationStatus: String?="",
+    @JsonProperty("match_date")
+    var matchDate: String?=""
+
 )

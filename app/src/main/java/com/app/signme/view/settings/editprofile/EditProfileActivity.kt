@@ -175,7 +175,6 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
             binding!!.tvEditProfile.text = getString(R.string.label_complete_profile_toolbar_text)
             binding!!.btnUpdate.text = getString(R.string.label_get_started_profile)
             binding!!.linFirstLastName.visibility = View.GONE
-            binding!!.btnSelectCity.isClickable = false
             binding!!.btnSetAddress.visibility = View.GONE
             latitude = sharedPreference.latitude
             longitude = sharedPreference.longitude
@@ -284,6 +283,14 @@ class EditProfileActivity : BaseActivity<UserProfileViewModel>(), RecyclerViewAc
                 //val country = addresses[0].countryName
                 val cityState = city + "," + " " + state
                 binding!!.textCityState.setText(cityState)
+                if(status.equals(IConstants.ADD))
+                {
+                    binding!!.btnSelectCity.isClickable = false
+                }
+
+            }else
+            {
+                binding!!.btnSelectCity.isClickable = true
             }
         }
     }

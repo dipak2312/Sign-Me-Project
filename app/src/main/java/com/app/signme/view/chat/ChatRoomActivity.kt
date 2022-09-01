@@ -1,9 +1,7 @@
 package com.app.signme.view.chat
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -39,10 +37,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.android.synthetic.main.bottom_sheet_report_block_user.view.*
 import java.util.*
-import kotlin.math.log
 
-class ChatRoomActivity:BaseActivity<ChatViewModel>() {
-    var binding:ActivityChatRoomBinding?=null
+class ChatRoomActivity : BaseActivity<ChatViewModel>() {
+    var binding: ActivityChatRoomBinding? = null
     private var isBlocked: Boolean = false
 
     companion object {
@@ -60,13 +57,13 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
             otherUserId: String,
             otherUserName: String?,
             otherUserImage: String?,
-            matchDate:String?
+            matchDate: String?
         ): Intent {
             return Intent(context, ChatRoomActivity::class.java).apply {
                 putExtra(IConstants.BUNDLE_DATA_USER_2_ID, otherUserId)
                 putExtra(IConstants.BUNDLE_DATA_USER_2_NAME, otherUserName)
                 putExtra(IConstants.BUNDLE_DATA_USER_2_IMAGE, otherUserImage)
-                putExtra(IConstants.MATCH_DATE,matchDate)
+                putExtra(IConstants.MATCH_DATE, matchDate)
             }
         }
     }
@@ -100,16 +97,16 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
     private var authUserGlobal: FirebaseUser? = null
     private var chatRoomFound = false
     private var isUserOnChatScreen: Boolean = false
-    private var matchDate:String=""
+    private var matchDate: String = ""
 
     override fun setDataBindingLayout() {
 
-        binding=DataBindingUtil.setContentView(this, R.layout.activity_chat_room)
-        binding!!.lifecycleOwner=this
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_chat_room)
+        binding!!.lifecycleOwner = this
     }
 
     override fun injectDependencies(activityComponent: ActivityComponent) {
-      activityComponent.inject(this)
+        activityComponent.inject(this)
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
@@ -120,9 +117,10 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
             user2UserID = getStringExtra(IConstants.BUNDLE_DATA_USER_2_ID) ?: ""
             user2ImgUrl = getStringExtra(IConstants.BUNDLE_DATA_USER_2_IMAGE) ?: ""
             originalUser2Id = getStringExtra(IConstants.BUNDLE_DATA_USER_2_ID) ?: ""
-            matchDate=getStringExtra(IConstants.MATCH_DATE)?: ""
+            matchDate = getStringExtra(IConstants.MATCH_DATE) ?: ""
             binding!!.tvUserName.text = user2Name
-            binding!!.textMatch.text=getString(R.string.you_and)+" "+user2Name+" "+getString(R.string.matched_on)+" "+matchDate
+            binding!!.textMatch.text =
+                getString(R.string.you_and) + " " + user2Name + " " + getString(R.string.matched_on) + " " + matchDate
         }
 
         if (user2UserID == "") {
@@ -172,6 +170,59 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (authUserGlobal != null) {
+            setUserOnlineOffline(false)
+            makeTypingOff()
+        }
+        clearNewMessageCount(false)
+        Log.d("ACTIVITY_CHAT", "ON_PAUSE_CALLED")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (authUserGlobal != null) {
+            setUserOnlineOffline(true)
+        }
+        Log.d("ACTIVITY_CHAT", "ON_RESUME_CALLED")
+    }
+    override fun onBackPressed() {
+        makeTypingOff()
+        super.onBackPressed()
+    }
+
+    private fun makeTypingOff() {
+        if (chatRoomId.isEmpty() || currentChatDocument.isEmpty()) {
+            return
+        }
+        val docRef = firebaseFireStoreDB.collection(chatRoomId)
+            .document(currentChatDocument)
+        docRef.update(
+            mapOf(
+                "isTyping" to "",
+                "senderFireBaseId" to user1UID,
+                "chatID" to user2UserID
+            )
+        ).addOnSuccessListener {
+            Log.d(
+                TAG,
+                "DocumentSnapshot successfully updated!"
+            )
+        }
+            .addOnFailureListener { e ->
+                Log.w(
+                    TAG,
+                    "Error updating document",
+                    e
+                )
+            }
+
+        val myConnectionsRef =
+            firebaseDatabase.getReference("users/$user1UID/$user2UserID/isTyping")
+        myConnectionsRef.setValue(false)
     }
 
     private fun setUpUserForChat() {
@@ -262,7 +313,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
         map["senderImage"] = user1ImgUrl
         map["senderName"] = user1Name
         map["isTyping"] = ""
-        map["matchDate"]=matchDate
+        map["matchDate"] = matchDate
         map["deletedBy"] = ""
         map["chatID"] = user2UserID
         map["isConnected"] = ""
@@ -295,16 +346,24 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
         chatRegistration = firebaseFireStoreDB.collection(chatRoomId).document(currentChatDocument)
             .collection("thread").orderBy("created")
             .addSnapshotListener { messageSnapshot, _ ->
-                if (messageSnapshot == null || messageSnapshot.isEmpty)
-                    return@addSnapshotListener
                 chatMessagesList.clear()
+                if (messageSnapshot == null || messageSnapshot.isEmpty) {
+                    chatMessageListAdapter?.chatMessagesList = chatMessagesList
+                    chatMessageListAdapter?.notifyDataSetChanged()
+
+                    val docRef = firebaseFireStoreDB.collection(chatRoomId).document(currentChatDocument)
+                    docRef.update(mapOf("lastMessage" to ""))
+                    return@addSnapshotListener
+                }
+
                 var chatTimeStamp = ""
                 for (messageDocument in messageSnapshot.documents) {
-                    val newTimeStamp=(messageDocument["created"] as Timestamp?)?.toDate()?.getFormattedDate()
-                    var isShowTime=false
-                    if (chatTimeStamp!=newTimeStamp){
-                        chatTimeStamp= "$newTimeStamp" ?:""
-                        isShowTime=true
+                    val newTimeStamp =
+                        (messageDocument["created"] as Timestamp?)?.toDate()?.getFormattedDate()
+                    var isShowTime = false
+                    if (chatTimeStamp != newTimeStamp) {
+                        chatTimeStamp = "$newTimeStamp" ?: ""
+                        isShowTime = true
                     }
                     chatMessagesList.add(
                         ChatMessage(
@@ -315,7 +374,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                             url = messageDocument["url"] as String? ?: "",
                             senderID = messageDocument["senderID"] as String?,
                             senderName = messageDocument["senderName"] as String?,
-                            isShowTime=isShowTime,
+                            isShowTime = isShowTime,
                             chatTimeStamp = chatTimeStamp
                         )
                     )
@@ -407,7 +466,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                 }
 
             var lastMessage = ""
-             if (chatMessageListAdapter?.itemCount!! > 1) {
+            if (chatMessageListAdapter?.itemCount!! > 1) {
                 lastMessage =
                     if (chatMessageListAdapter?.chatMessagesList?.get(it - 1)?.content.toString()
                             .isEmpty()
@@ -601,7 +660,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                         callUnblockUserApi()
                     } else {
                         CustomDialog(
-                            message = getString(R.string.block_user_alert,user2Name),
+                            message = getString(R.string.block_user_alert, user2Name),
                             positiveButtonText = getString(R.string.label_yes_button),
                             negativeButtonText = getString(R.string.label_no_button),
                             cancellable = false,
@@ -618,7 +677,7 @@ class ChatRoomActivity:BaseActivity<ChatViewModel>() {
                             }).show(supportFragmentManager, "tag")
                     }
                 }
-                bottomSheet.btnCancel.setOnClickListener{
+                bottomSheet.btnCancel.setOnClickListener {
                     dialog.dismiss()
                 }
 

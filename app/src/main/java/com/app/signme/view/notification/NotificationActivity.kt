@@ -87,6 +87,7 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
             swipeContainer.setOnRefreshListener {
                 when {
                     checkInternet() -> {
+                        mAdapter!!.removeAll()
                         this@NotificationActivity.viewModel.callGetNotification()
                     }
                 }
@@ -267,7 +268,14 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
                     IConstants.NOTIFICATION_TYPES.Like -> {
                         if(sharedPreference.isSubscription)
                         {
-                            callOtherDetails("Yes",position,IConstants.LIKE)
+                            if(mAdapter!!.getItem(position).matchDate.isNullOrEmpty())
+                            {
+                                callOtherDetails("Yes",position,IConstants.LIKE)
+                            }else
+                            {
+                                callOtherDetails("No",position,IConstants.MATCHES)
+                            }
+
                         }
                         else
                         {
@@ -278,7 +286,13 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
 
                     IConstants.NOTIFICATION_TYPES.Superlike -> {
 
-                        callOtherDetails("Yes",position,IConstants.SUPERLIKE)
+                        if(mAdapter!!.getItem(position).matchDate.isNullOrEmpty())
+                        {
+                            callOtherDetails("Yes",position,IConstants.SUPERLIKE)
+                        }else
+                        {
+                            callOtherDetails("No",position,IConstants.MATCHES)
+                        }
 
                     }
                     IConstants.NOTIFICATION_TYPES.Match -> {

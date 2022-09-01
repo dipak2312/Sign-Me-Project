@@ -425,7 +425,7 @@ class SettingsActivity : BaseActivity<SettingsViewModel>() {
     private fun openShareIntent() {
         //setFireBaseAnalyticsData("id-shareapp", "click_shareapp", "click_shareapp")
         val shareBody =
-            "Try The QuickLook App on Playstore:\nhttps://play.google.com/store/apps/details?id=${this@SettingsActivity?.packageName}"
+            "Try The SignME! App on Playstore:\nhttps://play.google.com/store/apps/details?id=${this@SettingsActivity?.packageName}"
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(
