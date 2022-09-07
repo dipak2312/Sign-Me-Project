@@ -87,7 +87,7 @@
                     android:textColor="@color/white"
                     android:background="@drawable/bg_spinner"
                     android:hint="@string/hint_add_reason"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionSend|flagNoEnterAction"
                     android:inputType="textCapSentences|textMultiLine"
                     android:longClickable="true"
                     android:maxLength="1000"

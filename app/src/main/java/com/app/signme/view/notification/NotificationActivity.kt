@@ -268,13 +268,7 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
                     IConstants.NOTIFICATION_TYPES.Like -> {
                         if(sharedPreference.isSubscription)
                         {
-                            if(mAdapter!!.getItem(position).matchDate.isNullOrEmpty())
-                            {
-                                callOtherDetails("Yes",position,IConstants.LIKE)
-                            }else
-                            {
-                                callOtherDetails("No",position,IConstants.MATCHES)
-                            }
+                            callDetails(position,IConstants.LIKE)
 
                         }
                         else
@@ -286,20 +280,25 @@ class NotificationActivity : BaseActivity<NotificationViewModel>(),
 
                     IConstants.NOTIFICATION_TYPES.Superlike -> {
 
-                        if(mAdapter!!.getItem(position).matchDate.isNullOrEmpty())
-                        {
-                            callOtherDetails("Yes",position,IConstants.SUPERLIKE)
-                        }else
-                        {
-                            callOtherDetails("No",position,IConstants.MATCHES)
-                        }
+                        callDetails(position,IConstants.SUPERLIKE)
 
                     }
                     IConstants.NOTIFICATION_TYPES.Match -> {
-                        callOtherDetails("No",position,IConstants.MATCHES)
+                        callDetails(position,IConstants.LIKE)
                     }
                 }
             }
+        }
+    }
+
+    fun callDetails(position:Int,status:String)
+    {
+        if(mAdapter!!.getItem(position).matchDate.isNullOrEmpty())
+        {
+            callOtherDetails("Yes",position,status)
+        }else
+        {
+            callOtherDetails("No",position,IConstants.MATCHES)
         }
     }
 

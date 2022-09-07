@@ -56,7 +56,7 @@ android {
     }
 
     applovin {
-        apiKey "43oqV3foeOHv3CzrWqnvt4rrcW1EITbJRNorR6v5Dru7eahyczghsq4aaQ9SG91SINNOwr9x9c3WS-yx492HET"
+        apiKey = "TnMvNCo2wg6HxUXwQOGt5JnoLbHQGJ-IIpiy-u5uA_Kmem6dqCAmfOBGv0bcz0g1L-doKl5c06BTqA4J5cFfZq"
     }
 
 

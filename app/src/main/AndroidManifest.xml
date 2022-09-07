@@ -230,8 +230,7 @@
             android:exported="false" />
 
         <meta-data android:name="applovin.sdk.key"
-            android:value="43oqV3foeOHv3CzrWqnvt4rrcW1EITbJRNorR6v5Dru7eahyczghsq4aaQ9SG91SINNOwr9x9c3WS-yx492HET"/>
-
+            android:value="X0VUOvPQ9WuuoVn3gHei7eWy3suCBzMbiL7Pl5v8iyNiINmI4kgCwCd9k5VF25-uoFhMMnTS-qOJv6GTTMrS8b"/>
 
         <!--  <meta-data
               android:name="com.google.android.gms.ads.APPLICATION_ID"

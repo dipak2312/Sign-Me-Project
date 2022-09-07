@@ -286,17 +286,17 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
     }
 
-    fun locationEnableOrNot():Boolean
-    {
-        val hasPermission = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        return hasPermission && gpsStatus
-
-    }
+//    fun locationEnableOrNot():Boolean
+//    {
+//        val hasPermission = ContextCompat.checkSelfPermission(
+//            this,
+//            Manifest.permission.ACCESS_FINE_LOCATION
+//        ) == PackageManager.PERMISSION_GRANTED
+//        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        val gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+//        return hasPermission && gpsStatus
+//
+//    }
     /**
      * Choose activity to open
      *
@@ -306,15 +306,9 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
 
         return if (sharedPreference.isLogin) {
             // Return Home activity
-            val locationStatus=locationEnableOrNot()
-            if(locationStatus)
-            {
                 Logger.setUserInfo(sharedPreference.userDetail?.email ?: "")
                 HomeActivity::class.java
-            }
-            else{
-                PermissionEnableActivity::class.java
-            }
+
 
         } else {
 
@@ -426,8 +420,8 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
             startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
             finish()
         } else {
-            val locationStatus=locationEnableOrNot()
-            if(locationStatus && sharedPreference.isLogin)
+
+            if(sharedPreference.isLogin)
             {
                 if(sharedPreference.configDetails!!.isUpdated.equals("0"))
                 {

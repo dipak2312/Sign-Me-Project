@@ -39,6 +39,8 @@ data class OtherUserDetailsResponse(
     val signName: String?="",
     @JsonProperty("state_name")
     val stateName: String?="",
+    @JsonProperty("is_like")
+    val isLike: String?="",
     @JsonProperty("user_media")
     val userMedia: List<UserMedia>?=null
 ):Parcelable

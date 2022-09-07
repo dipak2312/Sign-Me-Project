@@ -63,6 +63,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
     var status:String?=""
     var type:String?=""
     var matchDate:String?=""
+    var isLike:String="No"
     private val firebaseFireStoreDB = FirebaseFirestore.getInstance()
     private var chatRoomId: String = "Chats"
     var otherUserResponse:SwiperViewResponse?=null
@@ -89,6 +90,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
         mTabLayout.touchables?.forEach { tabDots ->
             tabDots.isEnabled = false
         }
+        showAppLovinInterstitialAdAd(this@OtherUserDetailsActivity)
         mTabLayout.setupWithViewPager(viewPagerImages)
         getOtherDetails()
         getSupeLikeCount()
@@ -304,6 +306,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
             if (response?.settings?.isSuccess == true) {
                 if (!response.data.isNullOrEmpty()) {
 
+                    isLike= response.data!![0].isLike.toString()
                     matchDate=response.data!![0].matchDate
                     for (lookfor in response.data!![0].lookingForRelationType!!) {
                         lookingFor.add(lookfor.relationshipStatus.toString())
@@ -378,7 +381,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                         addLikeSuperLikeCancelStatus(IConstants.LIKE)
                         var likeValue = sharedPreference.likeCount
                         sharedPreference.likeCount = likeValue + 1
-                        if (otherUserResponse!!.isLike.equals("Yes")) {
+                        if (isLike.equals("Yes")) {
                             showMatchPopup()
                         } else {
                             showMessage(
@@ -395,7 +398,7 @@ class OtherUserDetailsActivity :BaseActivity<HomeViewModel>(), RecyclerViewActio
                         sharedPreference.superLikeCount = superLikeCountValue + 1
                         getSupeLikeCount()
 
-                        if (otherUserResponse!!.isLike.equals("Yes")) {
+                        if (isLike.equals("Yes")) {
                             showMatchPopup()
                         } else {
                             showMessage(
